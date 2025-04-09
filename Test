@@ -4,23 +4,22 @@ VAR AnneeSel = YEAR(MoisSel)
 VAR MoisSelNum = MONTH(MoisSel)
 VAR MoisCourant = AnneeSel * 100 + MoisSelNum
 
-VAR MoisBase =
-    CALCULATETABLE(
-        ADDCOLUMNS(
-            VALUES('lecomptoir allvisits_181124'[CreatedAt]),
-            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
-        ),
-        REMOVEFILTERS('TableDate')
-    )
-
 VAR MoisAvecEtat =
     ADDCOLUMNS(
-        SUMMARIZE(MoisBase, [Annee], [Mois]),
-        "Ordre", [Annee] * 100 + [Mois],
+        SUMMARIZE(
+            CALCULATETABLE(
+                'lecomptoir allvisits_181124',
+                REMOVEFILTERS('TableDate')
+            ),
+            YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+            MONTH('lecomptoir allvisits_181124'[CreatedAt])
+        ),
+        "Ordre", 
+            YEAR('lecomptoir allvisits_181124'[CreatedAt]) * 100 
+            + MONTH('lecomptoir allvisits_181124'[CreatedAt]),
         "Etat",
-            VAR an = [Annee]
-            VAR mois = [Mois]
+            VAR an = YEAR('lecomptoir allvisits_181124'[CreatedAt])
+            VAR mois = MONTH('lecomptoir allvisits_181124'[CreatedAt])
             VAR pct =
                 DIVIDE(
                     CALCULATE(
@@ -38,9 +37,11 @@ VAR MoisAvecEtat =
             RETURN IF(pct <= 0.15, "positive", "poor")
     )
 
-VAR MoisPrecedents = FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
+VAR MoisPrecedents =
+    FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
 
-VAR EtatInitial = MAXX(TOPN(1, MoisPrecedents, [Ordre], DESC), [Etat])
+VAR EtatInitial =
+    MAXX(TOPN(1, MoisPrecedents, [Ordre], DESC), [Etat])
 
 VAR MoisConsecutifs =
     COUNTROWS(
