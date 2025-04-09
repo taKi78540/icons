@@ -11,13 +11,16 @@ VAR MoisAvecEtat =
                 'lecomptoir allvisits_181124',
                 REMOVEFILTERS('TableDate')
             ),
-            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
+            'lecomptoir allvisits_181124'[CreatedAt]
         ),
-        "Ordre", [Annee] * 100 + [Mois],
+        "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+        "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt]),
+        "Ordre", 
+            YEAR('lecomptoir allvisits_181124'[CreatedAt]) * 100 
+            + MONTH('lecomptoir allvisits_181124'[CreatedAt]),
         "Etat",
-            VAR an = [Annee]
-            VAR mois = [Mois]
+            VAR an = YEAR('lecomptoir allvisits_181124'[CreatedAt])
+            VAR mois = MONTH('lecomptoir allvisits_181124'[CreatedAt])
             VAR nb_visites =
                 CALCULATE(
                     COUNTROWS('lecomptoir allvisits_181124'),
