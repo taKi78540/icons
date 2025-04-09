@@ -1,13 +1,92 @@
-VAR Base =
+TendanceAttente_test =
+VAR MoisSel =
+    SELECTEDVALUE('TableDate'[YearMonth])
+
+VAR AnneeSel = YEAR(MoisSel)
+VAR MoisSelNum = MONTH(MoisSel)
+VAR MoisCourant = AnneeSel * 100 + MoisSelNum
+
+VAR MoisBase =
     CALCULATETABLE(
-        ADDCOLUMNS(
-            SUMMARIZE(
-                'lecomptoir allvisits_181124',
-                'lecomptoir allvisits_181124'[CreatedAt]
-            ),
-            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt]),
-            "Ordre", YEAR('lecomptoir allvisits_181124'[CreatedAt]) * 100 + MONTH('lecomptoir allvisits_181124'[CreatedAt])
+        SUMMARIZE(
+            'lecomptoir allvisits_181124',
+            'lecomptoir allvisits_181124'[CreatedAt]
         ),
         REMOVEFILTERS('TableDate')
+    )
+
+VAR Mois =
+    ADDCOLUMNS(
+        MoisBase,
+        "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+        "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
+    )
+
+VAR MoisAvecEtat =
+    ADDCOLUMNS(
+        SUMMARIZE(Mois, [Annee], [Mois]),
+        "Ordre", [Annee] * 100 + [Mois],
+        "Etat",
+        VAR an = [Annee]
+        VAR mois = [Mois]
+        RETURN
+            CALCULATE(
+                IF(
+                    DIVIDE(
+                        COUNTROWS(
+                            FILTER(
+                                'lecomptoir allvisits_181124',
+                                YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
+                                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois &&
+                                'lecomptoir allvisits_181124'[waitingTime (minA)] > 10
+                            )
+                        ),
+                        COUNTROWS(
+                            FILTER(
+                                'lecomptoir allvisits_181124',
+                                YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
+                                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
+                            )
+                        )
+                    ) < 0.15,
+                    "positive",
+                    "mauvaise"
+                )
+            )
+    )
+
+VAR MoisRecents =
+    FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
+
+VAR EtatInitial =
+    MAXX(TOPN(1, MoisRecents, [Ordre], DESC), [Etat])
+
+VAR MoisConsecutifs =
+    COUNTROWS(
+        TOPN(
+            COUNTROWS(MoisRecents),
+            FILTER(
+                ADDCOLUMNS(
+                    MoisRecents,
+                    "Break", IF([Etat] = EtatInitial, 0, 1)
+                ),
+                VAR Cumul =
+                    COUNTROWS(
+                        FILTER(
+                            MoisRecents,
+                            [Ordre] >= EARLIER([Ordre]) && [Etat] <> EtatInitial
+                        )
+                    )
+                RETURN Cumul = 0
+            ),
+            [Ordre], DESC
+        )
+    )
+
+RETURN
+    SWITCH(
+        EtatInitial,
+        "positive", "Positive for " & MoisConsecutifs & " months",
+        "mauvaise", "Poor for " & MoisConsecutifs & " months",
+        BLANK()
     )
