@@ -1,38 +1,13 @@
-WeatherOneMonthBack_Statut =
+WeatherDebug_Simplified =
 VAR MoisSel =
     MAXX(
         VALUES('TableDate'[YearMonth]),
         'TableDate'[YearMonth]
     )
 
-VAR AnneeSel = YEAR(MoisSel)
-VAR MoisSelNum = MONTH(MoisSel)
-
-VAR MoisPrecedentNum = IF(MoisSelNum = 1, 12, MoisSelNum - 1)
-VAR AnneePrecedente = IF(MoisSelNum = 1, AnneeSel - 1, AnneeSel)
-
-VAR PourcentSup10 =
-    DIVIDE(
-        COUNTROWS(
-            FILTER(
-                'lecomptoir allvisits_181124',
-                YEAR('lecomptoir allvisits_181124'[DateHeureCreation]) = AnneePrecedente &&
-                MONTH('lecomptoir allvisits_181124'[DateHeureCreation]) = MoisPrecedentNum &&
-                'lecomptoir allvisits_181124'[waitingTime (minA)] > 10
-            )
-        ),
-        COUNTROWS(
-            FILTER(
-                'lecomptoir allvisits_181124',
-                YEAR('lecomptoir allvisits_181124'[DateHeureCreation]) = AnneePrecedente &&
-                MONTH('lecomptoir allvisits_181124'[DateHeureCreation]) = MoisPrecedentNum
-            )
-        )
-    )
-
 RETURN
     IF(
-        ISBLANK(PourcentSup10),
-        "Pas de données",
-        IF(PourcentSup10 <= 0.15, "OK", "KO")
+        NOT ISBLANK(MoisSel),
+        "Visible : " & FORMAT(MoisSel, "YYYY-MM"),
+        "Pas de mois sélectionné"
     )
