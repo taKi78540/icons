@@ -4,30 +4,25 @@ VAR AnneeSel = YEAR(MoisSel)
 VAR MoisSelNum = MONTH(MoisSel)
 VAR MoisCourant = AnneeSel * 100 + MoisSelNum
 
--- Neutraliser le slicer TableDate
+VAR ComptoirActuel = SELECTEDVALUE('lecomptoir allvisits_181124'[comptoir])
+
+-- Neutraliser les filtres de date
 VAR DonneesSansFiltreDate =
     CALCULATETABLE(
         'lecomptoir allvisits_181124',
         REMOVEFILTERS('TableDate')
     )
 
--- Liste des mois
-VAR Mois =
+-- Liste des mois (distincts) avec état calculé
+VAR MoisAvecEtat =
     ADDCOLUMNS(
         SUMMARIZE(
             DonneesSansFiltreDate,
-            'lecomptoir allvisits_181124'[CreatedAt],
-            'lecomptoir allvisits_181124'[comptoir]
+            'lecomptoir allvisits_181124'[comptoir],
+            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
         ),
-        "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-        "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt]),
-        "Ordre", YEAR('lecomptoir allvisits_181124'[CreatedAt]) * 100 + MONTH('lecomptoir allvisits_181124'[CreatedAt])
-    )
-
--- Ajout de l'état (positive / poor)
-VAR MoisAvecEtat =
-    ADDCOLUMNS(
-        SUMMARIZE(Mois, [Annee], [Mois], [Ordre], [comptoir]),
+        "Ordre", [Annee] * 100 + [Mois],
         "Etat",
         VAR an = [Annee]
         VAR mois = [Mois]
@@ -48,21 +43,22 @@ VAR MoisAvecEtat =
                 'lecomptoir allvisits_181124'[comptoir] = comptoir
             )
         VAR pct = DIVIDE(nb_sup10, total)
-        RETURN IF(pct < 0.15, "positive", "poor")
+        RETURN IF(NOT ISBLANK(total) && pct < 0.15, "positive", "poor")
     )
 
--- On prend uniquement les mois avant le mois sélectionné
+-- Ne garder que les mois avant le mois sélectionné et le bon comptoir
 VAR MoisRecents =
-    FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
-
--- État du mois le plus récent
-VAR EtatInitial =
-    MAXX(
-        TOPN(1, MoisRecents, [Ordre], DESC),
-        [Etat]
+    FILTER(
+        MoisAvecEtat,
+        [Ordre] < MoisCourant &&
+        [comptoir] = ComptoirActuel
     )
 
--- Compte des mois consécutifs avec le même état
+-- État initial
+VAR EtatInitial =
+    MAXX(TOPN(1, MoisRecents, [Ordre], DESC), [Etat])
+
+-- Compter les mois consécutifs
 VAR MoisConsecutifs =
     COUNTROWS(
         TOPN(
