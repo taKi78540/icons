@@ -10,4 +10,4 @@ RETURN
         NOT ISBLANK(MoisSel),
         "Visible : " & FORMAT(MoisSel, "YYYY-MM"),
         "Pas de mois sélectionné"
-    )
+    )a
