@@ -1,20 +1,19 @@
-WeatherIconBeforeSelectedMonth_Text =
-VAR MoisSel =
-    MAXX(VALUES('TableDate'[YearMonth]), 'TableDate'[YearMonth])
-
+TendanceAttente_Compare =
+VAR MoisSel = SELECTEDVALUE('TableDate'[YearMonth])
 VAR AnneeSel = YEAR(MoisSel)
 VAR MoisSelNum = MONTH(MoisSel)
 VAR MoisCourant = AnneeSel * 100 + MoisSelNum
 
--- Base propre avec Annee / Mois
 VAR MoisBase =
-    ADDCOLUMNS(
-        VALUES('lecomptoir allvisits_181124'[CreatedAt]),
-        "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-        "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
+    CALCULATETABLE(
+        ADDCOLUMNS(
+            VALUES('lecomptoir allvisits_181124'[CreatedAt]),
+            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
+        ),
+        REMOVEFILTERS('TableDate')
     )
 
--- Liste des mois distincts + calcul de l'état
 VAR MoisAvecEtat =
     ADDCOLUMNS(
         SUMMARIZE(MoisBase, [Annee], [Mois]),
@@ -24,32 +23,25 @@ VAR MoisAvecEtat =
             VAR mois = [Mois]
             VAR pct =
                 DIVIDE(
-                    COUNTROWS(
-                        FILTER(
-                            'lecomptoir allvisits_181124',
-                            YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
-                            MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois &&
-                            'lecomptoir allvisits_181124'[waitingTime (minA)] > 10
-                        )
+                    CALCULATE(
+                        COUNTROWS('lecomptoir allvisits_181124'),
+                        'lecomptoir allvisits_181124'[waitingTime (minA)] > 10,
+                        YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
+                        MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
                     ),
-                    COUNTROWS(
-                        FILTER(
-                            'lecomptoir allvisits_181124',
-                            YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
-                            MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
-                        )
+                    CALCULATE(
+                        COUNTROWS('lecomptoir allvisits_181124'),
+                        YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
+                        MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
                     )
                 )
-            RETURN IF(pct <= 0.15, "positive", "mauvaise")
+            RETURN IF(pct <= 0.15, "positive", "poor")
     )
 
--- Mois avant la sélection
 VAR MoisPrecedents = FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
 
--- Dernier état
 VAR EtatInitial = MAXX(TOPN(1, MoisPrecedents, [Ordre], DESC), [Etat])
 
--- Mois consécutifs dans cet état
 VAR MoisConsecutifs =
     COUNTROWS(
         TOPN(
@@ -72,21 +64,9 @@ VAR MoisConsecutifs =
         )
     )
 
--- Choix de l'icône météo
-VAR Icone =
-    SWITCH(
-        TRUE(),
-        EtatInitial = "positive" && MoisConsecutifs = 1, UNICHAR(9729),      // ⛅
-        EtatInitial = "positive" && MoisConsecutifs >= 2, UNICHAR(9728),     // ☀
-        EtatInitial = "mauvaise" && MoisConsecutifs = 1, UNICHAR(9925),      // ☁
-        EtatInitial = "mauvaise" && MoisConsecutifs = 2, UNICHAR(9748),      // ☔
-        EtatInitial = "mauvaise" && MoisConsecutifs >= 3, UNICHAR(9889),     // ⚡
-        BLANK()
-    )
-
 RETURN
     IF(
-        NOT ISBLANK(Icone),
-        Icone & " for " & MoisConsecutifs & " month" & IF(MoisConsecutifs > 1, "s", ""),
-        "No data"
+        EtatInitial = "positive",
+        "Positive for " & MoisConsecutifs & " month" & IF(MoisConsecutifs > 1, "s", ""),
+        "Poor for " & MoisConsecutifs & " month" & IF(MoisConsecutifs > 1, "s", "")
     )
