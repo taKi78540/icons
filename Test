@@ -1,67 +1,68 @@
-TendanceAttente_test =
+TendanceAttente_test2 =
 VAR MoisSel = SELECTEDVALUE('TableDate'[YearMonth])
 VAR AnneeSel = YEAR(MoisSel)
 VAR MoisSelNum = MONTH(MoisSel)
 VAR MoisCourant = AnneeSel * 100 + MoisSelNum
 
--- Neutralise l'effet du slicer TableDate pour récupérer toutes les données
+-- Neutraliser le slicer TableDate
 VAR DonneesSansFiltreDate =
     CALCULATETABLE(
         'lecomptoir allvisits_181124',
         REMOVEFILTERS('TableDate')
     )
 
--- Création de la liste des mois à partir des données sans filtre
+-- Liste des mois
 VAR Mois =
     ADDCOLUMNS(
         SUMMARIZE(
             DonneesSansFiltreDate,
-            YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-            MONTH('lecomptoir allvisits_181124'[CreatedAt])
+            'lecomptoir allvisits_181124'[CreatedAt],
+            'lecomptoir allvisits_181124'[comptoir]
         ),
         "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
         "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt]),
         "Ordre", YEAR('lecomptoir allvisits_181124'[CreatedAt]) * 100 + MONTH('lecomptoir allvisits_181124'[CreatedAt])
     )
 
--- Ajout de l'état (positive / mauvaise)
+-- Ajout de l'état (positive / poor)
 VAR MoisAvecEtat =
     ADDCOLUMNS(
-        Mois,
+        SUMMARIZE(Mois, [Annee], [Mois], [Ordre], [comptoir]),
         "Etat",
         VAR an = [Annee]
         VAR mois = [Mois]
+        VAR comptoir = [comptoir]
         VAR nb_sup10 =
             CALCULATE(
                 COUNTROWS('lecomptoir allvisits_181124'),
-                REMOVEFILTERS('TableDate'),
+                'lecomptoir allvisits_181124'[waitingTime (minA)] > 10,
                 YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
                 MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois,
-                'lecomptoir allvisits_181124'[waitingTime (minA)] > 10
+                'lecomptoir allvisits_181124'[comptoir] = comptoir
             )
         VAR total =
             CALCULATE(
                 COUNTROWS('lecomptoir allvisits_181124'),
-                REMOVEFILTERS('TableDate'),
                 YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
-                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
+                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois,
+                'lecomptoir allvisits_181124'[comptoir] = comptoir
             )
         VAR pct = DIVIDE(nb_sup10, total)
-        RETURN IF(pct < 0.15, "positive", "mauvaise")
+        RETURN IF(pct < 0.15, "positive", "poor")
     )
 
--- Ne conserver que les mois < au mois sélectionné
+-- On prend uniquement les mois avant le mois sélectionné
 VAR MoisRecents =
     FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
 
--- Dernier état connu
+-- État du mois le plus récent
 VAR EtatInitial =
     MAXX(
         TOPN(1, MoisRecents, [Ordre], DESC),
         [Etat]
     )
 
--- Compter les mois consécutifs avec même état
+-- Compte des mois consécutifs avec le même état
 VAR MoisConsecutifs =
     COUNTROWS(
         TOPN(
@@ -75,7 +76,8 @@ VAR MoisConsecutifs =
                     COUNTROWS(
                         FILTER(
                             MoisRecents,
-                            [Ordre] >= EARLIER([Ordre]) && [Etat] <> EtatInitial
+                            [Ordre] >= EARLIER([Ordre]) &&
+                            [Etat] <> EtatInitial
                         )
                     )
                 RETURN Cumul = 0
@@ -88,6 +90,6 @@ RETURN
     SWITCH(
         EtatInitial,
         "positive", "Positive for " & MoisConsecutifs & " months",
-        "mauvaise", "Poor for " & MoisConsecutifs & " months",
+        "poor", "Poor for " & MoisConsecutifs & " months",
         BLANK()
     )
