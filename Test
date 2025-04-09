@@ -1,13 +1,90 @@
-WeatherDebug_Simplified =
+WeatherIconBeforeSelectedMonth_Text =
 VAR MoisSel =
-    MAXX(
-        VALUES('TableDate'[YearMonth]),
-        'TableDate'[YearMonth]
+    MAXX(VALUES('TableDate'[YearMonth]), 'TableDate'[YearMonth])
+
+VAR AnneeSel = YEAR(MoisSel)
+VAR MoisSelNum = MONTH(MoisSel)
+VAR MoisCourant = AnneeSel * 100 + MoisSelNum
+
+-- Liste des mois précédents avec leur état
+VAR MoisAvecEtat =
+    ADDCOLUMNS(
+        SUMMARIZE(
+            'lecomptoir allvisits_181124',
+            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
+            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
+        ),
+        "Ordre", [Annee] * 100 + [Mois],
+        "Etat",
+            VAR an = [Annee]
+            VAR mois = [Mois]
+            VAR pct =
+                DIVIDE(
+                    COUNTROWS(
+                        FILTER(
+                            'lecomptoir allvisits_181124',
+                            YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
+                            MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois &&
+                            'lecomptoir allvisits_181124'[waitingTime (minA)] > 10
+                        )
+                    ),
+                    COUNTROWS(
+                        FILTER(
+                            'lecomptoir allvisits_181124',
+                            YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an &&
+                            MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois
+                        )
+                    )
+                )
+            RETURN IF(pct <= 0.15, "positive", "mauvaise")
+    )
+
+-- Ne garder que les mois avant le mois sélectionné
+VAR MoisPrecedents =
+    FILTER(MoisAvecEtat, [Ordre] < MoisCourant)
+
+-- Dernier état trouvé
+VAR EtatInitial =
+    MAXX(TOPN(1, MoisPrecedents, [Ordre], DESC), [Etat])
+
+-- Nombre de mois consécutifs dans cet état
+VAR MoisConsecutifs =
+    COUNTROWS(
+        TOPN(
+            COUNTROWS(MoisPrecedents),
+            FILTER(
+                ADDCOLUMNS(
+                    MoisPrecedents,
+                    "Break", IF([Etat] = EtatInitial, 0, 1)
+                ),
+                VAR Rupture =
+                    COUNTROWS(
+                        FILTER(
+                            MoisPrecedents,
+                            [Ordre] >= EARLIER([Ordre]) && [Etat] <> EtatInitial
+                        )
+                    )
+                RETURN Rupture = 0
+            ),
+            [Ordre], DESC
+        )
+    )
+
+-- Sélection de l'icône météo
+VAR Icone =
+    SWITCH(
+        TRUE(),
+        EtatInitial = "positive" && MoisConsecutifs = 1, UNICHAR(9729),      // ⛅
+        EtatInitial = "positive" && MoisConsecutifs >= 2, UNICHAR(9728),     // ☀
+        EtatInitial = "mauvaise" && MoisConsecutifs = 1, UNICHAR(9925),      // ☁
+        EtatInitial = "mauvaise" && MoisConsecutifs = 2, UNICHAR(9748),      // ☔
+        EtatInitial = "mauvaise" && MoisConsecutifs >= 3, UNICHAR(9889),     // ⚡
+        BLANK()
     )
 
 RETURN
     IF(
-        NOT ISBLANK(MoisSel),
-        "Visible : " & FORMAT(MoisSel, "YYYY-MM"),
-        "Pas de mois sélectionné"
-    )a
+        NOT ISBLANK(Icone),
+        Icone & " for " & MoisConsecutifs & " month" & IF(MoisConsecutifs > 1, "s", ""),
+        "No data"
+    )
