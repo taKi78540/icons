@@ -1,7 +1,7 @@
-MoyenneVisitesParCoachParJour = 
-AVERAGEX(
-    VALUES('lecomptoir allvisits_181124'[CreatedAt].[Date]),
-    VAR VisitesJour = CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
-    VAR CoachsJour = CALCULATE(DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]))
-    RETURN DIVIDE(VisitesJour, CoachsJour)
+EcartTypeVisitesParCoach = 
+CALCULATE(
+    STDEVX.P(
+        VALUES('lecomptoir allvisits_181124'[coach.id]),
+        CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
+    )
 )
