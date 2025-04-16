@@ -1,91 +1,13 @@
-TendanceAttente_test2 =
-VAR MoisSel = SELECTEDVALUE('TableDate'[YearMonth])
-VAR AnneeSel = YEAR(MoisSel)
-VAR MoisSelNum = MONTH(MoisSel)
-VAR MoisCourant = AnneeSel * 100 + MoisSelNum
-
-VAR ComptoirActuel = SELECTEDVALUE('lecomptoir allvisits_181124'[comptoir])
-
--- Neutraliser les filtres de date
-VAR DonneesSansFiltreDate =
-    CALCULATETABLE(
-        'lecomptoir allvisits_181124',
-        REMOVEFILTERS('TableDate')
-    )
-
--- Liste des mois (distincts) avec état calculé
-VAR MoisAvecEtat =
-    ADDCOLUMNS(
-        SUMMARIZE(
-            DonneesSansFiltreDate,
-            'lecomptoir allvisits_181124'[comptoir],
-            "Annee", YEAR('lecomptoir allvisits_181124'[CreatedAt]),
-            "Mois", MONTH('lecomptoir allvisits_181124'[CreatedAt])
-        ),
-        "Ordre", [Annee] * 100 + [Mois],
-        "Etat",
-        VAR an = [Annee]
-        VAR mois = [Mois]
-        VAR comptoir = [comptoir]
-        VAR nb_sup10 =
-            CALCULATE(
-                COUNTROWS('lecomptoir allvisits_181124'),
-                'lecomptoir allvisits_181124'[waitingTime (minA)] > 10,
-                YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
-                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois,
-                'lecomptoir allvisits_181124'[comptoir] = comptoir
-            )
-        VAR total =
-            CALCULATE(
-                COUNTROWS('lecomptoir allvisits_181124'),
-                YEAR('lecomptoir allvisits_181124'[CreatedAt]) = an,
-                MONTH('lecomptoir allvisits_181124'[CreatedAt]) = mois,
-                'lecomptoir allvisits_181124'[comptoir] = comptoir
-            )
-        VAR pct = DIVIDE(nb_sup10, total)
-        RETURN IF(NOT ISBLANK(total) && pct < 0.15, "positive", "poor")
-    )
-
--- Ne garder que les mois avant le mois sélectionné et le bon comptoir
-VAR MoisRecents =
-    FILTER(
-        MoisAvecEtat,
-        [Ordre] < MoisCourant &&
-        [comptoir] = ComptoirActuel
-    )
-
--- État initial
-VAR EtatInitial =
-    MAXX(TOPN(1, MoisRecents, [Ordre], DESC), [Etat])
-
--- Compter les mois consécutifs
-VAR MoisConsecutifs =
-    COUNTROWS(
-        TOPN(
-            COUNTROWS(MoisRecents),
-            FILTER(
-                ADDCOLUMNS(
-                    MoisRecents,
-                    "Break", IF([Etat] = EtatInitial, 0, 1)
-                ),
-                VAR Cumul =
-                    COUNTROWS(
-                        FILTER(
-                            MoisRecents,
-                            [Ordre] >= EARLIER([Ordre]) &&
-                            [Etat] <> EtatInitial
-                        )
-                    )
-                RETURN Cumul = 0
-            ),
-            [Ordre], DESC
+%CoachsAuDessusMoyenne = 
+VAR MoyenneParCoach = [AverageVisitsPerCoach]
+VAR TotalCoachs = CALCULATE(DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]))
+VAR CoachsAuDessus = 
+    CALCULATE(
+        DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]),
+        FILTER(
+            VALUES('lecomptoir allvisits_181124'[coach.id]),
+            CALCULATE(COUNTROWS('lecomptoir allvisits_181124')) > MoyenneParCoach
         )
     )
-
 RETURN
-    SWITCH(
-        EtatInitial,
-        "positive", "Positive for " & MoisConsecutifs & " months",
-        "poor", "Poor for " & MoisConsecutifs & " months",
-        BLANK()
-    )
+DIVIDE(CoachsAuDessus, TotalCoachs)
