@@ -1,13 +1,7 @@
-%CoachsAuDessusMoyenne = 
-VAR MoyenneParCoach = [AverageVisitsPerCoach]
-VAR TotalCoachs = CALCULATE(DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]))
-VAR CoachsAuDessus = 
-    CALCULATE(
-        DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]),
-        FILTER(
-            VALUES('lecomptoir allvisits_181124'[coach.id]),
-            CALCULATE(COUNTROWS('lecomptoir allvisits_181124')) > MoyenneParCoach
-        )
+MaxVisitsParCoach = 
+CALCULATE(
+    MAXX(
+        VALUES('lecomptoir allvisits_181124'[coach.id]),
+        CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
     )
-RETURN
-DIVIDE(CoachsAuDessus, TotalCoachs)
+)
