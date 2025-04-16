@@ -1,7 +1,5 @@
-MaxVisitsParCoach = 
-CALCULATE(
-    MAXX(
-        VALUES('lecomptoir allvisits_181124'[coach.id]),
-        CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
-    )
+MoyenneCoachsParJour = 
+AVERAGEX(
+    VALUES('lecomptoir allvisits_181124'[CreatedAt].[Date]),
+    CALCULATE(DISTINCTCOUNT('lecomptoir allvisits_181124'[coach.id]))
 )
