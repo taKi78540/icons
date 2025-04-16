@@ -1,4 +1,7 @@
-CoeffVariation = 
-VAR Moyenne = CALCULATE(AVERAGEX(VALUES('lecomptoir allvisits_181124'[coach.id]), CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))))
-VAR EcartType = [EcartTypeVisitesParCoach]
-RETURN DIVIDE(EcartType, Moyenne)
+EcartTypeVisitesParCoach = 
+CALCULATE(
+    STDEVX.P(
+        VALUES('lecomptoir allvisits_181124'[coach.id]),
+        CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
+    )
+)
