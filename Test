@@ -1,15 +1,8 @@
-MoyenneCV_VisitesParCoachParJour = 
-AVERAGEX(
-    VALUES('lecomptoir allvisits_181124'[CreatedAt].[Date]),
-    VAR CoachsJour = 
-        ADDCOLUMNS(
-            VALUES('lecomptoir allvisits_181124'[coach.id]),
-            "NbVisites", 
-            CALCULATE(
-                COUNTROWS('lecomptoir allvisits_181124')
-            )
-        )
-    VAR Moyenne = AVERAGEX(CoachsJour, [NbVisites])
-    VAR EcartType = STDEVX.P(CoachsJour, [NbVisites])
-    RETURN DIVIDE(EcartType, Moyenne)
-)
+Explication claire :
+	•	VALUES(Date) : boucle sur chaque jour de ta base.
+	•	Pour chaque jour, on :
+	•	récupère les coachs qui ont travaillé (VALUES(coach.id))
+	•	calcule combien de visites chacun a fait
+	•	puis calcule la moyenne et l’écart-type
+	•	retourne le coefficient de variation
+	•	Enfin, AVERAGEX(...) fait la moyenne des CV journaliers
