@@ -1,8 +1,12 @@
-Explication claire :
-	•	VALUES(Date) : boucle sur chaque jour de ta base.
-	•	Pour chaque jour, on :
-	•	récupère les coachs qui ont travaillé (VALUES(coach.id))
-	•	calcule combien de visites chacun a fait
-	•	puis calcule la moyenne et l’écart-type
-	•	retourne le coefficient de variation
-	•	Enfin, AVERAGEX(...) fait la moyenne des CV journaliers
+Hi Anya,
+
+Yes, it’s absolutely possible to export underlying data from Power BI, and there are several ways to approach this depending on the level of detail you need.
+
+I’d recommend starting with the “Compare” view, which gives you a detailed overview of key metrics by desk. This will help you identify which desks are showing performance improvements or declines, so you can prioritize the ones that need deeper analysis.
+
+Then, to analyze a specific desk, you can select it directly in the app, and check the “Dashboard” view to observe the trends in performance indicators (like wait time, number of visits, satisfaction, etc.).
+
+If you need more precise data, the “Visits” view is the most relevant. It gives you the full list of visits for the selected desk and period, including details like the coach who handled each visit, processing times, wait times, and so on.
+And it’s in this view that you can export the data to Excel, which is perfect for deeper analysis or sharing with your team.
+
+Let me know if you need help applying filters or exporting the data.
