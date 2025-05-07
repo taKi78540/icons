@@ -1,12 +1,15 @@
-Hi Anya,
+🚀 [FR] MEP du 17 avril 2025 – Changements déployés
 
-Yes, it’s absolutely possible to export underlying data from Power BI, and there are several ways to approach this depending on the level of detail you need.
+🆕 Nouvelles fonctionnalités :
+	•	📋 Ajout de la raison de l’annulation (‘cancel’) d’une visite dans l’incident ServiceNow
+	•	🔁 Redirection automatique vers la page reset device
+Si un utilisateur accède à un Comptoir via le Dashboard et qu’il est défini comme Device pour ce Comptoir, il sera directement redirigé vers la page reset device.
 
-I’d recommend starting with the “Compare” view, which gives you a detailed overview of key metrics by desk. This will help you identify which desks are showing performance improvements or declines, so you can prioritize the ones that need deeper analysis.
+⸻
 
-Then, to analyze a specific desk, you can select it directly in the app, and check the “Dashboard” view to observe the trends in performance indicators (like wait time, number of visits, satisfaction, etc.).
+🚀 [EN] April 17, 2025 Deployment – Changes released
 
-If you need more precise data, the “Visits” view is the most relevant. It gives you the full list of visits for the selected desk and period, including details like the coach who handled each visit, processing times, wait times, and so on.
-And it’s in this view that you can export the data to Excel, which is perfect for deeper analysis or sharing with your team.
-
-Let me know if you need help applying filters or exporting the data.
+🆕 New Features:
+	•	📋 Cancel reason for a visit now added to the related ServiceNow incident
+	•	🔁 Auto-redirection to reset device page
+If a user joins a Comptoir from the Dashboard and is a Device for that Comptoir, they are directly redirected to the reset device page.
