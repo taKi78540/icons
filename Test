@@ -1,15 +1,12 @@
-🚀 [FR] MEP du 17 avril 2025 – Changements déployés
+Hi Mario,
 
-🆕 Nouvelles fonctionnalités :
-	•	📋 Ajout de la raison de l’annulation (‘cancel’) d’une visite dans l’incident ServiceNow
-	•	🔁 Redirection automatique vers la page reset device
-Si un utilisateur accède à un Comptoir via le Dashboard et qu’il est défini comme Device pour ce Comptoir, il sera directement redirigé vers la page reset device.
+Thanks for your feedback and for sharing the information about the migration to iPads—great to hear that the user experience has improved.
 
-⸻
+As for replacing desktops with Apple TVs, that’s not planned for the immediate future. At this stage, Apple TV’s tvOS is not yet supported by Intune, although Apple has announced support is expected in 2025. So we’re waiting for official compatibility with Microsoft Intune.
 
-🚀 [EN] April 17, 2025 Deployment – Changes released
+In the meantime, we’re exploring an alternative solution using Apple’s MDM, Jamf. However, this would require purchasing licenses to enroll the Apple TVs in Jamf, and it would involve some development work and time from our teams. That’s why we’ll likely wait for Intune to support tvOS.
 
-🆕 New Features:
-	•	📋 Cancel reason for a visit now added to the related ServiceNow incident
-	•	🔁 Auto-redirection to reset device page
-If a user joins a Comptoir from the Dashboard and is a Device for that Comptoir, they are directly redirected to the reset device page.
+No official date yet, but I’m hoping for announcements from Apple in June.
+
+Best regards,
+Arnaud
