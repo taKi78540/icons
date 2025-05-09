@@ -1,12 +1,14 @@
-Hi Mario,
+User Story
+En tant que manager du comptoir,
+je souhaite pouvoir activer ou désactiver les notifications Teams émises par mon comptoir,
+afin de m’adapter facilement aux différents cas d’usage, sans avoir à modifier la configuration technique.
 
-Thanks for your feedback and for sharing the information about the migration to iPads—great to hear that the user experience has improved.
+⸻
 
-As for replacing desktops with Apple TVs, that’s not planned for the immediate future. At this stage, Apple TV’s tvOS is not yet supported by Intune, although Apple has announced support is expected in 2025. So we’re waiting for official compatibility with Microsoft Intune.
-
-In the meantime, we’re exploring an alternative solution using Apple’s MDM, Jamf. However, this would require purchasing licenses to enroll the Apple TVs in Jamf, and it would involve some development work and time from our teams. That’s why we’ll likely wait for Intune to support tvOS.
-
-No official date yet, but I’m hoping for announcements from Apple in June.
-
-Best regards,
-Arnaud
+Critères d’acceptation :
+	•	Un toggle (bouton interrupteur) est visible dans l’interface de gestion du comptoir.
+	•	Le toggle permet de désactiver temporairement l’envoi de notifications Teams.
+	•	Le changement d’état du toggle est immédiatement pris en compte.
+	•	Un message de confirmation visuel indique que le changement a été enregistré.
+	•	Par défaut, les notifications sont activées.
+	•	L’état du toggle est persisté même après déconnexion/reconnexion ou redémarrage du système.
