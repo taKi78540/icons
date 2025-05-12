@@ -1,14 +1,12 @@
-User Story
-En tant que manager du comptoir,
-je souhaite pouvoir activer ou désactiver les notifications Teams émises par mon comptoir,
-afin de m’adapter facilement aux différents cas d’usage, sans avoir à modifier la configuration technique.
+Hi Daniela,
 
-⸻
+Thanks for your question!
 
-Critères d’acceptation :
-	•	Un toggle (bouton interrupteur) est visible dans l’interface de gestion du comptoir.
-	•	Le toggle permet de désactiver temporairement l’envoi de notifications Teams.
-	•	Le changement d’état du toggle est immédiatement pris en compte.
-	•	Un message de confirmation visuel indique que le changement a été enregistré.
-	•	Par défaut, les notifications sont activées.
-	•	L’état du toggle est persisté même après déconnexion/reconnexion ou redémarrage du système.
+The “Live waiting time” for newcomers is calculated based on the estimated delay before a visitor is taken in charge by a coach, assuming they just arrived now.
+This value is not a retrospective average, nor based on the last visitor, but rather a real-time projection using current workload and ongoing visitor handling times.
+
+When it went from 0 to 18 minutes, it likely means:
+	•	There were no visitors in the queue (0 min), so the estimated time was immediate.
+	•	A new visitor arrived, and based on the current number of ongoing visits and coach availability, the system projected that this newcomer would have to wait about 18 minutes before being helped.
+
+Let me know if you’d like me to show you the logic or formula in more detail.
