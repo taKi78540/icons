@@ -1,12 +1,21 @@
-Hi Daniela,
+🚀 [FR] MEP du 15 mai 2025 – Nouveautés
 
-Thanks for your question!
+✨ Nouvelles fonctionnalités :
+	•	📩 Enquête de satisfaction envoyée via Teams
+Si le visiteur n’a pas rempli le sondage sur la tablette à la fin de sa visite, une notification Teams lui est désormais envoyée 5 minutes après la clôture. Il peut y répondre depuis son ordinateur ou son téléphone, avec les mêmes choix qu’en physique, et un champ facultatif pour un retour libre.
+Cette option est désactivée par défaut et peut être activée par les managers dans la page des paramètres.
 
-The “Live waiting time” for newcomers is calculated based on the estimated delay before a visitor is taken in charge by a coach, assuming they just arrived now.
-This value is not a retrospective average, nor based on the last visitor, but rather a real-time projection using current workload and ongoing visitor handling times.
+🛠️ Améliorations générales :
+	•	Corrections de bugs mineurs et amélioration des performances globales de l’application.
 
-When it went from 0 to 18 minutes, it likely means:
-	•	There were no visitors in the queue (0 min), so the estimated time was immediate.
-	•	A new visitor arrived, and based on the current number of ongoing visits and coach availability, the system projected that this newcomer would have to wait about 18 minutes before being helped.
+⸻
 
-Let me know if you’d like me to show you the logic or formula in more detail.
+🚀 [EN] May 15, 2025 Deployment – New Features
+
+✨ New Features:
+	•	📩 Visitor survey via Teams notification
+If a visitor hasn’t completed the satisfaction survey on the tablet, a Teams notification is now sent 5 minutes after the visit has been closed by a coach. The visitor can complete it from their computer or phone, with the same options as on the tablet and an optional feedback input.
+This feature is disabled by default and can be enabled by managers on the Settings page.
+
+🛠️ General improvements:
+	•	Minor bug fixes and overall performance enhancements of the application.
