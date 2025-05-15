@@ -1,11 +1,7 @@
-🚀 [FR] MEP du 15 mai 2025 – Nouveautés
-
-✨ Nouvelles fonctionnalités :
-	•	📩 Enquête de satisfaction envoyée via Teams
-Si le visiteur n’a pas rempli le sondage sur la tablette à la fin de sa visite, une notification Teams lui est désormais envoyée 5 minutes après la clôture. Il peut y répondre depuis son ordinateur ou son téléphone, avec les mêmes choix qu’en physique, et un champ facultatif pour un retour libre.
-Cette option est désactivée par défaut et peut être activée par les managers dans la page des paramètres.
-	•	⏱️ Temps réduit pour l’écran de confirmation sur la tablette
-Le temps d’affichage de l’écran de confirmation après avoir rempli le sondage sur tablette a été réduit de 8 à 3 secondes, afin d’accélérer l’enchaînement des visites.
+des paramètres.
+	•	⏱️ Réduction du temps d’affichage sur la tablette Surveil
+L’écran de confirmation affiché après avoir complété le sondage reste désormais visible seulement 3 secondes (au lieu de 8), pour fluidifier l’enchaînement des visites.
+⚠️ Cette amélioration nécessite l’installation de la nouvelle version de l’application sur la tablette Surveil.
 
 🛠️ Améliorations générales :
 	•	Corrections de bugs mineurs et amélioration des performances globales de l’application.
@@ -18,8 +14,9 @@ Le temps d’affichage de l’écran de confirmation après avoir rempli le sond
 	•	📩 Visitor survey via Teams notification
 If a visitor hasn’t completed the satisfaction survey on the tablet, a Teams notification is now sent 5 minutes after the visit is closed. The visitor can complete it from their computer or phone, with the same options as on the tablet and an optional feedback field.
 This feature is disabled by default and can be enabled by managers on the Settings page.
-	•	⏱️ Shorter confirmation screen on the tablet
-The confirmation screen that appears after submitting a survey on the tablet now displays for 3 seconds instead of 8, speeding up the visitor flow.
+	•	⏱️ Shorter confirmation screen on the Surveil tablet
+The confirmation screen shown after submitting a survey now displays for 3 seconds instead of 8, allowing quicker turnover between visitors.
+⚠️ This update requires the new version of the application to be installed on the Surveil tablet.
 
 🛠️ General improvements:
 	•	Minor bug fixes and overall performance enhancements of the application.
