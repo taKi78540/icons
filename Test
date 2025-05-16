@@ -1,17 +1,15 @@
-Sure! Here’s the English version of the explanation:
+Voici la traduction en anglais de ton message :
 
 ⸻
 
-This graph shows the estimated waiting time and how it has evolved:
-	•	The green bar (“Waiting”) represents the time already spent waiting, which is 14 minutes.
-	•	The total estimated waiting time is 29 minutes, as shown below (“estimated 29 min”).
-	•	The orange section (+15 min) indicates that the current estimated wait time is 15 minutes longer than what was originally predicted. For example, the system may have originally estimated a 14-minute wait, but it has now increased to 29 minutes.
-	•	The yellow bar (“Processing”) on the right is a projection: once the person is taken in charge, the estimated processing time will be 17 minutes.
+Hi Andrei,
+So, how does the Card Reader work on the tablets? Basically, employees’ cards are not known to the system before their first visit to the counter. For the card to be automatically registered, when the user scans their card, a message should appear saying they are not recognized. At that point, the user must enter their UID and confirm their identity. Once validated, the card is then linked to the user.
+
+However, if the user goes back when asked to enter their UID, the card will not be linked.
+
+Can you check if it’s working as I described?
+And if the registration still doesn’t happen, it might be because your cards are not MIFARE type cards. In that case, the Card Reader being used may not be the right one.
 
 ⸻
 
-In summary:
-
-The person has already waited 14 minutes, and the system now estimates 15 more minutes to go, making a total of 29 minutes. The upcoming processing time is expected to take around 17 minutes.
-
-Let me know if you need a shorter version for a dashboard or presentation!
+Souhaites-tu une version plus formelle ou plus technique ?
