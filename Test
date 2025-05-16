@@ -1,22 +1,17 @@
-des paramètres.
-	•	⏱️ Réduction du temps d’affichage sur la tablette Surveil
-L’écran de confirmation affiché après avoir complété le sondage reste désormais visible seulement 3 secondes (au lieu de 8), pour fluidifier l’enchaînement des visites.
-⚠️ Cette amélioration nécessite l’installation de la nouvelle version de l’application sur la tablette Surveil.
-
-🛠️ Améliorations générales :
-	•	Corrections de bugs mineurs et amélioration des performances globales de l’application.
+Sure! Here’s the English version of the explanation:
 
 ⸻
 
-🚀 [EN] May 15, 2025 Deployment – New Features
+This graph shows the estimated waiting time and how it has evolved:
+	•	The green bar (“Waiting”) represents the time already spent waiting, which is 14 minutes.
+	•	The total estimated waiting time is 29 minutes, as shown below (“estimated 29 min”).
+	•	The orange section (+15 min) indicates that the current estimated wait time is 15 minutes longer than what was originally predicted. For example, the system may have originally estimated a 14-minute wait, but it has now increased to 29 minutes.
+	•	The yellow bar (“Processing”) on the right is a projection: once the person is taken in charge, the estimated processing time will be 17 minutes.
 
-✨ New Features:
-	•	📩 Visitor survey via Teams notification
-If a visitor hasn’t completed the satisfaction survey on the tablet, a Teams notification is now sent 5 minutes after the visit is closed. The visitor can complete it from their computer or phone, with the same options as on the tablet and an optional feedback field.
-This feature is disabled by default and can be enabled by managers on the Settings page.
-	•	⏱️ Shorter confirmation screen on the Surveil tablet
-The confirmation screen shown after submitting a survey now displays for 3 seconds instead of 8, allowing quicker turnover between visitors.
-⚠️ This update requires the new version of the application to be installed on the Surveil tablet.
+⸻
 
-🛠️ General improvements:
-	•	Minor bug fixes and overall performance enhancements of the application.
+In summary:
+
+The person has already waited 14 minutes, and the system now estimates 15 more minutes to go, making a total of 29 minutes. The upcoming processing time is expected to take around 17 minutes.
+
+Let me know if you need a shorter version for a dashboard or presentation!
