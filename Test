@@ -1,15 +1,54 @@
-Here is the English version of your summary for Christopher:
-	•	Tablet design:
-The tablet should be ordered in black to better match the counter’s design. It will later be customized with the logo and possibly a message for the employee.
-	•	Cable management:
-The cable will no longer exit from the side. It will run underneath the tablet and come out the back, resulting in a cleaner setup.
-	•	Base security:
-The stand is heavy, which reduces the need for daily handling by technicians. The goal is to secure it permanently to avoid any daily actions. We’re currently exploring possible solutions.
-	•	Access to iPad buttons:
-Since the tablet is enclosed, the buttons are no longer accessible. This isn’t an issue:
-	•	Automatic shutdown can be scheduled in the evening.
-	•	In the morning, reconnecting the power turns the iPad on automatically.
-	•	Unlocking the device is not a problem.
-	•	Guided Access is no longer necessary: with the current frame, it’s impossible to press the buttons or exit the app (even using the navigation bar).
-	•	Conclusion:
-The user experience is clearly better with this setup. The remaining points need to be addressed to ensure the same level of simplicity and efficiency for technicians, without requiring manual actions each morning and evening.
+Projet Le Comptoir Campus
+
+Dossier de validation – Synthèse
+
+⸻
+
+Contexte & Objectifs
+
+Le projet Le Comptoir Campus s’inscrit dans la volonté de professionnaliser, standardiser et moderniser l’accueil IT de proximité dans toutes les entités du groupe, en France comme à l’international.
+
+Les objectifs sont multiples :
+	•	Mesurer la performance des comptoirs : suivi des temps d’attente, typologies de visites, volume de demandes, satisfaction utilisateur.
+	•	Améliorer l’efficience opérationnelle : réduction des tâches manuelles des techniciens, ergonomie optimisée, meilleure traçabilité du matériel.
+	•	Harmoniser l’expérience utilisateur : garantir une qualité de service homogène pour tous les collaborateurs, quel que soit le site ou le pays.
+	•	Accélérer la convergence IT : alignement des différents métiers et pays sur les processus ITG, dans une logique de standardisation et d’offre unifiée.
+	•	Créer un canal de communication direct : diffusion de messages stratégiques (incidents de production, formations, actualités IT) via les tablettes et écrans de comptoir.
+	•	Collecter et exploiter le feedback : mesure de la satisfaction à chaud via tablette ou Teams, avec analyse selon le motif de visite.
+	•	Fiabiliser la gestion des équipements : enregistrement automatisé des échanges de matériel (signature, intégration HAM).
+	•	Contribuer aux engagements RSE : optimisation du cycle de vie du matériel pour réduire les pertes et l’empreinte carbone.
+
+⸻
+
+Risques à ne pas faire le projet
+	•	Absence de traçabilité des équipements, rendant impossible la fiabilisation des inventaires.
+	•	Incapacité à contribuer aux objectifs RSE, faute de données sur l’utilisation et la récupération du matériel.
+	•	Perte du canal de communication direct vers les utilisateurs sur site.
+	•	Maintien d’une forte charge manuelle pour les techniciens (onboarding/offboarding, incidents, etc.).
+	•	Hétérogénéité des données et des processus d’un site à l’autre.
+	•	Incapacité à intégrer de nouveaux besoins fonctionnels ou techniques (ex. cartes IMEX, API externes).
+	•	Risque de stagnation du produit, instabilité technique et apparition de régressions.
+	•	Perte d’image pour le service IT : un outil qui n’évolue plus n’incarne plus la stratégie de modernisation portée par ITG.
+
+⸻
+
+Risques à faire le projet
+	•	Nécessité de coordination forte avec les équipes locales pour assurer l’adoption.
+	•	Besoin de maintien en condition opérationnelle continue (supervision, correctifs, support).
+	•	Charge projet à répartir entre développement, animation produit, conduite du changement et communication.
+
+⸻
+
+Périmètre du projet
+
+Le projet couvre l’ensemble des comptoirs IT ouverts dans le monde, tous métiers et tous pays confondus.
+Il s’applique à tous les sites disposant d’un comptoir physique, avec pour ambition d’unifier les processus, les outils, et les indicateurs de performance.
+
+⸻
+
+Livrables – Phase de réalisation
+	•	Roadmap produit partagée et mise à jour mensuellement.
+	•	Mises en production toutes les deux semaines, communiquées via Teams à l’ensemble des équipes IT concernées.
+	•	Présentations mensuelles aux responsables de territoire : évolutions livrées, performances, KPIs.
+	•	Réunions mensuelles avec les responsables de comptoirs et Digital Working : recueil des besoins, priorisation des évolutions, co-construction de la feuille de route.
+	•	Amélioration continue basée sur les retours terrain, intégrés dans le cycle produit agile.
