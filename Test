@@ -1,15 +1,15 @@
-Voici la traduction en anglais de ton message :
-
-⸻
-
-Hi Andrei,
-So, how does the Card Reader work on the tablets? Basically, employees’ cards are not known to the system before their first visit to the counter. For the card to be automatically registered, when the user scans their card, a message should appear saying they are not recognized. At that point, the user must enter their UID and confirm their identity. Once validated, the card is then linked to the user.
-
-However, if the user goes back when asked to enter their UID, the card will not be linked.
-
-Can you check if it’s working as I described?
-And if the registration still doesn’t happen, it might be because your cards are not MIFARE type cards. In that case, the Card Reader being used may not be the right one.
-
-⸻
-
-Souhaites-tu une version plus formelle ou plus technique ?
+Here is the English version of your summary for Christopher:
+	•	Tablet design:
+The tablet should be ordered in black to better match the counter’s design. It will later be customized with the logo and possibly a message for the employee.
+	•	Cable management:
+The cable will no longer exit from the side. It will run underneath the tablet and come out the back, resulting in a cleaner setup.
+	•	Base security:
+The stand is heavy, which reduces the need for daily handling by technicians. The goal is to secure it permanently to avoid any daily actions. We’re currently exploring possible solutions.
+	•	Access to iPad buttons:
+Since the tablet is enclosed, the buttons are no longer accessible. This isn’t an issue:
+	•	Automatic shutdown can be scheduled in the evening.
+	•	In the morning, reconnecting the power turns the iPad on automatically.
+	•	Unlocking the device is not a problem.
+	•	Guided Access is no longer necessary: with the current frame, it’s impossible to press the buttons or exit the app (even using the navigation bar).
+	•	Conclusion:
+The user experience is clearly better with this setup. The remaining points need to be addressed to ensure the same level of simplicity and efficiency for technicians, without requiring manual actions each morning and evening.
