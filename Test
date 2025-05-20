@@ -1,3 +1,22 @@
+
+Titre : Rafraîchissement automatique de la connexion en cas de perte réseau
+
+En tant que visiteur ou utilisateur de la tablette d’accueil,
+Je veux que l’application détecte automatiquement la perte de connexion et tente de se reconnecter périodiquement (toutes les 5 à 10 secondes),
+Afin que l’écran d’accueil redevienne opérationnel automatiquement dès que la connexion réseau est rétablie, sans intervention manuelle d’un technicien.
+
+⸻
+
+Critères d’acceptation :
+	1.	Détection de la perte de connexion :
+Lorsque la tablette perd la connexion avec l’application (erreur réseau, perte de Wi-Fi, etc.), un écran d’information s’affiche pour prévenir que l’enregistrement est temporairement indisponible.
+	2.	Tentatives de reconnexion automatiques :
+Tant que la tablette reste sur l’écran d’erreur, l’application tente automatiquement de se reconnecter à intervalles réguliers (toutes les 5 à 10 secondes).
+	3.	Reconnexion réussie :
+Dès que la connexion est rétablie, l’application quitte automatiquement l’écran d’erreur et revient à l’interface d’accueil normale, sans action humaine.
+	4.	Paramétrage du délai (optionnel) :
+La fréquence des tentatives de reconnexion peut être paramétrable via un fichier de configuration ou une variable d’environnement.
+
 Projet Le Comptoir Campus
 
 Dossier de validation – Synthèse
