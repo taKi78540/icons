@@ -1,62 +1,15 @@
-Voici la version consolidée du document pour ton passage en comité d’investissement / validation :
-
-⸻
-
-Projet Le Comptoir Campus
-
-Dossier de validation – Synthèse
-
-⸻
-
-Contexte & Objectifs
-
-Le projet Le Comptoir Campus s’inscrit dans la volonté de professionnaliser, standardiser et moderniser l’accueil IT de proximité dans toutes les entités du groupe, en France comme à l’international.
-
-Les objectifs sont multiples :
-	•	Mesurer la performance des comptoirs : suivi des temps d’attente, typologies de visites, volume de demandes, satisfaction utilisateur.
-	•	Améliorer l’efficience opérationnelle : réduction des tâches manuelles des techniciens, ergonomie optimisée, meilleure traçabilité du matériel.
-	•	Harmoniser l’expérience utilisateur : garantir une qualité de service homogène pour tous les collaborateurs, quel que soit le site ou le pays.
-	•	Accélérer la convergence IT : alignement des différents métiers et pays sur les processus ITG, dans une logique de standardisation et d’offre unifiée.
-	•	Créer un canal de communication direct : diffusion de messages stratégiques (incidents de production, formations, actualités IT) via les tablettes et écrans de comptoir.
-	•	Collecter et exploiter le feedback : mesure de la satisfaction à chaud via tablette ou Teams, avec analyse selon le motif de visite.
-	•	Fiabiliser la gestion des équipements : enregistrement automatisé des échanges de matériel (signature, intégration HAM).
-	•	Contribuer aux engagements RSE : optimisation du cycle de vie du matériel pour réduire les pertes et l’empreinte carbone.
-
-⸻
-
-Risques à ne pas faire le projet
-	•	Absence de traçabilité des équipements, rendant impossible la fiabilisation des inventaires.
-	•	Incapacité à contribuer aux objectifs RSE, faute de données sur l’utilisation et la récupération du matériel.
-	•	Perte du canal de communication direct vers les utilisateurs sur site.
-	•	Maintien d’une forte charge manuelle pour les techniciens (onboarding/offboarding, incidents, etc.).
-	•	Hétérogénéité des données et des processus d’un site à l’autre.
-	•	Incapacité à intégrer de nouveaux besoins fonctionnels ou techniques (ex. cartes IMEX, API externes).
-	•	Risque de stagnation du produit, instabilité technique et apparition de régressions.
-	•	Perte d’image pour le service IT : un outil qui n’évolue plus n’incarne plus la stratégie de modernisation portée par ITG.
-
-⸻
-
-Risques à faire le projet
-	•	Nécessité de coordination forte avec les équipes locales pour assurer l’adoption.
-	•	Besoin de maintien en condition opérationnelle continue (supervision, correctifs, support).
-	•	Charge projet à répartir entre développement, animation produit, conduite du changement et communication.
-
-⸻
-
-Périmètre du projet
-
-Le projet couvre l’ensemble des comptoirs IT ouverts dans le monde, tous métiers et tous pays confondus.
-Il s’applique à tous les sites disposant d’un comptoir physique, avec pour ambition d’unifier les processus, les outils, et les indicateurs de performance.
-
-⸻
-
-Livrables – Phase de réalisation
-	•	Roadmap produit partagée et mise à jour mensuellement.
-	•	Mises en production toutes les deux semaines, communiquées via Teams à l’ensemble des équipes IT concernées.
-	•	Présentations mensuelles aux responsables de territoire : évolutions livrées, performances, KPIs.
-	•	Réunions mensuelles avec les responsables de comptoirs et Digital Working : recueil des besoins, priorisation des évolutions, co-construction de la feuille de route.
-	•	Amélioration continue basée sur les retours terrain, intégrés dans le cycle produit agile.
-
-⸻
-
-Souhaites-tu également une version en anglais ou une mise en forme type PowerPoint ou Word ?
+Voici le résumé en bullet points à transmettre à Christopher :
+	•	Design de la tablette :
+La tablette doit être commandée en noir pour mieux s’harmoniser avec le design du comptoir. Elle sera personnalisée ensuite avec le logo, et possiblement un message à destination du collaborateur.
+	•	Gestion des câbles (cable management) :
+Le câble ne sortira plus sur le côté. Il passera sous la tablette, sortira à l’arrière du support, pour un rendu plus propre.
+	•	Sécurisation du pied :
+Le pied est lourd, ce qui limite les manipulations pour les techniciens. L’objectif est de le sécuriser définitivement pour éviter toute action quotidienne. Une réflexion est en cours sur la solution adaptée.
+	•	Accès aux boutons de l’iPad :
+La tablette étant enfermée, les boutons ne sont plus accessibles. Ce n’est pas bloquant :
+	•	L’extinction peut être programmée automatiquement le soir.
+	•	Le rallumage se fait automatiquement dès qu’on rebranche l’alimentation.
+	•	Le déverrouillage ne pose pas de problème.
+	•	L’accès guidé n’est plus indispensable : avec l’encadrement actuel, il est impossible d’accéder aux boutons ou de quitter l’application (même via la barre).
+	•	Conclusion :
+L’expérience utilisateur est clairement meilleure avec cette configuration. Il reste à ajuster les quelques points ci-dessus pour garantir une expérience également optimale pour les techniciens, sans nécessiter d’actions manuelles matin et soir.
