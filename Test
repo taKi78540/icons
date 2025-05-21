@@ -1,15 +1,27 @@
-Voici le résumé en bullet points à transmettre à Christopher :
-	•	Design de la tablette :
-La tablette doit être commandée en noir pour mieux s’harmoniser avec le design du comptoir. Elle sera personnalisée ensuite avec le logo, et possiblement un message à destination du collaborateur.
-	•	Gestion des câbles (cable management) :
-Le câble ne sortira plus sur le côté. Il passera sous la tablette, sortira à l’arrière du support, pour un rendu plus propre.
-	•	Sécurisation du pied :
-Le pied est lourd, ce qui limite les manipulations pour les techniciens. L’objectif est de le sécuriser définitivement pour éviter toute action quotidienne. Une réflexion est en cours sur la solution adaptée.
-	•	Accès aux boutons de l’iPad :
-La tablette étant enfermée, les boutons ne sont plus accessibles. Ce n’est pas bloquant :
-	•	L’extinction peut être programmée automatiquement le soir.
-	•	Le rallumage se fait automatiquement dès qu’on rebranche l’alimentation.
-	•	Le déverrouillage ne pose pas de problème.
-	•	L’accès guidé n’est plus indispensable : avec l’encadrement actuel, il est impossible d’accéder aux boutons ou de quitter l’application (même via la barre).
-	•	Conclusion :
-L’expérience utilisateur est clairement meilleure avec cette configuration. Il reste à ajuster les quelques points ci-dessus pour garantir une expérience également optimale pour les techniciens, sans nécessiter d’actions manuelles matin et soir.
+Voici une User Story complète et structurée pour cette fonctionnalité :
+
+⸻
+
+Titre : Réaffectation d’un badge en cas d’erreur ou de changement de propriétaire
+
+En tant que visiteur,
+Je veux pouvoir réaffecter un badge à mon propre UID si celui-ci a été attribué par erreur à une autre personne,
+Afin de garantir que l’enregistrement de ma visite soit correctement rattaché à mon identité.
+
+⸻
+
+Critères d’acceptation :
+	1.	Détection de badge déjà associé :
+Lorsqu’un badge est scanné sur la tablette après la sélection d’un motif de visite, si ce badge est déjà associé à un UID existant, une page de confirmation s’affiche indiquant l’identité liée au badge.
+	2.	Option de refus d’identité :
+Si le visiteur indique que l’identité affichée n’est pas la sienne (ex. bouton “Ce n’est pas moi”), il est redirigé vers une page lui permettant de saisir manuellement son propre UID.
+	3.	Réaffectation du badge :
+Après saisie de l’UID, si la validation est confirmée, l’ancienne association badge/UID est supprimée et une nouvelle association est créée avec l’UID saisi.
+	4.	Confirmation visuelle :
+Un message de confirmation doit indiquer que la réaffectation a bien été prise en compte, avant de poursuivre le processus d’enregistrement habituel.
+	5.	Auditabilité :
+La réaffectation est loggée (ancien UID, nouveau UID, date/heure, identifiant du badge) à des fins d’audit interne.
+
+⸻
+
+Souhaites-tu que je t’écrive aussi la version technique (ex. : mise à jour de la base de données, API backend, sécurité) ou une version en anglais ?
