@@ -1,28 +1,60 @@
-Parfait, voici la version mise à jour de ta réponse en intégrant ton ajout concernant la gouvernance, la responsabilité et la gestion des réponses produit par produit :
+Here is the full version in English, structured for a presentation at the Styrco Group, covering the key pillars of Sustainable IT for the Workspace stream:
 
 ⸻
 
-Objet : Re : Projet de mutualisation des évaluations – besoin d’échanges complémentaires
+1. Hardware Sustainability (Device Lifecycle Management)
 
-Bonjour Thomas,
+Current Status & Achievements:
+	•	From 2026 onwards, all laptops will be acquired through leasing via 3 STEP IT (IT Group & Business Units). This approach aims to extend the lifespan of devices up to 5 years (to be confirmed).
+	•	An End-of-Life strategy is being defined, also via 3 STEP IT, to ensure structured recovery and proper reuse or recycling of devices.
 
-Merci pour ton message et les précisions apportées sur la démarche de mutualisation.
+Key Indicators:
+	•	Average PC age: increased from 2.9 to 3.5 years.
+	•	Average screen age: currently 6 years.
 
-Je comprends pleinement l’objectif visé, notamment en termes de rationalisation et de cohérence des évaluations. Cela dit, après en avoir discuté avec Barbara et tenté l’exercice de mise en commun, nous avons rencontré plusieurs points de blocage.
-
-Dans le cadre des projets IA, il nous est explicitement demandé de contextualiser les traitements de données pour en justifier la légitimité. Or, les applications concernées par cette mutualisation – y compris d’autres produits au-delà de ceux cités – ont chacune leur propre contexte, fonctionnement et logique de traitement des données. Cela rend difficile une description homogène et partagée.
-
-Par ailleurs, s’il y a des modifications à apporter aux évaluations PAQ ou ELIA, il faut également prendre en compte que les propriétaires de ces produits ne sont pas dans les mêmes équipes. Pour répondre correctement et précisément aux différentes questions posées, notamment dans ELIA, il est nécessaire de contextualiser chaque réponse. Cela nous amènerait à devoir détailler, pour chaque produit, des justifications distinctes dans les mêmes rubriques, créant ainsi des sections multiples par produit dans un même questionnaire.
-
-Cela soulève une question importante de gouvernance : qui valide quoi ? Et qui porte la responsabilité de la réponse finale du PAQ ? Ce n’est pas évident à trancher si l’on mutualise tout dans un même document.
-
-Cela étant dit, nous restons bien entendu ouverts à l’idée de rationaliser et d’harmoniser là où c’est possible, mais cela ne pourra pas se faire sans accompagnement. À mon sens, ce travail mérite d’être mené à quatre mains, pour garantir à la fois la cohérence globale et le respect des spécificités de chaque application.
-
-N’hésite pas à revenir vers nous pour en discuter plus concrètement, je suis tout à fait disponible pour avancer sur ce sujet avec toi.
-
-Bien à toi,
-Arnaud
+Challenges & Risks:
+	•	Extending lifespan without degrading user experience.
+	•	Ensuring consistent adoption across all regions and entities.
+	•	Monitoring carbon footprint across the full lifecycle (manufacture to disposal).
 
 ⸻
 
-Souhaites-tu que je le reformule en version plus courte ou plus directe ?
+2. Asset Traceability & Responsible Management
+
+Current Status & Achievements:
+	•	Implementation of a feature in the “Le Comptoir” app to track all hardware movements (handover/return), including digital signature by users and technicians.
+	•	Automatic update of the Hardware Asset Management (HAM) database.
+	•	Global rollout planned by end of 2025.
+
+Challenges & Risks:
+	•	Extension to non-Comptoir flows is under analysis.
+	•	Coverage of off-desk or non-traditional asset flows still needs improvement.
+
+⸻
+
+3. Data Management & Digital Footprint
+
+Current Status & Achievements:
+	•	NAS to SharePoint migration has been initiated by entities.
+	•	Storing data in SharePoint (Microsoft cloud) helps reduce local infrastructure and GHG emissions (Scope 3).
+
+Challenges & Risks:
+	•	No unified migration strategy yet: Without clear rules based on data type and age, there’s a risk of SharePoint overload.
+	•	Data duplication and poor version control can negatively impact both efficiency and carbon impact.
+
+⸻
+
+4. Awareness & Responsible Usage
+
+Current Status & Achievements:
+	•	Power Apps licenses have been distributed (10,000 Fortis, 1,300 BCEF, 700 IT Group) for access to the MyGreenIT tool.
+	•	The tool enables employees to track and understand their own digital footprint.
+	•	Licenses can be reassigned internally after use (1 to 3 months), and pricing follows a gradual decreasing model.
+
+Challenges & Risks:
+	•	Need for broader communication and user engagement to ensure real usage of the tool.
+	•	License sharing logic must be well-managed to ensure availability and avoid underuse.
+
+⸻
+
+Would you like a slide version of this summary for your presentation, or a spoken script with key talking points for your intervention?
