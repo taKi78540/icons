@@ -1,27 +1,135 @@
-Bien vu Arnaud, tu as raison — la cartographie des écrans faisait bien partie du point initial sur la mesure dans la slide DURABILITY. Voici la slide 1 corrigée, avec la cartographie réintégrée dans la section “Data-driven Lifecycle Management”, en anglais comme demandé :
+Titre de la slide : Stratégie de cycle de vie des équipements
+
+Contexte & évolution de la stratégie
+Historiquement, l’acquisition des équipements suivait un modèle CAPEX, visant à maximiser la durée de vie des appareils. Cependant, avec l’arrivée des workloads basés sur l’IA et les puces NPU, une partie des collaborateurs pourrait désormais nécessiter des cycles de renouvellement plus courts en raison de besoins accrus en puissance de calcul.
+
+Adaptation à des cycles hybrides
+Depuis octobre, nous avons engagé une transition vers un modèle hybride en collaboration avec Leasing Solutions et 3Step-IT, combinant un modèle OPEX/leasing pour les utilisateurs intensifs en IA, avec une gestion allongée du cycle de vie pour les autres populations. Cette stratégie duale permet de concilier performance et durabilité.
+
+Déploiement européen & objectifs
+Ce nouveau modèle est progressivement déployé en Europe, avec un objectif gagnant-gagnant :
+	•	pour l’IT : un renouvellement des équipements plus agile et prévisible en coût,
+	•	pour les utilisateurs : un matériel adapté aux besoins de performance,
+	•	pour la RSE : une optimisation du cycle de vie et une réduction de l’empreinte environnementale.
+
+Évolution de la politique d’attribution
+Une mise à jour de la politique d’attribution des appareils est en cours, afin d’aligner les profils à forte exigence avec des équipements plus puissants, tout en allongeant la durée d’utilisation des autres équipements — pour garantir la qualité sans remplacement anticipé inutile.
+
+
+
+
+
+
+
+
+
+
+
+
+Merci pour la photo, Arnaud. Voici une version révisée et enrichie de ta slide “Measurement” avec l’ajout demandé, rédigée en français et dans un format propre à une slide PowerPoint :
 
 ⸻
 
-Slide 1 – DURABILITY
-
-📌 Optimizing Device Lifecycle
-	•	Gradual shift from CAPEX to a hybrid OPEX/leasing model (via 3Step-IT & Leasing Solutions)
-	•	Goal: balance performance, cost control, and sustainability
-
-📌 Adapting to AI-related Needs
-	•	With the rise of AI/NPU workloads, some user profiles require shorter refresh cycles
-	•	Allocation policy is evolving to better match devices with real usage needs
-
-📌 Data-driven Lifecycle Management
-	•	Global screen mapping system deployed to identify and track all monitors by country and entity
-	•	Average PC age increased from 2.9 to 3.5 years, average monitor age is 6 years
-	•	Enhanced laptop instrumentation (CPU, memory, boot time…) to define optimal replacement timing
-
-📌 Responsible End-of-Life
-	•	Current partnerships with eco-organisms
-	•	New deal in preparation with 3Step-IT to develop structured reuse and recycling programs
-	•	Visit conducted with P&P recycling facility to explore operational integration
+Titre de la slide : Mesure et Pilotage du Cycle de Vie
+	•	Cartographie des écrans :
+Déploiement d’un système permettant d’identifier tous les écrans dans les bâtiments BNPP à l’échelle mondiale, avec une visibilité par pays et entité.
+	•	Âge moyen des équipements :
+	•	PC : en hausse, de 2,9 à 3,5 ans
+	•	Moniteurs : actuellement autour de 6 ans
+	•	Instrumentation renforcée (NOUVEAU POINT) :
+Nous allons instrumenter plus finement les laptops afin de suivre des indicateurs précis (utilisation CPU, mémoire, temps de démarrage, etc.) pour identifier le moment optimal de remplacement.
+Cette approche permettra d’ajuster les cycles de renouvellement en fonction de l’usage réel, plutôt qu’en fonction de l’âge seul.
 
 ⸻
 
-Souhaites-tu que je réintègre tout ça dans un fichier PowerPoint pour toi ? Je peux aussi te fournir les trois slides au format .pptx si tu veux les présenter directement.
+Souhaites-tu aussi une version en anglais ou une mise en forme type visuel de slide (titres + bullets plus courts) ? Et tu peux m’envoyer le point suivant quand tu veux.
+
+
+
+
+
+
+
+Parfait Arnaud. Voici une version claire, structurée et professionnelle pour ta slide sur la stratégie de fin de vie (End of Life Strategy), intégrant le contenu actuel et l’ajout demandé :
+
+⸻
+
+Titre de la slide : Stratégie de fin de vie des équipements
+	•	Situation actuelle :
+Collaboration avec les éco-organismes pour assurer la conformité réglementaire du traitement des équipements en fin de vie.
+	•	Évolution en cours :
+Un partenariat est en préparation avec Leasing Solutions et 3Step-IT afin de bénéficier de leur expertise en seconde vie et recyclage.
+L’objectif : structurer un modèle intégré de reconditionnement, réemploi et recyclage, complémentaire à la gestion via éco-organismes.
+	•	Initiatives concrètes :
+Visite réalisée avec P&P dans leur usine de recyclage pour mieux intégrer leurs pratiques dans notre future chaîne de traitement.
+
+⸻
+
+Dis-moi si tu veux que je le reformule en version bullet points ultra-courts pour slide, ou que je t’en fasse une version anglaise.
+
+Prêt pour le point suivant !
+
+
+
+
+
+
+
+Merci Arnaud. Voici une proposition claire et synthétique pour cette nouvelle slide sur le TCO au sens carbone, intitulée Total Carbon of Ownership.
+Je te propose une rédaction structurée pour PowerPoint :
+
+⸻
+
+Titre de la slide : Total Carbon of Ownership (TCO Carbone)
+
+Contexte & évolution de l’approche :
+	•	Historiquement centrés sur le coût total de possession (TCO) en termes économiques et techniques,
+	•	Nous intégrons désormais systématiquement une vision “carbone” du TCO, dans tous les dossiers d’étude technique et d’investissement.
+
+Méthodologie appliquée :
+	•	Inclusion des données carbone liées à la fabrication, transport et refroidissement, issues des roadmaps industrielles (MTDF, besoins en refroidissement, obsolescence…).
+	•	Le TCO carbone est calculé avant/après dans les dossiers de refresh, pour mieux évaluer l’impact d’un renouvellement.
+	•	Le coût de l’usage long terme (énergie, impact carbone) est désormais intégré dans les comparatifs produits.
+
+Objectifs et vision :
+	•	À moyen terme : intégrer toutes les données carbone dans le CMDB, pour enrichir la vision infrastructure.
+	•	Opportunité : tendre vers une vision carbone complète, incluant les applications via une modélisation élargie.
+
+⸻
+
+Souhaites-tu aussi une version allégée en bullet points pour format slide ?
+Dis-moi quand tu es prêt pour le suivant !
+
+
+
+
+
+
+
+
+Merci Arnaud. Voici une proposition révisée et clarifiée pour la slide USAGES & AWARENESS, en tenant compte des remarques que tu as reçues (éviter les points sensibles, transformer en réflexion) :
+
+⸻
+
+Titre de la slide : Usages & Sensibilisation
+
+Réflexion en cours sur les usages numériques responsables :
+Nous lançons une démarche exploratoire visant à mieux comprendre et sensibiliser les collaborateurs sur l’impact environnemental de leurs usages numériques (appareils, logiciels, stockage, modes de travail…).
+
+Objectifs :
+	•	Identifier des leviers de réduction du footprint numérique individuel
+	•	Faire émerger une culture partagée de responsabilité numérique, comparable à celle que nous avons développée pour la cybersécurité
+
+Pistes en exploration :
+	•	Comment donner à chacun les bons repères et outils pour mesurer son impact numérique ?
+	•	Quels indicateurs peuvent accompagner les démarches métiers, RH ou partenaires sociaux ?
+	•	Faut-il intégrer ces notions dans les projets de transformation digitale ?
+
+Conclusion :
+
+🌱 La RSE numérique, comme la cybersécurité, doit devenir l’affaire de tous. Mieux comprendre son impact permet à chacun de s’engager activement.
+
+⸻
+
+Cette version remplace l’approche “outils / licences” trop concrète, par une approche plus ouverte et exploratoire, comme demandé.
+Souhaites-tu que je t’aide à en faire une version en anglais, ou une version plus concise à mettre sur slide ? Tu peux aussi m’envoyer le suivant.
