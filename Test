@@ -1,4 +1,4 @@
-Voici la version anglaise des 3 slides synthétisées et prêtes à être intégrées dans un support PowerPoint :
+Bien vu Arnaud, tu as raison — la cartographie des écrans faisait bien partie du point initial sur la mesure dans la slide DURABILITY. Voici la slide 1 corrigée, avec la cartographie réintégrée dans la section “Data-driven Lifecycle Management”, en anglais comme demandé :
 
 ⸻
 
@@ -13,8 +13,9 @@ Slide 1 – DURABILITY
 	•	Allocation policy is evolving to better match devices with real usage needs
 
 📌 Data-driven Lifecycle Management
-	•	Average PC age increased from 2.9 to 3.5 years, monitors: 6 years
-	•	Enhanced device instrumentation (CPU, memory, boot time…) to define optimal replacement timing
+	•	Global screen mapping system deployed to identify and track all monitors by country and entity
+	•	Average PC age increased from 2.9 to 3.5 years, average monitor age is 6 years
+	•	Enhanced laptop instrumentation (CPU, memory, boot time…) to define optimal replacement timing
 
 📌 Responsible End-of-Life
 	•	Current partnerships with eco-organisms
@@ -23,38 +24,4 @@ Slide 1 – DURABILITY
 
 ⸻
 
-Slide 2 – TOTAL CARBON OF OWNERSHIP
-
-📌 Carbon is Now Part of TCO
-	•	Beyond financial cost, we now systematically assess the carbon footprint of investments
-	•	Included in all technical studies and procurement strategies
-
-📌 Operational Methodology
-	•	Integration of manufacturing, transport, cooling data from vendor roadmaps
-	•	Carbon TCO calculated before/after for refresh projects
-
-📌 Mid-term Vision
-	•	Plan to embed carbon data into CMDB for infrastructure visibility
-	•	Long-term goal: build a comprehensive carbon view, including applications
-
-⸻
-
-Slide 3 – USAGES & AWARENESS
-
-📌 Fostering a Culture of Digital Responsibility
-	•	Launching an internal reflection to raise awareness on the environmental impact of digital practices
-	•	Goal: build a shared sense of responsibility, similar to what has been done for cybersecurity
-
-📌 Workstreams in Progress
-	•	Identify individual levers (devices, storage, work modes, tools)
-	•	Explore ways to equip users with indicators and guidance
-	•	Link carbon impact to business and HR practices
-
-📌 Key Message
-
-🌱 Like cybersecurity, sustainable IT is everyone’s responsibility.
-Understanding your impact is the first step to action.
-
-⸻
-
-Souhaites-tu que je t’exporte cela en PowerPoint (PPTX) ou Google Slides ? Je peux aussi générer un fichier texte formaté pour faciliter le copier-coller.
+Souhaites-tu que je réintègre tout ça dans un fichier PowerPoint pour toi ? Je peux aussi te fournir les trois slides au format .pptx si tu veux les présenter directement.
