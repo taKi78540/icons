@@ -1,6 +1,59 @@
-let
-    Source = SharePoint.Files("https://tonorganisation.sharepoint.com/sites/tonsite", [ApiVersion = 15]),
-    FichiersFiltrés = Table.SelectRows(Source, each Text.Contains([Name], "fichier.csv")),
-    Fichier = FichiersFiltrés{0}[Content],
-    Import = Csv.Document(Fichier, [Delimiter=",", Columns=XX, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-    // suite du traitement...
+Parfait Arnaud, voici un résumé structuré en 3 slides conforme à ta demande. Le ton est professionnel, synthétique et orienté présentation. Chaque slide tient sur un format PowerPoint avec titres, bullet points et messages clés.
+
+⸻
+
+Slide 1 – DURABILITY
+
+📌 Optimisation du cycle de vie des équipements
+	•	Passage progressif d’un modèle CAPEX vers un modèle hybride OPEX/leasing (3Step-IT & Leasing Solutions)
+	•	Objectif : concilier performance, maîtrise budgétaire et durabilité
+
+📌 Adaptation aux nouveaux besoins IA
+	•	L’arrivée des workloads IA/NPU engendre des besoins de renouvellement plus fréquents pour certains profils
+	•	Politique d’attribution en cours d’évolution pour allouer des équipements adaptés à l’usage réel
+
+📌 Pilotage via la donnée
+	•	Âge moyen des PC : de 2,9 à 3,5 ans ; moniteurs : 6 ans
+	•	Instrumentation renforcée (CPU, mémoire, temps de boot…) pour affiner la stratégie de remplacement
+
+📌 Fin de vie responsable
+	•	Collaboration avec éco-organismes
+	•	Nouveau partenariat avec 3Step-IT pour développer une seconde vie structurée et le recyclage
+	•	Visite d’une usine de revalorisation (P&P)
+
+⸻
+
+Slide 2 – TOTAL CARBON OF OWNERSHIP
+
+📌 Nouvelle dimension intégrée au TCO
+	•	Au-delà du coût économique, le TCO intègre désormais une vision carbone (fabrication, transport, usage, refroidissement…)
+	•	Appliqué à tous les dossiers techniques et d’investissement
+
+📌 Méthodologie opérationnelle
+	•	Intégration des données techniques des constructeurs, roadmaps d’obsolescence, et scénarios de refresh
+	•	Le TCO carbone est analysé avant/après pour chaque projet
+
+📌 Vision à moyen terme
+	•	Intégration progressive des données carbone dans la CMDB
+	•	Objectif : construire une vision complète incluant les infrastructures et les applications
+
+⸻
+
+Slide 3 – USAGES & AWARENESS
+
+📌 Vers une culture de responsabilité numérique
+	•	Réflexion en cours pour sensibiliser les collaborateurs à l’impact de leurs usages numériques
+	•	Objectif : faire émerger une conscience collective, comme pour la cybersécurité
+
+📌 Pistes de travail
+	•	Identifier des leviers d’action individuels (équipements, stockage, mode de travail)
+	•	Évaluer les outils à disposition (dashboard, retours d’impact, bonnes pratiques…)
+	•	Associer la donnée carbone aux pratiques métiers
+
+📌 Message clé
+
+🌱 Le numérique responsable est l’affaire de tous. Comprendre son impact, c’est déjà s’engager.
+
+⸻
+
+Souhaites-tu une version PowerPoint (PPTX) directement exportable ? Ou un fichier Word prêt à copier-coller ? Je peux te le générer.
