@@ -1,20 +1,163 @@
-Sure! Here’s the English version of your explanatory text, tailored for users of the Power BI report:
+Voici la version anglaise complète de ta release note, prête à être publiée dans un canal Teams ou ajoutée à ton registre de release notes.
 
 ⸻
 
-🧠 Advanced Wait Time Analysis
+📊 Release Note – New Power BI Dashboards
 
-This section helps you dive deeper into situations where wait times at the counter exceed a critical threshold, which you can adjust directly (default: 30 minutes).
-
-Two key insights are provided to better understand these periods:
-	1.	Coach availability during peak wait times
-This chart shows the average and maximum number of coaches present when the wait time exceeds the selected threshold. It helps identify potential understaffing or unexpected surges in demand.
-	2.	Total duration of extended wait times by day
-This chart displays the total number of minutes per day where the wait time exceeded the chosen threshold. It allows you to spot peak days and detect recurring patterns.
-
-👉 Use the input field to define the wait time threshold you want to analyze (e.g., 20 min, 45 min, etc.).
-The charts will update automatically based on your selection.
+Release date: June 10, 2025
+Version: v2.0
+Product: Le Comptoir Campus – Power BI Dashboards
+Contact: Arnaud Lecorre – Product Owner
 
 ⸻
 
-Let me know if you’d like a version with a more casual tone or shorter wording for field technicians.
+🧭 Redesigned Navigation Structure
+
+The dashboards have been entirely reorganized to provide a more fluid and structured view of key performance indicators.
+Navigation now starts with a high-level “Overview” page, followed by thematic sections:
+	•	Volume – Visit counts and breakdowns
+	•	Weighting – Weighted analysis of activity
+	•	Processing – Handling and wait times
+	•	Waiting – SLA tracking and peak analysis
+	•	Survey – User satisfaction
+	•	Camper – Consolidated views with NPS indicators
+
+⸻
+
+🔍 What’s New – Page by Page
+
+📌 Overview
+	•	New summary page with the main KPIs for a quick overall view.
+
+⸻
+
+📌 Volume
+	•	Two new visuals:
+	•	Breakdown of Incident visits by sub-type
+	•	Breakdown of Appointment visits by purpose
+
+⸻
+
+📌 Weighting
+
+(No specific updates in this version – the page layout follows the new structure.)
+
+⸻
+
+📌 Processing
+	•	New chart showing the average handling time by visit category
+➤ Helps identify which visit types are processed faster or take longer
+
+⸻
+
+📌 Waiting
+	•	Improved SLA tracking:
+➤ Quickly identify, by day or by month, whether the target is met:
+Less than 15% of visits with a wait time over 10 minutes
+	•	New section for peak-time analysis:
+	•	Coach availability during peaks
+	•	Total daily duration with high wait times
+➤ Helps understand the root causes of delays and evaluate staffing levels
+
+⸻
+
+📌 Survey
+	•	Merging of feedback from both Teams and Tablet surveys
+	•	Automatic Net Promoter Score (NPS) calculation
+➤ Breakdown of Detractors, Passives, and Promoters
+	•	Response rate tracking per channel (Teams / Tablet)
+	•	Direct access to written comments submitted through Teams surveys
+
+⸻
+
+📌 Camper
+	•	New columns added:
+	•	NPS score from Teams surveys
+	•	Teams survey response rate
+➤ Enables richer cross-analysis between satisfaction and operational data
+
+⸻
+
+🎯 Goals of This Release
+	•	Simplify navigation and data access with a thematic layout
+	•	Provide clearer visibility into user satisfaction (NPS, feedback, response rates)
+	•	Better understand peak-time issues and resource adequacy
+	•	Enable deeper analysis of each visit type and performance trend
+
+⸻
+
+📬 Feedback Welcome
+
+Feel free to share your feedback or suggestions in this channel or directly via private message.
+
+⸻
+
+Souhaites-tu que je t’envoie cette version en Word ou PDF, avec une mise en page propre pour tes archives ou pour une diffusion en parallèle du post Teams ?
+
+
+Bien sûr ! Voici quelques suggestions d’icônes alternatives, plus variées et visuellement parlantes, pour chaque section thématique. Elles sont compatibles avec une publication Teams ou un document interne.
+
+⸻
+
+🧭 Overview
+
+Icône proposée : 🧭 ou 📌
+→ Représente une synthèse, un point de repère global
+
+⸻
+
+📈 Volume
+
+Alternatives :
+	•	📊 (bar chart)
+	•	🧮 (calculs, comptage)
+	•	🔢 (données quantitatives)
+
+⸻
+
+⚖️ Weighting
+
+Alternatives :
+	•	⚖️ (balance, pondération)
+	•	🎚️ (ajustement de poids)
+	•	📏 (mesure fine)
+
+⸻
+
+⏱️ Processing
+
+Alternatives :
+	•	⏱️ (temps de traitement)
+	•	🕒 (temps moyen)
+	•	📦 (gestion de flux / traitement)
+
+⸻
+
+🚦 Waiting
+
+Alternatives :
+	•	🚦 (suivi d’objectif, signal)
+	•	⌛ (attente)
+	•	📉 (retards, SLA non atteints)
+
+⸻
+
+🗣️ Survey
+
+Alternatives :
+	•	🗣️ (retour utilisateur)
+	•	💬 (commentaires)
+	•	📣 (enquête de satisfaction)
+
+⸻
+
+🧾 Camper
+
+Alternatives :
+	•	🧾 (tableau de suivi)
+	•	📋 (fiche récapitulative)
+	•	📑 (vue consolidée)
+
+⸻
+
+Souhaites-tu que je te réintègre ces icônes directement dans la version anglaise et/ou française du texte ? Je peux aussi t’aider à choisir une charte visuelle homogène (par exemple, tous les titres avec des emojis “objet”, ou bien “symboles métiers”).
