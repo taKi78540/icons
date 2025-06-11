@@ -1,3 +1,103 @@
+Parfait, voici une version finale complète de ta Release Note, rédigée pour une publication directe dans un canal Teams. Le ton est professionnel, concis et orienté utilisateurs, avec une structure claire pour une lecture rapide. Tu peux bien sûr l’adapter à ton style interne.
+
+⸻
+
+📊 Release Note – Nouveaux Dashboards Power BI
+
+Date de publication : 10 juin 2025
+Version : v2.0
+Produit : Le Comptoir Campus – Dashboards Power BI
+Contact : Arnaud Lecorre – Product Owner
+
+⸻
+
+🧭 Nouvelle organisation de la navigation
+
+Les dashboards ont été entièrement repensés pour offrir une lecture plus fluide et structurée des indicateurs clés.
+Désormais, la navigation s’appuie sur une page d’accueil synthétique (Overview), suivie de pages thématiques :
+	•	Volume : Fréquentation
+	•	Weighting : Pondération des visites
+	•	Processing : Temps de traitement
+	•	Waiting : Suivi des objectifs et pics
+	•	Survey : Satisfaction utilisateurs
+	•	Camper : Vue consolidée avec données de satisfaction
+
+⸻
+
+🔍 Détail des évolutions par page
+
+📌 Overview
+	•	Nouvelle page de synthèse avec les indicateurs principaux pour un aperçu rapide de la situation.
+
+⸻
+
+📌 Volume
+	•	Ajout de deux visuels dédiés :
+	•	Répartition des visites de type Incident par sous-catégorie
+	•	Répartition des visites de type Rendez-vous par motif
+
+⸻
+
+📌 Weighting
+
+(Pas de nouveauté dans cette version – page réorganisée dans la nouvelle structure globale)
+
+⸻
+
+📌 Processing
+	•	Nouveau graphique affichant le temps de traitement moyen par catégorie
+➤ Permet d’identifier les types de visite les plus rapides ou les plus longs à traiter
+
+⸻
+
+📌 Waiting
+	•	Amélioration du suivi des objectifs :
+➤ Visualisation claire, par jour ou par mois, du respect de l’objectif :
+Moins de 15 % des visites avec un temps d’attente > 10 minutes
+	•	Nouvelle section d’analyse des pics d’affluence :
+	•	Taux de disponibilité des coachs lors des pics
+	•	Durée cumulée par jour avec des temps d’attente élevés
+➤ Aide au diagnostic et à l’ajustement des ressources
+
+⸻
+
+📌 Survey
+	•	Consolidation des données issues des enquêtes Teams et Tablette
+	•	Calcul automatique du NPS (Net Promoter Score)
+➤ Affichage de la répartition des détracteurs, passifs et promoteurs
+	•	Suivi du taux de réponse par canal (Teams / Tablette)
+	•	Accès direct aux commentaires laissés dans les enquêtes Teams
+
+⸻
+
+📌 Camper
+	•	Ajout de nouvelles colonnes :
+	•	Résultat NPS issu de l’enquête Teams
+	•	Taux de réponse aux enquêtes Teams
+➤ Vue enrichie pour croiser satisfaction utilisateur et indicateurs opérationnels
+
+⸻
+
+🎯 Objectifs de cette évolution
+	•	Simplifier la lecture des données via une navigation thématique
+	•	Mieux piloter la satisfaction utilisateur (NPS, verbatims, taux de réponse)
+	•	Identifier les causes des pics d’attente et ajuster les ressources en conséquence
+	•	Offrir plus de profondeur d’analyse pour chaque type de visite
+
+⸻
+
+📬 Vos retours sont les bienvenus
+
+N’hésitez pas à partager vos retours ou suggestions directement sur ce canal ou par message privé.
+
+⸻
+
+Souhaites-tu maintenant :
+	•	une version Word ou PDF avec logo, mise en forme, titres visuels, pour archivage ou diffusion formelle ?
+	•	une version anglaise si tu travailles dans un contexte international ?
+
+Je peux te la préparer en un clic.
+
 Voici la version anglaise complète de ta release note, prête à être publiée dans un canal Teams ou ajoutée à ton registre de release notes.
 
 ⸻
