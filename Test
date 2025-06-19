@@ -4,15 +4,16 @@ VAR TotalComptoir =
 
 RETURN
 CONCATENATEX(
-    ADDCOLUMNS(
-        VALUES('lecomptoir allvisits_181124'[visitor.pole]),
-        "NbVisites", CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
+    FILTER(
+        ADDCOLUMNS(
+            VALUES('lecomptoir allvisits_181124'[visitor.pole]),
+            "NbVisites", CALCULATE(COUNTROWS('lecomptoir allvisits_181124')),
+            "Pourcent", DIVIDE(CALCULATE(COUNTROWS('lecomptoir allvisits_181124')), TotalComptoir, 0)
+        ),
+        [Pourcent] >= 0.01
     ),
     'lecomptoir allvisits_181124'[visitor.pole] & " (" & 
-        FORMAT(
-            DIVIDE([NbVisites], TotalComptoir, 0),
-            "0%"
-        ) & ")",
+        FORMAT([Pourcent], "0%") & ")",
     ", ",
     [NbVisites],
     DESC
