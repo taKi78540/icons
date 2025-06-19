@@ -1,22 +1,19 @@
 EntitesEtPourcentages = 
 VAR TotalComptoir = 
-    CALCULATE(
-        SUM('TableVisites'[Cout]),
-        ALLEXCEPT('TableVisites', 'TableVisites'[Comptoir])
-    )
+    COUNTROWS('lecomptoir allvisits_181124')
 
 RETURN
 CONCATENATEX(
-    VALUES('TableVisites'[VisitorType]),
-    'TableVisites'[VisitorType] & " (" & 
-    FORMAT(
-        DIVIDE(
-            CALCULATE(SUM('TableVisites'[Cout])),
-            TotalComptoir,
-            0
-        ),
-        "0%"
-    ) & ")",
+    ADDCOLUMNS(
+        VALUES('lecomptoir allvisits_181124'[visitor.pole]),
+        "NbVisites", CALCULATE(COUNTROWS('lecomptoir allvisits_181124'))
+    ),
+    'lecomptoir allvisits_181124'[visitor.pole] & " (" & 
+        FORMAT(
+            DIVIDE([NbVisites], TotalComptoir, 0),
+            "0%"
+        ) & ")",
     ", ",
-    'TableVisites'[VisitorType]
+    [NbVisites],
+    DESC
 )
