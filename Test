@@ -13,12 +13,29 @@
       "type": "TextBlock",
       "text": "Pour toute demande, merci de contacter **Le Comptoir** via le lien ci-dessous.",
       "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "---",
+      "separator": true,
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "This is not the right contact 👀",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "For any request, please contact **Le Comptoir** using the link below.",
+      "wrap": true
     }
   ],
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Contacter Le Comptoir",
+      "title": "Contacter Le Comptoir / Contact Le Comptoir",
       "url": "https://teams.microsoft.com/l/chat/0/0?users=lecomptoir@votredomaine.com"
     }
   ]
