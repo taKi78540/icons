@@ -1,20 +1,25 @@
-EntitesEtPourcentages = 
-VAR TotalComptoir = 
-    COUNTROWS('lecomptoir allvisits_181124')
-
-RETURN
-CONCATENATEX(
-    FILTER(
-        ADDCOLUMNS(
-            VALUES('lecomptoir allvisits_181124'[visitor.pole]),
-            "NbVisites", CALCULATE(COUNTROWS('lecomptoir allvisits_181124')),
-            "Pourcent", DIVIDE(CALCULATE(COUNTROWS('lecomptoir allvisits_181124')), TotalComptoir, 0)
-        ),
-        [Pourcent] >= 0.01
-    ),
-    'lecomptoir allvisits_181124'[visitor.pole] & " (" & 
-        FORMAT([Pourcent], "0%") & ")",
-    ", ",
-    [NbVisites],
-    DESC
-)
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Ce n’est pas le bon contact 👀",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Pour toute demande, merci de contacter **Le Comptoir** via le lien ci-dessous.",
+      "wrap": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Contacter Le Comptoir",
+      "url": "https://teams.microsoft.com/l/chat/0/0?users=lecomptoir@votredomaine.com"
+    }
+  ]
+}
