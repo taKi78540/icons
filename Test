@@ -1,7 +1,11 @@
-Category: Resilience and Service Continuity
-	1.	Deferred ServiceNow Ticket Creation
-Allow visit creation even if ServiceNow is unavailable; tickets will be automatically generated once ServiceNow becomes accessible again.
-	2.	Automatic Tablet Reconnection
-Implement a mechanism on the reception tablets to continuously attempt to reconnect to the Wi-Fi network, with automatic recovery of the application once connectivity is restored.
-	3.	Server Unavailability Alert System
-Develop automatic notifications to inform technical teams and Le Comptoir managers when the application is completely unavailable, with alerts also sent when service is restored.
+Bien sûr ! Voici une version plus concise :
+
+Category: Resilience & Continuity
+	1.	Deferred Ticket Creation
+Visits proceed; tickets auto-create when ServiceNow is back.
+	2.	Auto Tablet Reconnect
+Tablets auto-retry Wi-Fi and resume app.
+	3.	Downtime Alerts
+Notify tech teams and Le Comptoir managers of outages and recovery.
+
+Souhaites-tu encore plus court ?
