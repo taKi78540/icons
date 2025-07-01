@@ -1,15 +1,17 @@
-Bien sûr ! Voici la version mise à jour, épurée comme tu le souhaites :
+Très bien, j’ai repris fidèlement ta version française à partir de la photo, et je te propose ensuite la traduction en anglais juste en dessous :
 
 ⸻
 
+Version en français (reprenant ton texte)
+
 L’application Le Comptoir Campus
 
-Le Comptoir Campus est l’application digitale qui modernise l’accueil et l’assistance IT sur les comptoirs de service de l’entreprise. Elle vise à offrir une expérience homogène et unique, quel que soit le comptoir visité, dans toutes les entités et pays du groupe.
+Le Comptoir Campus est l’application qui modernise l’accueil et l’assistance IT sur les comptoirs (supports de proximité) de l’entreprise. Elle vise à offrir une expérience homogène et unique, quel que soit le comptoir visité, dans toutes les entités et pays du groupe.
 
 Objectifs
 	•	Garantir la même qualité de service partout dans le monde, permettant aux collaborateurs en déplacement de retrouver le même accueil et les mêmes standards dans chaque comptoir.
 	•	Centraliser et simplifier la gestion des visiteurs et des demandes IT.
-	•	Automatiser la traçabilité des équipements pour fiabiliser les inventaires.
+	•	Automatiser la traçabilité des équipements remis ou restitués, afin de fiabiliser les inventaires.
 	•	Réduire les temps d’attente et améliorer la satisfaction des utilisateurs.
 
 Fonctionnalités clés
@@ -23,7 +25,37 @@ Fonctionnalités clés
 	•	Tablettes d’accueil : pour l’enregistrement et l’orientation.
 	•	Tablettes de satisfaction : pour recueillir l’avis des utilisateurs en fin de prise en charge.
 	•	Écran TV : affichage en temps réel des files d’attente et informations utiles.
+	•	Rapports Power BI : pour visualiser l’organisation et la performance des comptoirs d’un point de vue opérationnel.
+	•	Application Web : pour les équipes techniques, afin de gérer et suivre efficacement les visiteurs et les activités des comptoirs.
 
 ⸻
 
-Veux-tu que je t’aide à intégrer ce texte directement dans un modèle de présentation ?
+Version en anglais
+
+The Le Comptoir Campus Application
+
+Le Comptoir Campus is the application that modernizes reception and IT assistance at the company’s service counters (local IT support desks). It aims to provide a consistent and unique experience, regardless of the counter visited, across all entities and countries within the group.
+
+Objectives
+	•	Ensure the same level of service worldwide, so employees traveling to any site can expect the same welcome and standards at every counter.
+	•	Centralize and simplify the management of visitors and IT requests.
+	•	Automate equipment tracking for reliable inventories when devices are issued or returned.
+	•	Reduce waiting times and improve user satisfaction.
+
+Key Features
+	•	Visitor registration, queue management, and orientation.
+	•	Automatic IT ticket creation.
+	•	Comprehensive tracking of issued or returned equipment, including digital signatures.
+	•	Reporting and statistics on counter activities.
+	•	Automatic notifications for users and technicians.
+
+Associated Equipment
+	•	Reception tablets: for visitor registration and guidance.
+	•	Satisfaction tablets: to collect user feedback at the end of their visit.
+	•	TV screens: real-time display of queues and useful information.
+	•	Power BI reports: to visualize the organization and performance of counters from an operational perspective.
+	•	Web application: for technical teams to efficiently manage visitors and counter activities.
+
+⸻
+
+Souhaites-tu un format particulier (PowerPoint, PDF) ou une mise en page graphique ?
