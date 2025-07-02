@@ -1,33 +1,26 @@
-Excellent ajout, et ça complète parfaitement la vision globale ! Voici une version mise à jour de la réponse à Hélène, intégrant ce point sur l’évolution future des workflows pour les utilisateurs à distance, tout en consolidant l’ensemble :
+Bien sûr ! Voici ta fin traduite et intégrée dans le script anglais, de façon fluide, sans créer de rupture, comme si tu le lisais d’une seule traite :
 
 ⸻
 
-Objet : Re: Transmission sécurisée du TAP pour les new joiners
+Hello everyone, my name is Arnaud Lecorre, and I am the Product Owner of the Le Comptoir application. I believe Christian has already explained how the application works, so I won’t go into those details again. Today, I would like to introduce myself, explain our organization, and then walk you through our roadmap so you can clearly see the upcoming work and evaluate the resources you might allocate to support us.
 
-Bonjour Hélène, bonjour à tous,
+Regarding our organization, we work in agile mode, with two-week sprints. My role as Product Owner is to identify user needs, translate these needs into mockups, and then hand them over to the development team. We then validate the developments together before releasing them into production.
 
-Merci pour ta proposition et pour cette réflexion sur l’automatisation de la remise du TAP.
+Now, let’s move on to the roadmap. It is divided into three main timeframes: short term, medium term, and long term.
 
-Dans le cadre du projet Le Comptoir, notre objectif est de standardiser et simplifier le parcours collaborateur dans tous les comptoirs, quel que soit le pays. Aujourd’hui, le processus prévoit déjà deux scénarios :
-	•	L’enrôlement en présence du technicien (ex. Valmy 1), avec génération du TAP et accompagnement individuel.
-	•	L’enrôlement en autonomie après la session de welcome lunch (en test à Odyssée), avec un TAP généré sur place et transmis par mail, permettant un enrôlement en self-care dans un délai de 4 heures, avec la possibilité pour le collaborateur de revenir pour être accompagné.
+In the short term, which covers the next month, several evolutions have already been completed. For example, the Teams notifications are finished, and the final deployment will happen tomorrow evening. Then, there are the Power BI reports. These reports are created by me and are currently intended only for the managers of the service desks. This topic does not require your involvement, as I handle it directly. Regarding the tablets, we are about to start the development of customized buttons. This feature will allow each service desk to create buttons adapted to their local needs, for example to help with orientation or to quickly launch specific tasks. The goal is to have this finished and deployed by the end of August.
 
-Concernant l’idée d’utiliser les tablettes kiosque avec vérification d’identité via IA, elle est intéressante sur le principe. Cependant, plusieurs points rendent sa mise en œuvre complexe à l’échelle mondiale :
-	•	Les contraintes légales liées à la prise de photos de pièces d’identité ou de selfies (protection des données personnelles, GDPR) varient fortement selon les pays, et impliquent des démarches administratives lourdes.
-	•	La disponibilité et la nature des badges collaborateurs ne sont pas uniformes à l’international, ce qui complique un processus standardisé.
-	•	Enfin, la mise en place d’une telle technologie représente un investissement conséquent, difficilement justifiable par rapport aux bénéfices, d’autant que l’accompagnement humain permet déjà une expérience fluide et rassurante pour le collaborateur.
+Moving on to the medium term, covering the next two to three months, I plan to create additional documentation, including RACI matrices and detailed procedures. For the Power BI reports, I will prepare them for real-time updates, which will then be managed by our Atavis team. Another important topic is service continuity. Currently, if we experience network issues or if external applications like ServiceNow are unavailable, it often requires manual actions from technical teams to restore operations. We want to improve the tablets’ ability to automatically reconnect to Wi-Fi when there is a network problem, and also add notifications to alert our teams if something prevents the application from working correctly.
+As for badge recognition, this project is currently blocked because we depend on the building badge managers in France to set up an API that would allow us to access badge data.
 
-En revanche, l’idée d’utiliser les tablettes pour déclencher la génération du TAP, qui serait ensuite transmis à l’utilisateur par mail (ou potentiellement via Teams), accompagné d’instructions claires pour un enrôlement en self-care, me semble pertinente et pourrait être envisagée comme évolution, tout en conservant la possibilité d’un accompagnement individuel.
+Finally, in the long term, which is beyond four months, we have some very important topics. The first one is to implement full tracking of hardware movements. This means that when a user receives or returns equipment at a service desk, we want to declare it, have them sign electronically, and automatically update our databases. Another key topic is creating a centralized planning tool for the entire group to manage onboardings and similar events.
+Regarding the TVs installed in our service desks, we want to evolve these screens so that they display dynamic content cycling every 20 to 30 seconds. This content could include webinars, company news, or digital workplace updates, so that we can take advantage of the waiting time to engage with users and communicate important information.
 
-Par ailleurs, au niveau des comptoirs campus, nous travaillons déjà sur la standardisation et l’automatisation de nombreux processus, notamment avec l’intégration d’un système de déclaration de matériel pour la traçabilité en entrée et en sortie des comptoirs. À terme, nous souhaitons également mettre en place des workflows pour les collaborateurs qui ne passent pas physiquement par les comptoirs lors de leur onboarding ou offboarding. Ce dispositif, inspiré de certains modèles comme ceux proposés par Microsoft, permettrait aux utilisateurs distants de suivre un processus self-care, incluant la configuration de leurs équipements et la signature certifiant la remise ou le retour du matériel.
+In addition, we also plan to integrate some AI features to improve key performance indicators. For example, in Power BI, we want to analyze and display the top three reasons for user dissatisfaction at the service desks, as well as identify which knowledge base articles are most frequently used. Regarding hardware, we plan to replace the current mini PCs with Apple TVs for the TVs in our service desks, since Microsoft will soon support Apple TVs through Intune device management. We also aim to handle different types of building access cards, including HID and Desfire protocols, to improve compatibility.
+For users, we will integrate information about the queue and other updates into platforms like SAM Marketplace or chatbots, so that users can easily access relevant information through multiple channels. Finally, we will continue to enrich the TVs with even more dynamic content to keep users informed and engaged while they wait.
 
-Les réflexions soulevées dans cette discussion sont donc particulièrement intéressantes, car elles alimentent notre vision sur l’automatisation de ces parcours, y compris pour les populations distantes. Il serait pertinent de garder ces idées en tête et de les approfondir collectivement.
-
-Qu’en pensez-vous ?
-
-Bonne journée à tous,
-[Ton prénom]
+That concludes my overview of the roadmap. As you can see, there is a lot of work planned, covering many different areas, and we will need your expertise and support to successfully implement these developments. I hope this gives you a clear picture of our upcoming needs, and I look forward to hearing how many resources you will be able to provide to help us.
 
 ⸻
 
-Souhaites-tu que je t’aide à préparer un support de présentation ou une note interne pour partager cette synthèse avec les autres parties prenantes ?
+Souhaites-tu un document prêt à imprimer avec ce script ?
