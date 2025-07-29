@@ -1,101 +1,41 @@
-Très bonne remarque 👍 Voici les deux versions (français puis anglais) corrigées en ajoutant cette précision dès l’introduction : les notifications sont désactivées par défaut et activables/désactivables via la page Settings.
-https://github.com/taKi78540/icons/edit/main/Test
-⸻
+Parfaitement clair 👌 Je vais corriger cette partie pour refléter fidèlement le fonctionnement réel : la notification est envoyée aux utilisateurs figurant dans la liste paramétrée, qui peuvent inclure des managers ou des coachs.
 
-🚀 Nouveautés Notifications Teams – Juillet 2025
-
-📍 Nouvelles notifications disponibles dans l’application Le Comptoir.
-⚙️ Ces fonctionnalités sont désactivées par défaut et peuvent être activées ou désactivées depuis la page “Settings” de l’interface d’administration.
-
-⸻
-
-🔹 1. Retour d’expérience après avis négatif
-
-🔸 Cas d’usage
-Lorsqu’un visiteur laisse un avis négatif sur la tablette d’accueil, il reçoit une notification Teams lui proposant de laisser un commentaire pour expliquer son mécontentement.
-
-🎯 Objectif
-	•	Mieux comprendre les motifs d’insatisfaction
-	•	Améliorer en continu la qualité de service
-
-⸻
-
-🔹 2. Alerte à l’enregistrement – Temps d’attente élevé
-
-🔸 Cas d’usage
-Au moment de l’enregistrement sur la tablette d’accueil, si le temps d’attente est élevé ou risque de l’être, l’utilisateur a le choix entre :
-	•	Continuer malgré l’attente
-	•	Annuler sa visite et être notifié par Teams lorsque le temps d’attente redeviendra faible
-
-🎯 Objectif
-	•	Lisser la fréquentation sur la journée
-	•	Inciter les visiteurs non bloquants à revenir plus tard
+Voici la version mise à jour en français :
 
 ⸻
 
 🔹 3. Mobilisation des équipes – Seuil d’alerte atteint
 
 🔸 Cas d’usage
-Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux :
-	•	Managers de comptoir
-	•	Coachs
-Pour qu’ils puissent se mobiliser rapidement.
+Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux utilisateurs définis dans la liste dédiée (configurable dans les paramètres), qui peuvent inclure :
+	•	des managers de comptoir
+	•	des coachs
+Ces personnes peuvent alors se mobiliser rapidement.
 
 🎯 Objectif
-	•	Alerter en temps réel
+	•	Alerter les bonnes personnes en temps réel
 	•	Renforcer le comptoir rapidement
 	•	Absorber les pics d’affluence
 
 ⸻
 
-Et maintenant, la version anglaise avec la même mise à jour 👇
-
-⸻
-
-🚀 New Teams Notifications – July 2025
-
-📍 New notifications available in the Le Comptoir application.
-⚙️ These features are disabled by default and can be enabled or disabled from the “Settings” page in the admin interface.
-
-⸻
-
-🔹 1. Follow-up on Negative Rating
-
-🔸 Use Case
-When a visitor leaves a negative rating on the welcome tablet, they receive a Teams notification inviting them to leave a comment explaining their dissatisfaction.
-
-🎯 Goal
-	•	Better understand sources of dissatisfaction
-	•	Continuously improve service quality
-
-⸻
-
-🔹 2. Check-in Alert – High Wait Time
-
-🔸 Use Case
-At the time of check-in on the welcome tablet, if the wait time is high or expected to increase, the user can choose to:
-	•	Proceed with the visit
-	•	Or cancel the visit and be notified via Teams when the wait time becomes low again
-
-🎯 Goal
-	•	Smooth out traffic during the day
-	•	Encourage non-critical visits to return at a better time
+Et la version anglaise correspondante :
 
 ⸻
 
 🔹 3. Team Mobilization – Threshold Reached
 
 🔸 Use Case
-When the wait time exceeds a defined threshold, a notification is sent to:
+When the wait time exceeds a defined threshold, a notification is sent to the users listed in the configured recipient list, which may include:
 	•	Desk managers
 	•	Coaches
-So they can mobilize quickly.
+These individuals can then quickly mobilize to reinforce the desk.
 
 🎯 Goal
-	•	Alert teams in real time
+	•	Alert the right people in real time
 	•	Reinforce the desk rapidly
 	•	Help absorb visitor surges
 
 ⸻
 
-Souhaites-tu maintenant que je te prépare la version visuelle (image ou slide) avec ce contenu ?
+Souhaites-tu une version exportable en PDF ou image avec ce contenu finalisé ?
