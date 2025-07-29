@@ -1,56 +1,101 @@
-Parfait, merci pour ces précisions ! Voici une synthèse complète consolidée de l’historique des mails, de tes constats, et de tes points de vigilance, suivie d’une proposition de réponse à Hélène adaptée à la situation.
+Très bonne remarque 👍 Voici les deux versions (français puis anglais) corrigées en ajoutant cette précision dès l’introduction : les notifications sont désactivées par défaut et activables/désactivables via la page Settings.
+https://github.com/taKi78540/icons/edit/main/Test
+⸻
+
+🚀 Nouveautés Notifications Teams – Juillet 2025
+
+📍 Nouvelles notifications disponibles dans l’application Le Comptoir.
+⚙️ Ces fonctionnalités sont désactivées par défaut et peuvent être activées ou désactivées depuis la page “Settings” de l’interface d’administration.
 
 ⸻
 
-🔹 Synthèse globale
+🔹 1. Retour d’expérience après avis négatif
 
-Historique des échanges :
-	•	Marwan a soulevé le problème : il n’est plus possible de remettre le TAP en main propre ; il faut trouver un moyen sécurisé pour le communiquer directement à l’utilisateur, notamment pour les nouveaux arrivants sans accès mail ou mobile pro.
-	•	François a proposé des pistes comme Microsoft Entra ID Governance, mais cela nécessiterait des licences supplémentaires, et a suggéré un point avec les équipes Identité et Endpoint.
-	•	Hélène a proposé un scénario original : utiliser les tablettes en mode kiosque pour capturer la carte d’identité ou badge + selfie, vérifier l’identité via IA, puis afficher ou envoyer le TAP.
+🔸 Cas d’usage
+Lorsqu’un visiteur laisse un avis négatif sur la tablette d’accueil, il reçoit une notification Teams lui proposant de laisser un commentaire pour expliquer son mécontentement.
 
-⸻
-
-Tes constats et analyses :
-	•	Dans le projet Le Comptoir, l’objectif est d’harmoniser et standardiser les parcours des techniciens et des utilisateurs dans tous les pays et entités.
-	•	Aujourd’hui, le processus actuel prévoit déjà deux scénarios :
-	•	Comptoirs comme Valmy 1 : enrôlement réalisé en face à face avec le technicien.
-	•	Comptoirs comme Odyssée (en test) : à la fin du welcome lunch, le mobile est remis, le TAP généré, et l’utilisateur effectue l’enrôlement en self-care, avec possibilité de revenir pour de l’aide.
-	•	Les tablettes en kiosque sont utilisées aujourd’hui pour l’accueil et le surveil ; on pourrait envisager de nouvelles fonctionnalités dessus (dont la génération du TAP), mais cela reste limité par plusieurs contraintes :
-	•	Légales : prendre en photo la carte d’identité ou un selfie pose des problèmes de données personnelles (GDPR/PAQ), nécessitant des déclarations et autorisations qui varient fortement selon les pays.
-	•	Harmonisation globale : les processus doivent être identiques dans tous les comptoirs. Or, la disponibilité des badges (smartcard, Desfire) et l’usage de certains dispositifs varient fortement selon les pays. Certains comptoirs n’ont pas de badge du tout.
-	•	Complexité et coût : la mise en place de dispositifs d’authentification biométrique ou via IA est coûteuse et complexe, et pourrait être incompatible avec la standardisation mondiale de l’expérience comptoir.
-	•	Pragmatisme : un accueil humain, clair, avec une procédure expliquée en face à face, reste la solution la plus simple et efficace pour la majorité des collaborateurs, en particulier les nouveaux arrivants.
-	•	En revanche, sur la mise à disposition du TAP, il serait envisageable d’ajouter une fonctionnalité sur les tablettes kiosque pour lancer la génération du TAP, qui serait ensuite transmis par mail (ou potentiellement via Teams), accompagné d’instructions en self-care, tout en laissant la possibilité au collaborateur de se faire accompagner par un technicien si nécessaire. Cela correspond d’ailleurs aux scénarios déjà en place ou en test.
+🎯 Objectif
+	•	Mieux comprendre les motifs d’insatisfaction
+	•	Améliorer en continu la qualité de service
 
 ⸻
 
-✉️ Proposition de réponse à Hélène
+🔹 2. Alerte à l’enregistrement – Temps d’attente élevé
+
+🔸 Cas d’usage
+Au moment de l’enregistrement sur la tablette d’accueil, si le temps d’attente est élevé ou risque de l’être, l’utilisateur a le choix entre :
+	•	Continuer malgré l’attente
+	•	Annuler sa visite et être notifié par Teams lorsque le temps d’attente redeviendra faible
+
+🎯 Objectif
+	•	Lisser la fréquentation sur la journée
+	•	Inciter les visiteurs non bloquants à revenir plus tard
 
 ⸻
 
-Objet : Re: Transmission sécurisée du TAP pour les new joiners
+🔹 3. Mobilisation des équipes – Seuil d’alerte atteint
 
-Bonjour Hélène, bonjour à tous,
+🔸 Cas d’usage
+Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux :
+	•	Managers de comptoir
+	•	Coachs
+Pour qu’ils puissent se mobiliser rapidement.
 
-Merci pour ta proposition et pour cette réflexion sur l’automatisation de la remise du TAP.
-
-Dans le cadre du projet Le Comptoir, notre objectif est effectivement de standardiser et simplifier le parcours collaborateur à travers tous les comptoirs, quel que soit le pays. Aujourd’hui, le processus prévoit déjà deux scénarios :
-	•	L’enrôlement réalisé en présence du technicien (ex. Valmy 1), où le TAP est généré et transmis directement à l’utilisateur, accompagné par le technicien.
-	•	L’enrôlement en autonomie après la session de welcome lunch (en test à Odyssée), avec un TAP généré sur place et transmis par mail, pour un enrôlement en self-care dans un délai de 4 heures, avec possibilité de revenir pour un accompagnement.
-
-Concernant l’idée d’utiliser les tablettes kiosque avec vérification d’identité via IA, elle est intéressante sur le principe. Cependant, plusieurs points rendent sa mise en œuvre complexe à l’échelle mondiale :
-	•	Les contraintes légales liées à la prise de photos de pièces d’identité ou de selfies (protection des données personnelles, GDPR) varient fortement d’un pays à l’autre, et imposent des démarches administratives lourdes.
-	•	La disponibilité et la nature des badges collaborateurs ne sont pas uniformes à l’international, ce qui complique un processus standardisé.
-	•	Enfin, la mise en place de ce type de technologie représente un investissement conséquent, difficilement justifiable par rapport aux bénéfices, d’autant que l’accompagnement humain permet déjà une expérience fluide et rassurante pour le collaborateur.
-
-En revanche, l’idée d’utiliser les tablettes pour lancer la génération du TAP, qui serait ensuite transmis à l’utilisateur par mail (ou potentiellement via Teams), accompagné d’instructions claires pour l’enrôlement en self-care, me semble pertinente et pourrait être envisagée comme évolution, tout en conservant la possibilité d’un accompagnement individuel.
-
-Qu’en pensez-vous ?
-
-Bonne journée à tous,
-[Ton prénom]
+🎯 Objectif
+	•	Alerter en temps réel
+	•	Renforcer le comptoir rapidement
+	•	Absorber les pics d’affluence
 
 ⸻
 
-Souhaites-tu que je l’adapte pour un ton plus formel, plus synthétique, ou plus orienté vers la proposition d’atelier ?
+Et maintenant, la version anglaise avec la même mise à jour 👇
+
+⸻
+
+🚀 New Teams Notifications – July 2025
+
+📍 New notifications available in the Le Comptoir application.
+⚙️ These features are disabled by default and can be enabled or disabled from the “Settings” page in the admin interface.
+
+⸻
+
+🔹 1. Follow-up on Negative Rating
+
+🔸 Use Case
+When a visitor leaves a negative rating on the welcome tablet, they receive a Teams notification inviting them to leave a comment explaining their dissatisfaction.
+
+🎯 Goal
+	•	Better understand sources of dissatisfaction
+	•	Continuously improve service quality
+
+⸻
+
+🔹 2. Check-in Alert – High Wait Time
+
+🔸 Use Case
+At the time of check-in on the welcome tablet, if the wait time is high or expected to increase, the user can choose to:
+	•	Proceed with the visit
+	•	Or cancel the visit and be notified via Teams when the wait time becomes low again
+
+🎯 Goal
+	•	Smooth out traffic during the day
+	•	Encourage non-critical visits to return at a better time
+
+⸻
+
+🔹 3. Team Mobilization – Threshold Reached
+
+🔸 Use Case
+When the wait time exceeds a defined threshold, a notification is sent to:
+	•	Desk managers
+	•	Coaches
+So they can mobilize quickly.
+
+🎯 Goal
+	•	Alert teams in real time
+	•	Reinforce the desk rapidly
+	•	Help absorb visitor surges
+
+⸻
+
+Souhaites-tu maintenant que je te prépare la version visuelle (image ou slide) avec ce contenu ?
