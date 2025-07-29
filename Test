@@ -1,25 +1,85 @@
-Parfaitement clair 👌 Je vais corriger cette partie pour refléter fidèlement le fonctionnement réel : la notification est envoyée aux utilisateurs figurant dans la liste paramétrée, qui peuvent inclure des managers ou des coachs.
+Parfait, voici la version finale complète en français, avec toutes les corrections intégrées :
 
-Voici la version mise à jour en français :
+⸻
+
+🚀 Nouveautés Notifications Teams – Juillet 2025
+
+📍 Nouvelles notifications disponibles dans l’application Le Comptoir.
+⚙️ Ces fonctionnalités sont désactivées par défaut et peuvent être activées ou désactivées depuis la page “Settings” de l’interface d’administration.
+
+⸻
+
+🔹 1. Retour d’expérience après avis négatif
+
+🔸 Cas d’usage
+Lorsqu’un visiteur laisse un avis négatif sur la tablette d’accueil, il reçoit une notification Teams lui proposant de laisser un commentaire pour expliquer son mécontentement.
+
+🎯 Objectif
+	•	Mieux comprendre les motifs d’insatisfaction
+	•	Améliorer en continu la qualité de service
+
+⸻
+
+🔹 2. Alerte à l’enregistrement – Temps d’attente élevé
+
+🔸 Cas d’usage
+Au moment de l’enregistrement sur la tablette d’accueil, si le temps d’attente est élevé ou risque de l’être, l’utilisateur a le choix entre :
+	•	Continuer malgré l’attente
+	•	Annuler sa visite et être notifié par Teams lorsque le temps d’attente redeviendra faible
+
+🎯 Objectif
+	•	Lisser la fréquentation sur la journée
+	•	Inciter les visiteurs non bloquants à revenir plus tard
 
 ⸻
 
 🔹 3. Mobilisation des équipes – Seuil d’alerte atteint
 
 🔸 Cas d’usage
-Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux utilisateurs définis dans la liste dédiée (configurable dans les paramètres), qui peuvent inclure :
+Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux utilisateurs figurant dans la liste dédiée, configurable dans les paramètres. Cette liste peut inclure :
 	•	des managers de comptoir
 	•	des coachs
-Ces personnes peuvent alors se mobiliser rapidement.
+Ces personnes peuvent alors se mobiliser rapidement pour renforcer le comptoir.
 
 🎯 Objectif
 	•	Alerter les bonnes personnes en temps réel
-	•	Renforcer le comptoir rapidement
-	•	Absorber les pics d’affluence
+	•	Réagir rapidement en cas d’affluence
+	•	Maintenir un bon niveau de service
 
 ⸻
 
-Et la version anglaise correspondante :
+Et voici maintenant la version anglaise complète :
+
+⸻
+
+🚀 New Teams Notifications – July 2025
+
+📍 New notifications available in the Le Comptoir application.
+⚙️ These features are disabled by default and can be enabled or disabled from the “Settings” page in the admin interface.
+
+⸻
+
+🔹 1. Follow-up on Negative Rating
+
+🔸 Use Case
+When a visitor leaves a negative rating on the welcome tablet, they receive a Teams notification inviting them to leave a comment explaining their dissatisfaction.
+
+🎯 Goal
+	•	Better understand sources of dissatisfaction
+	•	Continuously improve service quality
+
+⸻
+
+🔹 2. Check-in Alert – High Wait Time
+
+🔸 Use Case
+At the time of check-in on the welcome tablet, if the wait time is high or expected to increase, the user can choose to:
+	•	Proceed with the visit
+	•	Or cancel the visit and be notified via Teams when the wait time becomes low again
+
+🎯 Goal
+	•	Smooth out traffic during the day
+	•	Encourage non-critical visits to return later
 
 ⸻
 
@@ -33,9 +93,9 @@ These individuals can then quickly mobilize to reinforce the desk.
 
 🎯 Goal
 	•	Alert the right people in real time
-	•	Reinforce the desk rapidly
-	•	Help absorb visitor surges
+	•	Enable quick response during busy periods
+	•	Maintain a high level of service
 
 ⸻
 
-Souhaites-tu une version exportable en PDF ou image avec ce contenu finalisé ?
+Souhaites-tu que je transforme ça en document, image ou slide pour partage ?
