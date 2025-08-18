@@ -1,177 +1,194 @@
-Excellente idée 👍 Voici la mise à jour intégrée dans les deux versions (français puis anglais), avec un bloc introductif spécifique juste avant la section sur les notifications Teams, pour présenter ce nouveau paramètre dans la page Settings.
+Parfait 👍
+Voici la version finale des User Stories en français, intégrant toutes les mises à jour y compris la sélection automatique du formulaire en US4 et la modification du Déposant en US5 et US9.
+Après ça, je te préparerai directement la traduction anglaise prête pour Jira.
 
 ⸻
 
-🚀 Nouveautés – Paramétrage et Notifications Teams – Juillet 2025
-
-📍 Toutes les fonctionnalités présentées ci-dessous sont disponibles dans la page “Settings” de l’application Le Comptoir.
-⚙️ Elles sont désactivées par défaut et peuvent être activées ou désactivées individuellement.
+User Stories – Restitution Matériel (version finale)
 
 ⸻
 
-🕒 Nouveau paramètre – Définir le seuil de temps d’attente élevé
+US 1 – Sélection de l’action sur la tablette
 
-Il est désormais possible de configurer la durée au-delà de laquelle le temps d’attente est considéré comme élevé au comptoir.
-	•	Ce paramètre impacte certaines notifications Teams, comme :
-	•	l’alerte lors de l’enregistrement
-	•	la mobilisation des équipes
-	•	Valeur par défaut : 15 minutes
-	•	Ce seuil peut être modifié directement dans la page Settings.
+En tant qu’ utilisateur venant restituer du matériel,
+je veux pouvoir sélectionner l’option “Restitution matérielle” sur la tablette d’accueil,
+afin de démarrer le processus sans intervention préalable.
 
-⸻
-
-🔹 1. Retour d’expérience après avis négatif
-
-(… reste inchangé …)
-
-🔹 2. Alerte à l’enregistrement – Temps d’attente élevé
-
-(… inchangé, mais désormais influencé par le paramètre ci-dessus …)
-
-🔹 3. Mobilisation des équipes – Seuil d’alerte atteint
-
-(… inchangé, mais désormais influencé par le paramètre ci-dessus …)
+Critères d’acceptation :
+	•	Bouton “Restitution matérielle” visible dès l’accueil.
+	•	Clic → passage à l’US2.
 
 ⸻
 
-Et maintenant la version anglaise :
+US 2 – Vérification du support utilisateur
+
+En tant que système,
+je veux vérifier si l’utilisateur est supporté,
+afin de déterminer si le flux passe par une requête ou un incident.
+
+Critères d’acceptation :
+	•	Si supporté → US3.
+	•	Si non supporté → US2bis.
 
 ⸻
 
-🚀 Updates – Configuration and Teams Notifications – July 2025
+US 2bis – Création d’un incident vierge
 
-📍 All the features below are available in the “Settings” page of the Le Comptoir application.
-⚙️ They are disabled by default and can be enabled or disabled individually.
+En tant que technicien,
+je veux créer automatiquement un incident vierge,
+afin de documenter la restitution même si l’utilisateur n’est pas supporté.
 
-⸻
-
-🕒 New Setting – Define High Wait Time Threshold
-
-It is now possible to configure the duration after which wait time is considered high at the desk.
-	•	This setting impacts certain Teams notifications, such as:
-	•	the check-in alert
-	•	team mobilization
-	•	Default value: 15 minutes
-	•	The threshold can be adjusted directly in the Settings page.
+Critères d’acceptation :
+	•	Incident créé avec Nom, Prénom, ID (si connu), date, type “Restitution matérielle”.
+	•	Passage à l’US4.
 
 ⸻
 
-🔹 1. Follow-up on Negative Rating
+US 3 – Vérification et sélection de la requête
 
-(… unchanged …)
+En tant que technicien,
+je veux voir les requêtes ouvertes pour le déposant ou rechercher celles d’un autre propriétaire,
+afin de associer la bonne demande.
 
-🔹 2. Check-in Alert – High Wait Time
-
-(… unchanged, now influenced by the setting above …)
-
-🔹 3. Team Mobilization – Threshold Reached
-
-(… unchanged, now influenced by the setting above …)
-
-⸻
-
-Souhaites-tu que je t’en fasse une version présentation, ou que je te l’exporte en PDF ou image ?
-
-
-
-Parfait, voici la version finale complète en français, avec toutes les corrections intégrées :
+Critères d’acceptation :
+	•	Liste des requêtes ouvertes pour le déposant.
+	•	Bouton “Rechercher une requête d’un autre utilisateur” :
+	•	Recherche interne (annuaire) → liste des requêtes du propriétaire.
+	•	Si Déposant ≠ Propriétaire, afficher la différence.
+	•	Bouton “Recalification” pour changer de type de visite.
+	•	Si aucune requête trouvée → création requête vierge.
 
 ⸻
 
-🚀 Nouveautés Notifications Teams – Juillet 2025
+US 4 – Sélection du formulaire (avec auto-skip)
 
-📍 Nouvelles notifications disponibles dans l’application Le Comptoir.
-⚙️ Ces fonctionnalités sont désactivées par défaut et peuvent être activées ou désactivées depuis la page “Settings” de l’interface d’administration.
+En tant que technicien,
+je veux que le formulaire soit choisi automatiquement si la requête a déjà un type associé,
+afin de éviter une étape inutile.
 
-⸻
-
-🔹 1. Retour d’expérience après avis négatif
-
-🔸 Cas d’usage
-Lorsqu’un visiteur laisse un avis négatif sur la tablette d’accueil, il reçoit une notification Teams lui proposant de laisser un commentaire pour expliquer son mécontentement.
-
-🎯 Objectif
-	•	Mieux comprendre les motifs d’insatisfaction
-	•	Améliorer en continu la qualité de service
+Critères d’acceptation :
+	•	Si requête existante avec type connu → passage direct à l’US5.
+	•	Si requête vierge → affichage liste des formulaires (sélection obligatoire).
+	•	Le choix du formulaire (manuel ou auto) est enregistré pour l’historique.
 
 ⸻
 
-🔹 2. Alerte à l’enregistrement – Temps d’attente élevé
+US 5 – Formulaire pré-rempli (Déposant modifiable)
 
-🔸 Cas d’usage
-Au moment de l’enregistrement sur la tablette d’accueil, si le temps d’attente est élevé ou risque de l’être, l’utilisateur a le choix entre :
-	•	Continuer malgré l’attente
-	•	Annuler sa visite et être notifié par Teams lorsque le temps d’attente redeviendra faible
+En tant que technicien,
+je veux voir un formulaire pré-rempli et pouvoir modifier le Déposant,
+afin de corriger les informations si besoin.
 
-🎯 Objectif
-	•	Lisser la fréquentation sur la journée
-	•	Inciter les visiteurs non bloquants à revenir plus tard
-
-⸻
-
-🔹 3. Mobilisation des équipes – Seuil d’alerte atteint
-
-🔸 Cas d’usage
-Lorsque le temps d’attente dépasse un seuil critique, une notification est envoyée aux utilisateurs figurant dans la liste dédiée, configurable dans les paramètres. Cette liste peut inclure :
-	•	des managers de comptoir
-	•	des coachs
-Ces personnes peuvent alors se mobiliser rapidement pour renforcer le comptoir.
-
-🎯 Objectif
-	•	Alerter les bonnes personnes en temps réel
-	•	Réagir rapidement en cas d’affluence
-	•	Maintenir un bon niveau de service
+Critères d’acceptation :
+	•	Champs pré-remplis : Nom, Prénom, ID, type matériel, date, date requête.
+	•	Affichage de Déposant et Propriétaire (si différents).
+	•	Modification Déposant :
+	1.	Interne → recherche dans l’annuaire (ID, nom, prénom, email).
+	2.	Externe → saisie manuelle (Nom, Prénom, Société, Titre/Rôle).
+	•	Mise à jour immédiate dans la restitution.
 
 ⸻
 
-Et voici maintenant la version anglaise complète :
+US 6 – Identification du matériel
+
+En tant que technicien,
+je veux identifier le matériel par la méthode la plus adaptée,
+afin de le lier précisément.
+
+Critères d’acceptation :
+	•	Trois méthodes :
+	1.	Scan code-barres.
+	2.	Liste des équipements attribués.
+	3.	Recherche manuelle (n° série, nom…).
+	•	Si aucun résultat → bouton “Nouvel équipement inconnu” (saisie libre).
 
 ⸻
 
-🚀 New Teams Notifications – July 2025
+US 6bis – Sélection StockRoom
 
-📍 New notifications available in the Le Comptoir application.
-⚙️ These features are disabled by default and can be enabled or disabled from the “Settings” page in the admin interface.
+En tant que technicien,
+je veux sélectionner la StockRoom où le matériel est stocké,
+afin de tracer son emplacement.
 
-⸻
-
-🔹 1. Follow-up on Negative Rating
-
-🔸 Use Case
-When a visitor leaves a negative rating on the welcome tablet, they receive a Teams notification inviting them to leave a comment explaining their dissatisfaction.
-
-🎯 Goal
-	•	Better understand sources of dissatisfaction
-	•	Continuously improve service quality
+Critères d’acceptation :
+	•	Si une StockRoom → pré-sélection auto.
+	•	Si plusieurs → champ obligatoire sans valeur par défaut.
+	•	Liste filtrable par recherche.
 
 ⸻
 
-🔹 2. Check-in Alert – High Wait Time
+US 7 – Sélection des accessoires
 
-🔸 Use Case
-At the time of check-in on the welcome tablet, if the wait time is high or expected to increase, the user can choose to:
-	•	Proceed with the visit
-	•	Or cancel the visit and be notified via Teams when the wait time becomes low again
+En tant que technicien,
+je veux sélectionner les accessoires restitués,
+afin de documenter la restitution.
 
-🎯 Goal
-	•	Smooth out traffic during the day
-	•	Encourage non-critical visits to return later
-
-⸻
-
-🔹 3. Team Mobilization – Threshold Reached
-
-🔸 Use Case
-When the wait time exceeds a defined threshold, a notification is sent to the users listed in the configured recipient list, which may include:
-	•	Desk managers
-	•	Coaches
-These individuals can then quickly mobilize to reinforce the desk.
-
-🎯 Goal
-	•	Alert the right people in real time
-	•	Enable quick response during busy periods
-	•	Maintain a high level of service
+Critères d’acceptation :
+	•	Liste standard affichée systématiquement (pré-cochée si données CMDB).
+	•	Cartes visuelles avec photo + nom.
+	•	Bouton “Ajouter un accessoire libre”.
 
 ⸻
 
-Souhaites-tu que je transforme ça en document, image ou slide pour partage ?
+US 8 – Vérification infos matériel
+
+En tant que technicien,
+je veux vérifier les infos d’un matériel et corriger si besoin,
+afin de valider avant suite.
+
+Critères d’acceptation :
+	•	Récapitulatif matériel + accessoires + stockroom.
+	•	Bouton “Modifier” pour corriger.
+
+⸻
+
+US 8bis – Multi-matériels
+
+En tant que technicien,
+je veux savoir s’il reste d’autres matériels à restituer,
+afin de les traiter dans le même flux.
+
+Critères d’acceptation :
+	•	Question Oui/Non.
+	•	Si Oui → US3 ou US2bis selon support.
+	•	Si Non → US9.
+
+⸻
+
+US 9 – Synthèse générale + Signature (Déposant modifiable)
+
+En tant que technicien,
+je veux voir une synthèse par requête avec possibilité de modifier le Déposant,
+afin de valider l’ensemble avant signature.
+
+Critères d’acceptation :
+	•	Une section par requête/incident.
+	•	Affichage Propriétaire et Déposant (badge si ≠).
+	•	Bouton Modifier Déposant :
+	1.	Interne → recherche annuaire.
+	2.	Externe → saisie manuelle (Nom, Prénom, Société, Titre/Rôle).
+	•	Bouton EDIT par section (retour ciblé).
+	•	Bouton global Valider tout.
+	•	Signature unique pour tout le lot.
+	•	Option impression PV.
+
+⸻
+
+US 10 – Mise à jour et clôture
+
+En tant que système,
+je veux mettre à jour et clôturer les tickets liés,
+afin de finaliser le processus.
+
+Critères d’acceptation :
+	•	Mise à jour des tickets ServiceNow/CMDB.
+	•	Archivage PV.
+	•	Notifications si besoin.
+
+⸻
+
+📎 Schéma v5 : Télécharger
+
+⸻
+
+Veux-tu que je te prépare maintenant la traduction anglaise en gardant le format Jira-friendly avec User Story / Acceptance Criteria bien séparés ?
