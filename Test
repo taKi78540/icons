@@ -192,3 +192,195 @@ Critères d’acceptation :
 ⸻
 
 Veux-tu que je te prépare maintenant la traduction anglaise en gardant le format Jira-friendly avec User Story / Acceptance Criteria bien séparés ?
+
+
+
+Parfait 👍 Je vais te restituer ici la version anglaise complète de toutes les User Stories (US1 à US10, avec US2bis et US3bis inclus).
+
+⸻
+
+📑 User Stories – Equipment Return (English version)
+
+⸻
+
+US1 – Action selection on tablet
+
+User Story
+As a user returning equipment, I want to select the “Equipment Return” option on the welcome tablet so that I can start the process without technician intervention.
+
+Acceptance Criteria
+	•	“Equipment Return” button visible on the tablet home screen.
+	•	Clicking the button → process continues to US2.
+
+⸻
+
+US2 – User support verification
+
+User Story
+As a technician, I want the system to check if the visitor is a supported user so that the correct workflow is applied.
+
+Acceptance Criteria
+	•	If supported → check if an existing request is open.
+	•	If supported & request exists → continue to US3.
+	•	If supported & no request → propose creating a blank request.
+	•	If not supported → go to US2bis.
+
+⸻
+
+US2bis – Non-supported user handling
+
+User Story
+As a technician, I want the system to allow the creation of a blank incident if the visitor is not supported so that the equipment can still be returned.
+
+Acceptance Criteria
+	•	Automatic creation of a blank incident in ServiceNow.
+	•	Continue directly to US4 (form selection).
+
+⸻
+
+US3 – Request verification and selection
+
+User Story
+As a technician, I want to see the list of open requests for the visitor so that the correct one can be selected.
+
+Acceptance Criteria
+	•	List of open requests displayed.
+	•	Technician must select one.
+	•	If no request is available → option to create a blank request.
+	•	“Requalification” button available in case the visitor chose the wrong action (not a return).
+	•	Button to search requests for another user (if the depositor is not the equipment owner).
+	•	Form must display both:
+	•	Depositor = person bringing the equipment (from check-in tablet).
+	•	Owner = person for whom the request was created.
+
+⸻
+
+US3bis – Search requests for another user
+
+User Story
+As a technician, I want to be able to search and select a request belonging to another user so that equipment can be returned even if the depositor is not the owner.
+
+Acceptance Criteria
+	•	Search field available to find another user’s requests.
+	•	Selected request is linked to the depositor + owner clearly displayed.
+	•	System records depositor ≠ owner if different.
+
+⸻
+
+US4 – Form selection (with auto-skip)
+
+User Story
+As a technician, I want the form to be automatically chosen if the request already has an associated type so that unnecessary steps are avoided.
+
+Acceptance Criteria
+	•	If existing request has a known type → skip form selection and continue to US5.
+	•	If new request → display list of forms (mandatory selection).
+	•	Form selection (manual or auto) is logged.
+
+⸻
+
+US5 – Form completion
+
+User Story
+As a technician, I want to fill in the selected form with pre-filled information so that the return process is accurate and fast.
+
+Acceptance Criteria
+	•	Pre-filled fields: name, surname, ID, equipment type, today’s date, request date (if existing).
+	•	Depositor is always displayed and modifiable:
+	•	Internal person → searchable by ID/Name.
+	•	External person → manual entry (name, surname, company, title/role).
+	•	Technician can add or edit complementary information.
+
+⸻
+
+US6 – Equipment identification
+
+User Story
+As a technician, I want to identify the returned equipment through one of several methods so that it can be accurately logged.
+
+Acceptance Criteria
+	•	3 available methods:
+	1.	Scan barcode (camera opens, automatic field completion).
+	2.	Select from referenced equipment (list of items assigned to the user in the CMDB).
+	3.	Manual search/entry (serial number, computer name, etc. – with possibility to add a “new unknown equipment” if not found).
+	•	Once identified → continue to US6bis.
+
+⸻
+
+US6bis – StockRoom selection
+
+User Story
+As a technician, I want to indicate in which StockRoom the returned equipment is placed so that inventory remains consistent.
+
+Acceptance Criteria
+	•	If only one StockRoom in settings → automatically pre-filled.
+	•	If multiple StockRooms exist → mandatory selection from dropdown list.
+	•	Default = none selected (to force choice).
+
+⸻
+
+US7 – Accessory selection
+
+User Story
+As a technician, I want to be able to select accessories returned with the equipment so that the return is complete.
+
+Acceptance Criteria
+	•	Display of all possible accessories (as visual cards/tiles with pictures).
+	•	Technician can tick all accessories returned.
+	•	Always displayed, even if CMDB does not list accessories.
+
+⸻
+
+US8 – Information verification
+
+User Story
+As a technician, I want to check and edit the information before validation so that errors can be corrected.
+
+Acceptance Criteria
+	•	Display all captured information (equipment, accessories, depositor, etc.).
+	•	Each section has an “EDIT” button to go back and modify.
+	•	Validation button to confirm correctness.
+
+⸻
+
+US8bis – Multiple equipment loop
+
+User Story
+As a technician, I want the system to ask if additional equipment needs to be returned so that all items can be processed in one visit.
+
+Acceptance Criteria
+	•	After validation, system asks: “Do you have other equipment to return?”.
+	•	If yes → display list of open requests (or option to create a blank one).
+	•	Process loops back to US4 (form selection) and continues.
+	•	If no → continue to US9.
+
+⸻
+
+US9 – Global synthesis and signature
+
+User Story
+As a technician, I want to display a complete synthesis of all requests and equipment processed so that the return can be confirmed and signed.
+
+Acceptance Criteria
+	•	Display grouped by request (Request 1, Request 2, …).
+	•	Scrollable if multiple requests.
+	•	Depositor always displayed and modifiable (same logic as US5).
+	•	Signature required from both technician and depositor (manual on screen or checkbox – to be defined).
+	•	Option to print the report if requested by depositor.
+
+⸻
+
+US10 – Automatic update and closure
+
+User Story
+As a system, I want to automatically update the request or incident with the return information and close it so that no manual intervention is needed.
+
+Acceptance Criteria
+	•	Information stored and archived.
+	•	Request/incident status automatically updated to Closed.
+	•	All return details logged and accessible in history.
+
+⸻
+
+👉 Voilà, tu as la version anglaise complète et finalisée.
+Veux-tu que je t’extraie ça directement en fichier Word (EN only) pour que tu puisses l’envoyer séparément à ton UX ou à Jira ?
