@@ -1,386 +1,344 @@
-Parfait 👍
-Voici la version finale des User Stories en français, intégrant toutes les mises à jour y compris la sélection automatique du formulaire en US4 et la modification du Déposant en US5 et US9.
-Après ça, je te préparerai directement la traduction anglaise prête pour Jira.
+Parfait 👍 je vais tout te restituer ici dans un document structuré complet :
+	•	Épiques (FR + EN)
+	•	User Stories regroupées par épique
+	•	Description + Critères d’acceptation
 
 ⸻
 
-User Stories – Restitution Matériel (version finale)
+📑 User Stories – Restitution Matériel / Equipment Return
 
 ⸻
 
-US 1 – Sélection de l’action sur la tablette
+🗂 Épique 1 – Démarrage du processus de restitution
 
-En tant qu’ utilisateur venant restituer du matériel,
-je veux pouvoir sélectionner l’option “Restitution matérielle” sur la tablette d’accueil,
-afin de démarrer le processus sans intervention préalable.
+Epic 1 – Start of the return process
+Objectif / Goal: Permettre à l’utilisateur de lancer facilement la procédure de restitution dès son arrivée. / Allow the user to easily start the return process upon arrival.
 
-Critères d’acceptation :
-	•	Bouton “Restitution matérielle” visible dès l’accueil.
+⸻
+
+US1 – Sélection de l’action sur la tablette
+
+FR – User Story
+En tant qu’utilisateur venant restituer du matériel, je veux pouvoir sélectionner l’option « Restitution matérielle » sur la tablette d’accueil, afin de démarrer le processus sans intervention préalable.
+
+Critères d’acceptation
+	•	Bouton « Restitution matérielle » visible dès l’accueil.
 	•	Clic → passage à l’US2.
 
-⸻
-
-US 2 – Vérification du support utilisateur
-
-En tant que système,
-je veux vérifier si l’utilisateur est supporté,
-afin de déterminer si le flux passe par une requête ou un incident.
-
-Critères d’acceptation :
-	•	Si supporté → US3.
-	•	Si non supporté → US2bis.
-
-⸻
-
-US 2bis – Création d’un incident vierge
-
-En tant que technicien,
-je veux créer automatiquement un incident vierge,
-afin de documenter la restitution même si l’utilisateur n’est pas supporté.
-
-Critères d’acceptation :
-	•	Incident créé avec Nom, Prénom, ID (si connu), date, type “Restitution matérielle”.
-	•	Passage à l’US4.
-
-⸻
-
-US 3 – Vérification et sélection de la requête
-
-En tant que technicien,
-je veux voir les requêtes ouvertes pour le déposant ou rechercher celles d’un autre propriétaire,
-afin de associer la bonne demande.
-
-Critères d’acceptation :
-	•	Liste des requêtes ouvertes pour le déposant.
-	•	Bouton “Rechercher une requête d’un autre utilisateur” :
-	•	Recherche interne (annuaire) → liste des requêtes du propriétaire.
-	•	Si Déposant ≠ Propriétaire, afficher la différence.
-	•	Bouton “Recalification” pour changer de type de visite.
-	•	Si aucune requête trouvée → création requête vierge.
-
-⸻
-
-US 4 – Sélection du formulaire (avec auto-skip)
-
-En tant que technicien,
-je veux que le formulaire soit choisi automatiquement si la requête a déjà un type associé,
-afin de éviter une étape inutile.
-
-Critères d’acceptation :
-	•	Si requête existante avec type connu → passage direct à l’US5.
-	•	Si requête vierge → affichage liste des formulaires (sélection obligatoire).
-	•	Le choix du formulaire (manuel ou auto) est enregistré pour l’historique.
-
-⸻
-
-US 5 – Formulaire pré-rempli (Déposant modifiable)
-
-En tant que technicien,
-je veux voir un formulaire pré-rempli et pouvoir modifier le Déposant,
-afin de corriger les informations si besoin.
-
-Critères d’acceptation :
-	•	Champs pré-remplis : Nom, Prénom, ID, type matériel, date, date requête.
-	•	Affichage de Déposant et Propriétaire (si différents).
-	•	Modification Déposant :
-	1.	Interne → recherche dans l’annuaire (ID, nom, prénom, email).
-	2.	Externe → saisie manuelle (Nom, Prénom, Société, Titre/Rôle).
-	•	Mise à jour immédiate dans la restitution.
-
-⸻
-
-US 6 – Identification du matériel
-
-En tant que technicien,
-je veux identifier le matériel par la méthode la plus adaptée,
-afin de le lier précisément.
-
-Critères d’acceptation :
-	•	Trois méthodes :
-	1.	Scan code-barres.
-	2.	Liste des équipements attribués.
-	3.	Recherche manuelle (n° série, nom…).
-	•	Si aucun résultat → bouton “Nouvel équipement inconnu” (saisie libre).
-
-⸻
-
-US 6bis – Sélection StockRoom
-
-En tant que technicien,
-je veux sélectionner la StockRoom où le matériel est stocké,
-afin de tracer son emplacement.
-
-Critères d’acceptation :
-	•	Si une StockRoom → pré-sélection auto.
-	•	Si plusieurs → champ obligatoire sans valeur par défaut.
-	•	Liste filtrable par recherche.
-
-⸻
-
-US 7 – Sélection des accessoires
-
-En tant que technicien,
-je veux sélectionner les accessoires restitués,
-afin de documenter la restitution.
-
-Critères d’acceptation :
-	•	Liste standard affichée systématiquement (pré-cochée si données CMDB).
-	•	Cartes visuelles avec photo + nom.
-	•	Bouton “Ajouter un accessoire libre”.
-
-⸻
-
-US 8 – Vérification infos matériel
-
-En tant que technicien,
-je veux vérifier les infos d’un matériel et corriger si besoin,
-afin de valider avant suite.
-
-Critères d’acceptation :
-	•	Récapitulatif matériel + accessoires + stockroom.
-	•	Bouton “Modifier” pour corriger.
-
-⸻
-
-US 8bis – Multi-matériels
-
-En tant que technicien,
-je veux savoir s’il reste d’autres matériels à restituer,
-afin de les traiter dans le même flux.
-
-Critères d’acceptation :
-	•	Question Oui/Non.
-	•	Si Oui → US3 ou US2bis selon support.
-	•	Si Non → US9.
-
-⸻
-
-US 9 – Synthèse générale + Signature (Déposant modifiable)
-
-En tant que technicien,
-je veux voir une synthèse par requête avec possibilité de modifier le Déposant,
-afin de valider l’ensemble avant signature.
-
-Critères d’acceptation :
-	•	Une section par requête/incident.
-	•	Affichage Propriétaire et Déposant (badge si ≠).
-	•	Bouton Modifier Déposant :
-	1.	Interne → recherche annuaire.
-	2.	Externe → saisie manuelle (Nom, Prénom, Société, Titre/Rôle).
-	•	Bouton EDIT par section (retour ciblé).
-	•	Bouton global Valider tout.
-	•	Signature unique pour tout le lot.
-	•	Option impression PV.
-
-⸻
-
-US 10 – Mise à jour et clôture
-
-En tant que système,
-je veux mettre à jour et clôturer les tickets liés,
-afin de finaliser le processus.
-
-Critères d’acceptation :
-	•	Mise à jour des tickets ServiceNow/CMDB.
-	•	Archivage PV.
-	•	Notifications si besoin.
-
-⸻
-
-📎 Schéma v5 : Télécharger
-
-⸻
-
-Veux-tu que je te prépare maintenant la traduction anglaise en gardant le format Jira-friendly avec User Story / Acceptance Criteria bien séparés ?
-
-
-
-Parfait 👍 Je vais te restituer ici la version anglaise complète de toutes les User Stories (US1 à US10, avec US2bis et US3bis inclus).
-
-⸻
-
-📑 User Stories – Equipment Return (English version)
-
-⸻
-
-US1 – Action selection on tablet
-
-User Story
+EN – User Story
 As a user returning equipment, I want to select the “Equipment Return” option on the welcome tablet so that I can start the process without technician intervention.
 
 Acceptance Criteria
-	•	“Equipment Return” button visible on the tablet home screen.
-	•	Clicking the button → process continues to US2.
+	•	“Equipment Return” button visible on the home screen.
+	•	Click → continue to US2.
 
 ⸻
 
-US2 – User support verification
+US2 – Vérification du support utilisateur
 
-User Story
+FR – User Story
+En tant que technicien, je veux que le système vérifie si le visiteur est supporté, afin d’appliquer le bon processus.
+
+Critères d’acceptation
+	•	Si supporté → vérifier si une requête existe.
+	•	Si supporté + requête → passage à l’US3.
+	•	Si supporté + pas de requête → création d’une requête vierge.
+	•	Si non supporté → passage à l’US2bis.
+
+EN – User Story
 As a technician, I want the system to check if the visitor is a supported user so that the correct workflow is applied.
 
 Acceptance Criteria
-	•	If supported → check if an existing request is open.
-	•	If supported & request exists → continue to US3.
-	•	If supported & no request → propose creating a blank request.
+	•	If supported → check for existing request.
+	•	If supported + request exists → go to US3.
+	•	If supported + no request → create a blank request.
 	•	If not supported → go to US2bis.
 
 ⸻
 
-US2bis – Non-supported user handling
+US2bis – Gestion des utilisateurs non supportés
 
-User Story
-As a technician, I want the system to allow the creation of a blank incident if the visitor is not supported so that the equipment can still be returned.
+FR – User Story
+En tant que technicien, je veux que le système crée un incident vierge pour les utilisateurs non supportés, afin qu’ils puissent tout de même restituer leur matériel.
+
+Critères d’acceptation
+	•	Création automatique d’un ticket incident ServiceNow.
+	•	Passage direct à l’US4.
+
+EN – User Story
+As a technician, I want the system to create a blank incident for unsupported users so that they can still return equipment.
 
 Acceptance Criteria
 	•	Automatic creation of a blank incident in ServiceNow.
-	•	Continue directly to US4 (form selection).
+	•	Continue directly to US4.
 
 ⸻
 
-US3 – Request verification and selection
+🗂 Épique 2 – Gestion des requêtes et incidents
 
-User Story
-As a technician, I want to see the list of open requests for the visitor so that the correct one can be selected.
+Epic 2 – Request and incident management
+Objectif / Goal: Identifier et relier la restitution à la bonne demande. / Identify and link the return to the correct request.
+
+⸻
+
+US3 – Vérification et sélection de la requête
+
+FR – User Story
+En tant que technicien, je veux voir la liste des requêtes ouvertes pour l’utilisateur, afin de sélectionner la bonne.
+
+Critères d’acceptation
+	•	Liste des requêtes ouvertes affichée.
+	•	Sélection obligatoire d’une requête.
+	•	Si aucune requête → option de créer une requête vierge.
+	•	Bouton « Requalification » disponible pour corriger un mauvais choix initial.
+	•	Bouton pour rechercher les requêtes d’un autre utilisateur.
+	•	Formulaire affiche toujours :
+	•	Déposant (celui qui apporte).
+	•	Propriétaire (celui pour qui la demande existe).
+
+EN – User Story
+As a technician, I want to see the list of open requests for the user so that I can select the correct one.
 
 Acceptance Criteria
 	•	List of open requests displayed.
-	•	Technician must select one.
-	•	If no request is available → option to create a blank request.
-	•	“Requalification” button available in case the visitor chose the wrong action (not a return).
-	•	Button to search requests for another user (if the depositor is not the equipment owner).
-	•	Form must display both:
-	•	Depositor = person bringing the equipment (from check-in tablet).
-	•	Owner = person for whom the request was created.
+	•	Mandatory selection of one request.
+	•	If no request → option to create a blank one.
+	•	“Requalification” button available if wrong action chosen.
+	•	Button to search requests for another user.
+	•	Form must display:
+	•	Depositor (person bringing equipment).
+	•	Owner (person for whom request exists).
 
 ⸻
 
-US3bis – Search requests for another user
+US3bis – Recherche d’une requête pour un autre utilisateur
 
-User Story
-As a technician, I want to be able to search and select a request belonging to another user so that equipment can be returned even if the depositor is not the owner.
+FR – User Story
+En tant que technicien, je veux pouvoir rechercher les requêtes d’un autre utilisateur afin de traiter les cas où le déposant n’est pas le propriétaire.
+
+Critères d’acceptation
+	•	Champ de recherche disponible.
+	•	Sélection de la requête d’un autre utilisateur possible.
+	•	Distinction claire entre déposant ≠ propriétaire.
+
+EN – User Story
+As a technician, I want to search and select another user’s request so that I can handle cases where the depositor is not the owner.
 
 Acceptance Criteria
-	•	Search field available to find another user’s requests.
-	•	Selected request is linked to the depositor + owner clearly displayed.
-	•	System records depositor ≠ owner if different.
+	•	Search field available.
+	•	Ability to select another user’s request.
+	•	Clear distinction between depositor and owner.
 
 ⸻
 
-US4 – Form selection (with auto-skip)
+US4 – Sélection automatique ou manuelle du formulaire
 
-User Story
-As a technician, I want the form to be automatically chosen if the request already has an associated type so that unnecessary steps are avoided.
+FR – User Story
+En tant que technicien, je veux que le formulaire soit choisi automatiquement si la requête a déjà un type, afin d’éviter une étape inutile.
+
+Critères d’acceptation
+	•	Si type déjà connu → passage direct à l’US5.
+	•	Si requête vierge → affichage liste des formulaires, sélection obligatoire.
+	•	Historique garde la trace du choix.
+
+EN – User Story
+As a technician, I want the form to be automatically chosen if the request already has a type so that unnecessary steps are avoided.
 
 Acceptance Criteria
-	•	If existing request has a known type → skip form selection and continue to US5.
-	•	If new request → display list of forms (mandatory selection).
-	•	Form selection (manual or auto) is logged.
+	•	If request has type → go directly to US5.
+	•	If blank request → display form list, mandatory selection.
+	•	Form selection logged.
 
 ⸻
 
-US5 – Form completion
+🗂 Épique 3 – Déclaration et identification du matériel
 
-User Story
-As a technician, I want to fill in the selected form with pre-filled information so that the return process is accurate and fast.
+Epic 3 – Equipment declaration and identification
+Objectif / Goal: Identifier précisément le matériel restitué et son emplacement. / Precisely identify returned equipment and its storage location.
+
+⸻
+
+US5 – Complétion du formulaire
+
+FR – User Story
+En tant que technicien, je veux compléter le formulaire avec des infos pré-remplies pour gagner du temps et garder le bon déposant.
+
+Critères d’acceptation
+	•	Champs pré-remplis : nom, prénom, ID, type de matériel, date.
+	•	Déposant affiché et modifiable :
+	•	Interne → recherche dans l’annuaire.
+	•	Externe → saisie manuelle (nom, prénom, société, rôle).
+
+EN – User Story
+As a technician, I want to fill in the form with pre-filled information and keep control of the depositor so that the process is efficient.
 
 Acceptance Criteria
-	•	Pre-filled fields: name, surname, ID, equipment type, today’s date, request date (if existing).
-	•	Depositor is always displayed and modifiable:
-	•	Internal person → searchable by ID/Name.
-	•	External person → manual entry (name, surname, company, title/role).
-	•	Technician can add or edit complementary information.
+	•	Pre-filled fields: name, surname, ID, equipment type, date.
+	•	Depositor always displayed and editable:
+	•	Internal → directory search.
+	•	External → manual input.
 
 ⸻
 
-US6 – Equipment identification
+US6 – Identification du matériel
 
-User Story
-As a technician, I want to identify the returned equipment through one of several methods so that it can be accurately logged.
+FR – User Story
+En tant que technicien, je veux identifier le matériel restitué via différentes méthodes, afin de fiabiliser la saisie.
+
+Critères d’acceptation
+	•	3 méthodes disponibles :
+	1.	Scan code-barres.
+	2.	Sélection dans la liste du matériel attribué.
+	3.	Recherche/saisie manuelle (+ possibilité « nouvel équipement inconnu »).
+
+EN – User Story
+As a technician, I want to identify the returned equipment through different methods so that the declaration is accurate.
 
 Acceptance Criteria
-	•	3 available methods:
-	1.	Scan barcode (camera opens, automatic field completion).
-	2.	Select from referenced equipment (list of items assigned to the user in the CMDB).
-	3.	Manual search/entry (serial number, computer name, etc. – with possibility to add a “new unknown equipment” if not found).
-	•	Once identified → continue to US6bis.
+	•	3 methods available:
+	1.	Barcode scan.
+	2.	Select from assigned equipment list.
+	3.	Manual search/input (+ option “new unknown equipment”).
 
 ⸻
 
-US6bis – StockRoom selection
+US6bis – Sélection du StockRoom
 
-User Story
-As a technician, I want to indicate in which StockRoom the returned equipment is placed so that inventory remains consistent.
+FR – User Story
+En tant que technicien, je veux indiquer le StockRoom dans lequel le matériel est placé, afin d’assurer la traçabilité.
+
+Critères d’acceptation
+	•	Si 1 seul StockRoom → auto-prérempli.
+	•	Si plusieurs → choix obligatoire via liste déroulante.
+	•	Valeur par défaut : vide.
+
+EN – User Story
+As a technician, I want to select the StockRoom where the equipment is placed so that inventory tracking is consistent.
 
 Acceptance Criteria
-	•	If only one StockRoom in settings → automatically pre-filled.
-	•	If multiple StockRooms exist → mandatory selection from dropdown list.
-	•	Default = none selected (to force choice).
+	•	If only 1 StockRoom → auto-filled.
+	•	If multiple → mandatory dropdown selection.
+	•	Default value = none.
 
 ⸻
 
-US7 – Accessory selection
+🗂 Épique 4 – Gestion des compléments et vérifications
 
-User Story
-As a technician, I want to be able to select accessories returned with the equipment so that the return is complete.
+Epic 4 – Complements and verification
+Objectif / Goal: Collecter et valider toutes les informations nécessaires. / Collect and validate all necessary information.
+
+⸻
+
+US7 – Sélection des accessoires
+
+FR – User Story
+En tant que technicien, je veux sélectionner les accessoires restitués, afin de garantir une restitution complète.
+
+Critères d’acceptation
+	•	Affichage de tous les accessoires possibles.
+	•	Sélection via cartes avec photos.
+	•	Toujours affiché, même si CMDB incomplète.
+
+EN – User Story
+As a technician, I want to select accessories returned with equipment so that the return is complete.
 
 Acceptance Criteria
-	•	Display of all possible accessories (as visual cards/tiles with pictures).
-	•	Technician can tick all accessories returned.
-	•	Always displayed, even if CMDB does not list accessories.
+	•	Display of all possible accessories.
+	•	Selection via visual cards.
+	•	Always shown, even if CMDB incomplete.
 
 ⸻
 
-US8 – Information verification
+US8 – Vérification des informations
 
-User Story
-As a technician, I want to check and edit the information before validation so that errors can be corrected.
+FR – User Story
+En tant que technicien, je veux pouvoir vérifier et éditer les informations avant validation.
+
+Critères d’acceptation
+	•	Affichage récapitulatif clair.
+	•	Chaque section a un bouton « EDIT ».
+	•	Bouton « Valider » confirme les infos.
+
+EN – User Story
+As a technician, I want to review and edit information before validation.
 
 Acceptance Criteria
-	•	Display all captured information (equipment, accessories, depositor, etc.).
-	•	Each section has an “EDIT” button to go back and modify.
-	•	Validation button to confirm correctness.
+	•	Clear summary displayed.
+	•	Each section has an “EDIT” button.
+	•	Validation button confirms correctness.
 
 ⸻
 
-US8bis – Multiple equipment loop
+US8bis – Boucle multi-matériels
 
-User Story
-As a technician, I want the system to ask if additional equipment needs to be returned so that all items can be processed in one visit.
+FR – User Story
+En tant que technicien, je veux pouvoir restituer plusieurs matériels dans la même visite.
+
+Critères d’acceptation
+	•	Après validation → question « Autre matériel ? ».
+	•	Si oui → sélection d’une requête (existante ou vierge).
+	•	Processus repart à l’US4.
+	•	Si non → passage à l’US9.
+
+EN – User Story
+As a technician, I want the system to let me process multiple equipment returns in one visit.
 
 Acceptance Criteria
-	•	After validation, system asks: “Do you have other equipment to return?”.
-	•	If yes → display list of open requests (or option to create a blank one).
-	•	Process loops back to US4 (form selection) and continues.
-	•	If no → continue to US9.
+	•	After validation → “Other equipment to return?” prompt.
+	•	If yes → request selection (existing or blank).
+	•	Process loops back to US4.
+	•	If no → go to US9.
 
 ⸻
 
-US9 – Global synthesis and signature
+🗂 Épique 5 – Validation et clôture
 
-User Story
-As a technician, I want to display a complete synthesis of all requests and equipment processed so that the return can be confirmed and signed.
+Epic 5 – Validation and closure
+Objectif / Goal: Confirmer officiellement la restitution et mettre à jour automatiquement les systèmes. / Officially confirm return and update systems automatically.
+
+⸻
+
+US9 – Synthèse et signature
+
+FR – User Story
+En tant que technicien, je veux afficher une synthèse globale et obtenir la signature pour valider la restitution.
+
+Critères d’acceptation
+	•	Synthèse globale affichée par requête (scrollable).
+	•	Déposant toujours visible et modifiable.
+	•	Signature obligatoire des deux parties.
+	•	Possibilité d’impression du PV.
+
+EN – User Story
+As a technician, I want to display a full synthesis and capture signatures so that the return is validated.
 
 Acceptance Criteria
-	•	Display grouped by request (Request 1, Request 2, …).
-	•	Scrollable if multiple requests.
-	•	Depositor always displayed and modifiable (same logic as US5).
-	•	Signature required from both technician and depositor (manual on screen or checkbox – to be defined).
-	•	Option to print the report if requested by depositor.
+	•	Full synthesis grouped by request.
+	•	Depositor always visible and editable.
+	•	Mandatory signatures from both parties.
+	•	Option to print report.
 
 ⸻
 
-US10 – Automatic update and closure
+US10 – Mise à jour et clôture automatique
 
-User Story
-As a system, I want to automatically update the request or incident with the return information and close it so that no manual intervention is needed.
+FR – User Story
+En tant que système, je veux mettre à jour la requête ou l’incident et le clôturer automatiquement.
+
+Critères d’acceptation
+	•	Archivage de toutes les informations.
+	•	Statut de la requête/incidence → « Closed ».
+	•	Historique complet conservé.
+
+EN – User Story
+As a system, I want to automatically update and close the request/incident so that no manual action is required.
 
 Acceptance Criteria
-	•	Information stored and archived.
-	•	Request/incident status automatically updated to Closed.
-	•	All return details logged and accessible in history.
+	•	All information stored and archived.
+	•	Request/incident status set to “Closed”.
+	•	Full history kept.
 
 ⸻
 
-👉 Voilà, tu as la version anglaise complète et finalisée.
-Veux-tu que je t’extraie ça directement en fichier Word (EN only) pour que tu puisses l’envoyer séparément à ton UX ou à Jira ?
+✅ Voilà : la version complète avec Épiques + US détaillées FR/EN.
+Veux-tu que je t’en génère un document Word propre (FR + EN avec épiques) comme la dernière fois, ou que je le mette aussi en PDF pour ton envoi mail ?
