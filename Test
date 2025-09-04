@@ -1,97 +1,63 @@
-Parfait 🚀 Je vais te faire une structure hiérarchique prête à copier-coller pour Jira, en anglais (Épic → User Story → Acceptance Criteria).
-Tu pourras l’utiliser comme guide pour créer tes tickets Jira.
+Super projet 👌 Voici le “kit” des endpoints Microsoft Graph Reports qui donnent des statistiques agrégées (pas besoin de requêter 200 000 users individuellement) pour les outils M365. Pour chaque outil, je te liste les requêtes utiles (v1.0 quand c’est possible) et les indicateurs disponibles. Tous ces endpoints exigent en général l’autorisation Reports.Read.All (delegated ou app) et retournent un CSV (paramètre period='D7'|'D30'|'D90'|'D180').  ￼
+
+Outlook / Exchange (courriel)
+	•	/reports/getEmailActivityCounts(period=‘D30’) → volumes quotidiens d’emails envoyés, lus, reçus (tendance org-wide). Indicateurs : Report Refresh Date, Send Count, Read Count, Receive Count par jour.  ￼
+	•	/reports/getEmailActivityUserCounts(period=‘D30’) → nb d’utilisateurs uniques actifs par type d’activité (envoi/lecture/réception), par jour.  ￼
+(Si besoin de détail par utilisateur : /getEmailActivityUserDetail mais cela devient nominatif.)  ￼
+
+OneDrive for Business
+	•	/reports/getOneDriveUsageFileCounts(period=‘D30’) → nb de fichiers total/actifs, fichiers ajoutés/supprimés (tendance).
+	•	/reports/getOneDriveUsageStorage(period=‘D30’) → stockage alloué vs utilisé et variation.
+	•	/reports/getOneDriveUsageAccountDetail(date=‘YYYY-MM-DD’ ou period) → vue détaillée (par compte) : taille utilisée, fichiers totaux/actifs, dernière activité (à utiliser prudemment si tu veux éviter le nominatif).  ￼
+(La doc OneDrive regroupe toutes les vues “usage” dans la section Reports.)  ￼
+
+SharePoint Online
+	•	/reports/getSharePointSiteUsageFileCounts(period=‘D30’) → nb de fichiers par jour (total/actifs).
+	•	/reports/getSharePointSiteUsageStorage(period=‘D30’) → stockage par site (agrégable).
+	•	/reports/getSharePointActivityFileCounts(period=‘D30’) → vues/visites/partages à l’échelle tenant.
+(Les pages “working with M365 usage reports” listent ces variations.)  ￼
+
+Microsoft Teams
+	•	/reports/getTeamsUserActivityCounts(period=‘D30’) → nb d’activités par type (messages de canal, réunions organisées/participées, appels, actions de chat, etc.), par jour. Idéal pour les tendances org-wide.  ￼
+	•	/reports/getTeamsDeviceUsageUserCounts(period=‘D30’) → répartition par type d’appareil/plateforme (Desktop, Web, Mobile) — utile pour comprendre les usages et guider la com. (Référence dans la famille “Teams device usage”.)  ￼
+	•	/reports/getTeamsTeamActivityCounts(period=‘D30’) → activité au niveau des équipes (messages, mentions, réponses). (Toujours en Reports.)  ￼
+(Détail nominatif existe: /getTeamsUserActivityUserDetail — à éviter si tu veux rester 100 % agrégé.)  ￼
+
+Microsoft 365 (vue globale locataire)
+	•	/reports/getOffice365ActiveUserCounts(period=‘D30’) → utilisateurs actifs par service (Exchange, OneDrive, SharePoint, Teams, Yammer/Viva Engage, etc.), tendance.
+	•	/reports/getOffice365ServicesUserCounts(period=‘D30’) → pénétration par service (nb d’utilisateurs actifs vs licenciés).
+(Ces deux rapports “Office 365 usage” sont la meilleure base pour un tableau de bord d’adoption.)  ￼
+
+Groups (M365 Groups)
+	•	/reports/getOffice365GroupsActivityCounts(period=‘D30’) → posts, fichiers, invités, etc.
+	•	/reports/getOffice365GroupsActivityStorage(period=‘D30’) → stockage consommé par les groupes.  ￼
+
+Viva Engage (ex-Yammer)
+	•	/reports/getYammerActivityCounts(period=‘D30’) → messages lus/postés, likes, etc.
+	•	/reports/getYammerDeviceUsageUserCounts(period=‘D30’) → répartition device.  ￼
+
+Impressions / impressions techniques utiles
+	•	Période : period='D7'|'D30'|'D90'|'D180' ou certaines vues acceptent date='YYYY-MM-DD'. Les CSV contiennent des en-têtes stables (dates de rafraîchissement, tenant id masqué ou non selon paramètre d’anonymisation).  ￼
+	•	Permissions : privilégie application permission Reports.Read.All sur une app Entra pour automatiser sans user context.  ￼
+	•	Livrables : quasiment tous ces endpoints retournent un flux CSV (tu ingères ensuite dans ton datapipeline/Power BI/Databricks).  ￼
 
 ⸻
 
-📌 Jira Backlog Structure – Equipment Return
+Exemple d’appels (format)
+	•	Teams – activités agrégées 30 jours
+GET https://graph.microsoft.com/v1.0/reports/getTeamsUserActivityCounts(period='D30') → CSV : colonnes par type d’activité et lignes par date.  ￼
+	•	Outlook – tendances d’email
+GET https://graph.microsoft.com/v1.0/reports/getEmailActivityCounts(period='D30') → Send Count, Read Count, Receive Count par jour.  ￼
+	•	OneDrive – stockage
+GET https://graph.microsoft.com/v1.0/reports/getOneDriveUsageStorage(period='D30') → stockage total/used et deltas. (Famille OneDrive usage.)  ￼
 
 ⸻
 
-[Epic] Return – Start process
-	•	[US1] Tablet action selection
-	•	✅ “Equipment Return” button visible on home screen
-	•	✅ Starts process when selected
-	•	[US2] User support verification
-	•	✅ System checks if user is supported
-	•	✅ If supported + request exists → go to US3
-	•	✅ If supported + no request → blank request created
-	•	✅ If not supported → go to US2bis
-	•	[US2bis] Non-supported user handling
-	•	✅ Create blank incident in ServiceNow
-	•	✅ Continue directly to US4
+Pour ton angle “empreinte carbone”
 
-⸻
+Ces rapports te donnent volumes (stockage, activités, réunions, messages, fichiers, etc.). Pour un 1er modèle de carbone d’usage :
+	•	Stockage : mapper Go·jour → kgCO₂e via facteur d’émission (datacenter + réseau + périphériques, selon ton référentiel interne RSE).
+	•	Transferts / activités : utiliser proxys (ex. messages, réunions/visio, vues/visites de fichiers) pour estimer données échangées → facteur d’émission réseau/compute.
+	•	Appareils : croiser avec Teams Device Usage pour pondérer par terminal (desktop vs mobile).  ￼
 
-[Epic] Return – Requests handling
-	•	[US3] Request verification and selection
-	•	✅ Show list of open requests for the visitor
-	•	✅ Technician must select one request
-	•	✅ If no request → option to create a blank one
-	•	✅ “Requalification” button available if wrong action
-	•	✅ Button to search requests for another user
-	•	✅ Form must display both depositor & owner
-	•	[US3bis] Search requests for another user
-	•	✅ Search field available
-	•	✅ Technician can select a request from another user
-	•	✅ System records depositor ≠ owner if different
-	•	[US4] Automatic or manual form selection
-	•	✅ If request already has type → auto-skip form selection
-	•	✅ If new request → display list of forms (mandatory)
-	•	✅ Selection logged
-
-⸻
-
-[Epic] Return – Equipment declaration
-	•	[US5] Form completion
-	•	✅ Pre-filled fields (name, surname, ID, equipment type, date, request date)
-	•	✅ Depositor always displayed & modifiable
-	•	✅ Internal depositor → searchable by ID/Name
-	•	✅ External depositor → manual entry (name, surname, company, role)
-	•	[US6] Equipment identification
-	•	✅ 3 methods: barcode scan, list of assigned equipment, manual search/entry
-	•	✅ Option to add “new unknown equipment” if not found
-	•	[US6bis] StockRoom selection
-	•	✅ If only one StockRoom → auto-selected
-	•	✅ If multiple StockRooms → mandatory dropdown selection
-	•	✅ Default = none selected
-
-⸻
-
-[Epic] Return – Verification & accessories
-	•	[US7] Accessory selection
-	•	✅ Display all possible accessories (tiles with pictures)
-	•	✅ Technician selects returned ones
-	•	✅ Always displayed, even if CMDB missing data
-	•	[US8] Information verification
-	•	✅ Show all captured information
-	•	✅ Each section has an EDIT button
-	•	✅ Validation button to confirm correctness
-	•	[US8bis] Multiple equipment loop
-	•	✅ System asks: “Do you have other equipment to return?”
-	•	✅ If yes → select another request or create blank one
-	•	✅ Process loops back to US4
-	•	✅ If no → continue to US9
-
-⸻
-
-[Epic] Return – Validation & closure
-	•	[US9] Global synthesis & signature
-	•	✅ Display grouped by request (scrollable if multiple)
-	•	✅ Depositor always displayed & modifiable
-	•	✅ Signature required from both technician & depositor
-	•	✅ Option to print report if depositor asks
-	•	[US10] Automatic update & closure
-	•	✅ Request/incident automatically updated with return info
-	•	✅ Status set to Closed
-	•	✅ All details logged and archived
-
-⸻
-
-👉 Avec ce format, tu peux directement copier-coller dans Jira :
-	•	Les Epics comme parent containers
-	•	Les US comme issues liées à l’Epic
-	•	Les Acceptance Criteria comme checklist dans la description
-
-⸻
-
-Veux-tu que je t’en fasse une version tableau Markdown (Epic | US | Criteria) que tu pourrais importer ou coller dans Confluence/Jira pour une lecture ultra-visuelle ?
+Si tu veux, je te prépare une liste exacte d’endpoints à appeler (par service) + mapping colonnes → indicateurs carbone et un schéma d’ingestion (Graph → Azure Storage/Log Analytics → Power BI) prêt à coller dans ta roadmap Le Comptoir.
