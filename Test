@@ -1,63 +1,159 @@
-Super projet 👌 Voici le “kit” des endpoints Microsoft Graph Reports qui donnent des statistiques agrégées (pas besoin de requêter 200 000 users individuellement) pour les outils M365. Pour chaque outil, je te liste les requêtes utiles (v1.0 quand c’est possible) et les indicateurs disponibles. Tous ces endpoints exigent en général l’autorisation Reports.Read.All (delegated ou app) et retournent un CSV (paramètre period='D7'|'D30'|'D90'|'D180').  ￼
+Parfait 👍 Je comprends : tu veux que je te restitue ici, en un seul bloc de texte, tout le document complet, avec les ajouts/modifications que nous avons définis (déplacement du point sur “Accès guidé” dans les principes clés, nouvelle section Troubleshooting détaillée, et section Actions d’administration).
 
-Outlook / Exchange (courriel)
-	•	/reports/getEmailActivityCounts(period=‘D30’) → volumes quotidiens d’emails envoyés, lus, reçus (tendance org-wide). Indicateurs : Report Refresh Date, Send Count, Read Count, Receive Count par jour.  ￼
-	•	/reports/getEmailActivityUserCounts(period=‘D30’) → nb d’utilisateurs uniques actifs par type d’activité (envoi/lecture/réception), par jour.  ￼
-(Si besoin de détail par utilisateur : /getEmailActivityUserDetail mais cela devient nominatif.)  ￼
-
-OneDrive for Business
-	•	/reports/getOneDriveUsageFileCounts(period=‘D30’) → nb de fichiers total/actifs, fichiers ajoutés/supprimés (tendance).
-	•	/reports/getOneDriveUsageStorage(period=‘D30’) → stockage alloué vs utilisé et variation.
-	•	/reports/getOneDriveUsageAccountDetail(date=‘YYYY-MM-DD’ ou period) → vue détaillée (par compte) : taille utilisée, fichiers totaux/actifs, dernière activité (à utiliser prudemment si tu veux éviter le nominatif).  ￼
-(La doc OneDrive regroupe toutes les vues “usage” dans la section Reports.)  ￼
-
-SharePoint Online
-	•	/reports/getSharePointSiteUsageFileCounts(period=‘D30’) → nb de fichiers par jour (total/actifs).
-	•	/reports/getSharePointSiteUsageStorage(period=‘D30’) → stockage par site (agrégable).
-	•	/reports/getSharePointActivityFileCounts(period=‘D30’) → vues/visites/partages à l’échelle tenant.
-(Les pages “working with M365 usage reports” listent ces variations.)  ￼
-
-Microsoft Teams
-	•	/reports/getTeamsUserActivityCounts(period=‘D30’) → nb d’activités par type (messages de canal, réunions organisées/participées, appels, actions de chat, etc.), par jour. Idéal pour les tendances org-wide.  ￼
-	•	/reports/getTeamsDeviceUsageUserCounts(period=‘D30’) → répartition par type d’appareil/plateforme (Desktop, Web, Mobile) — utile pour comprendre les usages et guider la com. (Référence dans la famille “Teams device usage”.)  ￼
-	•	/reports/getTeamsTeamActivityCounts(period=‘D30’) → activité au niveau des équipes (messages, mentions, réponses). (Toujours en Reports.)  ￼
-(Détail nominatif existe: /getTeamsUserActivityUserDetail — à éviter si tu veux rester 100 % agrégé.)  ￼
-
-Microsoft 365 (vue globale locataire)
-	•	/reports/getOffice365ActiveUserCounts(period=‘D30’) → utilisateurs actifs par service (Exchange, OneDrive, SharePoint, Teams, Yammer/Viva Engage, etc.), tendance.
-	•	/reports/getOffice365ServicesUserCounts(period=‘D30’) → pénétration par service (nb d’utilisateurs actifs vs licenciés).
-(Ces deux rapports “Office 365 usage” sont la meilleure base pour un tableau de bord d’adoption.)  ￼
-
-Groups (M365 Groups)
-	•	/reports/getOffice365GroupsActivityCounts(period=‘D30’) → posts, fichiers, invités, etc.
-	•	/reports/getOffice365GroupsActivityStorage(period=‘D30’) → stockage consommé par les groupes.  ￼
-
-Viva Engage (ex-Yammer)
-	•	/reports/getYammerActivityCounts(period=‘D30’) → messages lus/postés, likes, etc.
-	•	/reports/getYammerDeviceUsageUserCounts(period=‘D30’) → répartition device.  ￼
-
-Impressions / impressions techniques utiles
-	•	Période : period='D7'|'D30'|'D90'|'D180' ou certaines vues acceptent date='YYYY-MM-DD'. Les CSV contiennent des en-têtes stables (dates de rafraîchissement, tenant id masqué ou non selon paramètre d’anonymisation).  ￼
-	•	Permissions : privilégie application permission Reports.Read.All sur une app Entra pour automatiser sans user context.  ￼
-	•	Livrables : quasiment tous ces endpoints retournent un flux CSV (tu ingères ensuite dans ton datapipeline/Power BI/Databricks).  ￼
+Voici la version mise à jour :
 
 ⸻
 
-Exemple d’appels (format)
-	•	Teams – activités agrégées 30 jours
-GET https://graph.microsoft.com/v1.0/reports/getTeamsUserActivityCounts(period='D30') → CSV : colonnes par type d’activité et lignes par date.  ￼
-	•	Outlook – tendances d’email
-GET https://graph.microsoft.com/v1.0/reports/getEmailActivityCounts(period='D30') → Send Count, Read Count, Receive Count par jour.  ￼
-	•	OneDrive – stockage
-GET https://graph.microsoft.com/v1.0/reports/getOneDriveUsageStorage(period='D30') → stockage total/used et deltas. (Famille OneDrive usage.)  ￼
+Mode opératoire – Installation, configuration et usage des nouveaux pieds de tablettes Le Comptoir
 
 ⸻
 
-Pour ton angle “empreinte carbone”
+Sommaire
+	1.	Objectif
+	2.	Principes clés
+	3.	Matériel nécessaire
+	4.	Installation
+	5.	Configuration
+	6.	Usage au quotidien
+	7.	Troubleshooting – Problèmes connus & solutions
+	8.	Actions d’administration
+	9.	Contact Support
 
-Ces rapports te donnent volumes (stockage, activités, réunions, messages, fichiers, etc.). Pour un 1er modèle de carbone d’usage :
-	•	Stockage : mapper Go·jour → kgCO₂e via facteur d’émission (datacenter + réseau + périphériques, selon ton référentiel interne RSE).
-	•	Transferts / activités : utiliser proxys (ex. messages, réunions/visio, vues/visites de fichiers) pour estimer données échangées → facteur d’émission réseau/compute.
-	•	Appareils : croiser avec Teams Device Usage pour pondérer par terminal (desktop vs mobile).  ￼
+⸻
 
-Si tu veux, je te prépare une liste exacte d’endpoints à appeler (par service) + mapping colonnes → indicateurs carbone et un schéma d’ingestion (Graph → Azure Storage/Log Analytics → Power BI) prêt à coller dans ta roadmap Le Comptoir.
+1. Objectif
+
+Ce document décrit la procédure de mise en place, de configuration et d’utilisation des nouveaux pieds de tablettes déployés dans les comptoirs.
+
+Ces nouveaux supports, plus visibles et robustes, facilitent l’identification immédiate du point d’accueil par les utilisateurs et réduisent les manipulations pour les techniciens.
+
+⸻
+
+2. Principes clés
+	•	Visibilité : le pied doit être placé de manière à être identifié dès l’entrée dans le comptoir.
+	•	Stabilité : les pieds sont lourds et conçus pour ne pas être déplacés fréquemment.
+	•	Sécurité : le matériel à l’intérieur est sécurisé ; il n’est pas nécessaire d’ajouter un dispositif de fixation supplémentaire.
+	•	Habillage : chaque pied sera équipé d’un sticker design Le Comptoir (fourni par la France) pour renforcer la visibilité.
+	•	Sécurité renforcée : les utilisateurs ne peuvent pas sortir de l’application. Les boutons physiques n’étant pas accessibles, et seul l’accès au centre de contrôle iOS restant possible (mais limité), le risque de mauvaises manipulations est fortement réduit.
+
+⸻
+
+3. Matériel nécessaire
+
+Borne d’accueil
+	•	1 pied de tablette KIMEX 091-3141K2
+	•	1 iPad Air 13 pouces Wi-Fi 128 Go
+	•	1 adaptateur secteur USB-C pour iPad
+	•	1 rallonge ou multiprise
+	•	1 sticker à imprimer (design Le Comptoir)
+	•	(Optionnel – si lecteur de cartes) :
+	•	1 adaptateur coudé
+	•	1 splitter (alimentation + lecteur)
+	•	1 lecteur de cartes : Mifare Classic & Desfire ACR1252U / HID (en cours d’intégration)
+
+Borne Survey
+	•	1 pied de tablette KIMEX 091-3141K2
+	•	1 iPad Air 13 pouces Wi-Fi 128 Go
+	•	1 adaptateur secteur USB-C pour iPad
+	•	1 rallonge ou multiprise
+	•	1 sticker à imprimer (design Le Comptoir)
+
+⸻
+
+4. Installation
+	1.	Montage du pied
+	•	Monter le pied selon la notice.
+	•	Coller le sticker.
+	•	Positionner le pied à un endroit visible dès l’entrée du comptoir.
+	•	Installer la multiprise/rallonge dans l’espace dédié (compartiment sécurisé).
+	2.	Branchement alimentation
+	•	Brancher l’adaptateur secteur USB-C.
+	•	Faire passer le câble dans le pied jusqu’à l’emplacement tablette.
+	3.	Installation du lecteur de cartes (si applicable)
+	•	Fixer le lecteur avec un double-face.
+	•	Faire passer le câble par l’arrière du support.
+	4.	Connexions (si lecteur de cartes)
+	•	Brancher le chargeur + lecteur sur le splitter.
+	•	Relier au coudé.
+	5.	Mise en place de l’iPad
+	•	Installer l’iPad dans son support.
+	•	Brancher l’adaptateur coudé.
+	•	Verrouiller le support et le compartiment bas.
+	6.	Mise sous tension
+	•	Brancher la multiprise sur secteur.
+	•	L’iPad s’allume automatiquement.
+
+⸻
+
+5. Configuration
+	1.	Connexion réseau
+	•	Connecter l’iPad au Wi-Fi First.
+	•	Authentifier via un compte Wi-Fi First (enrôlement ou compte équipe).
+	2.	Installation des applications
+	•	Le Comptoir Campus (via portail d’entreprise).
+	•	Raccourcis (App Store).
+	3.	Automatisation extinction
+	•	Ouvrir Raccourcis > Automatisation.
+	•	Créer une nouvelle automatisation → Heure de la journée (ex. 18h30).
+	•	Ajouter action Éteindre l’appareil.
+	•	Valider.
+	4.	Vérification finale
+	•	Tester le Wi-Fi.
+	•	Lancer Le Comptoir Campus.
+	•	Vérifier que l’automatisation fonctionne.
+
+⸻
+
+6. Usage au quotidien
+
+Principes généraux
+	•	Le pied reste en place en permanence.
+	•	Aucun dispositif de sécurisation supplémentaire n’est nécessaire :
+	•	Le pied est lourd et stable.
+	•	L’iPad est verrouillé et ne peut pas être retiré.
+	•	Le risque de vol est jugé faible (locaux sécurisés, caméras, portiques).
+
+Mise en service le matin
+	•	Réveiller l’iPad : débrancher/rebrancher l’alimentation.
+	•	Déverrouiller avec le code.
+	•	Attendre la connexion Wi-Fi.
+	•	Lancer Le Comptoir Campus.
+
+Fermeture le soir
+	•	À l’heure prévue, éteindre l’iPad.
+	•	Utiliser l’automatisation Raccourcis (bouton de confirmation à valider).
+
+Points de vigilance
+	•	Laisser l’iPad allumé en permanence peut faire gagner du temps, mais l’impact sur la durée de vie n’est pas connu.
+	•	Recommandation : allumer le matin, éteindre le soir.
+
+⸻
+
+7. Troubleshooting – Problèmes connus & solutions
+
+Problème constaté	Symptôme	Image (à insérer)	Actions recommandées
+Pas de Wi-Fi	L’iPad n’accède pas au réseau	(capture à insérer)	Vérifier la connexion Wi-Fi First.  Relancer l’iPad.  Tester en partage de connexion.
+Application Le Comptoir Campus plante	L’écran se fige ou l’application se ferme	(capture à insérer)	Forcer l’arrêt de l’application.  Relancer l’application.
+Automatisation d’extinction non déclenchée	L’iPad reste allumé après l’heure prévue	(capture à insérer)	Vérifier la configuration dans Raccourcis.  Relancer l’automatisation.
+iPad lent ou bugs après mise à jour	Lenteurs inhabituelles, dysfonctionnements	(capture à insérer)	Redémarrer l’iPad.  Vérifier la version iOS.  Alerter le support si le problème persiste.
+Message “Visitor registration is temporarily unavailable, please proceed directly to Le Comptoir”	L’application ne parvient pas à contacter le serveur	(capture à insérer de l’écran d’erreur)	1. Vérifier la connectivité Wi-Fi First.  2. Forcer l’arrêt de l’application et la relancer.  3. Si le problème persiste, le BRM du comptoir doit remonter l’incident via Teams Le Comptoir BRMTL.
+
+
+⸻
+
+8. Actions d’administration
+	•	Mises à jour iOS
+	•	Lorsqu’une communication officielle est envoyée, ouvrir Réglages > Général > Mise à jour logicielle.
+	•	Suivre les instructions pour installer la nouvelle version.
+	•	Vérifier après redémarrage que Le Comptoir Campus fonctionne normalement.
+	•	Autres actions
+	•	Aucune intervention régulière n’est attendue des équipes locales.
+
+⸻
+
+9. Contact Support
+	•	En cas de problème non résolu par ce document, contacter le support via les canaux habituels.
+
+⸻
+
+Veux-tu que je te propose aussi une version bilingue FR/EN (comme ça a déjà été le cas pour certains de tes documents), ou tu préfères garder ce document uniquement en français ?
