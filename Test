@@ -1,159 +1,58 @@
-Parfait 👍 Je comprends : tu veux que je te restitue ici, en un seul bloc de texte, tout le document complet, avec les ajouts/modifications que nous avons définis (déplacement du point sur “Accès guidé” dans les principes clés, nouvelle section Troubleshooting détaillée, et section Actions d’administration).
-
-Voici la version mise à jour :
-
-⸻
-
-Mode opératoire – Installation, configuration et usage des nouveaux pieds de tablettes Le Comptoir
+Super 👍 merci pour le retour.
+Voici la version ajustée avec l’ajout clair sur la tablette d’accueil et la configuration depuis la vue paramètres :
 
 ⸻
 
-Sommaire
-	1.	Objectif
-	2.	Principes clés
-	3.	Matériel nécessaire
-	4.	Installation
-	5.	Configuration
-	6.	Usage au quotidien
-	7.	Troubleshooting – Problèmes connus & solutions
-	8.	Actions d’administration
-	9.	Contact Support
+🆕 Release Note – Le Comptoir
+
+Nouveauté : Boutons personnalisés
+
+🇫🇷 Français
+
+Quoi de neuf ?
+
+L’application Le Comptoir évolue avec l’introduction des boutons personnalisés sur la tablette d’accueil.
+En plus des boutons standards, il est désormais possible d’ajouter des boutons permanents ou temporaires afin d’adapter l’expérience au contexte local.
+👉 Leur configuration est réalisée directement par le responsable du comptoir depuis la vue Paramètres du comptoir.
+
+Deux types de boutons sont prévus :
+	1.	Boutons personnalisés de type “Info” (déployés dès cette semaine)
+	•	Affichent une pop-up d’information ou de redirection à l’utilisateur.
+	•	Cas d’usage typique : un nouvel arrivant non pris en charge dans la file d’attente reçoit un message l’invitant à se présenter directement à un point précis.
+	•	Ces boutons ne génèrent pas de visite dans la file d’attente.
+	2.	Boutons personnalisés de type “File d’attente” (disponibles dans 3 semaines)
+	•	Enregistrent l’utilisateur directement dans la file d’attente, comme les boutons standards.
+	•	Permettent de stratifier les visites par catégorie dans Power BI (ex. suivi d’un projet spécifique, statistiques par type de besoin).
+
+Quels bénéfices ?
+	•	Contexte adapté : possibilité d’afficher des messages temporaires ou permanents selon la situation.
+	•	Communication claire : information directe à l’utilisateur sans saturer la file d’attente.
+	•	Pilotage renforcé : classification et reporting détaillé dans Power BI à venir avec les boutons de type file d’attente.
 
 ⸻
 
-1. Objectif
+🇬🇧 English
 
-Ce document décrit la procédure de mise en place, de configuration et d’utilisation des nouveaux pieds de tablettes déployés dans les comptoirs.
+What’s new?
 
-Ces nouveaux supports, plus visibles et robustes, facilitent l’identification immédiate du point d’accueil par les utilisateurs et réduisent les manipulations pour les techniciens.
+Le Comptoir now includes custom buttons on the welcome tablet.
+In addition to standard buttons, it is now possible to add permanent or temporary buttons to adapt the user experience to local context.
+👉 Their configuration can be managed directly by the desk manager from the Desk Settings view.
 
-⸻
+Two types of custom buttons are planned:
+	1.	“Info” custom buttons (rolling out this week)
+	•	Display an information or redirection pop-up to the user.
+	•	Typical use case: a newcomer who is not supposed to enter the queue is redirected to a specific location.
+	•	These buttons do not create a queue entry.
+	2.	“Queue” custom buttons (available in 3 weeks)
+	•	Register the user directly into the queue, just like standard buttons.
+	•	Allow segmentation of visits in Power BI (e.g., dedicated project queue, statistics per specific need).
 
-2. Principes clés
-	•	Visibilité : le pied doit être placé de manière à être identifié dès l’entrée dans le comptoir.
-	•	Stabilité : les pieds sont lourds et conçus pour ne pas être déplacés fréquemment.
-	•	Sécurité : le matériel à l’intérieur est sécurisé ; il n’est pas nécessaire d’ajouter un dispositif de fixation supplémentaire.
-	•	Habillage : chaque pied sera équipé d’un sticker design Le Comptoir (fourni par la France) pour renforcer la visibilité.
-	•	Sécurité renforcée : les utilisateurs ne peuvent pas sortir de l’application. Les boutons physiques n’étant pas accessibles, et seul l’accès au centre de contrôle iOS restant possible (mais limité), le risque de mauvaises manipulations est fortement réduit.
-
-⸻
-
-3. Matériel nécessaire
-
-Borne d’accueil
-	•	1 pied de tablette KIMEX 091-3141K2
-	•	1 iPad Air 13 pouces Wi-Fi 128 Go
-	•	1 adaptateur secteur USB-C pour iPad
-	•	1 rallonge ou multiprise
-	•	1 sticker à imprimer (design Le Comptoir)
-	•	(Optionnel – si lecteur de cartes) :
-	•	1 adaptateur coudé
-	•	1 splitter (alimentation + lecteur)
-	•	1 lecteur de cartes : Mifare Classic & Desfire ACR1252U / HID (en cours d’intégration)
-
-Borne Survey
-	•	1 pied de tablette KIMEX 091-3141K2
-	•	1 iPad Air 13 pouces Wi-Fi 128 Go
-	•	1 adaptateur secteur USB-C pour iPad
-	•	1 rallonge ou multiprise
-	•	1 sticker à imprimer (design Le Comptoir)
+Benefits
+	•	Context-based flexibility: permanent or temporary buttons tailored to local needs.
+	•	Clear communication: users get the right information without overloading the queue.
+	•	Enhanced reporting: visit classification and dedicated KPIs in Power BI with the upcoming queue buttons.
 
 ⸻
 
-4. Installation
-	1.	Montage du pied
-	•	Monter le pied selon la notice.
-	•	Coller le sticker.
-	•	Positionner le pied à un endroit visible dès l’entrée du comptoir.
-	•	Installer la multiprise/rallonge dans l’espace dédié (compartiment sécurisé).
-	2.	Branchement alimentation
-	•	Brancher l’adaptateur secteur USB-C.
-	•	Faire passer le câble dans le pied jusqu’à l’emplacement tablette.
-	3.	Installation du lecteur de cartes (si applicable)
-	•	Fixer le lecteur avec un double-face.
-	•	Faire passer le câble par l’arrière du support.
-	4.	Connexions (si lecteur de cartes)
-	•	Brancher le chargeur + lecteur sur le splitter.
-	•	Relier au coudé.
-	5.	Mise en place de l’iPad
-	•	Installer l’iPad dans son support.
-	•	Brancher l’adaptateur coudé.
-	•	Verrouiller le support et le compartiment bas.
-	6.	Mise sous tension
-	•	Brancher la multiprise sur secteur.
-	•	L’iPad s’allume automatiquement.
-
-⸻
-
-5. Configuration
-	1.	Connexion réseau
-	•	Connecter l’iPad au Wi-Fi First.
-	•	Authentifier via un compte Wi-Fi First (enrôlement ou compte équipe).
-	2.	Installation des applications
-	•	Le Comptoir Campus (via portail d’entreprise).
-	•	Raccourcis (App Store).
-	3.	Automatisation extinction
-	•	Ouvrir Raccourcis > Automatisation.
-	•	Créer une nouvelle automatisation → Heure de la journée (ex. 18h30).
-	•	Ajouter action Éteindre l’appareil.
-	•	Valider.
-	4.	Vérification finale
-	•	Tester le Wi-Fi.
-	•	Lancer Le Comptoir Campus.
-	•	Vérifier que l’automatisation fonctionne.
-
-⸻
-
-6. Usage au quotidien
-
-Principes généraux
-	•	Le pied reste en place en permanence.
-	•	Aucun dispositif de sécurisation supplémentaire n’est nécessaire :
-	•	Le pied est lourd et stable.
-	•	L’iPad est verrouillé et ne peut pas être retiré.
-	•	Le risque de vol est jugé faible (locaux sécurisés, caméras, portiques).
-
-Mise en service le matin
-	•	Réveiller l’iPad : débrancher/rebrancher l’alimentation.
-	•	Déverrouiller avec le code.
-	•	Attendre la connexion Wi-Fi.
-	•	Lancer Le Comptoir Campus.
-
-Fermeture le soir
-	•	À l’heure prévue, éteindre l’iPad.
-	•	Utiliser l’automatisation Raccourcis (bouton de confirmation à valider).
-
-Points de vigilance
-	•	Laisser l’iPad allumé en permanence peut faire gagner du temps, mais l’impact sur la durée de vie n’est pas connu.
-	•	Recommandation : allumer le matin, éteindre le soir.
-
-⸻
-
-7. Troubleshooting – Problèmes connus & solutions
-
-Problème constaté	Symptôme	Image (à insérer)	Actions recommandées
-Pas de Wi-Fi	L’iPad n’accède pas au réseau	(capture à insérer)	Vérifier la connexion Wi-Fi First.  Relancer l’iPad.  Tester en partage de connexion.
-Application Le Comptoir Campus plante	L’écran se fige ou l’application se ferme	(capture à insérer)	Forcer l’arrêt de l’application.  Relancer l’application.
-Automatisation d’extinction non déclenchée	L’iPad reste allumé après l’heure prévue	(capture à insérer)	Vérifier la configuration dans Raccourcis.  Relancer l’automatisation.
-iPad lent ou bugs après mise à jour	Lenteurs inhabituelles, dysfonctionnements	(capture à insérer)	Redémarrer l’iPad.  Vérifier la version iOS.  Alerter le support si le problème persiste.
-Message “Visitor registration is temporarily unavailable, please proceed directly to Le Comptoir”	L’application ne parvient pas à contacter le serveur	(capture à insérer de l’écran d’erreur)	1. Vérifier la connectivité Wi-Fi First.  2. Forcer l’arrêt de l’application et la relancer.  3. Si le problème persiste, le BRM du comptoir doit remonter l’incident via Teams Le Comptoir BRMTL.
-
-
-⸻
-
-8. Actions d’administration
-	•	Mises à jour iOS
-	•	Lorsqu’une communication officielle est envoyée, ouvrir Réglages > Général > Mise à jour logicielle.
-	•	Suivre les instructions pour installer la nouvelle version.
-	•	Vérifier après redémarrage que Le Comptoir Campus fonctionne normalement.
-	•	Autres actions
-	•	Aucune intervention régulière n’est attendue des équipes locales.
-
-⸻
-
-9. Contact Support
-	•	En cas de problème non résolu par ce document, contacter le support via les canaux habituels.
-
-⸻
-
-Veux-tu que je te propose aussi une version bilingue FR/EN (comme ça a déjà été le cas pour certains de tes documents), ou tu préfères garder ce document uniquement en français ?
+Veux-tu que je fasse aussi une petite capture annotée (mock-up) de la tablette d’accueil montrant un exemple avec un bouton standard + un bouton personnalisé de type Info ?
