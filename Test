@@ -1,182 +1,87 @@
-Parfait 👍 Je vais donc te restituer ici l’intégralité du mode opératoire complet et détaillé, avec toutes les sections intégrées (y compris la partie “Création d’un comptoir & prérequis”, les étapes de configuration complètes avec 5️⃣ association au comptoir et 6️⃣ choix du type de tablette).
+Très bien 👌 On va donc compléter la procédure de configuration avec une étape supplémentaire concernant la sélection du type de tablette (Accueil ou Surveillance), lors du premier lancement de l’application.
 
-⸻
-
-Mode opératoire – Installation, configuration et usage des nouveaux pieds de tablettes Le Comptoir
-
-0. Création d’un comptoir & prérequis
-
-Étape 1 – Demande de création d’un comptoir
-
-Pour initier la création d’un nouveau comptoir, il faut adresser une demande à Arnaud Lecorre en fournissant les informations suivantes :
-	•	Nom du comptoir (ex. “Comptoir Valmy”)
-	•	Nom du bâtiment où se situe le comptoir
-	•	Building ID
-	•	Numéro du groupe de support (un groupe ServiceNow doit être créé spécifiquement pour ce comptoir, afin que les incidents soient assignés correctement)
-	•	Règle de nommage du groupe (ex. ITG_COMPT_<site>)
-	•	Identité du ou des managers du comptoir (1 à 3 personnes possibles)
-
-Étape 2 – Comptes nécessaires
-
-Afin de configurer et d’utiliser correctement les équipements du comptoir, il est obligatoire de disposer d’un compte technique dédié :
-	1.	Créer un compte Opale (Non-Human UID)
-	•	Ce compte est spécifique aux équipements (iPads + mini-PC).
-	•	La procédure de création est disponible ici : [lien interne à insérer].
-	2.	Vérifier la création des comptes associés :
-	•	Compte Active Directory (AD)
-	•	Compte Azure (avec adresse de messagerie)
-Ces comptes sont indispensables pour enrôler les iPads et ouvrir une session sur le mini-PC.
-	3.	Utilisation du compte Opale :
-	•	Le même compte Opale sera utilisé sur toutes les tablettes du comptoir.
-	•	Il sera également utilisé sur le mini-PC pour l’affichage de la file d’attente sur la télévision.
-	•	⚠️ Inutile de créer plusieurs comptes Opale par comptoir : un seul suffit.
-
-⸻
-
-1. Objectif
-
-Ce document décrit la procédure de mise en place, de configuration et d’utilisation des nouveaux pieds de tablettes déployés dans les comptoirs.
-Ces supports, plus visibles et robustes, facilitent l’identification immédiate du point d’accueil et réduisent les manipulations pour les techniciens.
-
-⸻
-
-2. Principes clés
-	•	Visibilité : le pied doit être placé à un endroit visible dès l’entrée.
-	•	Stabilité : les pieds sont lourds et conçus pour rester en place.
-	•	Sécurité : le matériel est sécurisé, inutile d’ajouter une fixation supplémentaire.
-	•	Habillage : chaque pied reçoit un sticker design “Le Comptoir” pour renforcer la visibilité.
-
-⸻
-
-3. Matériel nécessaire
-	•	1 pied de tablette (fourni en kit)
-	•	1 iPad (fourni par l’équipe)
-	•	1 coude (référence en annexe/photo)
-	•	1 splitter (alimentation + lecteur de cartes – référence en annexe/photo)
-	•	1 lecteur de cartes (fourni par l’équipe)
-	•	1 alimentation iPad officielle
-	•	1 rallonge ou multiprise (recommandée)
-
-⸻
-
-4. Installation
-
-Étape 1 – Montage du pied
-	1.	Monter le pied selon la notice.
-	2.	Positionner le pied à un endroit visible dès l’entrée.
-	3.	Installer la multiprise ou rallonge dans l’espace sécurisé en bas du pied.
-
-Étape 2 – Branchement de l’alimentation
-	1.	Brancher le chargeur officiel de l’iPad sur la multiprise.
-	2.	Faire passer le câble à travers le pied jusqu’à l’emplacement tablette.
-
-Étape 3 – Installation du lecteur de cartes
-	1.	Fixer le lecteur avec du double-face sur le bord du support tablette.
-	2.	Faire passer son câble par le trou arrière.
-
-Étape 4 – Connexions
-	1.	Brancher le câble du chargeur et celui du lecteur de cartes sur le splitter.
-	2.	Relier le splitter au coude.
-
-Étape 5 – Mise en place de l’iPad
-	1.	Placer l’iPad dans le support.
-	2.	Brancher le coude.
-	3.	Verrouiller le support iPad et le compartiment bas.
-
-Étape 6 – Mise sous tension
-	1.	Brancher la multiprise ou la rallonge.
-	2.	L’iPad s’allume automatiquement.
-
-⸻
-
-5. Usage au quotidien
-
-Principes généraux
-	•	Le pied reste en place, il n’est jamais déplacé.
-	•	Aucun dispositif de sécurité supplémentaire requis :
-	•	le pied est lourd et stable,
-	•	l’iPad est verrouillé dans le support,
-	•	le risque de vol est jugé très faible (locaux sécurisés, caméras, portiques).
-
-Mise en service le matin
-	1.	Débrancher puis rebrancher le câble pour réveiller l’iPad.
-	2.	Déverrouiller avec le code de sécurité.
-	3.	Attendre la connexion Wi-Fi (temporaire).
-	4.	Lancer l’application Le Comptoir Campus.
-
-ℹ️ Pas besoin du mode Accès guidé : le support limite déjà les manipulations.
-Il est encore possible d’accéder au centre de contrôle iOS, mais de manière difficile.
-
-Fermeture le soir
-	1.	À l’heure de fermeture (ex. 18h30), éteindre l’iPad.
-	2.	Utiliser l’automatisation configurée dans Raccourcis → un bouton de confirmation apparaît, il suffit de valider.
-
-Points de vigilance
-	•	iPad allumé en continu = pratique mais impact inconnu sur la durée de vie.
-	•	Recommandation : allumer le matin, éteindre le soir.
+Voici la version mise à jour de la section 6. Configuration avec l’intégration de cette nouvelle étape :
 
 ⸻
 
 6. Configuration
 
 Étape 1 – Connexion réseau
-	•	Connecter l’iPad au Wi-Fi First.
-	•	Utiliser le compte Opale ou un compte disposant des droits nécessaires.
+	•	Connecter l’iPad au réseau Wi-Fi First.
+	•	Authentification via un compte disposant de droits Wi-Fi First :
+	•	soit le compte utilisé pour l’enrôlement de l’iPad,
+	•	soit un compte Wi-Fi First d’un membre de l’équipe.
+
+⸻
 
 Étape 2 – Installation des applications
-	•	Le Comptoir Campus (via portail d’entreprise).
+	•	Le Comptoir Campus (via le portail d’entreprise).
 	•	Raccourcis (App Store).
+
+⸻
 
 Étape 3 – Automatisation d’extinction
 	1.	Ouvrir Raccourcis > Automatisation.
 	2.	Créer une nouvelle automatisation → Heure de la journée (ex. 18h30).
-	3.	Ajouter l’action Éteindre l’appareil.
-	4.	Valider.
-👉 À l’heure définie, un bouton de confirmation apparaît.
+	3.	Choisir Nouvelle automatisation vide.
+	4.	Ajouter l’action Éteindre l’appareil.
+	5.	Valider.
+
+👉 À l’heure prévue, l’iPad affichera un bouton de confirmation d’extinction.
+
+⸻
 
 Étape 4 – Personnalisation du Centre de contrôle
-	1.	Aller dans Réglages > Centre de contrôle > Personnaliser les commandes.
-	2.	Ajouter :
+
+Pour permettre un accès rapide aux applications essentielles sans déverrouiller complètement l’iPad :
+	1.	Ouvrir Réglages > Centre de contrôle.
+	2.	Cliquer sur Personnaliser les commandes.
+	3.	Ajouter :
 	•	Le Comptoir Campus
 	•	Portail d’entreprise
 	•	Réglages
-	3.	Vérifier leur présence dans le centre de contrôle.
+	4.	Vérifier que ces raccourcis apparaissent bien dans le Centre de contrôle (glisser depuis l’angle supérieur droit de l’écran).
+
+⸻
 
 Étape 5 – Association de la tablette au comptoir
-	1.	Prérequis : le compte iPad doit avoir le rôle Manager sur le comptoir.
-	2.	Aller sur l’URL web du comptoir.
-	3.	Menu Burger (en haut à gauche) → Settings.
-	4.	Dans Access Rights Management :
-	•	Cliquer sur la roue crantée.
+
+Afin que l’iPad soit reconnu comme appartenant au bon comptoir lors du lancement de l’application :
+	1.	Prérequis : le compte utilisé par l’iPad doit être déclaré comme ayant le rôle Manager sur le comptoir en question.
+	2.	Se rendre sur l’URL web du comptoir.
+	3.	Cliquer sur le menu Burger (en haut à gauche).
+	4.	Aller dans Settings.
+	5.	Dans la section Access Rights Management :
+	•	Cliquer sur la roue crantée (en haut à droite).
 	•	Sélectionner le rôle Device.
-	•	Ajouter l’UID du compte de la tablette.
+	•	Ajouter l’UID du compte associé à la tablette.
 	•	Cliquer sur Valider.
-⚠️ Ne pas associer un même compte à plusieurs comptoirs → risque de conflit.
+	6.	Une fois cette étape validée :
+	•	Lors du lancement de l’application Le Comptoir Campus sur l’iPad, celui-ci saura qu’il est autorisé et affichera le comptoir correspondant.
+
+⚠️ Important : un même compte ne doit pas être associé à plusieurs comptoirs. Cela entraînerait des conflits dans l’application.
+
+⸻
 
 Étape 6 – Sélection du type de tablette
 
-Lors du premier lancement de l’application sur l’iPad :
-	•	Choisir le type : Tablette d’accueil ou Tablette de surveillance.
-	•	Ce paramètre n’est à définir qu’une seule fois (il est mémorisé).
+Lors du premier lancement de l’application Le Comptoir Campus sur un iPad :
+	1.	L’application demandera de définir le type de tablette.
+	2.	Sélectionner l’option appropriée :
+	•	Tablette d’accueil (borne utilisée par les visiteurs).
+	•	Tablette de surveillance (écran de monitoring du comptoir).
+	3.	Cette configuration n’est à réaliser qu’une seule fois : le paramètre est mémorisé par l’application.
+
+⸻
 
 Étape 7 – Vérification finale
 	•	Tester la connexion Wi-Fi.
-	•	Lancer Le Comptoir Campus.
+	•	Lancer l’application Le Comptoir Campus.
 	•	Vérifier que :
-	•	l’automatisation fonctionne,
-	•	la tablette est associée au bon comptoir,
-	•	le type de tablette est correctement paramétré.
+	•	l’automatisation s’exécute correctement,
+	•	la tablette est bien associée au comptoir,
+	•	le type de tablette sélectionné est correct.
 
 ⸻
 
-7. Évolutions à venir
-	•	Écrans dynamiques d’ouverture/fermeture : affichage clair du statut (“fermé”, “ouvre dans 30 min”, “ferme dans 15 min”).
-	•	Paramétrage des horaires directement dans l’application.
-	•	Gestion automatique de l’écran : assombrissement ou extinction hors horaires.
-	•	Objectif final : laisser les iPads allumés en permanence avec écran éteint hors usage, réduisant les actions manuelles des techniciens.
-
-⸻
-
-👉 Voilà la documentation complète, avec toutes les étapes et ajouts.
-
-Veux-tu que je prépare aussi une fiche mémo condensée (1 page, type check-list) reprenant uniquement les points essentiels ?
+👉 Veux-tu que je mette à jour ton document Word avec cette version enrichie de la configuration (incluant les étapes 5 et 6) pour que tu aies la procédure complète prête à diffuser ?
