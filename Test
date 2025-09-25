@@ -1,87 +1,55 @@
-Très bien 👌 On va donc compléter la procédure de configuration avec une étape supplémentaire concernant la sélection du type de tablette (Accueil ou Surveillance), lors du premier lancement de l’application.
+Ok, Arnaud, vu le contexte (30 minutes devant une communauté large, avec des profils très variés — utilisateurs finaux, équipes support, managers), l’objectif ce n’est pas de rentrer dans le détail technique, mais plutôt de donner de la valeur à tout le monde : montrer l’utilité du produit, ses bénéfices, ce qui est en cours, et où ça va.
 
-Voici la version mise à jour de la section 6. Configuration avec l’intégration de cette nouvelle étape :
-
-⸻
-
-6. Configuration
-
-Étape 1 – Connexion réseau
-	•	Connecter l’iPad au réseau Wi-Fi First.
-	•	Authentification via un compte disposant de droits Wi-Fi First :
-	•	soit le compte utilisé pour l’enrôlement de l’iPad,
-	•	soit un compte Wi-Fi First d’un membre de l’équipe.
+👉 Voilà une trame qui pourrait bien fonctionner :
 
 ⸻
 
-Étape 2 – Installation des applications
-	•	Le Comptoir Campus (via le portail d’entreprise).
-	•	Raccourcis (App Store).
+1. Introduction rapide (5 min)
+	•	Te présenter en 2 phrases (ton rôle, PO du produit).
+	•	Rappeler pourquoi tu es là : « partager ce qu’est [nom du produit] et comment il sert au quotidien les équipes et les utilisateurs ».
+	•	Mettre une accroche (« Vous utilisez tous ce produit d’une façon ou d’une autre, mais peut-être sans savoir tout ce qu’il fait en coulisses »).
 
 ⸻
 
-Étape 3 – Automatisation d’extinction
-	1.	Ouvrir Raccourcis > Automatisation.
-	2.	Créer une nouvelle automatisation → Heure de la journée (ex. 18h30).
-	3.	Choisir Nouvelle automatisation vide.
-	4.	Ajouter l’action Éteindre l’appareil.
-	5.	Valider.
-
-👉 À l’heure prévue, l’iPad affichera un bouton de confirmation d’extinction.
-
-⸻
-
-Étape 4 – Personnalisation du Centre de contrôle
-
-Pour permettre un accès rapide aux applications essentielles sans déverrouiller complètement l’iPad :
-	1.	Ouvrir Réglages > Centre de contrôle.
-	2.	Cliquer sur Personnaliser les commandes.
-	3.	Ajouter :
-	•	Le Comptoir Campus
-	•	Portail d’entreprise
-	•	Réglages
-	4.	Vérifier que ces raccourcis apparaissent bien dans le Centre de contrôle (glisser depuis l’angle supérieur droit de l’écran).
+2. Le produit aujourd’hui (10 min)
+	•	À qui il s’adresse : rappeler les différents publics (end-users, coachs/techniciens, managers).
+	•	À quoi il sert concrètement : les cas d’usage principaux (accueil, suivi, traçabilité, tickets, etc.).
+	•	Les chiffres clés (impact mesurable) :
+	•	Combien de comptoirs équipés.
+	•	Nombre de visites par mois/année.
+	•	Taux d’utilisation.
+	•	Gains observés (temps, qualité, satisfaction).
+	•	Exemple concret d’une journée type (storytelling) : un utilisateur arrive → accueil → traitement → clôture → reporting.
 
 ⸻
 
-Étape 5 – Association de la tablette au comptoir
-
-Afin que l’iPad soit reconnu comme appartenant au bon comptoir lors du lancement de l’application :
-	1.	Prérequis : le compte utilisé par l’iPad doit être déclaré comme ayant le rôle Manager sur le comptoir en question.
-	2.	Se rendre sur l’URL web du comptoir.
-	3.	Cliquer sur le menu Burger (en haut à gauche).
-	4.	Aller dans Settings.
-	5.	Dans la section Access Rights Management :
-	•	Cliquer sur la roue crantée (en haut à droite).
-	•	Sélectionner le rôle Device.
-	•	Ajouter l’UID du compte associé à la tablette.
-	•	Cliquer sur Valider.
-	6.	Une fois cette étape validée :
-	•	Lors du lancement de l’application Le Comptoir Campus sur l’iPad, celui-ci saura qu’il est autorisé et affichera le comptoir correspondant.
-
-⚠️ Important : un même compte ne doit pas être associé à plusieurs comptoirs. Cela entraînerait des conflits dans l’application.
+3. Les bénéfices (5 min)
+	•	Pour les utilisateurs finaux : simplicité, rapidité, transparence.
+	•	Pour les équipes support : gain de temps, traçabilité, moins d’erreurs.
+	•	Pour les managers : pilotage via les dashboards (données fiables, indicateurs clairs).
 
 ⸻
 
-Étape 6 – Sélection du type de tablette
-
-Lors du premier lancement de l’application Le Comptoir Campus sur un iPad :
-	1.	L’application demandera de définir le type de tablette.
-	2.	Sélectionner l’option appropriée :
-	•	Tablette d’accueil (borne utilisée par les visiteurs).
-	•	Tablette de surveillance (écran de monitoring du comptoir).
-	3.	Cette configuration n’est à réaliser qu’une seule fois : le paramètre est mémorisé par l’application.
+4. Ce qui arrive demain (5-7 min)
+	•	Les prochaines évolutions : signature électronique, traçabilité matériel, planification, etc.
+	•	Le lien avec les enjeux stratégiques de l’entreprise (productivité, RSE, numérique responsable).
+	•	Comment la communauté pourra contribuer (tests, retours, suggestions).
 
 ⸻
 
-Étape 7 – Vérification finale
-	•	Tester la connexion Wi-Fi.
-	•	Lancer l’application Le Comptoir Campus.
-	•	Vérifier que :
-	•	l’automatisation s’exécute correctement,
-	•	la tablette est bien associée au comptoir,
-	•	le type de tablette sélectionné est correct.
+5. Conclusion et ouverture (3 min)
+	•	Résumer en une phrase ce que le produit apporte : « un outil au service de tous, qui simplifie, fiabilise et fait gagner du temps ».
+	•	Remercier les équipes (reconnaissance : coachs, managers, utilisateurs pilotes).
+	•	Ouvrir sur une invitation à collaborer : « Vos retours sont précieux, c’est comme ça qu’on fait évoluer le produit ensemble ».
 
 ⸻
 
-👉 Veux-tu que je mette à jour ton document Word avec cette version enrichie de la configuration (incluant les étapes 5 et 6) pour que tu aies la procédure complète prête à diffuser ?
+💡 Tips pour marquer les esprits :
+	•	Mets 3–4 slides maximum par partie (beaucoup de visuels, peu de texte).
+	•	Ajoute 1 ou 2 anecdotes réelles (un utilisateur satisfait, un cas où le produit a sauvé une situation).
+	•	Prévois une mini interaction (ex. un sondage rapide type “Qui utilise déjà le produit ?” / “Qui regarde les dashboards ?”).
+	•	Finir par un slide simple avec ton slogan/message clé.
+
+⸻
+
+Tu veux que je te prépare une trame de slides (titres + contenu résumé) pour que tu aies directement un squelette clair à dérouler ?
