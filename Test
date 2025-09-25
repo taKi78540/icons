@@ -1,16 +1,97 @@
-Parfait 👍 Voici un résumé simple en bullet points, à mettre dans une slide d’intro :
+Perfect 👍 Here’s the full English pitch for your presentation, slide by slide, based on everything you’ve shared.
+You can use this as a script/guide while presenting:
 
 ⸻
 
-Le Comptoir – What it is
-	•	Welcome & manage visitors at IT support counters
-	•	Queue management: register, wait, be assigned to a coach
-	•	Support handling: incidents, onboarding, information, hardware returns
-	•	Integration with ServiceNow for ticket creation & follow-up
-	•	Dashboards & KPIs in Power BI for activity monitoring
+Slide 1 – Agenda
+
+“Here is today’s agenda. First, I’ll give a quick reminder of what Le Comptoir is. Then we’ll look at deployment and usage figures, followed by some recent updates. After that, I’ll share what’s coming next in the short term, and then the long-term vision. Finally, we’ll wrap up with a quick conclusion.”
 
 ⸻
 
-👉 C’est volontairement très grosso modo, pour rappeler l’essentiel à ton audience.
+Slide 2 – Poll: Who already knows the app?
 
-Tu veux que je t’en propose une version encore plus synthétique (5 mots-clés max) façon “slogan slide” ?
+“Let’s start with a quick poll. Who here already knows Le Comptoir Campus App? Please raise your hand, just so we can see how familiar you are with it.”
+
+⸻
+
+Slide 3 – What it is (Product Reminder)
+
+“For those who are not yet familiar with the app, here’s a quick reminder.
+Le Comptoir is the IT support counter solution. Visitors register on a welcome tablet, they wait in a virtual queue, and are assigned to a coach. Coaches can then handle requests: incidents, onboarding, information, or hardware returns. Everything is integrated with ServiceNow, and managers can track activity with Power BI dashboards and KPIs.”
+
+⸻
+
+Slide 4 – Value for every persona
+
+“Le Comptoir is not only for visitors. It brings value to all stakeholders.
+For visitors, it means faster, clearer support.
+For coaches, it simplifies their daily work with guided workflows.
+For BRM team leaders, it allows monitoring of their teams’ activity and performance.
+Territory managers get a global view and can harmonize practices across countries.
+And finally, auditors benefit from standardized processes and reliable reporting.
+So, it’s really a tool that serves everyone in the chain.”
+
+⸻
+
+Slide 5 – International deployment
+
+“Today, Le Comptoir is deployed internationally. We have sites in America, Europe, and Asia. In total, that’s already 15 countries, with more to come.
+The key point is: the application is standardized and works the same way everywhere. Whether you are in France, Germany, the US, or India, you get the same experience, which makes adoption and support much easier.”
+
+⸻
+
+Slide 6 – Reports: Visits & Wait time
+
+“Let’s look at some figures. Since the beginning, we have recorded more than 450,000 visits. Month after month, the number of visits increases as more counters adopt the solution. On the right, you can see waiting times: we’ve had seven positive months in a row, with more than 85% of visits handled in under 10 minutes, which was our main objective.”
+
+⸻
+
+Slide 7 – Reports: Survey & Feedbacks
+
+“Another important part of the app is feedback. Thanks to new features like physical tablets and Teams notifications, survey response rates have improved. This allows us to collect more feedback from visitors, and that helps teams continuously improve the service.”
+
+⸻
+
+Slide 8 – Reports: Survey & Feedbacks (Teams notifications)
+
+“Here are some examples of what we introduced recently.
+First, when a visitor leaves a negative rating, they receive a Teams notification asking them to share more details about their experience.
+Second, if the estimated wait time is too high, the user can decide to continue or be notified later.
+And third, when wait time exceeds a defined threshold, managers and coaches receive an alert so they can quickly reinforce the desk.
+These improvements help us react faster and improve service quality.”
+
+⸻
+
+Slide 9 – Reports: Survey & Feedbacks (Custom buttons)
+
+“And this is another update: custom buttons on the welcome tablet.
+In addition to standard queue buttons, managers can now create temporary or permanent buttons adapted to local needs. For example, an ‘Info’ button to redirect newcomers, or a ‘Queue’ button for a dedicated project.
+This flexibility improves communication, gives us more detailed statistics in Power BI, and helps adapt the service to each site without losing standardization.”
+
+⸻
+
+Slide 10 – Material Traceability (Upcoming Feature)
+
+“One of the next big steps is hardware traceability.
+The idea is to track every hardware movement — loan, return, exchange, onboarding and offboarding.
+Each transfer will require a user signature directly in the app, which makes ownership crystal clear.
+All updates will flow automatically into CMDB and ServiceNow, so no manual input is needed anymore.
+For coaches, this means a simplified workflow with guided steps and less paperwork.
+And for the company, it improves accountability and sustainability: fewer losses, optimized inventories, and a better lifecycle management of equipment.
+The feature is currently planned to start rolling out end of 2025, beginning of 2026.”
+
+⸻
+
+Slide 11 – Planning Solution for Onboarding Sessions (Upcoming)
+
+“Another important evolution we are working on is a planning solution for onboarding sessions.
+Today, each site often manages onboarding in different ways. The idea is to fully integrate a unique and standardized planning tool directly into Le Comptoir application.
+This will end disparate local practices and allow smoother management.
+Statistics and volumes will also be integrated into Power BI, giving managers better visibility and helping to continuously improve.
+For newcomers, this means a much smoother experience, and for local teams, it makes scheduling easier.
+We are currently in the study phase, with a deployment estimated for the second half of 2026.”
+
+⸻
+
+👉 Do you also want me to add the conclusion pitch (“The End” slide) so you finish with a strong closing message in English?
