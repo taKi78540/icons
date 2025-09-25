@@ -1,91 +1,24 @@
-Parfait 👍 Voici la version en anglais de ce qu’on s’est dit pour ta slide Planning solution for onboarding sessions :
+Parfait 👍 Voici la version en anglais, prête à poser dans ta slide avec 3 blocs/personas :
 
 ⸻
 
-Planning Solution for Onboarding Sessions
-	•	Full integration into Le Comptoir application: a unique and standardized solution
-	•	Simplification: ending disparate local practices
-	•	Easier management: statistics and volumes integrated into existing Power BI reports
-	•	Continuous improvement: better visibility to analyze and optimize sessions
-	•	Smoother experience: for both newcomers and local teams
+Le Comptoir: a tool for everyone
+
+👩‍💻 End-user (employee)
+	•	Arrives at the counter with a need (incident, onboarding, information…)
+	•	Registers at the welcome tablet
+	•	Is quickly assisted and directed to the right coach
+
+🧑‍🔧 Coach / Technician
+	•	Receives requests in real time
+	•	Follows a guided workflow (waiting, handling, resolution, closure)
+	•	Uses simplified tools (signature, traceability, automated forms)
+
+👨‍💼 Manager / Team Lead
+	•	Accesses Power BI dashboards to monitor activity
+	•	Relies on accurate KPIs (waiting, processing, satisfaction)
+	•	Can steer, compare counters, and identify improvements
 
 ⸻
 
-📌 Short note to add on the slide (small text at the bottom):
-	•	Currently under study – estimated deployment H2 2026
-
-⸻
-
-👉 Veux-tu que je t’aide aussi à rendre la slide plus visuelle (ex. proposer des pictogrammes ou un schéma simple pour illustrer intégration, standardisation, statistiques, etc.) ?
-
-
-
-Material Traceability – Upcoming Feature
-	•	Track every hardware movement: loan, return, exchange, onboarding/offboarding
-	•	Mandatory user signature: proof of transfer directly in the app
-	•	Automatic updates: CMDB and ServiceNow records updated instantly
-	•	Simplified technician workflow: guided steps, less manual paperwork
-	•	Better accountability & sustainability: clear ownership, reduced losses, optimized inventory
-
-
-Voici une reformulation fluide en anglais des deux points :
-	1.	Improved survey response rates through the introduction of physical tablets and Teams notifications, making it easier for users to share their feedback.
-	2.	Enhanced user experience thanks to the valuable feedback collected from these surveys, enabling teams to continuously improve.
-
-Veux-tu que je les formule en mode bullet points de présentation (plus courts et percutants), ou plutôt en phrases complètes adaptées à un texte de rapport ?
-
-Ok, Arnaud, vu le contexte (30 minutes devant une communauté large, avec des profils très variés — utilisateurs finaux, équipes support, managers), l’objectif ce n’est pas de rentrer dans le détail technique, mais plutôt de donner de la valeur à tout le monde : montrer l’utilité du produit, ses bénéfices, ce qui est en cours, et où ça va.
-
-👉 Voilà une trame qui pourrait bien fonctionner :
-
-⸻
-
-1. Introduction rapide (5 min)
-	•	Te présenter en 2 phrases (ton rôle, PO du produit).
-	•	Rappeler pourquoi tu es là : « partager ce qu’est [nom du produit] et comment il sert au quotidien les équipes et les utilisateurs ».
-	•	Mettre une accroche (« Vous utilisez tous ce produit d’une façon ou d’une autre, mais peut-être sans savoir tout ce qu’il fait en coulisses »).
-
-⸻
-
-2. Le produit aujourd’hui (10 min)
-	•	À qui il s’adresse : rappeler les différents publics (end-users, coachs/techniciens, managers).
-	•	À quoi il sert concrètement : les cas d’usage principaux (accueil, suivi, traçabilité, tickets, etc.).
-	•	Les chiffres clés (impact mesurable) :
-	•	Combien de comptoirs équipés.
-	•	Nombre de visites par mois/année.
-	•	Taux d’utilisation.
-	•	Gains observés (temps, qualité, satisfaction).
-	•	Exemple concret d’une journée type (storytelling) : un utilisateur arrive → accueil → traitement → clôture → reporting.
-
-⸻
-
-3. Les bénéfices (5 min)
-	•	Pour les utilisateurs finaux : simplicité, rapidité, transparence.
-	•	Pour les équipes support : gain de temps, traçabilité, moins d’erreurs.
-	•	Pour les managers : pilotage via les dashboards (données fiables, indicateurs clairs).
-
-⸻
-
-4. Ce qui arrive demain (5-7 min)
-	•	Les prochaines évolutions : signature électronique, traçabilité matériel, planification, etc.
-	•	Le lien avec les enjeux stratégiques de l’entreprise (productivité, RSE, numérique responsable).
-	•	Comment la communauté pourra contribuer (tests, retours, suggestions).
-
-⸻
-
-5. Conclusion et ouverture (3 min)
-	•	Résumer en une phrase ce que le produit apporte : « un outil au service de tous, qui simplifie, fiabilise et fait gagner du temps ».
-	•	Remercier les équipes (reconnaissance : coachs, managers, utilisateurs pilotes).
-	•	Ouvrir sur une invitation à collaborer : « Vos retours sont précieux, c’est comme ça qu’on fait évoluer le produit ensemble ».
-
-⸻
-
-💡 Tips pour marquer les esprits :
-	•	Mets 3–4 slides maximum par partie (beaucoup de visuels, peu de texte).
-	•	Ajoute 1 ou 2 anecdotes réelles (un utilisateur satisfait, un cas où le produit a sauvé une situation).
-	•	Prévois une mini interaction (ex. un sondage rapide type “Qui utilise déjà le produit ?” / “Qui regarde les dashboards ?”).
-	•	Finir par un slide simple avec ton slogan/message clé.
-
-⸻
-
-Tu veux que je te prépare une trame de slides (titres + contenu résumé) pour que tu aies directement un squelette clair à dérouler ?
+👉 Veux-tu que je t’en propose une version encore plus concise / visuelle (seulement 3–4 mots par ligne, façon “poster slide”), pour un meilleur impact visuel en présentation ?
