@@ -1,38 +1,16 @@
-Parfait 👍 Tu veux élargir la slide à tous les personas concernés, pas seulement utilisateurs / coaches / managers.
-
-Voici une version en anglais, structurée par persona, que tu pourras intégrer :
+Parfait 👍 Voici un résumé simple en bullet points, à mettre dans une slide d’intro :
 
 ⸻
 
-Le Comptoir: value for every persona
-
-👥 Visitors (employees)
-	•	Register at the welcome tablet
-	•	Get faster, clearer support
-	•	Transparent follow-up of their requests
-
-🧑‍🔧 Coaches (technicians)
-	•	Manage requests in real time
-	•	Guided workflow: waiting → handling → closure
-	•	Less manual work, more efficiency
-
-👨‍💼 BRM Team Leaders (coach managers)
-	•	Monitor coach activity and performance
-	•	Identify workload balance and areas for improvement
-	•	Support teams with reliable KPIs
-
-🌍 Territory Managers
-	•	Global view across multiple counters
-	•	Compare performance and harmonize practices
-	•	Drive adoption and continuous improvement
-
-🔎 Auditors & Control teams
-	•	Reliable traceability of visits and hardware
-	•	Standardized processes across sites
-	•	Secure, compliant reporting
+Le Comptoir – What it is
+	•	Welcome & manage visitors at IT support counters
+	•	Queue management: register, wait, be assigned to a coach
+	•	Support handling: incidents, onboarding, information, hardware returns
+	•	Integration with ServiceNow for ticket creation & follow-up
+	•	Dashboards & KPIs in Power BI for activity monitoring
 
 ⸻
 
-👉 Ça reste clair et ça montre la valeur pour chacun des rôles.
+👉 C’est volontairement très grosso modo, pour rappeler l’essentiel à ton audience.
 
-Veux-tu que je te prépare une version plus visuelle avec uniquement des mots-clés + pictos (exemple : Visitors – Fast support ✅ / Coaches – Guided workflow ⚡ / Team Leaders – Reliable KPIs 📊, etc.) pour l’intégrer plus facilement en PowerPoint ?
+Tu veux que je t’en propose une version encore plus synthétique (5 mots-clés max) façon “slogan slide” ?
