@@ -1,97 +1,101 @@
-Perfect 👍 Here’s the full English pitch for your presentation, slide by slide, based on everything you’ve shared.
-You can use this as a script/guide while presenting:
+Parfait 👍 je vais te restituer tout ton corpus consolidé, en intégrant :
+	•	Les apports d’Aziz, Christophe, Stéphane & le chef de projet
+	•	Tes précisions UX
+	•	Tes commentaires personnels supplémentaires
+
+👉 Le tout sous une synthèse unique structurée par thèmes (document de restitution global).
 
 ⸻
 
-Slide 1 – Agenda
+📌 Synthèse consolidée des interviews & retours personnels – Projet Traçabilité & Retour d’équipement (Le Comptoir)
 
-“Here is today’s agenda. First, I’ll give a quick reminder of what Le Comptoir is. Then we’ll look at deployment and usage figures, followed by some recent updates. After that, I’ll share what’s coming next in the short term, and then the long-term vision. Finally, we’ll wrap up with a quick conclusion.”
-
-⸻
-
-Slide 2 – Poll: Who already knows the app?
-
-“Let’s start with a quick poll. Who here already knows Le Comptoir Campus App? Please raise your hand, just so we can see how familiar you are with it.”
+1. Restitution des badges
+	•	Lors d’un offboarding, certains collaborateurs ne restituent que leur badge.
+	•	Besoin : la restitution doit déclencher automatiquement sa révocation, gérée en tâche back-office.
 
 ⸻
 
-Slide 3 – What it is (Product Reminder)
-
-“For those who are not yet familiar with the app, here’s a quick reminder.
-Le Comptoir is the IT support counter solution. Visitors register on a welcome tablet, they wait in a virtual queue, and are assigned to a coach. Coaches can then handle requests: incidents, onboarding, information, or hardware returns. Everything is integrated with ServiceNow, and managers can track activity with Power BI dashboards and KPIs.”
-
-⸻
-
-Slide 4 – Value for every persona
-
-“Le Comptoir is not only for visitors. It brings value to all stakeholders.
-For visitors, it means faster, clearer support.
-For coaches, it simplifies their daily work with guided workflows.
-For BRM team leaders, it allows monitoring of their teams’ activity and performance.
-Territory managers get a global view and can harmonize practices across countries.
-And finally, auditors benefit from standardized processes and reliable reporting.
-So, it’s really a tool that serves everyone in the chain.”
-
-⸻
-
-Slide 5 – International deployment
-
-“Today, Le Comptoir is deployed internationally. We have sites in America, Europe, and Asia. In total, that’s already 15 countries, with more to come.
-The key point is: the application is standardized and works the same way everywhere. Whether you are in France, Germany, the US, or India, you get the same experience, which makes adoption and support much easier.”
+2. Gestion des équipements restitués
+	•	Ajouter un bouton iPad dans la liste des équipements restituables.
+	•	Recherche du matériel :
+	•	Permettre la recherche via le numéro à 6 chiffres, sans obligation du préfixe “M” (souvent incohérent dans HAM).
+	•	Afficher le propriétaire théorique depuis HAM.
+	•	Si propriétaire ≠ inventaire actuel → alerte/disclaimer au technicien → vérification avec le dépositaire.
+	•	Sélection du matériel :
+	•	Afficher la liste théorique des équipements en possession de l’utilisateur (même si incomplète).
+	•	Si offboarding détecté, afficher date & contexte pour aider le technicien à s’assurer que tout est restitué.
+	•	Ajouter un bouton “Accessoires” → sélection multiple d’éléments (ex. casque, souris, câbles).
+	•	⚠️ Ces accessoires doivent être uniquement des cases à cocher (pas de notion de volume).
+	•	Historique matériel :
+	•	Permettre au technicien de consulter l’historique des mouvements (équipements donnés/restitués dans tous les comptoirs).
+	•	Ajouter éventuellement un onglet pour les incidents associés.
+	•	Statut supporté/non supporté :
+	•	Afficher si dépositaire ET owner sont supportés ou non par le catalogue groupe → information visible en permanence dans les blocs correspondants.
 
 ⸻
 
-Slide 6 – Reports: Visits & Wait time
-
-“Let’s look at some figures. Since the beginning, we have recorded more than 450,000 visits. Month after month, the number of visits increases as more counters adopt the solution. On the right, you can see waiting times: we’ve had seven positive months in a row, with more than 85% of visits handled in under 10 minutes, which was our main objective.”
-
-⸻
-
-Slide 7 – Reports: Survey & Feedbacks
-
-“Another important part of the app is feedback. Thanks to new features like physical tablets and Teams notifications, survey response rates have improved. This allows us to collect more feedback from visitors, and that helps teams continuously improve the service.”
-
-⸻
-
-Slide 8 – Reports: Survey & Feedbacks (Teams notifications)
-
-“Here are some examples of what we introduced recently.
-First, when a visitor leaves a negative rating, they receive a Teams notification asking them to share more details about their experience.
-Second, if the estimated wait time is too high, the user can decide to continue or be notified later.
-And third, when wait time exceeds a defined threshold, managers and coaches receive an alert so they can quickly reinforce the desk.
-These improvements help us react faster and improve service quality.”
+3. Identification du matériel – Méthodes & UX
+	•	Méthode prioritaire :
+	•	Utiliser des scannettes USB (douchettes) pour codes-barres.
+	•	Chaque comptoir doit en être équipé de plusieurs.
+	•	Méthodes alternatives :
+	1.	Douchette USB (solution standard).
+	2.	Scan photo via caméra du PC.
+	3.	Saisie manuelle (numéro de série, IMEI, code-barres).
+	•	Interface attendue :
+	•	Avant la saisie → afficher un choix de méthode d’identification.
+	•	Bouton Douchette (si non détectée → message “Veuillez brancher une douchette” + retour).
+	•	Bouton Scan photo (caméra).
+	•	Bouton Saisie manuelle.
+	•	Tous les boutons doivent rester visibles pour basculer entre méthodes.
+	•	Cas spécifique iPhone :
+	•	Si non identifiable (batterie HS, appareil mort, etc.), permettre une saisie manuelle partielle (ex. modèle).
+	•	Ajouter une case “Non identifiable” → officialise la réception sans IMEI.
 
 ⸻
 
-Slide 9 – Reports: Survey & Feedbacks (Custom buttons)
-
-“And this is another update: custom buttons on the welcome tablet.
-In addition to standard queue buttons, managers can now create temporary or permanent buttons adapted to local needs. For example, an ‘Info’ button to redirect newcomers, or a ‘Queue’ button for a dedicated project.
-This flexibility improves communication, gives us more detailed statistics in Power BI, and helps adapt the service to each site without losing standardization.”
-
-⸻
-
-Slide 10 – Material Traceability (Upcoming Feature)
-
-“One of the next big steps is hardware traceability.
-The idea is to track every hardware movement — loan, return, exchange, onboarding and offboarding.
-Each transfer will require a user signature directly in the app, which makes ownership crystal clear.
-All updates will flow automatically into CMDB and ServiceNow, so no manual input is needed anymore.
-For coaches, this means a simplified workflow with guided steps and less paperwork.
-And for the company, it improves accountability and sustainability: fewer losses, optimized inventories, and a better lifecycle management of equipment.
-The feature is currently planned to start rolling out end of 2025, beginning of 2026.”
+4. Étapes complémentaires du parcours
+	•	À l’étape “Êtes-vous le propriétaire du matériel ?” :
+	•	Trois réponses possibles :
+	•	Oui
+	•	Non, mais je connais le propriétaire
+	•	Non, et je ne connais pas le propriétaire
 
 ⸻
 
-Slide 11 – Planning Solution for Onboarding Sessions (Upcoming)
-
-“Another important evolution we are working on is a planning solution for onboarding sessions.
-Today, each site often manages onboarding in different ways. The idea is to fully integrate a unique and standardized planning tool directly into Le Comptoir application.
-This will end disparate local practices and allow smoother management.
-Statistics and volumes will also be integrated into Power BI, giving managers better visibility and helping to continuously improve.
-For newcomers, this means a much smoother experience, and for local teams, it makes scheduling easier.
-We are currently in the study phase, with a deployment estimated for the second half of 2026.”
+5. Signature & authentification
+	•	Deux méthodes principales :
+	1.	Signature sur le PC du technicien.
+	2.	Signature sur la tablette surveille (via un code court à 2 caractères : 1 lettre + 1 chiffre).
+	•	Code généré → saisi par l’utilisateur sur tablette → affichage du récapitulatif matériel → confirmation + signature.
+	•	Mode dégradé (offline) :
+	•	Si ServiceNow ou Wi-Fi est KO → permettre de continuer en local.
+	•	Les actions sont stockées puis synchronisées automatiquement dès que la connexion revient.
+	•	Afficher un bandeau d’alerte au technicien en cas de perte de connexion.
+	•	Solution de secours :
+	•	Si tablette surveille KO + PC non tactile → possibilité d’utiliser une tablette Wacom branchée au PC.
 
 ⸻
 
-👉 Do you also want me to add the conclusion pitch (“The End” slide) so you finish with a strong closing message in English?
+6. Génération et gestion des documents
+	•	Fiche de retour mobile BPG :
+	•	En fin de parcours, possibilité d’imprimer directement la fiche remplie → gain de temps pour les équipes.
+	•	Procès-verbal (PV) de restitution :
+	•	Aujourd’hui imprimé systématiquement → jugé lourd.
+	•	Questions à trancher :
+	•	Faut-il toujours imprimer (ex. externes) ?
+	•	Ou seulement sur demande de l’utilisateur ?
+	•	Alternatives proposées :
+	•	L’utilisateur prend une photo du PV affiché sur la tablette.
+	•	Vérifier la validité légale de cette solution.
+
+⸻
+
+7. Points divers
+	•	Dans le récap formulaire, s’assurer que la nomenclature soit claire (“Computer” plutôt que “Windows Workstations”).
+
+⸻
+
+✅ Ce bloc compile tout ce que tu m’as donné jusqu’ici : interviews (Aziz, Christophe, Chef de projet, Stéphane), tes ajouts UX et tes propres remarques.
+
+👉 Veux-tu maintenant que je transforme cette synthèse en backlog de user stories (format En tant que…, je veux…, afin de…) pour que tu puisses l’utiliser directement en construction produit ?
