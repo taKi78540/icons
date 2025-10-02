@@ -1,101 +1,29 @@
-Parfait 👍 je vais te restituer tout ton corpus consolidé, en intégrant :
-	•	Les apports d’Aziz, Christophe, Stéphane & le chef de projet
-	•	Tes précisions UX
-	•	Tes commentaires personnels supplémentaires
-
-👉 Le tout sous une synthèse unique structurée par thèmes (document de restitution global).
+Voici une proposition de mail clair et professionnel que tu pourrais envoyer à Thomas :
 
 ⸻
 
-📌 Synthèse consolidée des interviews & retours personnels – Projet Traçabilité & Retour d’équipement (Le Comptoir)
+Objet : Contribution attendue sur les use cases Lakeside – préparation STIRKO MIT
 
-1. Restitution des badges
-	•	Lors d’un offboarding, certains collaborateurs ne restituent que leur badge.
-	•	Besoin : la restitution doit déclencher automatiquement sa révocation, gérée en tâche back-office.
+Bonjour Thomas,
 
-⸻
+Nous allons prochainement passer devant Marc Camus dans le cadre du STIRKO MIT.
+Dans ce contexte, et afin de consolider le support de présentation, il est nécessaire de détailler l’initiative liée à l’intégration de Lakeside et d’expliciter les use cases concrets que ce produit va apporter.
 
-2. Gestion des équipements restitués
-	•	Ajouter un bouton iPad dans la liste des équipements restituables.
-	•	Recherche du matériel :
-	•	Permettre la recherche via le numéro à 6 chiffres, sans obligation du préfixe “M” (souvent incohérent dans HAM).
-	•	Afficher le propriétaire théorique depuis HAM.
-	•	Si propriétaire ≠ inventaire actuel → alerte/disclaimer au technicien → vérification avec le dépositaire.
-	•	Sélection du matériel :
-	•	Afficher la liste théorique des équipements en possession de l’utilisateur (même si incomplète).
-	•	Si offboarding détecté, afficher date & contexte pour aider le technicien à s’assurer que tout est restitué.
-	•	Ajouter un bouton “Accessoires” → sélection multiple d’éléments (ex. casque, souris, câbles).
-	•	⚠️ Ces accessoires doivent être uniquement des cases à cocher (pas de notion de volume).
-	•	Historique matériel :
-	•	Permettre au technicien de consulter l’historique des mouvements (équipements donnés/restitués dans tous les comptoirs).
-	•	Ajouter éventuellement un onglet pour les incidents associés.
-	•	Statut supporté/non supporté :
-	•	Afficher si dépositaire ET owner sont supportés ou non par le catalogue groupe → information visible en permanence dans les blocs correspondants.
+David m’a demandé que tu puisses fournir cette liste de use cases, de manière à enrichir la partie Enhanced Instrumentation du document.
+L’objectif est de montrer la valeur ajoutée de Lakeside pour le suivi et l’optimisation du cycle de vie des équipements, au-delà de la simple mesure d’âge.
+
+👉 Pour rappel, les éléments déjà actés :
+	•	Démarrage de l’intégration de Lakeside,
+	•	Premier périmètre de production ciblé : BCEF et Fonction Groupant,
+	•	Mise en production prévue : S1 2026.
+
+Il nous manque désormais le détail des use cases attendus, sous forme de points clairs que nous pourrons intégrer dans la version finale du support.
+
+Merci d’avance pour ton retour, idéalement d’ici la fin de semaine, afin que nous puissions avancer sur la préparation.
+
+Bien à toi,
+Arnaud
 
 ⸻
 
-3. Identification du matériel – Méthodes & UX
-	•	Méthode prioritaire :
-	•	Utiliser des scannettes USB (douchettes) pour codes-barres.
-	•	Chaque comptoir doit en être équipé de plusieurs.
-	•	Méthodes alternatives :
-	1.	Douchette USB (solution standard).
-	2.	Scan photo via caméra du PC.
-	3.	Saisie manuelle (numéro de série, IMEI, code-barres).
-	•	Interface attendue :
-	•	Avant la saisie → afficher un choix de méthode d’identification.
-	•	Bouton Douchette (si non détectée → message “Veuillez brancher une douchette” + retour).
-	•	Bouton Scan photo (caméra).
-	•	Bouton Saisie manuelle.
-	•	Tous les boutons doivent rester visibles pour basculer entre méthodes.
-	•	Cas spécifique iPhone :
-	•	Si non identifiable (batterie HS, appareil mort, etc.), permettre une saisie manuelle partielle (ex. modèle).
-	•	Ajouter une case “Non identifiable” → officialise la réception sans IMEI.
-
-⸻
-
-4. Étapes complémentaires du parcours
-	•	À l’étape “Êtes-vous le propriétaire du matériel ?” :
-	•	Trois réponses possibles :
-	•	Oui
-	•	Non, mais je connais le propriétaire
-	•	Non, et je ne connais pas le propriétaire
-
-⸻
-
-5. Signature & authentification
-	•	Deux méthodes principales :
-	1.	Signature sur le PC du technicien.
-	2.	Signature sur la tablette surveille (via un code court à 2 caractères : 1 lettre + 1 chiffre).
-	•	Code généré → saisi par l’utilisateur sur tablette → affichage du récapitulatif matériel → confirmation + signature.
-	•	Mode dégradé (offline) :
-	•	Si ServiceNow ou Wi-Fi est KO → permettre de continuer en local.
-	•	Les actions sont stockées puis synchronisées automatiquement dès que la connexion revient.
-	•	Afficher un bandeau d’alerte au technicien en cas de perte de connexion.
-	•	Solution de secours :
-	•	Si tablette surveille KO + PC non tactile → possibilité d’utiliser une tablette Wacom branchée au PC.
-
-⸻
-
-6. Génération et gestion des documents
-	•	Fiche de retour mobile BPG :
-	•	En fin de parcours, possibilité d’imprimer directement la fiche remplie → gain de temps pour les équipes.
-	•	Procès-verbal (PV) de restitution :
-	•	Aujourd’hui imprimé systématiquement → jugé lourd.
-	•	Questions à trancher :
-	•	Faut-il toujours imprimer (ex. externes) ?
-	•	Ou seulement sur demande de l’utilisateur ?
-	•	Alternatives proposées :
-	•	L’utilisateur prend une photo du PV affiché sur la tablette.
-	•	Vérifier la validité légale de cette solution.
-
-⸻
-
-7. Points divers
-	•	Dans le récap formulaire, s’assurer que la nomenclature soit claire (“Computer” plutôt que “Windows Workstations”).
-
-⸻
-
-✅ Ce bloc compile tout ce que tu m’as donné jusqu’ici : interviews (Aziz, Christophe, Chef de projet, Stéphane), tes ajouts UX et tes propres remarques.
-
-👉 Veux-tu maintenant que je transforme cette synthèse en backlog de user stories (format En tant que…, je veux…, afin de…) pour que tu puisses l’utiliser directement en construction produit ?
+Veux-tu que je te prépare aussi une trame de bullet points types (par exemple autour du monitoring CPU/mémoire, détection d’obsolescence, optimisation des refresh cycles, etc.) pour aider Thomas à structurer sa réponse ?
