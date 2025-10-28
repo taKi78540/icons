@@ -1,29 +1,17 @@
-Super 👍 On peut donc enrichir la slide “Awareness” avec un deuxième point, ce qui rendra la section plus complète et cohérente.
-Voici une version reformulée avec les deux initiatives :
+3. Team Mobilization – High Wait Time Threshold Reached (Enhanced Notification)
 
-⸻
+When the high wait time threshold is exceeded, a Teams notification is automatically sent to a configurable group of users (e.g. managers, agents, or local support staff).
 
-👥 Awareness – Employee Engagement
+🟢 New evolution (Short Term)
+This feature is being enhanced to include additional contextual indicators directly within the notification card, such as:
+	•	Current average wait time
+	•	Number of visitors waiting and in progress
+	•	Coach availability and status
+	•	Duration since the threshold was first exceeded
 
-Carbon Impact Indicators on Marketplace
-A project is underway on the Marketplace, led by APEX, aiming to display indicators of carbon footprint impact based on employees’ usage of collaborative tools.
+These insights will allow teams to quickly assess the situation, understand how long the desk has been under pressure, and mobilize the right support when visitor flow peaks.
 
-This initiative will:
-	•	Raise awareness among employees about the environmental impact of their daily digital practices,
-	•	Encourage the adoption of more sustainable behaviors by suggesting best practices,
-	•	Provide transparency through data that we contribute to supply into the Marketplace.
-
-Clean Data Week
-We are also partnering with JC4E (Clean Company for Employees) for the Clean Data Week.
-This initiative promotes:
-	•	Best practices in sustainable IT,
-	•	Awareness of the environmental impact of digital activities,
-	•	Collective engagement of employees through dedicated campaigns and events.
-
-⸻
-
-👉 Là tu as une slide claire avec deux volets :
-	1.	Individuel et quotidien via la Marketplace,
-	2.	Collectif et événementiel via la Clean Data Week.
-
-Veux-tu que je te propose un titre alternatif plus percutant que “Awareness – Employee Engagement”, par exemple “Raising Employee Awareness” ou “Sustainable IT Awareness” pour mieux refléter la dimension pédagogique ?
+🎯 Goals
+	•	Alert the right people in real time
+	•	Provide detailed context to support rapid decision-making
+	•	Reinforce the desk efficiently during periods of high activity
