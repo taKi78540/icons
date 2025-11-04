@@ -1,48 +1,10 @@
-Voici une version prête à partager dans une note interne ou un message Teams 👇
-
-⸻
-
-🧩 Comparatif des deux formats de stickers – Bornes du Comptoir
-
-Dans le cadre de l’habillage des bornes, deux formats de stickers ont été testés afin d’évaluer le rendu visuel et les contraintes associées. Voici une synthèse des points observés.
-
-⸻
-
-🔹 Option 1 – Sticker grand format
-
-(Recouvre l’ensemble du pied de la borne)
-
-Avantages :
-	•	Rendu visuel plus abouti et homogène, couvrant toute la surface du pied.
-	•	Meilleure visibilité des éléments graphiques (texte, logo, couleurs).
-
-Inconvénients :
-	•	Pose à la charge du comptoir, ce qui ajoute une contrainte logistique.
-	•	Installation plus délicate : le format large augmente le risque de bulles d’air ou de défauts si la pose n’est pas soignée.
-	•	Les bords latéraux du pied restent visibles, le sticker étant en trois parties, ce qui peut nuire légèrement au rendu professionnel si la pose est imparfaite.
-
-⸻
-
-🔹 Option 2 – Sticker petit format
-
-(Recouvre uniquement la partie centrale du pied)
-
-Avantages :
-	•	Pose réalisée directement par le fabricant, sans action nécessaire à la réception.
-	•	Résultat garanti : pas de bulles ni de défauts de pose.
-	•	Aucune contrainte pour les comptoirs locaux.
-
-Inconvénients :
-	•	Rendu visuel moins fort : éléments graphiques plus petits et moins lisibles.
-	•	Aspect global un peu moins valorisant que le grand format.
-
-⸻
-
-🧭 Synthèse
-
-Le sticker grand format offre un rendu visuel plus professionnel et impactant, mais demande un effort supplémentaire de pose et présente un risque d’imperfection.
-Le petit format, plus simple et maîtrisé, garantit une qualité homogène mais un rendu légèrement moins visible.
-
-⸻
-
-Souhaites-tu que je te le reformate sous forme de fiche de décision (avec une recommandation et un tableau comparatif final à ajouter à un document officiel) ?
+javascript:(function(){
+  var select=document.querySelector('select[name="param[201][2]"]');
+  if(select){
+    select.value="non";
+    select.dispatchEvent(new Event('change',{bubbles:true}));
+    alert('✅ Valeur mise sur "non"');
+  } else {
+    alert('⚠️ Champ non trouvé sur cette page');
+  }
+})();
