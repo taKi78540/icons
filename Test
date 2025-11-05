@@ -1,10 +1,94 @@
-javascript:(function(){
-  var select=document.querySelector('select[name="param[201][2]"]');
-  if(select){
-    select.value="non";
-    select.dispatchEvent(new Event('change',{bubbles:true}));
-    alert('✅ Valeur mise sur "non"');
-  } else {
-    alert('⚠️ Champ non trouvé sur cette page');
-  }
-})();
+Parfait 👍 Voici ta présentation complète, prête à être utilisée pour ton passage à Cardiff — structurée de manière claire et professionnelle, avec ton nouveau contexte CMDB / HAM intégré :
+
+⸻
+
+💻 Présentation — Projet de traçabilité du matériel
+
+Contexte : Comptoirs IT – BNV – Cardiff
+
+⸻
+
+🧭 1. Contexte et objectifs
+
+Ce projet s’inscrit dans le dispositif global de traçabilité du matériel déployé au sein des comptoirs.
+Il vise à fiabiliser la CMDB et le module HAM (Hardware Asset Management) pour garantir une vision exacte et consolidée de l’ensemble de nos équipements.
+
+🎯 Objectifs principaux :
+	•	Maîtriser l’ensemble de nos assets matériels, à tout moment.
+	•	Être capable d’identifier la dernière personne ayant eu un matériel en main.
+	•	Assurer la cohérence des données entre les outils de gestion (ServiceNow, CMDB, référentiels internes, etc.).
+	•	Simplifier les procédures pour les équipes comptoirs, tout en renforçant la traçabilité.
+
+💡 En résumé :
+
+La traçabilité est un levier clé pour fiabiliser nos référentiels IT et responsabiliser les utilisateurs sur le matériel dont ils disposent.
+
+⸻
+
+🧩 2. Vision globale du dispositif de traçabilité
+
+Le dispositif s’appuie sur une brique centrale commune à tous les comptoirs, intégrée dans les parcours utilisateurs existants.
+
+🔍 Cette brique permettra :
+	•	L’enregistrement automatique des remises et retours de matériel.
+	•	La signature électronique par le collaborateur lors de chaque transfert.
+	•	La mise à jour automatique des référentiels (CMDB, HAM, tickets ServiceNow, inventaires).
+	•	L’intégration dans les parcours Onboarding / Offboarding.
+	•	L’envoi automatisé de messages aux collaborateurs et managers (ex : rappel de restitution avant un départ).
+
+🪄 Valeur ajoutée :
+	•	Gain de temps pour les techniciens et équipes comptoirs.
+	•	Fiabilité et traçabilité accrues.
+	•	Réduction du matériel non restitué ou dormant.
+	•	Contribution directe à la stratégie Sustainable IT.
+
+⸻
+
+🔁 3. Intégration avec les outils existants (spécifiquement à BNV)
+
+Certaines automatisations locales actuellement en place à BNV — comme les rappels ou suivis internes de restitution — seront progressivement remplacées par cette brique commune.
+
+🎯 Objectif :
+	•	Garantir une harmonisation des pratiques entre tous les comptoirs.
+	•	Éviter les développements ou actions spécifiques propres à un site.
+	•	Assurer la continuité de service tout en simplifiant la maintenance et les processus.
+
+💡 Exemple concret :
+Aujourd’hui, vos outils locaux notifient un collaborateur avant son départ.
+➡️ Demain, cette action sera intégrée dans le dispositif global, déclenchée automatiquement via ServiceNow et nos flux partagés.
+
+⸻
+
+💬 4. Attentes vis-à-vis de BNV
+
+Cette présentation vise à :
+	•	Vous donner de la visibilité sur la trajectoire et le périmètre du dispositif.
+	•	Vous permettre d’anticiper les impacts éventuels sur vos outils internes.
+	•	Recueillir vos retours d’expérience, notamment sur les logiques que vous avez déjà expérimentées localement.
+
+🧠 Votre contribution est essentielle :
+	•	Vos retours peuvent influencer la conception finale du produit.
+	•	Les bonnes pratiques identifiées à BNV pourront être intégrées au dispositif global si elles apportent de la valeur.
+
+💬 Nous cherchons à construire une solution commune, robuste et adaptée à la réalité terrain.
+
+⸻
+
+🌍 5. Vision à moyen terme
+
+🗓️ Déploiement prévisionnel :
+	•	2025 : phases pilotes dans plusieurs comptoirs (dont BNV pourra être partie prenante).
+	•	2025–2026 : intégration progressive dans les processus Onboarding / Offboarding et dans le suivi du matériel quotidien.
+	•	Fin 2025 / début 2026 : déploiement global dans tous les comptoirs.
+
+🚀 Ambition :
+
+Faire de la traçabilité du matériel un socle commun mondial, garantissant :
+	•	Une donnée unique, fiable et à jour dans la CMDB.
+	•	Une expérience homogène pour les collaborateurs et les équipes support.
+	•	Une simplification opérationnelle et une meilleure gouvernance des assets IT.
+
+⸻
+
+Souhaites-tu que je te le mette en version PowerPoint (avec les slides prêtes) ou plutôt en version texte formatée pour présentation orale (type script) ?
+Je peux aussi adapter le ton pour que ce soit plus fluide à dire à l’oral (3–4 minutes de pitch).
