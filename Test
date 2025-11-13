@@ -1,94 +1,61 @@
-Parfait 👍 Voici ta présentation complète, prête à être utilisée pour ton passage à Cardiff — structurée de manière claire et professionnelle, avec ton nouveau contexte CMDB / HAM intégré :
+Voici une proposition claire, professionnelle et orientée management pour présenter la situation et solliciter un plan d’action pour Marivaux.
+Je te propose deux versions : une courte (efficace pour Teams/mail) et une détaillée (pour un compte-rendu ou une note de cadrage).
 
 ⸻
 
-💻 Présentation — Projet de traçabilité du matériel
+📩 Version courte (message à envoyer au manager)
 
-Contexte : Comptoirs IT – BNV – Cardiff
+Bonjour,
 
-⸻
+Je souhaite attirer votre attention sur les temps d’attente observés au Comptoir de Marivaux.
+Depuis maintenant un an, le site dépasse de manière régulière l’objectif fixé : plus de 15 % des visites présentent un temps d’attente supérieur à 10 minutes. Cette situation est durable et nettement au-dessus du seuil attendu.
 
-🧭 1. Contexte et objectifs
+Pourriez-vous, s’il vous plaît, nous partager votre analyse de ces difficultés et nous proposer un plan d’action afin d’améliorer durablement la situation ?
+L’objectif est d’identifier les leviers mobilisables (organisation, staffing, créneaux critiques, optimisation des pratiques) et de définir des mesures suivies dans le temps.
 
-Ce projet s’inscrit dans le dispositif global de traçabilité du matériel déployé au sein des comptoirs.
-Il vise à fiabiliser la CMDB et le module HAM (Hardware Asset Management) pour garantir une vision exacte et consolidée de l’ensemble de nos équipements.
+Je reste disponible pour fournir le détail des données et contribuer à la mise en place du plan d’amélioration.
 
-🎯 Objectifs principaux :
-	•	Maîtriser l’ensemble de nos assets matériels, à tout moment.
-	•	Être capable d’identifier la dernière personne ayant eu un matériel en main.
-	•	Assurer la cohérence des données entre les outils de gestion (ServiceNow, CMDB, référentiels internes, etc.).
-	•	Simplifier les procédures pour les équipes comptoirs, tout en renforçant la traçabilité.
-
-💡 En résumé :
-
-La traçabilité est un levier clé pour fiabiliser nos référentiels IT et responsabiliser les utilisateurs sur le matériel dont ils disposent.
+Merci d’avance pour votre retour.
+Arnaud
 
 ⸻
 
-🧩 2. Vision globale du dispositif de traçabilité
+📝 Version détaillée (note ou message plus complet)
 
-Le dispositif s’appuie sur une brique centrale commune à tous les comptoirs, intégrée dans les parcours utilisateurs existants.
+Bonjour,
 
-🔍 Cette brique permettra :
-	•	L’enregistrement automatique des remises et retours de matériel.
-	•	La signature électronique par le collaborateur lors de chaque transfert.
-	•	La mise à jour automatique des référentiels (CMDB, HAM, tickets ServiceNow, inventaires).
-	•	L’intégration dans les parcours Onboarding / Offboarding.
-	•	L’envoi automatisé de messages aux collaborateurs et managers (ex : rappel de restitution avant un départ).
+Je souhaite faire un point sur la situation du Comptoir de Marivaux concernant les temps d’attente.
 
-🪄 Valeur ajoutée :
-	•	Gain de temps pour les techniciens et équipes comptoirs.
-	•	Fiabilité et traçabilité accrues.
-	•	Réduction du matériel non restitué ou dormant.
-	•	Contribution directe à la stratégie Sustainable IT.
+📊 Constat principal
+Depuis plus d’un an, les données montrent que le Comptoir dépasse durablement l’objectif groupe, à savoir :
+	•	Maximum 15 % des visites avec plus de 10 minutes d’attente
+➡️ À Marivaux, ce taux est supérieur à ce seuil depuis 12 mois, sans amélioration significative.
 
-⸻
+Ce dépassement régulier indique un déséquilibre persistant entre le flux de visiteurs, l’organisation locale et/ou la capacité de traitement.
 
-🔁 3. Intégration avec les outils existants (spécifiquement à BNV)
+🎯 Objectif
+Afin de garantir une expérience homogène dans l’ensemble du réseau Le Comptoir, il est nécessaire de comprendre les causes de ces temps d’attente élevés et d’identifier les actions correctives possibles.
 
-Certaines automatisations locales actuellement en place à BNV — comme les rappels ou suivis internes de restitution — seront progressivement remplacées par cette brique commune.
+🛠️ Demande
+Pourriez-vous, s’il vous plaît, nous fournir :
+	1.	Votre analyse locale des facteurs pouvant expliquer ces résultats (organisation, volume des demandes, staffing, créneaux en tension, process internes…).
+	2.	Un plan d’action concret, contenant :
+	•	actions à court terme (régulation des pics, ajustements opérationnels)
+	•	actions à moyen terme (optimisation des pratiques, montée en compétence, gestion de la charge)
+	•	besoin éventuel d’accompagnement ou de support central.
 
-🎯 Objectif :
-	•	Garantir une harmonisation des pratiques entre tous les comptoirs.
-	•	Éviter les développements ou actions spécifiques propres à un site.
-	•	Assurer la continuité de service tout en simplifiant la maintenance et les processus.
+📈 Accompagnement
+Je reste naturellement disponible pour vous transmettre :
+	•	le détail des indicateurs mensuels,
+	•	l’analyse par types de visites, flux horaires et répartition des charges,
+	•	ainsi que pour travailler ensemble à l’élaboration et au suivi du plan d’amélioration.
 
-💡 Exemple concret :
-Aujourd’hui, vos outils locaux notifient un collaborateur avant son départ.
-➡️ Demain, cette action sera intégrée dans le dispositif global, déclenchée automatiquement via ServiceNow et nos flux partagés.
-
-⸻
-
-💬 4. Attentes vis-à-vis de BNV
-
-Cette présentation vise à :
-	•	Vous donner de la visibilité sur la trajectoire et le périmètre du dispositif.
-	•	Vous permettre d’anticiper les impacts éventuels sur vos outils internes.
-	•	Recueillir vos retours d’expérience, notamment sur les logiques que vous avez déjà expérimentées localement.
-
-🧠 Votre contribution est essentielle :
-	•	Vos retours peuvent influencer la conception finale du produit.
-	•	Les bonnes pratiques identifiées à BNV pourront être intégrées au dispositif global si elles apportent de la valeur.
-
-💬 Nous cherchons à construire une solution commune, robuste et adaptée à la réalité terrain.
+Merci d’avance pour votre retour,
+Arnaud
 
 ⸻
 
-🌍 5. Vision à moyen terme
-
-🗓️ Déploiement prévisionnel :
-	•	2025 : phases pilotes dans plusieurs comptoirs (dont BNV pourra être partie prenante).
-	•	2025–2026 : intégration progressive dans les processus Onboarding / Offboarding et dans le suivi du matériel quotidien.
-	•	Fin 2025 / début 2026 : déploiement global dans tous les comptoirs.
-
-🚀 Ambition :
-
-Faire de la traçabilité du matériel un socle commun mondial, garantissant :
-	•	Une donnée unique, fiable et à jour dans la CMDB.
-	•	Une expérience homogène pour les collaborateurs et les équipes support.
-	•	Une simplification opérationnelle et une meilleure gouvernance des assets IT.
-
-⸻
-
-Souhaites-tu que je te le mette en version PowerPoint (avec les slides prêtes) ou plutôt en version texte formatée pour présentation orale (type script) ?
-Je peux aussi adapter le ton pour que ce soit plus fluide à dire à l’oral (3–4 minutes de pitch).
+Si tu veux, je peux aussi te préparer :
+✅ une version encore plus synthétique pour un cadre dirigeant,
+✅ une slide PowerPoint prête à intégrer dans ta présentation,
+✅ ou une formulation plus directe/plus diplomatique selon ton besoin.
