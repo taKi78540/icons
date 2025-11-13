@@ -1,61 +1,115 @@
-Voici une proposition claire, professionnelle et orientée management pour présenter la situation et solliciter un plan d’action pour Marivaux.
-Je te propose deux versions : une courte (efficace pour Teams/mail) et une détaillée (pour un compte-rendu ou une note de cadrage).
+Voici la version enrichie du besoin, incluant clairement la dimension alertes automatiques en cas de situation grave.
+Tu peux envoyer tel quel à Nicolas : tout est intégré de manière cohérente.
 
 ⸻
 
-📩 Version courte (message à envoyer au manager)
+Besoin : Analyse intelligente des commentaires utilisateurs & alertes – Le Comptoir
 
-Bonjour,
+Contexte
 
-Je souhaite attirer votre attention sur les temps d’attente observés au Comptoir de Marivaux.
-Depuis maintenant un an, le site dépasse de manière régulière l’objectif fixé : plus de 15 % des visites présentent un temps d’attente supérieur à 10 minutes. Cette situation est durable et nettement au-dessus du seuil attendu.
+L’application Le Comptoir recueille des commentaires via les cartes “Teams Survey”.
+Ces commentaires sont d’abord envoyés dans une liste SharePoint, puis persistés dans un Dataverse, qui devient la source centralisée.
 
-Pourriez-vous, s’il vous plaît, nous partager votre analyse de ces difficultés et nous proposer un plan d’action afin d’améliorer durablement la situation ?
-L’objectif est d’identifier les leviers mobilisables (organisation, staffing, créneaux critiques, optimisation des pratiques) et de définir des mesures suivies dans le temps.
-
-Je reste disponible pour fournir le détail des données et contribuer à la mise en place du plan d’amélioration.
-
-Merci d’avance pour votre retour.
-Arnaud
+Aujourd’hui, les verbatims sont nombreux mais aucune analyse automatique n’est réalisée.
+Nous souhaitons utiliser Copilot Studio pour exploiter ces données qualitatives de manière intelligente, proactive et actionnable.
 
 ⸻
 
-📝 Version détaillée (note ou message plus complet)
+Objectif
 
-Bonjour,
-
-Je souhaite faire un point sur la situation du Comptoir de Marivaux concernant les temps d’attente.
-
-📊 Constat principal
-Depuis plus d’un an, les données montrent que le Comptoir dépasse durablement l’objectif groupe, à savoir :
-	•	Maximum 15 % des visites avec plus de 10 minutes d’attente
-➡️ À Marivaux, ce taux est supérieur à ce seuil depuis 12 mois, sans amélioration significative.
-
-Ce dépassement régulier indique un déséquilibre persistant entre le flux de visiteurs, l’organisation locale et/ou la capacité de traitement.
-
-🎯 Objectif
-Afin de garantir une expérience homogène dans l’ensemble du réseau Le Comptoir, il est nécessaire de comprendre les causes de ces temps d’attente élevés et d’identifier les actions correctives possibles.
-
-🛠️ Demande
-Pourriez-vous, s’il vous plaît, nous fournir :
-	1.	Votre analyse locale des facteurs pouvant expliquer ces résultats (organisation, volume des demandes, staffing, créneaux en tension, process internes…).
-	2.	Un plan d’action concret, contenant :
-	•	actions à court terme (régulation des pics, ajustements opérationnels)
-	•	actions à moyen terme (optimisation des pratiques, montée en compétence, gestion de la charge)
-	•	besoin éventuel d’accompagnement ou de support central.
-
-📈 Accompagnement
-Je reste naturellement disponible pour vous transmettre :
-	•	le détail des indicateurs mensuels,
-	•	l’analyse par types de visites, flux horaires et répartition des charges,
-	•	ainsi que pour travailler ensemble à l’élaboration et au suivi du plan d’amélioration.
-
-Merci d’avance pour votre retour,
-Arnaud
+Créer un Copilot interne qui :
+	1.	Analyse automatiquement tous les commentaires utilisateurs (sentiment, motifs d’insatisfaction, catégories…)
+	2.	Produit des synthèses par comptoir ou période
+	3.	Détecte et remonte immédiatement les situations graves (alertes)
 
 ⸻
 
-Si tu veux, je peux aussi te préparer :
-✅ une version encore plus synthétique pour un cadre dirigeant,
-✅ une slide PowerPoint prête à intégrer dans ta présentation,
-✅ ou une formulation plus directe/plus diplomatique selon ton besoin.
+Périmètre fonctionnel détaillé
+
+1. Analyse individuelle des commentaires
+
+Pour chaque commentaire, Copilot doit déterminer :
+	•	Niveau de satisfaction
+(très satisfait → très mécontent)
+	•	Sentiment / état d’esprit
+(positif, mitigé, frustré, irrité, furieux)
+	•	Motifs précis d’insatisfaction
+(ex. : temps d’attente, qualité de prise en charge, matériel manquant, mauvaise information, etc.)
+	•	Catégorie de visite concernée
+(Appointment, Incident, Information, Returned Hardware…)
+	•	Caractère ponctuel ou récurrent
+(première occurrence ou motif souvent évoqué)
+	•	Signaux faibles et signaux forts
+(expressions émotionnelles, tonalité agressive, sentiment d’abandon…)
+
+⸻
+
+2. Synthèses automatiques
+
+Pour un comptoir donné ou sur une période choisie, Copilot doit fournir :
+	•	Top 3 des irritants
+	•	Poids des différents motifs
+	•	Évolution du sentiment dans le temps
+	•	Répartition des insatisfactions par type de visite
+	•	Exemples de verbatims représentatifs (anonymisés)
+	•	Indicateurs clés :
+	•	taux de commentaires négatifs
+	•	intensité moyenne du mécontentement
+	•	récurrence des mêmes problèmes
+
+⸻
+
+3. Alerte en cas de situation grave (nouveau point clé)
+
+Copilot doit également être capable de détecter automatiquement toute situation “à risque”, par exemple :
+	•	Commentaire manifestant une très forte colère
+	•	Mots clés traduisant une rupture de confiance totale
+	•	Mention d’un problème grave :
+	•	refus de prise en charge
+	•	incident matériel critique
+	•	sentiment d’injustice
+	•	service non rendu
+	•	Plusieurs commentaires négatifs en peu de temps sur un même comptoir
+	•	Un événement inhabituel (ex. : “personne ne m’a aidé”, “30 minutes d’attente”, etc.)
+
+Lorsqu’une telle situation est détectée :
+
+➡️ Copilot doit envoyer automatiquement une alerte vers un canal Teams dédié ou une adresse groupe.
+L’alerte contient :
+	•	Le comptoir concerné
+	•	La gravité estimée
+	•	Le commentaire ou un résumé anonymisé
+	•	La catégorie de visite
+	•	Le degré d’urgence (ex. : critique, élevé, attention)
+
+Cela permet aux managers de réagir immédiatement avant que la situation ne se dégrade.
+
+⸻
+
+Solution technique envisagée
+	1.	Récupération des commentaires depuis Dataverse (connecteur, action Power Automate, plug-in Copilot Studio).
+	2.	Analyse IA :
+	•	détection de sentiment
+	•	classification thématique
+	•	détection d’anomalies / situations graves
+	3.	Synthèse ou génération d’alertes.
+	4.	Restitution via Copilot Teams ou messages automatisés dans Teams.
+
+⸻
+
+Bénéfices
+	•	Lecture directe de l’état d’esprit des visiteurs.
+	•	Identification immédiate des irritants.
+	•	Suivi continu de la satisfaction.
+	•	Réactivité renforcée grâce aux alertes en cas de crise.
+	•	Vision transversale par comptoir ou activité.
+	•	Appui fort au pilotage qualité et opérationnel.
+
+⸻
+
+Si tu veux, je peux maintenant te préparer :
+✅ une version courte “pitch” pour managers
+ou
+✅ une présentation PowerPoint prête à envoyer
+ou
+✅ un message Teams rédigé pour Nicolas.
