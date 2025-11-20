@@ -1,18 +1,19 @@
-Anciennete_Coach_Active :=
-VAR CoachesActifs =
-    FILTER (
-        Coaches_par_mois,
-        CALCULATE (
-            COUNTROWS ( 'lecomptoir allvisits_181124' ),
-            'lecomptoir allvisits_181124'[Coach] = Coaches_par_mois[Coach]
-        ) > 0
+Maturite_Coach_Active :=
+VAR Base =
+    ADDCOLUMNS (
+        FILTER (
+            Coaches_par_mois,
+            CALCULATE (
+                COUNTROWS ( 'lecomptoir allvisits_181124' ),
+                'lecomptoir allvisits_181124'[coach.id] = Coaches_par_mois[coach.id]
+            ) > 0
+        ),
+        "Anciennete",
+            DATEDIFF (
+                Coaches_par_mois[Premier_mois_coach],
+                Coaches_par_mois[Première_Date],
+                MONTH
+            )
     )
 RETURN
-AVERAGEX (
-    CoachesActifs,
-    DATEDIFF (
-        Coaches_par_mois[Premier_mois_coach],
-        Coaches_par_mois[Première_Date],
-        MONTH
-    )
-)
+AVERAGEX ( Base, [Anciennete] )
