@@ -1,11 +1,18 @@
-Tickets_traite_mois =
-VAR CoachId = Coaches_par_mois[coach.id]
-VAR DebutMois = STARTOFMONTH ( Coaches_par_mois[Date] )
-VAR FinMois = ENDOFMONTH ( Coaches_par_mois[Date] )
-RETURN
-CALCULATE (
-    COUNTROWS ( 'lecomptoir allvisits_181124' ),
-    'lecomptoir allvisits_181124'[coach.id] = CoachId,
-    'lecomptoir allvisits_181124'[CreatedAt] >= DebutMois,
-    'lecomptoir allvisits_181124'[CreatedAt] <= FinMois
-)
+Voici la version enrichie avec ta phrase, fluide et adaptée à l’oral :
+
+⸻
+
+**« Globalement, quand on regarde nos eKPI, on observe une amélioration progressive des temps d’attente dans les comptoirs. Les temps baissent, ce qui montre une meilleure adoption de la solution par les équipes et l’efficacité des plans d’action locaux.
+Un bon exemple, c’est l’Italie : pendant plusieurs mois, leurs estimations étaient en difficulté, mais ils ont réussi à redresser la situation grâce à un vrai travail d’appropriation. Donc bravo à eux.
+
+En parallèle, on identifie aujourd’hui deux types de comptoirs en difficulté.
+Le premier groupe, ce sont les comptoirs qui viennent d’ouvrir. Et là, c’est normal : les équipes ne sont pas encore totalement à l’aise avec l’outil, il peut y avoir des problèmes d’usage au démarrage, et le staffing doit parfois être ajusté quand les volumes de visiteurs augmentent.
+
+Le deuxième groupe, ce sont les comptoirs où la situation reste préoccupante depuis plusieurs mois. Les indicateurs sont dans le rouge de manière persistante, et pour ces sites, il faudra désormais mettre en place des plans d’action plus structurants pour améliorer durablement la situation.
+
+Donc, on a d’un côté des difficultés temporaires et attendues, et de l’autre des difficultés plus profondes qui nécessitent une attention prioritaire.
+Et bien sûr, je me tiens à votre disposition pour vous accompagner dans l’analyse détaillée des KPI, ou vous fournir des éléments plus approfondis si vous en avez besoin. »**
+
+⸻
+
+Si tu veux une version courte/executive pour slide ou une version plus punchy pour l’oral, je peux te la proposer aussi.
