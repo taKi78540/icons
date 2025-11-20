@@ -1,115 +1,18 @@
-Voici la version enrichie du besoin, incluant clairement la dimension alertes automatiques en cas de situation grave.
-Tu peux envoyer tel quel à Nicolas : tout est intégré de manière cohérente.
-
-⸻
-
-Besoin : Analyse intelligente des commentaires utilisateurs & alertes – Le Comptoir
-
-Contexte
-
-L’application Le Comptoir recueille des commentaires via les cartes “Teams Survey”.
-Ces commentaires sont d’abord envoyés dans une liste SharePoint, puis persistés dans un Dataverse, qui devient la source centralisée.
-
-Aujourd’hui, les verbatims sont nombreux mais aucune analyse automatique n’est réalisée.
-Nous souhaitons utiliser Copilot Studio pour exploiter ces données qualitatives de manière intelligente, proactive et actionnable.
-
-⸻
-
-Objectif
-
-Créer un Copilot interne qui :
-	1.	Analyse automatiquement tous les commentaires utilisateurs (sentiment, motifs d’insatisfaction, catégories…)
-	2.	Produit des synthèses par comptoir ou période
-	3.	Détecte et remonte immédiatement les situations graves (alertes)
-
-⸻
-
-Périmètre fonctionnel détaillé
-
-1. Analyse individuelle des commentaires
-
-Pour chaque commentaire, Copilot doit déterminer :
-	•	Niveau de satisfaction
-(très satisfait → très mécontent)
-	•	Sentiment / état d’esprit
-(positif, mitigé, frustré, irrité, furieux)
-	•	Motifs précis d’insatisfaction
-(ex. : temps d’attente, qualité de prise en charge, matériel manquant, mauvaise information, etc.)
-	•	Catégorie de visite concernée
-(Appointment, Incident, Information, Returned Hardware…)
-	•	Caractère ponctuel ou récurrent
-(première occurrence ou motif souvent évoqué)
-	•	Signaux faibles et signaux forts
-(expressions émotionnelles, tonalité agressive, sentiment d’abandon…)
-
-⸻
-
-2. Synthèses automatiques
-
-Pour un comptoir donné ou sur une période choisie, Copilot doit fournir :
-	•	Top 3 des irritants
-	•	Poids des différents motifs
-	•	Évolution du sentiment dans le temps
-	•	Répartition des insatisfactions par type de visite
-	•	Exemples de verbatims représentatifs (anonymisés)
-	•	Indicateurs clés :
-	•	taux de commentaires négatifs
-	•	intensité moyenne du mécontentement
-	•	récurrence des mêmes problèmes
-
-⸻
-
-3. Alerte en cas de situation grave (nouveau point clé)
-
-Copilot doit également être capable de détecter automatiquement toute situation “à risque”, par exemple :
-	•	Commentaire manifestant une très forte colère
-	•	Mots clés traduisant une rupture de confiance totale
-	•	Mention d’un problème grave :
-	•	refus de prise en charge
-	•	incident matériel critique
-	•	sentiment d’injustice
-	•	service non rendu
-	•	Plusieurs commentaires négatifs en peu de temps sur un même comptoir
-	•	Un événement inhabituel (ex. : “personne ne m’a aidé”, “30 minutes d’attente”, etc.)
-
-Lorsqu’une telle situation est détectée :
-
-➡️ Copilot doit envoyer automatiquement une alerte vers un canal Teams dédié ou une adresse groupe.
-L’alerte contient :
-	•	Le comptoir concerné
-	•	La gravité estimée
-	•	Le commentaire ou un résumé anonymisé
-	•	La catégorie de visite
-	•	Le degré d’urgence (ex. : critique, élevé, attention)
-
-Cela permet aux managers de réagir immédiatement avant que la situation ne se dégrade.
-
-⸻
-
-Solution technique envisagée
-	1.	Récupération des commentaires depuis Dataverse (connecteur, action Power Automate, plug-in Copilot Studio).
-	2.	Analyse IA :
-	•	détection de sentiment
-	•	classification thématique
-	•	détection d’anomalies / situations graves
-	3.	Synthèse ou génération d’alertes.
-	4.	Restitution via Copilot Teams ou messages automatisés dans Teams.
-
-⸻
-
-Bénéfices
-	•	Lecture directe de l’état d’esprit des visiteurs.
-	•	Identification immédiate des irritants.
-	•	Suivi continu de la satisfaction.
-	•	Réactivité renforcée grâce aux alertes en cas de crise.
-	•	Vision transversale par comptoir ou activité.
-	•	Appui fort au pilotage qualité et opérationnel.
-
-⸻
-
-Si tu veux, je peux maintenant te préparer :
-✅ une version courte “pitch” pour managers
-ou
-✅ une présentation PowerPoint prête à envoyer
-ou
-✅ un message Teams rédigé pour Nicolas.
+Anciennete_Coach_Active :=
+VAR CoachesActifs =
+    FILTER (
+        Coaches_par_mois,
+        CALCULATE (
+            COUNTROWS ( 'lecomptoir allvisits_181124' ),
+            'lecomptoir allvisits_181124'[Coach] = Coaches_par_mois[Coach]
+        ) > 0
+    )
+RETURN
+AVERAGEX (
+    CoachesActifs,
+    DATEDIFF (
+        Coaches_par_mois[Premier_mois_coach],
+        Coaches_par_mois[Première_Date],
+        MONTH
+    )
+)
