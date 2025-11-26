@@ -1,7 +1,97 @@
-Tickets_traite_mois =
-CALCULATE(
-    COUNTROWS('lecomptoir allvisits_181124'),
-    'lecomptoir allvisits_181124'[coach.id] = Coaches_par_mois[coach.id],
-    FORMAT('lecomptoir allvisits_181124'[createdAt], "YYYYMM") =
-        Coaches_par_mois[YearMonthSort]
-)
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "triggers": {
+      "manual": {
+        "type": "Request",
+        "kind": "Button",
+        "inputs": {}
+      }
+    },
+    "actions": {
+      "POWERBI_Get_Metiers": {
+        "type": "ApiConnection",
+        "inputs": {
+          "method": "post",
+          "body": {
+            "datasetId": "⚠️_DATASET_ID",
+            "queries": [
+              {
+                "query": "EVALUATE DISTINCT(SELECTCOLUMNS('TableMetiers','Metier','TableMetiers'[Metier]))"
+              }
+            ],
+            "workspaceId": "⚠️_WORKSPACE_ID"
+          },
+          "connectionName": "shared_powerbi",
+          "operationId": "ExecuteQueries",
+          "authentication": "@parameters('$authentication')"
+        },
+        "runAfter": {}
+      },
+
+      "SharePoint_Get_Choices": {
+        "type": "Http",
+        "inputs": {
+          "method": "GET",
+          "uri": "https://⚠️TENANT.sharepoint.com/sites/⚠️SITE/_api/web/lists/GetByTitle('⚠️NomListe')/Fields/GetByInternalNameOrTitle('Metier')",
+          "headers": {
+            "Accept": "application/json;odata=verbose"
+          }
+        },
+        "runAfter": {
+          "POWERBI_Get_Metiers": [
+            "Succeeded"
+          ]
+        }
+      },
+
+      "Parse_Choices_SP": {
+        "type": "ParseJson",
+        "inputs": {
+          "content": "@body('SharePoint_Get_Choices')?['d']?['Choices']",
+          "schema": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "runAfter": {
+          "SharePoint_Get_Choices": [
+            "Succeeded"
+          ]
+        }
+      },
+
+      "Union_No_Duplicate": {
+        "type": "Compose",
+        "inputs": "@union(body('POWERBI_Get_Metiers')?['results']?[0]?['tables']?[0]?['rows'], body('Parse_Choices_SP'))",
+        "runAfter": {
+          "Parse_Choices_SP": [
+            "Succeeded"
+          ]
+        }
+      },
+
+      "SharePoint_Update_Choices": {
+        "type": "Http",
+        "inputs": {
+          "method": "PATCH",
+          "uri": "https://⚠️TENANT.sharepoint.com/sites/⚠️SITE/_api/web/lists/GetByTitle('⚠️NomListe')/Fields/GetByInternalNameOrTitle('Metier')",
+          "headers": {
+            "Content-Type": "application/json;odata=verbose"
+          },
+          "body": {
+            "__metadata": { "type": "SP.FieldChoice" },
+            "Choices": "@outputs('Union_No_Duplicate')"
+          }
+        },
+        "runAfter": {
+          "Union_No_Duplicate": [
+            "Succeeded"
+          ]
+        }
+      }
+    }
+  }
+}
