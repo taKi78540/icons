@@ -1,97 +1,120 @@
+Parfait 👍
+Voici la version simple du flow Power Automate pour alimenter automatiquement la liste de choix SharePoint à partir des métiers issus de ton modèle Power BI.
+
+⸻
+
+🔥 Objectif du flow
+
+➡ Mettre à jour uniquement les nouveaux métiers sur la colonne choix SharePoint
+➡ Pas de suppression — synchronisation incrémentale simple
+➡ Gestion automatisée (planifiée ou manuelle)
+
+⸻
+
+🟦 PRÉREQUIS
+
+Élément	Description
+🟩 Dataset Power BI contenant ta table Metiers	avec une colonne Metier
+🟩 Liste SharePoint	colonne type Choice nommée Metier
+🟩 Droit contributeur sur SharePoint	pour écrire dans la liste
+🟩 Power Automate premium non requis	→ c’est du standard ✔
+
+
+⸻
+
+🛠 STRUCTURE DU FLOW
+
+🔷 Trigger
+
+Choisis l’un des deux :
+
+Type	Quand l’utiliser
+Scheduler (tous les jours/semaine)	automatisation totale ✔
+Bouton manuel	quand mise à jour ponctuelle suffit
+
+
+⸻
+
+🔷 Étape 1 – Récupérer la liste des métiers depuis Power BI
+	1.	Ajouter une action → Power BI – Exécuter une requête DAX
+	2.	Dataset = celui de ton rapport
+	3.	Query DAX à utiliser :
+
+EVALUATE DISTINCT(SELECTCOLUMNS('TableMetiers', "Metier", 'TableMetiers'[Metier]))
+
+📌 Résultat → une liste JSON des métiers existants dans tes données
+
+⸻
+
+🔷 Étape 2 – Lire les choix actuels SharePoint
+	1.	Ajouter une action HTTP vers SharePoint
+	2.	Méthode GET
+	3.	URL :
+
+_siteURL_/_api/web/lists/GetByTitle('NomDeTaListe')/Fields/GetByInternalNameOrTitle('Metier')
+
+Headers :
+
+Accept: application/json;odata=verbose
+
+📌 Purpose : obtenir la liste existante pour éviter doublons
+
+⸻
+
+🔷 Étape 3 – Build nouvelle liste de choix
+
+Ajouter un Compose pour reconstruire la liste consolidée :
+
+[
+  @{outputs('MetiersPowerBI')?['value']},
+  @{body('SharePoint_Choices')?['d']?['Choices']}
+]
+
+➡ Tu obtiens toutes les valeurs Power BI + SharePoint existantes
+➡ Ensuite Remove Duplicates via :
+
+Action → Select → Union() (très simple dans Power Automate)
+
+⸻
+
+🔷 Étape 4 – Mettre à jour SharePoint (ajout des nouveaux métiers uniquement)
+
+Créer un HTTP PATCH :
+
+PATCH _siteURL_/_api/web/lists/GetByTitle('NomDeTaListe')/Fields/GetByInternalNameOrTitle('Metier')
+Content-Type: application/json;odata=verbose
+
 {
-  "definition": {
-    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {},
-    "triggers": {
-      "manual": {
-        "type": "Request",
-        "kind": "Button",
-        "inputs": {}
-      }
-    },
-    "actions": {
-      "POWERBI_Get_Metiers": {
-        "type": "ApiConnection",
-        "inputs": {
-          "method": "post",
-          "body": {
-            "datasetId": "⚠️_DATASET_ID",
-            "queries": [
-              {
-                "query": "EVALUATE DISTINCT(SELECTCOLUMNS('TableMetiers','Metier','TableMetiers'[Metier]))"
-              }
-            ],
-            "workspaceId": "⚠️_WORKSPACE_ID"
-          },
-          "connectionName": "shared_powerbi",
-          "operationId": "ExecuteQueries",
-          "authentication": "@parameters('$authentication')"
-        },
-        "runAfter": {}
-      },
-
-      "SharePoint_Get_Choices": {
-        "type": "Http",
-        "inputs": {
-          "method": "GET",
-          "uri": "https://⚠️TENANT.sharepoint.com/sites/⚠️SITE/_api/web/lists/GetByTitle('⚠️NomListe')/Fields/GetByInternalNameOrTitle('Metier')",
-          "headers": {
-            "Accept": "application/json;odata=verbose"
-          }
-        },
-        "runAfter": {
-          "POWERBI_Get_Metiers": [
-            "Succeeded"
-          ]
-        }
-      },
-
-      "Parse_Choices_SP": {
-        "type": "ParseJson",
-        "inputs": {
-          "content": "@body('SharePoint_Get_Choices')?['d']?['Choices']",
-          "schema": {
-            "type": "array",
-            "items": { "type": "string" }
-          }
-        },
-        "runAfter": {
-          "SharePoint_Get_Choices": [
-            "Succeeded"
-          ]
-        }
-      },
-
-      "Union_No_Duplicate": {
-        "type": "Compose",
-        "inputs": "@union(body('POWERBI_Get_Metiers')?['results']?[0]?['tables']?[0]?['rows'], body('Parse_Choices_SP'))",
-        "runAfter": {
-          "Parse_Choices_SP": [
-            "Succeeded"
-          ]
-        }
-      },
-
-      "SharePoint_Update_Choices": {
-        "type": "Http",
-        "inputs": {
-          "method": "PATCH",
-          "uri": "https://⚠️TENANT.sharepoint.com/sites/⚠️SITE/_api/web/lists/GetByTitle('⚠️NomListe')/Fields/GetByInternalNameOrTitle('Metier')",
-          "headers": {
-            "Content-Type": "application/json;odata=verbose"
-          },
-          "body": {
-            "__metadata": { "type": "SP.FieldChoice" },
-            "Choices": "@outputs('Union_No_Duplicate')"
-          }
-        },
-        "runAfter": {
-          "Union_No_Duplicate": [
-            "Succeeded"
-          ]
-        }
-      }
-    }
-  }
+  "__metadata": { "type":"SP.FieldChoice"},
+  "Choices": [
+    @{variables('ListeFinaleSansDoublons')}
+  ]
 }
+
+➡ SharePoint ajoute uniquement les métiers non existants
+
+⸻
+
+🎯 Résultat
+
+État	Action
+Nouveau métier ajouté côté Power BI	✓ apparaît automatiquement dans SharePoint
+Valeurs déjà existantes	🔁 ignorées — rien n’est écrasé
+Aucun besoin de modifier Power BI	🔒 RLS reste dynamique et propre
+
+
+⸻
+
+Si tu veux je peux maintenant te générer :
+
+🔥 → le Flow Power Automate exportable en .zip
+
+📌 tu l’importes → tu modifies 2 paramètres → fini
+
+OU
+
+🔥 → un visuel schéma du flow pour que tu le montes en 10 minutes
+
+Répond simplement :
+
+👉 ZIP ou SCHÉMA ?
