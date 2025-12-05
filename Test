@@ -1,120 +1,102 @@
-Parfait 👍
-Voici la version simple du flow Power Automate pour alimenter automatiquement la liste de choix SharePoint à partir des métiers issus de ton modèle Power BI.
+Parfait, grâce à ta capture on peut éliminer beaucoup d’hypothèses.
+
+👉 Le bundle ID com.bnpparibas.lecomptoircampus existe bien et est attaché à la Team BNPP (ID : 2W96CN898S).
+Donc le problème ne vient PAS du portail Apple.
+
+➡️ Le problème vient à 99 % du fait que ton développeur n’est pas connecté à cette Team dans Xcode au moment où il tente de signer le build.
 
 ⸻
 
-🔥 Objectif du flow
+🎯 Ce qui se passe réellement
 
-➡ Mettre à jour uniquement les nouveaux métiers sur la colonne choix SharePoint
-➡ Pas de suppression — synchronisation incrémentale simple
-➡ Gestion automatisée (planifiée ou manuelle)
+Ton dev essaie de builder l’app avec :
+	•	soit la mauvaise Team sélectionnée dans Xcode (ex : sa team perso, ou une autre team d’entreprise),
+	•	soit le bon Apple ID mais pas associé à la Team 2W96CN898S (pas encore invité, ou invitation non acceptée),
+	•	soit Xcode utilise des profils de signature périmés depuis l’expiration du programme et ne les régénère pas.
 
-⸻
+Xcode tente donc de créer automatiquement un provisioning profile dans une Team où le bundle ID n’existe pas, ce qui déclenche :
 
-🟦 PRÉREQUIS
+❌ “Failed Registering Bundle Identifier”
 
-Élément	Description
-🟩 Dataset Power BI contenant ta table Metiers	avec une colonne Metier
-🟩 Liste SharePoint	colonne type Choice nommée Metier
-🟩 Droit contributeur sur SharePoint	pour écrire dans la liste
-🟩 Power Automate premium non requis	→ c’est du standard ✔
+→ Normal : Xcode essaie d’enregistrer com.bnpparibas.lecomptoircampus dans une Team qui n’en est pas propriétaire.
 
+❌ “No profiles for com.bnpparibas.lecomptoircampus were found”
 
-⸻
-
-🛠 STRUCTURE DU FLOW
-
-🔷 Trigger
-
-Choisis l’un des deux :
-
-Type	Quand l’utiliser
-Scheduler (tous les jours/semaine)	automatisation totale ✔
-Bouton manuel	quand mise à jour ponctuelle suffit
-
+→ Normal aussi : la Team sélectionnée n’a aucun provisioning profile pour cet App ID.
 
 ⸻
 
-🔷 Étape 1 – Récupérer la liste des métiers depuis Power BI
-	1.	Ajouter une action → Power BI – Exécuter une requête DAX
-	2.	Dataset = celui de ton rapport
-	3.	Query DAX à utiliser :
+✔️ La solution (simple, rapide)
 
-EVALUATE DISTINCT(SELECTCOLUMNS('TableMetiers', "Metier", 'TableMetiers'[Metier]))
+🟦 Étape 1 – Ton dev doit vérifier la Team dans Xcode
 
-📌 Résultat → une liste JSON des métiers existants dans tes données
+Dans Xcode :
+	1.	Xcode > Settings > Accounts
+	2.	Sélectionner son Apple ID
+	3.	Regarder dans “Teams”
+🔍 Il doit absolument voir :
 
-⸻
+BNP Paribas – 2W96CN898S (Enterprise)
 
-🔷 Étape 2 – Lire les choix actuels SharePoint
-	1.	Ajouter une action HTTP vers SharePoint
-	2.	Méthode GET
-	3.	URL :
+S’il ne la voit pas :
 
-_siteURL_/_api/web/lists/GetByTitle('NomDeTaListe')/Fields/GetByInternalNameOrTitle('Metier')
+➤ Il faut que ton admin Apple l’invite sur la Team 2W96CN898S
 
-Headers :
-
-Accept: application/json;odata=verbose
-
-📌 Purpose : obtenir la liste existante pour éviter doublons
+Rôle conseillé : App Manager ou Developer.
 
 ⸻
 
-🔷 Étape 3 – Build nouvelle liste de choix
+🟩 Étape 2 – Mise à jour des profils
 
-Ajouter un Compose pour reconstruire la liste consolidée :
-
-[
-  @{outputs('MetiersPowerBI')?['value']},
-  @{body('SharePoint_Choices')?['d']?['Choices']}
-]
-
-➡ Tu obtiens toutes les valeurs Power BI + SharePoint existantes
-➡ Ensuite Remove Duplicates via :
-
-Action → Select → Union() (très simple dans Power Automate)
+Une fois la Team visible :
+	1.	Toujours dans Accounts → sélectionner la Team
+	2.	Cliquer “Download Manual Profiles” (ou “Download All Profiles” selon la version de Xcode)
 
 ⸻
 
-🔷 Étape 4 – Mettre à jour SharePoint (ajout des nouveaux métiers uniquement)
+🟧 Étape 3 – Mettre la bonne Team dans le projet
 
-Créer un HTTP PATCH :
+Dans ton projet :
+	1.	Sélectionner le Target de l’app iPad
+	2.	Onglet Signing & Capabilities
+	3.	Vérifier :
 
-PATCH _siteURL_/_api/web/lists/GetByTitle('NomDeTaListe')/Fields/GetByInternalNameOrTitle('Metier')
-Content-Type: application/json;odata=verbose
+	•	Team : BNP Paribas – 2W96CN898S
+	•	Automatically manage signing : coché
+	•	Bundle Identifier : com.bnpparibas.lecomptoircampus
 
-{
-  "__metadata": { "type":"SP.FieldChoice"},
-  "Choices": [
-    @{variables('ListeFinaleSansDoublons')}
-  ]
-}
+Ensuite Xcode va :
 
-➡ SharePoint ajoute uniquement les métiers non existants
-
-⸻
-
-🎯 Résultat
-
-État	Action
-Nouveau métier ajouté côté Power BI	✓ apparaît automatiquement dans SharePoint
-Valeurs déjà existantes	🔁 ignorées — rien n’est écrasé
-Aucun besoin de modifier Power BI	🔒 RLS reste dynamique et propre
-
+✔ recréer automatiquement un provisioning profile
+✔ re-signer avec la bonne Team
+✔ résoudre les erreurs
 
 ⸻
 
-Si tu veux je peux maintenant te générer :
+🟥 Causes possibles secondaires
 
-🔥 → le Flow Power Automate exportable en .zip
+Si malgré tout :
+	•	il voit la Team,
+	•	il a choisi la Team dans le Target,
 
-📌 tu l’importes → tu modifies 2 paramètres → fini
+mais l’erreur persiste, alors :
 
-OU
+🔸 1. Xcode a encore des profils expirés en cache
 
-🔥 → un visuel schéma du flow pour que tu le montes en 10 minutes
+→ Aller dans :
+~/Library/MobileDevice/Provisioning Profiles/
+→ Tout supprimer
+→ Re-télécharger depuis Xcode.
 
-Répond simplement :
+🔸 2. Un certificat Apple Development doit être recréé
 
-👉 ZIP ou SCHÉMA ?
+→ L’administrateur Apple Developer doit créer un nouveau certificat ou donner les droits pour que ton dev en crée un.
+
+⸻
+
+📌 En résumé
+
+Ton screenshot confirme que tout est bon côté portail Apple.
+Donc la résolution = permissions / team / profiles sur le Mac du dev.
+
+💬 Si tu m’envoies la capture de l’onglet Signing & Capabilities du dev, je peux te donner la correction exacte en 10 secondes.
