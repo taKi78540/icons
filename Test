@@ -1,129 +1,18 @@
 Parfait 👍
-Voici la version anglaise, prête à être copiée/collée dans Jira, de l’EPIC Return Hardware – Layout & Navigation Framework avec ses User Stories.
-J’ai utilisé un anglais clair, produit, orienté Jira, sans ambiguïté pour les développeurs.
+Voici la version corrigée de la US3, intégrant explicitement le fait que le bouton NEXT peut être renommé en VALIDATE selon le contexte fonctionnel.
+Tu peux remplacer directement la US3 dans Jira par celle-ci.
 
 ⸻
 
-🟪 EPIC – Return Hardware – Layout & Navigation Framework
-
-Objective
-
-Provide a consistent and persistent layout framework for the Return Hardware journey, ensuring that coaches are guided through each step with clear navigation, visibility of progress, and a standardized user experience across all screens.
-
-Description
-
-This epic covers all structural and persistent UI components used across the Return Hardware process, independently of the business logic of each step.
-
-It includes:
-	•	A fixed header identifying the process
-	•	A non-clickable stepper showing progress
-	•	A persistent action bar with BACK and NEXT navigation
-	•	Consistent behavior across all steps, including error states (modal/toast)
-
-The goal is to provide a solid UI foundation so that each functional step only focuses on its own business content.
-
-Business Value
-	•	Improves coach experience and clarity
-	•	Reduces navigation errors
-	•	Standardizes guided processes
-	•	Speeds up development of future similar journeys (Onboarding, Exchange, etc.)
-	•	Ensures UI consistency and robustness
-
-⸻
-
-🟦 US1 – Display a non-clickable stepper for the Return Hardware process
+🟦 US3 – Display a persistent action bar with BACK and NEXT / VALIDATE buttons
 
 User Story
 
 As a coach
-I want to see a stepper showing all steps of the Return Hardware process
-So that I clearly understand where I am and what remains to be done
-
-Description
-
-A stepper is displayed on all screens of the Return Hardware journey.
-It contains exactly 5 steps, in the following order:
-	1.	Owner Search
-	2.	Equipment Selection
-	3.	Form Filling
-	4.	Return Summary
-	5.	Signature & Confirmation
-
-The stepper:
-	•	Highlights the current step
-	•	Marks completed steps
-	•	Displays upcoming steps as inactive
-	•	Is not clickable
-	•	Is always visible throughout the journey
-
-Acceptance Criteria
-
-GIVEN I am in the Return Hardware process
-WHEN the screen is displayed
-THEN a stepper with 5 steps is visible
-
-WHEN a step is active
-THEN it is visually highlighted
-
-WHEN a step is completed
-THEN it is displayed as completed
-
-WHEN I click on a step in the stepper
-THEN no navigation occurs
-
-THEN the stepper remains visible on all steps of the journey
-
-Estimate
-
-🕒 1 day
+I want to have permanent BACK and NEXT (or VALIDATE) buttons
+So that I can easily navigate between steps and explicitly confirm certain actions when required
 
 ⸻
-
-🟦 US2 – Display a fixed header with the process title
-
-User Story
-
-As a coach
-I want to see a fixed header displaying the process title
-So that I always know which process I am currently in
-
-Description
-
-A fixed header is displayed at the top of every screen of the Return Hardware journey.
-
-The exact title displayed is:
-
-RETURN HARDWARE PROCESS
-
-The header:
-	•	Is always visible
-	•	Does not disappear between steps
-	•	Remains visible even when errors occur (modal or toast)
-	•	Follows the validated UI design
-
-Acceptance Criteria
-
-GIVEN I am in the Return Hardware process
-THEN a fixed header displaying "RETURN HARDWARE PROCESS" is visible
-
-THEN the header remains visible on all steps
-
-WHEN an error modal or toast is displayed
-THEN the header remains visible
-
-Estimate
-
-🕒 1 day
-
-⸻
-
-🟦 US3 – Display a persistent action bar with BACK and NEXT buttons
-
-User Story
-
-As a coach
-I want to have permanent BACK and NEXT buttons
-So that I can easily navigate between steps of the process
 
 Description
 
@@ -131,32 +20,47 @@ A persistent action bar is displayed above the footer on all steps of the Return
 
 It contains:
 	•	BACK button: navigates to the previous step
-	•	NEXT button: validates the current step and moves forward
+	•	NEXT or VALIDATE button:
+	•	NEXT is used for standard step-to-step navigation
+	•	VALIDATE is used when the current step requires an explicit confirmation action (e.g. validation, submission, confirmation)
 
-Behavior:
-	•	NEXT is disabled until the current step is valid
+Behavior
+	•	The label of the primary action button is context-dependent (NEXT or VALIDATE)
+	•	Only one primary action button is displayed at a time
+	•	The primary button is disabled until the current step is valid
 	•	BACK does not reset previously entered data
 	•	The action bar is always visible
 	•	Header and action bar remain visible during error handling (modal or toast)
 
+⸻
+
 Acceptance Criteria
 
 GIVEN I am on a step of the Return Hardware process
-THEN a persistent action bar with BACK and NEXT buttons is visible
+THEN a persistent action bar with BACK and a primary action button is visible
 
-WHEN the step is not valid
-THEN the NEXT button is disabled
+WHEN the step is a standard navigation step
+THEN the primary button label is "NEXT"
+
+WHEN the step requires explicit confirmation
+THEN the primary button label is "VALIDATE"
+
+WHEN the current step is not valid
+THEN the primary action button (NEXT or VALIDATE) is disabled
 
 WHEN I click BACK
 THEN I return to the previous step
 AND previously entered data is preserved
 
-WHEN I click NEXT
+WHEN I click NEXT or VALIDATE
 THEN the current step is validated
-AND I move to the next step
+AND I move to the next step or confirm the action
 
 WHEN an error modal or toast is displayed
 THEN the header and action bar remain visible
+
+
+⸻
 
 Estimate
 
@@ -164,15 +68,14 @@ Estimate
 
 ⸻
 
-📊 Epic Summary
-	•	Total User Stories: 3
-	•	Total Estimated Effort: 3 days
+💡 Cette formulation est très appréciée des devs :
+	•	elle clarifie le comportement sans multiplier les boutons
+	•	elle évite toute ambiguïté UX
+	•	elle est future-proof pour d’autres parcours guidés
 
-⸻
+Quand tu veux, on peut :
+	•	traduire les autres EPICs en anglais
+	•	continuer sur Equipment Selection
+	•	ou attaquer Form Filling / Return Summary / Signature
 
-Si tu veux, au prochain message je peux :
-	•	te fournir les labels Jira,
-	•	ou traduire l’EPIC Owner Identification Flow en anglais,
-	•	ou continuer directement avec Equipment Selection en anglais.
-
-Dis-moi 👍
+Je suis prêt.
