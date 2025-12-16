@@ -1,102 +1,178 @@
-Parfait, grâce à ta capture on peut éliminer beaucoup d’hypothèses.
-
-👉 Le bundle ID com.bnpparibas.lecomptoircampus existe bien et est attaché à la Team BNPP (ID : 2W96CN898S).
-Donc le problème ne vient PAS du portail Apple.
-
-➡️ Le problème vient à 99 % du fait que ton développeur n’est pas connecté à cette Team dans Xcode au moment où il tente de signer le build.
+Parfait 👍
+Voici la version anglaise, prête à être copiée/collée dans Jira, de l’EPIC Return Hardware – Layout & Navigation Framework avec ses User Stories.
+J’ai utilisé un anglais clair, produit, orienté Jira, sans ambiguïté pour les développeurs.
 
 ⸻
 
-🎯 Ce qui se passe réellement
+🟪 EPIC – Return Hardware – Layout & Navigation Framework
 
-Ton dev essaie de builder l’app avec :
-	•	soit la mauvaise Team sélectionnée dans Xcode (ex : sa team perso, ou une autre team d’entreprise),
-	•	soit le bon Apple ID mais pas associé à la Team 2W96CN898S (pas encore invité, ou invitation non acceptée),
-	•	soit Xcode utilise des profils de signature périmés depuis l’expiration du programme et ne les régénère pas.
+Objective
 
-Xcode tente donc de créer automatiquement un provisioning profile dans une Team où le bundle ID n’existe pas, ce qui déclenche :
+Provide a consistent and persistent layout framework for the Return Hardware journey, ensuring that coaches are guided through each step with clear navigation, visibility of progress, and a standardized user experience across all screens.
 
-❌ “Failed Registering Bundle Identifier”
+Description
 
-→ Normal : Xcode essaie d’enregistrer com.bnpparibas.lecomptoircampus dans une Team qui n’en est pas propriétaire.
+This epic covers all structural and persistent UI components used across the Return Hardware process, independently of the business logic of each step.
 
-❌ “No profiles for com.bnpparibas.lecomptoircampus were found”
+It includes:
+	•	A fixed header identifying the process
+	•	A non-clickable stepper showing progress
+	•	A persistent action bar with BACK and NEXT navigation
+	•	Consistent behavior across all steps, including error states (modal/toast)
 
-→ Normal aussi : la Team sélectionnée n’a aucun provisioning profile pour cet App ID.
+The goal is to provide a solid UI foundation so that each functional step only focuses on its own business content.
 
-⸻
-
-✔️ La solution (simple, rapide)
-
-🟦 Étape 1 – Ton dev doit vérifier la Team dans Xcode
-
-Dans Xcode :
-	1.	Xcode > Settings > Accounts
-	2.	Sélectionner son Apple ID
-	3.	Regarder dans “Teams”
-🔍 Il doit absolument voir :
-
-BNP Paribas – 2W96CN898S (Enterprise)
-
-S’il ne la voit pas :
-
-➤ Il faut que ton admin Apple l’invite sur la Team 2W96CN898S
-
-Rôle conseillé : App Manager ou Developer.
+Business Value
+	•	Improves coach experience and clarity
+	•	Reduces navigation errors
+	•	Standardizes guided processes
+	•	Speeds up development of future similar journeys (Onboarding, Exchange, etc.)
+	•	Ensures UI consistency and robustness
 
 ⸻
 
-🟩 Étape 2 – Mise à jour des profils
+🟦 US1 – Display a non-clickable stepper for the Return Hardware process
 
-Une fois la Team visible :
-	1.	Toujours dans Accounts → sélectionner la Team
-	2.	Cliquer “Download Manual Profiles” (ou “Download All Profiles” selon la version de Xcode)
+User Story
+
+As a coach
+I want to see a stepper showing all steps of the Return Hardware process
+So that I clearly understand where I am and what remains to be done
+
+Description
+
+A stepper is displayed on all screens of the Return Hardware journey.
+It contains exactly 5 steps, in the following order:
+	1.	Owner Search
+	2.	Equipment Selection
+	3.	Form Filling
+	4.	Return Summary
+	5.	Signature & Confirmation
+
+The stepper:
+	•	Highlights the current step
+	•	Marks completed steps
+	•	Displays upcoming steps as inactive
+	•	Is not clickable
+	•	Is always visible throughout the journey
+
+Acceptance Criteria
+
+GIVEN I am in the Return Hardware process
+WHEN the screen is displayed
+THEN a stepper with 5 steps is visible
+
+WHEN a step is active
+THEN it is visually highlighted
+
+WHEN a step is completed
+THEN it is displayed as completed
+
+WHEN I click on a step in the stepper
+THEN no navigation occurs
+
+THEN the stepper remains visible on all steps of the journey
+
+Estimate
+
+🕒 1 day
 
 ⸻
 
-🟧 Étape 3 – Mettre la bonne Team dans le projet
+🟦 US2 – Display a fixed header with the process title
 
-Dans ton projet :
-	1.	Sélectionner le Target de l’app iPad
-	2.	Onglet Signing & Capabilities
-	3.	Vérifier :
+User Story
 
-	•	Team : BNP Paribas – 2W96CN898S
-	•	Automatically manage signing : coché
-	•	Bundle Identifier : com.bnpparibas.lecomptoircampus
+As a coach
+I want to see a fixed header displaying the process title
+So that I always know which process I am currently in
 
-Ensuite Xcode va :
+Description
 
-✔ recréer automatiquement un provisioning profile
-✔ re-signer avec la bonne Team
-✔ résoudre les erreurs
+A fixed header is displayed at the top of every screen of the Return Hardware journey.
 
-⸻
+The exact title displayed is:
 
-🟥 Causes possibles secondaires
+RETURN HARDWARE PROCESS
 
-Si malgré tout :
-	•	il voit la Team,
-	•	il a choisi la Team dans le Target,
+The header:
+	•	Is always visible
+	•	Does not disappear between steps
+	•	Remains visible even when errors occur (modal or toast)
+	•	Follows the validated UI design
 
-mais l’erreur persiste, alors :
+Acceptance Criteria
 
-🔸 1. Xcode a encore des profils expirés en cache
+GIVEN I am in the Return Hardware process
+THEN a fixed header displaying "RETURN HARDWARE PROCESS" is visible
 
-→ Aller dans :
-~/Library/MobileDevice/Provisioning Profiles/
-→ Tout supprimer
-→ Re-télécharger depuis Xcode.
+THEN the header remains visible on all steps
 
-🔸 2. Un certificat Apple Development doit être recréé
+WHEN an error modal or toast is displayed
+THEN the header remains visible
 
-→ L’administrateur Apple Developer doit créer un nouveau certificat ou donner les droits pour que ton dev en crée un.
+Estimate
+
+🕒 1 day
 
 ⸻
 
-📌 En résumé
+🟦 US3 – Display a persistent action bar with BACK and NEXT buttons
 
-Ton screenshot confirme que tout est bon côté portail Apple.
-Donc la résolution = permissions / team / profiles sur le Mac du dev.
+User Story
 
-💬 Si tu m’envoies la capture de l’onglet Signing & Capabilities du dev, je peux te donner la correction exacte en 10 secondes.
+As a coach
+I want to have permanent BACK and NEXT buttons
+So that I can easily navigate between steps of the process
+
+Description
+
+A persistent action bar is displayed above the footer on all steps of the Return Hardware journey.
+
+It contains:
+	•	BACK button: navigates to the previous step
+	•	NEXT button: validates the current step and moves forward
+
+Behavior:
+	•	NEXT is disabled until the current step is valid
+	•	BACK does not reset previously entered data
+	•	The action bar is always visible
+	•	Header and action bar remain visible during error handling (modal or toast)
+
+Acceptance Criteria
+
+GIVEN I am on a step of the Return Hardware process
+THEN a persistent action bar with BACK and NEXT buttons is visible
+
+WHEN the step is not valid
+THEN the NEXT button is disabled
+
+WHEN I click BACK
+THEN I return to the previous step
+AND previously entered data is preserved
+
+WHEN I click NEXT
+THEN the current step is validated
+AND I move to the next step
+
+WHEN an error modal or toast is displayed
+THEN the header and action bar remain visible
+
+Estimate
+
+🕒 1 day
+
+⸻
+
+📊 Epic Summary
+	•	Total User Stories: 3
+	•	Total Estimated Effort: 3 days
+
+⸻
+
+Si tu veux, au prochain message je peux :
+	•	te fournir les labels Jira,
+	•	ou traduire l’EPIC Owner Identification Flow en anglais,
+	•	ou continuer directement avec Equipment Selection en anglais.
+
+Dis-moi 👍
