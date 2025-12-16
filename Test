@@ -1,16 +1,18 @@
-Parfait 👍
-Voici la version corrigée de la US3, intégrant explicitement le fait que le bouton NEXT peut être renommé en VALIDATE selon le contexte fonctionnel.
-Tu peux remplacer directement la US3 dans Jira par celle-ci.
+Très bonne précision 👍
+Et tu as raison : c’est un comportement important, et ça mérite clairement d’être explicité dans la User Story, car ce n’est pas du tout implicite pour un développeur.
+
+Je te confirme : ce n’était pas encore suffisamment clair dans la version précédente, donc on l’améliore.
+Voici la version finale, propre, non ambiguë, et alignée avec ton intention produit.
 
 ⸻
 
-🟦 US3 – Display a persistent action bar with BACK and NEXT / VALIDATE buttons
+🟦 US3 – Display a persistent action bar with BACK, VALIDATE and NEXT buttons
 
 User Story
 
 As a coach
-I want to have permanent BACK and NEXT (or VALIDATE) buttons
-So that I can easily navigate between steps and explicitly confirm certain actions when required
+I want a persistent action bar with contextual primary actions
+So that I can explicitly validate certain actions before moving to the next step of the process
 
 ⸻
 
@@ -18,17 +20,31 @@ Description
 
 A persistent action bar is displayed above the footer on all steps of the Return Hardware journey.
 
-It contains:
-	•	BACK button: navigates to the previous step
-	•	NEXT or VALIDATE button:
-	•	NEXT is used for standard step-to-step navigation
-	•	VALIDATE is used when the current step requires an explicit confirmation action (e.g. validation, submission, confirmation)
+The action bar contains:
+	•	BACK button (always visible)
+	•	A contextual primary action button, displayed one at a time:
+	•	VALIDATE: used to confirm an in-step action (e.g. add selected equipment to a cart)
+	•	NEXT: used to navigate to the next step of the stepper
 
-Behavior
-	•	The label of the primary action button is context-dependent (NEXT or VALIDATE)
-	•	Only one primary action button is displayed at a time
-	•	The primary button is disabled until the current step is valid
-	•	BACK does not reset previously entered data
+⸻
+
+Behavior (Key Rules)
+	1.	VALIDATE and NEXT are mutually exclusive
+	•	Only one primary action button is visible at any time
+	2.	VALIDATE behavior
+	•	Displayed when the current step requires an explicit validation action
+	•	Example: validating the selection of equipment and adding it to a cart
+	•	Clicking VALIDATE:
+	•	validates the action
+	•	updates the internal state (e.g. cart updated)
+	•	does NOT move to the next step
+	3.	NEXT behavior
+	•	Displayed only after the required validation action has been successfully completed
+	•	Used exclusively to move to the next step of the stepper
+	4.	State handling
+	•	VALIDATE and NEXT are disabled if required conditions are not met
+	•	BACK never resets previously entered or validated data
+	5.	Persistence
 	•	The action bar is always visible
 	•	Header and action bar remain visible during error handling (modal or toast)
 
@@ -36,25 +52,25 @@ Behavior
 
 Acceptance Criteria
 
-GIVEN I am on a step of the Return Hardware process
-THEN a persistent action bar with BACK and a primary action button is visible
+GIVEN I am on a step requiring in-step validation
+THEN the primary action button displayed is "VALIDATE"
+AND the "NEXT" button is not visible
 
-WHEN the step is a standard navigation step
-THEN the primary button label is "NEXT"
+WHEN I click "VALIDATE"
+AND the validation is successful
+THEN the validated action is applied (e.g. equipment added to cart)
+AND the primary action button switches to "NEXT"
 
-WHEN the step requires explicit confirmation
-THEN the primary button label is "VALIDATE"
+WHEN the primary action button is "NEXT"
+AND I click it
+THEN I am navigated to the next step of the stepper
 
-WHEN the current step is not valid
-THEN the primary action button (NEXT or VALIDATE) is disabled
+WHEN validation conditions are not met
+THEN the primary action button (VALIDATE or NEXT) is disabled
 
-WHEN I click BACK
+WHEN I click "BACK"
 THEN I return to the previous step
-AND previously entered data is preserved
-
-WHEN I click NEXT or VALIDATE
-THEN the current step is validated
-AND I move to the next step or confirm the action
+AND all previously validated data is preserved
 
 WHEN an error modal or toast is displayed
 THEN the header and action bar remain visible
@@ -68,14 +84,17 @@ Estimate
 
 ⸻
 
-💡 Cette formulation est très appréciée des devs :
-	•	elle clarifie le comportement sans multiplier les boutons
-	•	elle évite toute ambiguïté UX
-	•	elle est future-proof pour d’autres parcours guidés
+✅ Pourquoi cette version est la bonne
+	•	🔒 Zéro ambiguïté pour les devs
+	•	🧠 Sépare clairement validation métier vs navigation
+	•	🔄 Compatible avec le stepper non cliquable
+	•	📈 Réutilisable pour d’autres parcours (Onboarding, Exchange, Incident, etc.)
 
-Quand tu veux, on peut :
-	•	traduire les autres EPICs en anglais
-	•	continuer sur Equipment Selection
-	•	ou attaquer Form Filling / Return Summary / Signature
+Tu peux l’utiliser telle quelle dans Jira.
+
+👉 Quand tu veux, on enchaîne :
+	•	soit sur Equipment Selection – interactions & cart
+	•	soit sur Form Filling
+	•	soit je te traduis une autre EPIC en anglais
 
 Je suis prêt.
