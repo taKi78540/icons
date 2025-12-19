@@ -1,68 +1,67 @@
-Parfait, merci pour le recadrage 👍
-Je te propose maintenant une release note propre, structurée et directement exploitable, strictement basée sur ce que tu viens de décrire, sans ajout parasite. On pourra ensuite retravailler le ton ou le niveau de détail.
+Parfait. Voici la release note complète, cohérente et propre, avec une structuration claire et une partie “Boutons personnalisés” unifiée, telle que nous venons de la retravailler.
+Tu peux la considérer comme une V1 prête à diffusion.
 
 ⸻
 
 🆕 Release notes – Le Comptoir
 
-(Dernières évolutions)
+Dernières évolutions
+
+⸻
 
 📊 Suivi des analytics & pilotage de la performance
 
-🔄 Nouveau rapport Power BI temps réel
-	•	Mise à disposition d’un nouveau rapport Power BI en temps réel, avec une mise à jour toutes les 30 minutes.
-	•	Ce rapport permet de suivre en continu l’activité des comptoirs : volumes de visites, affluence, temps d’attente, etc.
+🔄 Nouveau rapport Power BI en temps réel
+	•	Mise à disposition d’un nouveau rapport Power BI en temps réel, mis à jour toutes les 30 minutes.
+	•	Ce rapport permet de suivre l’activité des comptoirs en continu : volumes de visites, affluence, temps d’attente, etc.
 
 📈 Power BI métier (en cours de finalisation)
 	•	Un rapport Power BI orienté métier est en cours de finalisation.
-	•	Il pourra être partagé directement aux équipes métier, afin de leur permettre :
-	•	d’analyser la performance de leur comptoir,
-	•	d’identifier les pics d’activité,
-	•	et de mieux piloter leurs ressources.
+	•	Il pourra être partagé aux équipes métier afin de leur permettre d’analyser la performance de leur comptoir et d’identifier les leviers d’amélioration.
 
 ⸻
 
 🧩 Boutons personnalisés (Custom Buttons)
 
-🔹 Boutons de type Information
-	•	Les boutons personnalisés de type Information restent disponibles.
-	•	Lorsqu’un utilisateur clique sur ce type de bouton :
-	•	une information lui est affichée,
-	•	aucune visite n’est créée.
-	•	Ces boutons sont principalement utilisés pour l’orientation et la communication auprès des utilisateurs.
+Les boutons personnalisés permettent d’adapter Le Comptoir aux besoins locaux, aussi bien pour orienter les utilisateurs que pour créer et piloter des visites spécifiques.
+L’ensemble des fonctionnalités ci-dessous fait partie intégrante de ce dispositif.
 
 ⸻
 
-🔹 Boutons de type File d’attente
-	•	De nouveaux boutons personnalisés de type File d’attente sont disponibles.
-	•	Ces boutons :
-	•	créent une visite,
-	•	génèrent un incident associé,
-	•	et sont pleinement intégrés dans la gestion de la file d’attente.
-	•	Il est possible de définir :
+🔹 Types de boutons disponibles
+
+Boutons de type Information
+	•	Affichent un message à l’utilisateur sans créer de visite.
+	•	Utilisés principalement pour l’orientation et la communication.
+
+Boutons de type File d’attente
+	•	Créent une visite lors du clic utilisateur.
+	•	Génèrent automatiquement un incident associé.
+	•	Les visites sont prises en charge dans la file d’attente du comptoir.
+	•	Possibilité de définir :
 	•	une périodicité spécifique,
 	•	ou un bouton sans date d’expiration.
 
 ⸻
 
-🖼️ Enrichissement visuel et éditorial
-	•	Il est désormais possible d’ajouter une image à chaque bouton personnalisé afin de mieux contextualiser le message.
-	•	De nombreuses améliorations ont été apportées à l’affichage des messages :
-	•	correction des problèmes de sauts de ligne et de mots coupés,
+🖼️ Enrichissement visuel et contenu des boutons
+	•	Il est désormais possible d’ajouter une image à chaque bouton personnalisé afin de contextualiser visuellement le message.
+	•	Le contenu textuel a été amélioré :
+	•	correction des problèmes d’affichage (mots coupés, sauts de ligne),
 	•	augmentation du nombre de caractères autorisés,
-	•	possibilité d’utiliser du texte enrichi (gras, souligné, etc.) dans la description.
+	•	prise en charge du texte enrichi (gras, souligné, souligné, etc.).
 
 ⸻
 
-🧑‍💻 Création de visites par les techniciens
-	•	Les techniciens peuvent désormais créer manuellement des visites depuis la vue Visit Management, en s’appuyant sur les boutons personnalisés lorsqu’ils sont actifs.
-	•	Cela permet plus de flexibilité dans la gestion des situations terrain.
+🧑‍💻 Création de visites à partir des boutons personnalisés
+	•	Les techniciens peuvent désormais créer manuellement des visites depuis la vue Visit Management, en s’appuyant sur les boutons personnalisés actifs.
+	•	Cela garantit une cohérence entre les visites créées par les utilisateurs et celles créées par les équipes support.
 
 ⸻
 
-📊 Exploitation dans Power BI
-	•	Chaque bouton personnalisé génère une catégorie de visite dédiée.
-	•	Dans Power BI, il est désormais possible d’analyser :
+📊 Exploitation des boutons personnalisés dans Power BI
+	•	Chaque bouton personnalisé de type File d’attente génère une catégorie de visite dédiée.
+	•	Dans Power BI, il est possible d’analyser :
 	•	les volumes de visites par catégorie,
 	•	le temps de traitement associé,
 	•	l’impact de ces boutons sur l’activité globale du comptoir.
@@ -72,25 +71,23 @@ Je te propose maintenant une release note propre, structurée et directement exp
 🏠 Dashboard – Page d’accueil de l’application
 
 🔍 Tri avancé des comptoirs
-	•	Sur le dashboard d’accueil, il est désormais possible de trier les comptoirs :
+	•	Le dashboard d’accueil permet désormais de trier les comptoirs :
 	•	par nom,
 	•	par pays,
 	•	par nombre de visiteurs (du plus élevé au plus faible),
 	•	par temps d’attente (du plus élevé au plus faible).
-	•	Cette fonctionnalité est particulièrement utile pour les managers, afin d’identifier rapidement :
-	•	les comptoirs à forte affluence,
-	•	ceux nécessitant un renfort ou une vigilance particulière.
+	•	Ce tri est particulièrement utile pour les managers, afin d’identifier rapidement les comptoirs à forte affluence ou nécessitant un renfort.
 
 ⸻
 
-🔎 Champ de recherche
-	•	Ajout d’un champ de recherche permettant de retrouver rapidement un comptoir, notamment pour les organisations disposant d’un grand nombre de sites.
+🔎 Recherche de comptoirs
+	•	Ajout d’un champ de recherche pour retrouver rapidement un comptoir, notamment dans les organisations disposant de nombreux sites.
 
 ⸻
 
 🌍 Correctifs visuels
 	•	Ajout du drapeau autrichien pour le comptoir d’Autriche.
-	•	Ajout / correction des drapeaux manquants lorsque nécessaire.
+	•	Correction et harmonisation des drapeaux existants lorsque nécessaire.
 
 ⸻
 
@@ -98,25 +95,23 @@ Je te propose maintenant une release note propre, structurée et directement exp
 
 👥 État des coachs
 	•	Correction d’un problème empêchant les coachs de repasser en offline en fin de journée.
-	•	Désormais, l’état des coachs est correctement réinitialisé automatiquement.
+	•	L’état des coachs est désormais correctement réinitialisé automatiquement.
 
 ⸻
 
 🔔 Notifications des stakeholders
-	•	Optimisation de la fonctionnalité de notifications des stakeholders, qui rencontrait plusieurs dysfonctionnements.
+	•	Optimisation de la fonctionnalité de notifications des stakeholders, auparavant instable.
 	•	Les notifications sont désormais plus fiables et permettent :
 	•	d’alerter en cas de temps d’attente élevé,
-	•	ou de forte affluence nécessitant un renfort ou une vigilance accrue.
-	•	Les notifications fonctionnent désormais :
-	•	sur PC,
-	•	et sur mobile.
+	•	ou de forte affluence nécessitant vigilance ou renfort.
+	•	Les notifications fonctionnent désormais sur PC et mobile.
 
 ⸻
 
-👉 Prochaine étape
-Si tu veux, au prochain échange, on peut :
-	•	raccourcir cette release note pour une version executive,
-	•	la reformuler pour une communication terrain,
-	•	ou la transformer en slide / mail officiel.
+👉 Suite possible
+Si tu veux, on peut maintenant :
+	•	condenser cette release note en version très courte (mail / Teams),
+	•	l’adapter à un ton plus institutionnel,
+	•	ou préparer une slide unique pour comité / sponsors.
 
-Dis-moi simplement le public cible et le niveau de synthèse souhaité.
+Dis-moi ce que tu veux ajuster en priorité.
