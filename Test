@@ -1,100 +1,24 @@
-Très bonne précision 👍
-Et tu as raison : c’est un comportement important, et ça mérite clairement d’être explicité dans la User Story, car ce n’est pas du tout implicite pour un développeur.
-
-Je te confirme : ce n’était pas encore suffisamment clair dans la version précédente, donc on l’améliore.
-Voici la version finale, propre, non ambiguë, et alignée avec ton intention produit.
+Bien sûr 🙂
+Voici une proposition de message sympathique, positif et fédérateur, avec un ton adapté à une communication d’équipe :
 
 ⸻
 
-🟦 US3 – Display a persistent action bar with BACK, VALIDATE and NEXT buttons
+🎄 La fin d’année approche… et Noël aussi ! 🎄
+À cette occasion, une résolution spéciale de Noël arrive également dans l’application.
 
-User Story
+J’en profite surtout pour féliciter chaleureusement les comptoirs de Valmyr et d’Odyssée 👏
+Ils sont sur le point de franchir un cap symbolique : plus de 50 000 visites depuis le lancement de l’application.
+C’est une étape forte, qui reflète l’engagement des équipes et l’utilité du Comptoir au quotidien.
 
-As a coach
-I want a persistent action bar with contextual primary actions
-So that I can explicitly validate certain actions before moving to the next step of the process
+Et si l’on regarde déjà l’année 2025, le suspense est total… 👀
+Valmyr et Odyssée sont au coude-à-coude, avec à peine une dizaine de visites d’écart.
+Qui terminera l’année avec le plus grand nombre de visites ? Réponse très bientôt 😉
 
-⸻
-
-Description
-
-A persistent action bar is displayed above the footer on all steps of the Return Hardware journey.
-
-The action bar contains:
-	•	BACK button (always visible)
-	•	A contextual primary action button, displayed one at a time:
-	•	VALIDATE: used to confirm an in-step action (e.g. add selected equipment to a cart)
-	•	NEXT: used to navigate to the next step of the stepper
+Encore bravo à toutes les équipes, et merci pour votre implication tout au long de l’année ! 🙌
 
 ⸻
 
-Behavior (Key Rules)
-	1.	VALIDATE and NEXT are mutually exclusive
-	•	Only one primary action button is visible at any time
-	2.	VALIDATE behavior
-	•	Displayed when the current step requires an explicit validation action
-	•	Example: validating the selection of equipment and adding it to a cart
-	•	Clicking VALIDATE:
-	•	validates the action
-	•	updates the internal state (e.g. cart updated)
-	•	does NOT move to the next step
-	3.	NEXT behavior
-	•	Displayed only after the required validation action has been successfully completed
-	•	Used exclusively to move to the next step of the stepper
-	4.	State handling
-	•	VALIDATE and NEXT are disabled if required conditions are not met
-	•	BACK never resets previously entered or validated data
-	5.	Persistence
-	•	The action bar is always visible
-	•	Header and action bar remain visible during error handling (modal or toast)
-
-⸻
-
-Acceptance Criteria
-
-GIVEN I am on a step requiring in-step validation
-THEN the primary action button displayed is "VALIDATE"
-AND the "NEXT" button is not visible
-
-WHEN I click "VALIDATE"
-AND the validation is successful
-THEN the validated action is applied (e.g. equipment added to cart)
-AND the primary action button switches to "NEXT"
-
-WHEN the primary action button is "NEXT"
-AND I click it
-THEN I am navigated to the next step of the stepper
-
-WHEN validation conditions are not met
-THEN the primary action button (VALIDATE or NEXT) is disabled
-
-WHEN I click "BACK"
-THEN I return to the previous step
-AND all previously validated data is preserved
-
-WHEN an error modal or toast is displayed
-THEN the header and action bar remain visible
-
-
-⸻
-
-Estimate
-
-🕒 1 day
-
-⸻
-
-✅ Pourquoi cette version est la bonne
-	•	🔒 Zéro ambiguïté pour les devs
-	•	🧠 Sépare clairement validation métier vs navigation
-	•	🔄 Compatible avec le stepper non cliquable
-	•	📈 Réutilisable pour d’autres parcours (Onboarding, Exchange, Incident, etc.)
-
-Tu peux l’utiliser telle quelle dans Jira.
-
-👉 Quand tu veux, on enchaîne :
-	•	soit sur Equipment Selection – interactions & cart
-	•	soit sur Form Filling
-	•	soit je te traduis une autre EPIC en anglais
-
-Je suis prêt.
+Si tu veux, je peux aussi te proposer :
+	•	une version plus courte (format Teams / announcement),
+	•	une version un peu plus institutionnelle,
+	•	ou une version avec quelques emojis en moins.
