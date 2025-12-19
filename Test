@@ -1,34 +1,122 @@
-Parfait, voici une version enrichie, fluide et toujours chaleureuse, intégrant ton point clé et une chute sympa 👌
+Parfait, merci pour le recadrage 👍
+Je te propose maintenant une release note propre, structurée et directement exploitable, strictement basée sur ce que tu viens de décrire, sans ajout parasite. On pourra ensuite retravailler le ton ou le niveau de détail.
 
 ⸻
 
-🎄 La fin d’année approche… et Noël aussi ! 🎄
-À cette occasion, une résolution spéciale de Noël arrive également dans l’application.
+🆕 Release notes – Le Comptoir
 
-J’en profite tout d’abord pour féliciter chaleureusement les comptoirs de Valmyr et d’Odyssée 👏
-Ils sont sur le point de franchir un cap symbolique : plus de 50 000 visites depuis le lancement de l’application.
-Un jalon fort, qui reflète l’engagement des équipes et l’importance du Comptoir au quotidien.
+(Dernières évolutions)
 
-👉 Et au-delà de ces deux comptoirs, ce sont près de 186 000 visites / visiteurs servis en 2025 en France, sur l’ensemble des comptoirs.
-Un chiffre impressionnant, qui mérite de féliciter toutes les équipes : il illustre à quel point votre travail est utile, concret et impactant.
+📊 Suivi des analytics & pilotage de la performance
 
-Au fil de l’année, les indicateurs parlent d’eux-mêmes :
-	•	baisse des temps d’attente,
-	•	baisse des temps de traitement,
-	•	augmentation du NPS,
-	•	et surtout de très nombreux feedbacks et commentaires positifs des utilisateurs.
+🔄 Nouveau rapport Power BI temps réel
+	•	Mise à disposition d’un nouveau rapport Power BI en temps réel, avec une mise à jour toutes les 30 minutes.
+	•	Ce rapport permet de suivre en continu l’activité des comptoirs : volumes de visites, affluence, temps d’attente, etc.
 
-Tout cela témoigne de la qualité de l’accueil, de la prise en charge et du service rendu au quotidien.
-👉 Bravo et merci à toutes et tous 🙌
-
-Je vous souhaite de très belles fêtes de fin d’année, bon courage pour la dernière ligne droite, et rendez-vous l’année prochaine 🎉
-
-(Vous l’aurez compris : je suis en vacances à partir de ce soir 😄
-Pour les besoins 3LM, merci de contacter Marc ou Christian en cas de souci technique.)
+📈 Power BI métier (en cours de finalisation)
+	•	Un rapport Power BI orienté métier est en cours de finalisation.
+	•	Il pourra être partagé directement aux équipes métier, afin de leur permettre :
+	•	d’analyser la performance de leur comptoir,
+	•	d’identifier les pics d’activité,
+	•	et de mieux piloter leurs ressources.
 
 ⸻
 
-Si tu veux, je peux aussi te faire :
-	•	une version encore plus courte (annonce Teams),
-	•	une version sans parenthèse “vacances”,
-	•	ou une version plus formelle / Com interne.
+🧩 Boutons personnalisés (Custom Buttons)
+
+🔹 Boutons de type Information
+	•	Les boutons personnalisés de type Information restent disponibles.
+	•	Lorsqu’un utilisateur clique sur ce type de bouton :
+	•	une information lui est affichée,
+	•	aucune visite n’est créée.
+	•	Ces boutons sont principalement utilisés pour l’orientation et la communication auprès des utilisateurs.
+
+⸻
+
+🔹 Boutons de type File d’attente
+	•	De nouveaux boutons personnalisés de type File d’attente sont disponibles.
+	•	Ces boutons :
+	•	créent une visite,
+	•	génèrent un incident associé,
+	•	et sont pleinement intégrés dans la gestion de la file d’attente.
+	•	Il est possible de définir :
+	•	une périodicité spécifique,
+	•	ou un bouton sans date d’expiration.
+
+⸻
+
+🖼️ Enrichissement visuel et éditorial
+	•	Il est désormais possible d’ajouter une image à chaque bouton personnalisé afin de mieux contextualiser le message.
+	•	De nombreuses améliorations ont été apportées à l’affichage des messages :
+	•	correction des problèmes de sauts de ligne et de mots coupés,
+	•	augmentation du nombre de caractères autorisés,
+	•	possibilité d’utiliser du texte enrichi (gras, souligné, etc.) dans la description.
+
+⸻
+
+🧑‍💻 Création de visites par les techniciens
+	•	Les techniciens peuvent désormais créer manuellement des visites depuis la vue Visit Management, en s’appuyant sur les boutons personnalisés lorsqu’ils sont actifs.
+	•	Cela permet plus de flexibilité dans la gestion des situations terrain.
+
+⸻
+
+📊 Exploitation dans Power BI
+	•	Chaque bouton personnalisé génère une catégorie de visite dédiée.
+	•	Dans Power BI, il est désormais possible d’analyser :
+	•	les volumes de visites par catégorie,
+	•	le temps de traitement associé,
+	•	l’impact de ces boutons sur l’activité globale du comptoir.
+
+⸻
+
+🏠 Dashboard – Page d’accueil de l’application
+
+🔍 Tri avancé des comptoirs
+	•	Sur le dashboard d’accueil, il est désormais possible de trier les comptoirs :
+	•	par nom,
+	•	par pays,
+	•	par nombre de visiteurs (du plus élevé au plus faible),
+	•	par temps d’attente (du plus élevé au plus faible).
+	•	Cette fonctionnalité est particulièrement utile pour les managers, afin d’identifier rapidement :
+	•	les comptoirs à forte affluence,
+	•	ceux nécessitant un renfort ou une vigilance particulière.
+
+⸻
+
+🔎 Champ de recherche
+	•	Ajout d’un champ de recherche permettant de retrouver rapidement un comptoir, notamment pour les organisations disposant d’un grand nombre de sites.
+
+⸻
+
+🌍 Correctifs visuels
+	•	Ajout du drapeau autrichien pour le comptoir d’Autriche.
+	•	Ajout / correction des drapeaux manquants lorsque nécessaire.
+
+⸻
+
+🛠️ Correctifs & améliorations techniques
+
+👥 État des coachs
+	•	Correction d’un problème empêchant les coachs de repasser en offline en fin de journée.
+	•	Désormais, l’état des coachs est correctement réinitialisé automatiquement.
+
+⸻
+
+🔔 Notifications des stakeholders
+	•	Optimisation de la fonctionnalité de notifications des stakeholders, qui rencontrait plusieurs dysfonctionnements.
+	•	Les notifications sont désormais plus fiables et permettent :
+	•	d’alerter en cas de temps d’attente élevé,
+	•	ou de forte affluence nécessitant un renfort ou une vigilance accrue.
+	•	Les notifications fonctionnent désormais :
+	•	sur PC,
+	•	et sur mobile.
+
+⸻
+
+👉 Prochaine étape
+Si tu veux, au prochain échange, on peut :
+	•	raccourcir cette release note pour une version executive,
+	•	la reformuler pour une communication terrain,
+	•	ou la transformer en slide / mail officiel.
+
+Dis-moi simplement le public cible et le niveau de synthèse souhaité.
