@@ -1,117 +1,24 @@
-Parfait. Voici la release note complète, cohérente et propre, avec une structuration claire et une partie “Boutons personnalisés” unifiée, telle que nous venons de la retravailler.
-Tu peux la considérer comme une V1 prête à diffusion.
+Parfait, c’est une information importante 👍
+Voici l’ajout à intégrer à la release note, formulé de manière claire et opérationnelle, sans ambiguïté entre iPad et PC. Tu peux l’ajouter en fin de document ou dans une section dédiée.
 
 ⸻
 
-🆕 Release notes – Le Comptoir
+🔄 Modalités de mise à jour de l’application
 
-Dernières évolutions
-
-⸻
-
-📊 Suivi des analytics & pilotage de la performance
-
-🔄 Nouveau rapport Power BI en temps réel
-	•	Mise à disposition d’un nouveau rapport Power BI en temps réel, mis à jour toutes les 30 minutes.
-	•	Ce rapport permet de suivre l’activité des comptoirs en continu : volumes de visites, affluence, temps d’attente, etc.
-
-📈 Power BI métier (en cours de finalisation)
-	•	Un rapport Power BI orienté métier est en cours de finalisation.
-	•	Il pourra être partagé aux équipes métier afin de leur permettre d’analyser la performance de leur comptoir et d’identifier les leviers d’amélioration.
+📱 Comptoirs équipés d’iPad
+	•	Aucune action n’est requise de la part des équipes.
+	•	La mise à jour de l’application est automatique.
+	•	Elle a d’ores et déjà été déployée automatiquement sur les iPad concernés.
 
 ⸻
 
-🧩 Boutons personnalisés (Custom Buttons)
-
-Les boutons personnalisés permettent d’adapter Le Comptoir aux besoins locaux, aussi bien pour orienter les utilisateurs que pour créer et piloter des visites spécifiques.
-L’ensemble des fonctionnalités ci-dessous fait partie intégrante de ce dispositif.
-
-⸻
-
-🔹 Types de boutons disponibles
-
-Boutons de type Information
-	•	Affichent un message à l’utilisateur sans créer de visite.
-	•	Utilisés principalement pour l’orientation et la communication.
-
-Boutons de type File d’attente
-	•	Créent une visite lors du clic utilisateur.
-	•	Génèrent automatiquement un incident associé.
-	•	Les visites sont prises en charge dans la file d’attente du comptoir.
-	•	Possibilité de définir :
-	•	une périodicité spécifique,
-	•	ou un bouton sans date d’expiration.
+💻 Comptoirs équipés de PC
+	•	Une nouvelle version de l’application doit être installée manuellement.
+	•	Cette version sera disponible à partir de lundi.
+	•	Le lien d’installation sera déposé en commentaire de la release note par Christian, dès sa mise à disposition.
 
 ⸻
 
-🖼️ Enrichissement visuel et contenu des boutons
-	•	Il est désormais possible d’ajouter une image à chaque bouton personnalisé afin de contextualiser visuellement le message.
-	•	Le contenu textuel a été amélioré :
-	•	correction des problèmes d’affichage (mots coupés, sauts de ligne),
-	•	augmentation du nombre de caractères autorisés,
-	•	prise en charge du texte enrichi (gras, souligné, souligné, etc.).
-
-⸻
-
-🧑‍💻 Création de visites à partir des boutons personnalisés
-	•	Les techniciens peuvent désormais créer manuellement des visites depuis la vue Visit Management, en s’appuyant sur les boutons personnalisés actifs.
-	•	Cela garantit une cohérence entre les visites créées par les utilisateurs et celles créées par les équipes support.
-
-⸻
-
-📊 Exploitation des boutons personnalisés dans Power BI
-	•	Chaque bouton personnalisé de type File d’attente génère une catégorie de visite dédiée.
-	•	Dans Power BI, il est possible d’analyser :
-	•	les volumes de visites par catégorie,
-	•	le temps de traitement associé,
-	•	l’impact de ces boutons sur l’activité globale du comptoir.
-
-⸻
-
-🏠 Dashboard – Page d’accueil de l’application
-
-🔍 Tri avancé des comptoirs
-	•	Le dashboard d’accueil permet désormais de trier les comptoirs :
-	•	par nom,
-	•	par pays,
-	•	par nombre de visiteurs (du plus élevé au plus faible),
-	•	par temps d’attente (du plus élevé au plus faible).
-	•	Ce tri est particulièrement utile pour les managers, afin d’identifier rapidement les comptoirs à forte affluence ou nécessitant un renfort.
-
-⸻
-
-🔎 Recherche de comptoirs
-	•	Ajout d’un champ de recherche pour retrouver rapidement un comptoir, notamment dans les organisations disposant de nombreux sites.
-
-⸻
-
-🌍 Correctifs visuels
-	•	Ajout du drapeau autrichien pour le comptoir d’Autriche.
-	•	Correction et harmonisation des drapeaux existants lorsque nécessaire.
-
-⸻
-
-🛠️ Correctifs & améliorations techniques
-
-👥 État des coachs
-	•	Correction d’un problème empêchant les coachs de repasser en offline en fin de journée.
-	•	L’état des coachs est désormais correctement réinitialisé automatiquement.
-
-⸻
-
-🔔 Notifications des stakeholders
-	•	Optimisation de la fonctionnalité de notifications des stakeholders, auparavant instable.
-	•	Les notifications sont désormais plus fiables et permettent :
-	•	d’alerter en cas de temps d’attente élevé,
-	•	ou de forte affluence nécessitant vigilance ou renfort.
-	•	Les notifications fonctionnent désormais sur PC et mobile.
-
-⸻
-
-👉 Suite possible
-Si tu veux, on peut maintenant :
-	•	condenser cette release note en version très courte (mail / Teams),
-	•	l’adapter à un ton plus institutionnel,
-	•	ou préparer une slide unique pour comité / sponsors.
-
-Dis-moi ce que tu veux ajuster en priorité.
+Si tu veux, je peux :
+	•	reformuler ça en version très courte “à ne pas manquer” en tête de release note,
+	•	ou l’intégrer proprement dans la version finale complète que tu diffuseras.
