@@ -1,369 +1,55 @@
-Parfait 👍
-Voici la version 100 % EN ANGLAIS, propre, structurée, prête à être copiée/collée dans Jira, pour TOUT le Step 1 – Select Equipments, incluant la logique scan → validation → cart → multi-scan → confirmation.
-
-Je te fournis :
-	•	1 EPIC
-	•	toutes les User Stories associées
-	•	des Acceptance Criteria clairs et actionnables
+Voici une user story en anglais, rédigée dans un format Product Owner / Agile, prête à être intégrée dans un backlog (Jira, Azure DevOps, etc.).
 
 ⸻
 
-🟪 EPIC – Return Hardware – Equipment Selection, Validation & Cart (Step 1)
+User Story – Store ServiceNow Incident Category on Visit Closure
 
-Objective
-
-Allow coaches to identify, validate, and add one or multiple equipments to a return process using scan or manual entry, while ensuring ownership consistency, mandatory metadata capture, and explicit confirmation before moving to the next step.
-
-Scope
-
-This epic covers the full Step 1 – Select Equipments, including:
-	•	Equipment scan / manual entry
-	•	Lookup in HAM (MongoDB)
-	•	Ownership validation (owner vs depositor)
-	•	Equipment details review
-	•	Mandatory return metadata
-	•	Validation and cart (“Return Summary”)
-	•	Multi-equipment handling
-	•	Explicit confirmation before Step 2
+As a Product Owner / Service Manager
+I want the category and sub-category of the related ServiceNow incident to be automatically retrieved when a visit is closed
+So that the visit record stores these values and enables detailed analysis of visit reasons and treatment times in Power BI.
 
 ⸻
-
-🟦 US1 – Scan or manually enter equipment identifier
-
-User Story
-
-As a coach
-I want to scan a barcode or manually enter an equipment identifier
-So that I can quickly identify the returned equipment
 
 Description
 
-Display a single input field allowing:
-	•	barcode scan
-	•	manual typing
-	•	accepted identifiers:
-	•	barcode
-	•	serial number
-	•	computer name
+When a visit at Le Comptoir results in the creation of a ServiceNow incident, the incident contains a category and a sub-category that describe the reason for the visit.
 
-Acceptance Criteria
+Upon visit closure, the application should:
+	•	Retrieve the category and sub-category from the associated ServiceNow incident
+	•	Store these values in the visit record (database table)
 
-GIVEN I am on Step 1 "Select Equipments"
-THEN a barcode / identifier input field is visible
-
-AND the field accepts scanned and manually typed values
-
+This data will later be used in Power BI to:
+	•	Better categorize visit reasons
+	•	Analyze treatment and handling times per category and sub-category
+	•	Improve operational insights and decision-making
 
 ⸻
 
-🟦 US2 – Automatic search in HAM after 4 characters
-
-User Story
-
-As a coach
-I want the system to automatically search HAM once I enter at least 4 characters
-So that I can see matching equipments immediately
-
-Description
-	•	As soon as the input contains 4 or more characters, a search is triggered in HAM (MongoDB).
-	•	Results are displayed in a dropdown list.
-
-Each result shows:
-	•	equipment identifier
-	•	equipment information (model/type if available)
-	•	owner information
-
 Acceptance Criteria
-
-WHEN I enter at least 4 characters
-THEN the application searches HAM automatically
-
-AND displays a list of matching equipments with owner information
-
+	•	Given a visit is linked to a ServiceNow incident
+When the visit is closed
+Then the system retrieves the incident category and sub-category from ServiceNow
+	•	The retrieved category and sub-category are:
+	•	Stored in dedicated fields in the visit table
+	•	Persisted even if the ServiceNow ticket is later modified
+	•	If no ServiceNow incident is linked to the visit:
+	•	The visit can still be closed
+	•	Category and sub-category fields remain empty or set to a default value
+	•	The stored data is:
+	•	Available in the reporting dataset
+	•	Exploitable in Power BI for filtering, grouping, and time analysis
 
 ⸻
 
-🟦 US3 – Handle “no match in HAM” case with manual entry option
-
-User Story
-
-As a coach
-I want to be informed when no equipment matches in HAM and be able to enter data manually
-So that I can continue the return even if inventory is outdated
-
-Acceptance Criteria
-
-GIVEN no result is found in HAM
-THEN a message "There is no match in HAM" is displayed
-AND a "Fill the form" button is available
-
-WHEN I click "Fill the form"
-THEN I am redirected to the manual equipment entry flow
-
+Business Value
+	•	Enables fine-grained analysis of visit reasons
+	•	Improves treatment time analysis by category
+	•	Supports continuous improvement of support processes
+	•	Strengthens data consistency between Le Comptoir and ServiceNow
 
 ⸻
 
-🟦 US4 – Check owner vs depositor when selecting an equipment
-
-User Story
-
-As a coach
-I want the system to check if the equipment owner matches the depositor
-So that potential inconsistencies are detected early
-
-Acceptance Criteria
-
-WHEN I select an equipment
-THEN the system compares equipment owner with the current depositor
-
-IF they match
-THEN the process continues without warning
-
-IF they do not match
-THEN a warning modal is displayed
-
-
-⸻
-
-🟦 US5 – Display owner mismatch warning modal
-
-User Story
-
-As a coach
-I want to see a warning modal when the equipment owner differs from the depositor
-So that I can confirm or cancel my selection consciously
-
-Description
-
-The modal displays:
-	•	Title: Your attention please
-	•	Message: “You selected another owner, please review and confirm it.”
-	•	Two cards:
-	•	Depositary (visitor)
-	•	Owner selected (from HAM)
-	•	Actions:
-	•	No, I don’t → cancel selection
-	•	Yes, I confirm → confirm selection
-
-Acceptance Criteria
-
-WHEN the modal is displayed
-AND I click "No, I don't" or close it
-THEN I return to the equipment list
-
-WHEN I click "Yes, I confirm"
-THEN the selection is confirmed
-AND the process continues
-
-
-⸻
-
-🟦 US6 – Display selected equipment details
-
-User Story
-
-As a coach
-I want to see detailed information about the selected equipment and its owner
-So that I can verify the correctness before validation
-
-Displayed information (read-only)
-	•	Identification:
-	•	Barcode / serial number
-	•	Computer name
-	•	Model
-	•	Owner information:
-	•	Firstname / lastname
-	•	Entity
-	•	Function group
-
-Acceptance Criteria
-
-WHEN an equipment is selected
-THEN all identification and owner fields are displayed in read-only mode
-
-
-⸻
-
-🟦 US7 – Mandatory stockroom selection
-
-User Story
-
-As a coach
-I want to select the stockroom where the equipment will be stored
-So that the physical deposit location is properly tracked
-
-Business Rules
-	•	If only one stockroom exists:
-	•	it is auto-selected
-	•	the field is disabled
-	•	If multiple stockrooms exist:
-	•	the coach must select one
-	•	the field is mandatory
-
-Acceptance Criteria
-
-IF only one stockroom exists
-THEN it is auto-selected and disabled
-
-IF multiple stockrooms exist
-THEN stockroom selection is mandatory
-
-
-⸻
-
-🟦 US8 – Mandatory power supply confirmation
-
-User Story
-
-As a coach
-I want to specify whether the power supply is returned
-So that the return information is complete
-
-Acceptance Criteria
-
-THEN a Yes/No question "Is there a power supply provided?" is displayed
-AND answering it is mandatory
-
-
-⸻
-
-🟦 US9 – Optional comment field
-
-User Story
-
-As a coach
-I want to add an optional comment
-So that I can provide context about the equipment condition or return circumstances
-
-Acceptance Criteria
-
-THEN a free text comment field is available
-AND it is optional
-
-
-⸻
-
-🟦 US10 – Enable VALIDATE only when mandatory fields are completed
-
-User Story
-
-As a coach
-I want the VALIDATE button to be enabled only when all mandatory fields are completed
-So that incomplete returns cannot be validated
-
-Rules
-
-Mandatory fields:
-	•	stockroom (if applicable)
-	•	power supply (Yes/No)
-
-Acceptance Criteria
-
-WHEN mandatory fields are missing
-THEN the VALIDATE button is disabled
-
-WHEN all mandatory fields are completed
-THEN the VALIDATE button becomes enabled
-
-
-⸻
-
-🟦 US11 – Add validated equipment to Return Summary (cart)
-
-User Story
-
-As a coach
-I want validated equipments to be added to a Return Summary
-So that I can track all equipments being returned
-
-Acceptance Criteria
-
-WHEN I click VALIDATE
-THEN the equipment is added to the Return Summary
-AND the items counter is updated
-
-
-⸻
-
-🟦 US12 – Allow multiple equipments to be scanned and validated
-
-User Story
-
-As a coach
-I want to scan and validate multiple equipments in the same process
-So that I can return several items at once
-
-Acceptance Criteria
-
-WHEN an equipment is already in the Return Summary
-AND I scan another one
-THEN the full selection workflow starts again
-
-
-⸻
-
-🟦 US13 – Trigger confirmation modal when clicking NEXT
-
-User Story
-
-As a coach
-I want to confirm that I have finished adding equipments before moving on
-So that I do not accidentally skip equipment selection
-
-Acceptance Criteria
-
-WHEN at least one equipment is in the Return Summary
-AND I click NEXT
-THEN a confirmation modal is displayed
-
-
-⸻
-
-🟦 US14 – Confirmation modal: end of equipment selection
-
-User Story
-
-As a coach
-I want to confirm whether I am done adding equipments
-So that the process moves safely to the next step
-
-Modal content
-	•	Title: Confirmation
-	•	Message:
-“Have you finished adding any material to return?
-Next step, you will be able to add accessories.”
-	•	Buttons:
-	•	No, I have one → return to scanner
-	•	Yes, I confirm → go to Step 2 (Select accessories)
-
-Acceptance Criteria
-
-WHEN I click "No, I have one"
-THEN the modal closes
-AND I can scan another equipment
-
-WHEN I click "Yes, I confirm"
-THEN the process moves to Step 2 "Select accessories"
-
-
-⸻
-
-🟦 US15 – Prevent navigation to Step 2 without confirmation
-
-User Story
-
-As a Product Owner
-I want to block navigation to Step 2 without explicit confirmation
-So that equipment selection is always deliberate
-
-Acceptance Criteria
-
-Navigation to Step 2 is impossible without confirming via the modal
-
-
-⸻
-
-Si tu veux, au prochain message je peux :
-	•	t’aider à regrouper / prioriser ces US pour Jira,
-	•	ajouter les estimations,
-	•	ou préparer la traduction du Step 2 quand vous serez prêts.
+Si tu veux, je peux aussi te proposer :
+	•	une version plus technique (API / mapping / data model)
+	•	une découpe en sous-user stories (backend, data, reporting)
+	•	ou une formulation orientée financement / business case pour la roadmap 2025.
