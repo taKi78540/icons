@@ -1,88 +1,115 @@
-Très bonne précision 👍
-Tu fais bien de l’ajouter : c’est une règle de cadrage fonctionnel importante, à la fois pour les devs, la sécurité des données et la cohérence multi-comptoirs.
+Parfait, c’est une US manquante importante, et tu as très bien identifié le périmètre exact :
+👉 on ne crée pas un nouveau parcours,
+👉 on réutilise le même écran “Equipment details”,
+👉 mais en mode “manual entry” au lieu de “pre-filled from HAM”.
 
-Voici la version mise à jour de la User Story 7, en anglais, prête à remplacer celle existante dans Jira.
+Je te propose UNE User Story claire, qui s’imbrique parfaitement avec les US existantes (US3, US6, US7, US8, etc.), sans duplication inutile.
 
 ⸻
 
-🟦 US7 – Mandatory stockroom selection based on desk settings
+🟦 US – Manual equipment details entry when no match is found in HAM
 
 User Story
 
 As a coach
-I want to select a stockroom from a predefined list configured for my desk
-So that returned equipments are stored in an authorized and properly configured location
+I want to manually enter equipment details when no match is found in HAM
+So that I can still process a return even if the equipment is not referenced in the inventory
+
+⸻
+
+Context
+
+This User Story is triggered from US3 – No match in HAM, when the coach clicks “Fill the form”.
+
+Instead of displaying pre-filled equipment details (from HAM), the application opens the same equipment details screen, but in manual entry mode.
 
 ⸻
 
 Description
 
-On the equipment details screen (Step 1 – Select Equipments), the stockroom field allows the coach to select the physical location where the returned equipment will be stored.
+When the coach clicks “Fill the form” after a failed HAM search:
+	•	The application navigates to the Equipment Details screen
+	•	The equipment identification section is empty and editable
+	•	The coach must manually enter the equipment identification information
+	•	All subsequent steps of the flow remain unchanged:
+	•	stockroom selection
+	•	power supply confirmation
+	•	optional comment
+	•	validation and addition to Return Summary
 
-The list of available stockrooms:
-	•	comes exclusively from the desk (Le Comptoir) settings
-	•	is configured beforehand by the desk manager in the Settings view
-	•	is specific to each desk
+⸻
 
-This ensures that:
-	•	only authorized stockrooms can be selected
-	•	the return process is constrained by local configuration
-	•	stockroom selection is consistent across all returns for the same desk
+Manual Entry Rules – Equipment Identification
+
+In manual mode:
+	•	The following fields are editable:
+	•	Barcode
+	•	Serial number
+	•	Computer name
+	•	At least one of these three fields must be filled
+	•	Other identification fields (model, type, etc.) are optional if present
 
 ⸻
 
 Business Rules
-	1.	Stockroom source
-	•	The dropdown values are loaded from the stockrooms configured in the desk settings
-	•	No free-text or external stockroom selection is allowed
-	2.	Single stockroom
-	•	If the desk has only one stockroom configured:
-	•	it is automatically selected
-	•	the field is read-only (disabled)
-	3.	Multiple stockrooms
-	•	If the desk has multiple stockrooms configured:
-	•	the field is displayed as a mandatory dropdown
-	•	the coach must select one before validation
+	1.	Mandatory identification rule
+	•	At least one of the following must be provided:
+	•	Barcode
+	•	Serial number
+	•	Computer name
+	2.	Validation dependency
+	•	If none of the three fields is filled:
+	•	the VALIDATE button remains disabled
+	3.	Consistency with standard flow
+	•	Stockroom selection rules remain unchanged (US7)
+	•	Power supply confirmation remains mandatory (US8)
+	•	Comment remains optional
+	•	After VALIDATE, the equipment is added to the Return Summary like any other item
 
 ⸻
 
 Acceptance Criteria (Gherkin)
 
-GIVEN I am on the equipment details screen
-THEN the stockroom dropdown is populated only with stockrooms configured in the desk settings
+GIVEN no equipment match is found in HAM
+WHEN I click "Fill the form"
+THEN I am navigated to the equipment details screen in manual entry mode
 
-GIVEN the desk has exactly one stockroom configured
-WHEN the screen is displayed
-THEN the stockroom is auto-selected
-AND the field is disabled
+THEN the equipment identification fields are empty and editable
 
-GIVEN the desk has multiple stockrooms configured
-WHEN the screen is displayed
-THEN the stockroom field is empty
-AND selecting a stockroom is mandatory
+WHEN none of barcode, serial number or computer name is filled
+THEN the VALIDATE button is disabled
 
-WHEN no stockroom is selected (in multi-stockroom case)
-THEN the VALIDATE button remains disabled
+WHEN at least one of barcode, serial number or computer name is filled
+AND all other mandatory fields are completed
+THEN the VALIDATE button becomes enabled
+
+WHEN I click VALIDATE
+THEN the manually entered equipment is added to the Return Summary
 
 
 ⸻
 
-Dependencies
-	•	Desk configuration / Settings module
-	•	Stockroom list maintained by the desk manager
+UX / Implementation Notes (for devs)
+	•	The screen layout is identical to the standard equipment details screen
+	•	Only the mode changes:
+	•	prefilled = true (HAM match)
+	•	prefilled = false (manual entry)
+	•	Consider displaying a small label or badge:
+“Manual entry”
+to make the context explicit for the coach
 
 ⸻
 
 Business Value
-	•	Ensures data consistency across desks
-	•	Prevents incorrect stockroom assignments
-	•	Aligns the return process with local operational setup
-	•	Enables scalable multi-desk deployment
+	•	Ensures no return is blocked due to inventory gaps
+	•	Improves robustness of the return process
+	•	Keeps a single, consistent UX for both known and unknown equipments
+	•	Avoids creation of parallel or fragmented flows
 
 ⸻
 
-👉 Tu peux remplacer directement l’ancienne US7 par celle-ci dans Jira.
+👉 Tu peux ajouter cette US juste après US3 (No match in HAM) dans Jira.
 
 Si tu veux, au prochain message, je peux :
-	•	vérifier toutes les US du Step 1 pour m’assurer qu’elles sont 100 % cohérentes entre elles,
-	•	ou t’aider à documenter la vue Settings (stockroom configuration) comme une EPIC à part.
+	•	vérifier l’enchaînement exact des US pour Step 1 (ordre Jira optimal),
+	•	ou t’aider à rédiger une US complémentaire côté back (flag “manual equipment”, traçabilité, CMDB sync, etc.).
