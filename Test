@@ -1,55 +1,87 @@
-Voici une user story en anglais, rédigée dans un format Product Owner / Agile, prête à être intégrée dans un backlog (Jira, Azure DevOps, etc.).
+Très bonne amélioration 👍
+C’est plus contrôlable, moins bruité côté backend, et plus explicite côté UX, surtout avec le scan.
+
+Je te propose UNE User Story dédiée, claire, prête à être ajoutée à l’EPIC Step 1 – Select Equipments, et qui remplace officiellement la recherche automatique.
 
 ⸻
 
-User Story – Store ServiceNow Incident Category on Visit Closure
+🟦 US – Explicit equipment search with Search button and Enter key
 
-As a Product Owner / Service Manager
-I want the category and sub-category of the related ServiceNow incident to be automatically retrieved when a visit is closed
-So that the visit record stores these values and enables detailed analysis of visit reasons and treatment times in Power BI.
+User Story
+
+As a coach
+I want to explicitly trigger the equipment search using a Search button or the Enter key
+So that I stay in control of when the lookup is performed after scanning or typing an identifier
 
 ⸻
 
 Description
 
-When a visit at Le Comptoir results in the creation of a ServiceNow incident, the incident contains a category and a sub-category that describe the reason for the visit.
+On Step 1 – Select Equipments, the automatic search triggered on character input is replaced by an explicit search action.
 
-Upon visit closure, the application should:
-	•	Retrieve the category and sub-category from the associated ServiceNow incident
-	•	Store these values in the visit record (database table)
+The equipment lookup is triggered only when:
+	•	the coach clicks a Search button next to the input field, or
+	•	the coach presses the Enter key in the input field
 
-This data will later be used in Power BI to:
-	•	Better categorize visit reasons
-	•	Analyze treatment and handling times per category and sub-category
-	•	Improve operational insights and decision-making
+The input field continues to support:
+	•	barcode scanning
+	•	manual typing
+	•	accepted identifiers:
+	•	barcode
+	•	serial number
+	•	computer name
+
+⸻
+
+Behavior Rules
+	•	No search is triggered while typing characters
+	•	The entered/scanned value remains editable until search is explicitly triggered
+	•	After search:
+	•	results are displayed (HAM lookup)
+	•	or the “No match in HAM” message is shown
 
 ⸻
 
 Acceptance Criteria
-	•	Given a visit is linked to a ServiceNow incident
-When the visit is closed
-Then the system retrieves the incident category and sub-category from ServiceNow
-	•	The retrieved category and sub-category are:
-	•	Stored in dedicated fields in the visit table
-	•	Persisted even if the ServiceNow ticket is later modified
-	•	If no ServiceNow incident is linked to the visit:
-	•	The visit can still be closed
-	•	Category and sub-category fields remain empty or set to a default value
-	•	The stored data is:
-	•	Available in the reporting dataset
-	•	Exploitable in Power BI for filtering, grouping, and time analysis
+
+GIVEN I am on Step 1 "Select Equipments"
+THEN an equipment input field and a "Search" button are displayed
+
+WHEN I type or scan an equipment identifier
+THEN no search is triggered automatically
+
+WHEN I click the "Search" button
+OR I press the Enter key
+THEN the application searches for the equipment in HAM
+
+WHEN matching equipments are found
+THEN the results list is displayed
+
+WHEN no equipment is found
+THEN the "No match in HAM" message is displayed
+AND the "Fill the form" option is available
+
+
+⸻
+
+UX / Implementation Notes (for devs)
+	•	The Enter key behavior must be equivalent to clicking the Search button
+	•	The Search button should be disabled if the input field is empty
+	•	Optional (nice-to-have): show a loading indicator while the search is in progress
+	•	The previous “auto-search after X characters” behavior is fully removed
 
 ⸻
 
 Business Value
-	•	Enables fine-grained analysis of visit reasons
-	•	Improves treatment time analysis by category
-	•	Supports continuous improvement of support processes
-	•	Strengthens data consistency between Le Comptoir and ServiceNow
+	•	Prevents unnecessary backend calls
+	•	Improves clarity when using barcode scanners
+	•	Reduces false positives during partial input
+	•	Gives full control to the coach over the search action
 
 ⸻
 
-Si tu veux, je peux aussi te proposer :
-	•	une version plus technique (API / mapping / data model)
-	•	une découpe en sous-user stories (backend, data, reporting)
-	•	ou une formulation orientée financement / business case pour la roadmap 2025.
+Si tu veux, je peux ensuite :
+	•	mettre à jour les US existantes (US1 / US2) pour retirer toute référence à l’auto-search
+	•	ou te proposer le wording exact du bouton (Search / Find / Lookup) selon vos standards UX
+
+Dis-moi 👍
