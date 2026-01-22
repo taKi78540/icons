@@ -1,115 +1,201 @@
-Parfait, c’est une US manquante importante, et tu as très bien identifié le périmètre exact :
-👉 on ne crée pas un nouveau parcours,
-👉 on réutilise le même écran “Equipment details”,
-👉 mais en mode “manual entry” au lieu de “pre-filled from HAM”.
+Parfait 👍
+Le parcours Step 2 – Select Accessories est très clair, cohérent avec le Step 1, et la logique UX est excellente (symétrie avec la sélection des équipements).
 
-Je te propose UNE User Story claire, qui s’imbrique parfaitement avec les US existantes (US3, US6, US7, US8, etc.), sans duplication inutile.
+Je te propose ci-dessous un EPIC dédié + les User Stories associées, 100 % en anglais, prêtes pour Jira, dans la continuité exacte de ce que tu as déjà posé.
 
 ⸻
 
-🟦 US – Manual equipment details entry when no match is found in HAM
+🟪 EPIC – Return Hardware – Select Accessories (Step 2)
+
+Objective
+
+Allow coaches to declare returned accessories, add them to the return summary, and explicitly confirm when no accessory is returned before moving to the final recap.
+
+⸻
+
+🟦 US1 – Display available accessories list
 
 User Story
 
 As a coach
-I want to manually enter equipment details when no match is found in HAM
-So that I can still process a return even if the equipment is not referenced in the inventory
-
-⸻
-
-Context
-
-This User Story is triggered from US3 – No match in HAM, when the coach clicks “Fill the form”.
-
-Instead of displaying pre-filled equipment details (from HAM), the application opens the same equipment details screen, but in manual entry mode.
+I want to see a list of available accessories that can be returned
+So that I can declare all accessories returned by the user
 
 ⸻
 
 Description
 
-When the coach clicks “Fill the form” after a failed HAM search:
-	•	The application navigates to the Equipment Details screen
-	•	The equipment identification section is empty and editable
-	•	The coach must manually enter the equipment identification information
-	•	All subsequent steps of the flow remain unchanged:
-	•	stockroom selection
-	•	power supply confirmation
-	•	optional comment
-	•	validation and addition to Return Summary
+On Step 2 – Select Accessories, the screen displays a list of accessories that can be declared as returned.
+
+Each accessory:
+	•	is displayed as a selectable item (checkbox / card)
+	•	can be selected independently
+	•	is not limited in number (list can scroll)
+
+The list shown in the UI is not exhaustive in the mockup, but represents all accessories supported by the return process.
 
 ⸻
 
-Manual Entry Rules – Equipment Identification
+Acceptance Criteria
 
-In manual mode:
-	•	The following fields are editable:
-	•	Barcode
-	•	Serial number
-	•	Computer name
-	•	At least one of these three fields must be filled
-	•	Other identification fields (model, type, etc.) are optional if present
+GIVEN I am on Step 2 "Select accessories"
+THEN a list of selectable accessories is displayed
+
+AND each accessory can be selected or unselected independently
+
 
 ⸻
 
-Business Rules
-	1.	Mandatory identification rule
-	•	At least one of the following must be provided:
-	•	Barcode
-	•	Serial number
-	•	Computer name
-	2.	Validation dependency
-	•	If none of the three fields is filled:
-	•	the VALIDATE button remains disabled
-	3.	Consistency with standard flow
-	•	Stockroom selection rules remain unchanged (US7)
-	•	Power supply confirmation remains mandatory (US8)
-	•	Comment remains optional
-	•	After VALIDATE, the equipment is added to the Return Summary like any other item
+🟦 US2 – Add selected accessories to Return Summary
+
+User Story
+
+As a coach
+I want selected accessories to be added to the Return Summary
+So that I can track everything that has been declared as returned
 
 ⸻
 
-Acceptance Criteria (Gherkin)
+Description
+	•	When an accessory is selected:
+	•	it is immediately added to the Return Summary panel
+	•	When an accessory is unselected:
+	•	it is removed from the Return Summary
 
-GIVEN no equipment match is found in HAM
-WHEN I click "Fill the form"
-THEN I am navigated to the equipment details screen in manual entry mode
+⸻
 
-THEN the equipment identification fields are empty and editable
+Acceptance Criteria
 
-WHEN none of barcode, serial number or computer name is filled
-THEN the VALIDATE button is disabled
+WHEN I select an accessory
+THEN it appears in the Return Summary
 
-WHEN at least one of barcode, serial number or computer name is filled
-AND all other mandatory fields are completed
-THEN the VALIDATE button becomes enabled
+WHEN I unselect an accessory
+THEN it is removed from the Return Summary
 
+
+⸻
+
+🟦 US3 – Optional comment for accessories return
+
+User Story
+
+As a coach
+I want to add an optional comment related to accessories
+So that I can provide context if needed (condition, missing parts, etc.)
+
+⸻
+
+Acceptance Criteria
+
+THEN an optional comment field is displayed
+
+AND leaving it empty does not block validation
+
+
+⸻
+
+🟦 US4 – Validate selected accessories
+
+User Story
+
+As a coach
+I want to validate the selected accessories
+So that they are confirmed as part of the return
+
+⸻
+
+Description
+	•	Clicking VALIDATE confirms the currently selected accessories
+	•	If at least one accessory is selected:
+	•	validation proceeds directly to the next step
+
+⸻
+
+Acceptance Criteria
+
+GIVEN at least one accessory is selected
 WHEN I click VALIDATE
-THEN the manually entered equipment is added to the Return Summary
+THEN the accessories are confirmed
+AND I am navigated to the next step
 
 
 ⸻
 
-UX / Implementation Notes (for devs)
-	•	The screen layout is identical to the standard equipment details screen
-	•	Only the mode changes:
-	•	prefilled = true (HAM match)
-	•	prefilled = false (manual entry)
-	•	Consider displaying a small label or badge:
-“Manual entry”
-to make the context explicit for the coach
+🟦 US5 – Confirmation modal when no accessory is selected
+
+User Story
+
+As a coach
+I want to confirm that no accessory is returned
+So that I do not skip accessory declaration by mistake
 
 ⸻
 
-Business Value
-	•	Ensures no return is blocked due to inventory gaps
-	•	Improves robustness of the return process
-	•	Keeps a single, consistent UX for both known and unknown equipments
-	•	Avoids creation of parallel or fragmented flows
+Description
+
+If the coach clicks Next step (or equivalent navigation action) without selecting any accessory, a confirmation modal is displayed.
+
+Modal content (as per mockup):
+	•	Title: Confirmation
+	•	Message:
+“Are there any accessories to return?
+Next step is the final recap.”
+	•	Actions:
+	•	No, there are → close modal and stay on accessory selection
+	•	Yes, I confirm → continue to the next step
 
 ⸻
 
-👉 Tu peux ajouter cette US juste après US3 (No match in HAM) dans Jira.
+Acceptance Criteria
 
-Si tu veux, au prochain message, je peux :
-	•	vérifier l’enchaînement exact des US pour Step 1 (ordre Jira optimal),
-	•	ou t’aider à rédiger une US complémentaire côté back (flag “manual equipment”, traçabilité, CMDB sync, etc.).
+GIVEN no accessory is selected
+WHEN I click Next step
+THEN a confirmation modal is displayed
+
+WHEN I click "No, there are"
+THEN the modal closes
+AND I remain on Step 2 "Select accessories"
+
+WHEN I click "Yes, I confirm"
+THEN I am navigated to Step 3 "Return Summary"
+
+
+⸻
+
+🟦 US6 – Prevent navigation without explicit confirmation
+
+User Story
+
+As a Product Owner
+I want to prevent navigation to the recap without confirmation when no accessory is selected
+So that the process is explicit and error-proof
+
+⸻
+
+Acceptance Criteria
+
+Navigation to Step 3 is blocked
+WHEN no accessory is selected
+UNTIL the confirmation modal is validated
+
+
+⸻
+
+🧠 Consistency with Step 1
+
+This step follows the same design principles as Select Equipments:
+	•	immediate update of Return Summary
+	•	explicit validation
+	•	confirmation modal when skipping a declaration
+	•	no implicit assumptions
+
+⸻
+
+✅ Résumé prêt pour Jira
+	•	EPIC clair
+	•	US bien découpées
+	•	alignement UX parfait avec Step 1
+	•	aucun doublon fonctionnel
+	•	prêt pour dev + QA
+
+Quand tu veux, on peut attaquer Step 3 – Return Summary ou Step 4 – Sign and Confirm, ou faire une revue globale du backlog pour vérifier qu’il est nickel avant dev 🚀
