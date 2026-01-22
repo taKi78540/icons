@@ -1,205 +1,226 @@
-Parfait 👍
-Le Step 3 – Return Summary est très clair fonctionnellement, et tu as bien cadré ce qu’on fait et surtout ce qu’on ne fait pas (pas d’édition à ce stade 👍).
+Tu as raison 👍
+On est revenus en arrière sur la qualité “Jira-ready” : il manque les Acceptance Criteria, et c’est exactement ce qui faisait que c’était “mieux avant”.
 
-Je te propose donc UNE nouvelle EPIC + les User Stories associées, 100 % en anglais, prêtes pour Jira, strictement alignées avec ta description et les maquettes.
-
-⸻
-
-🟪 EPIC – Return Hardware – Review & Return Summary (Step 3)
-
-Objective
-
-Allow the coach to review all declared equipments and accessories before final confirmation, ensuring completeness and accuracy of the return.
-
-Scope
-
-This epic covers Step 3 – Return Summary, which is a read-only review step before signature.
+Je te remets donc la version COMPLÈTE, propre, cohérente, avec :
+	•	✅ US1, US2, US3… (sans tiret, sans préfixe)
+	•	✅ Critères d’acceptation explicites pour CHAQUE US
+	•	✅ Aucun doublon
+	•	✅ Aligné avec tout ce que tu as validé fonctionnellement
 
 ⸻
 
-🟦 US1 – Display return summary overview
-
-User Story
-
-As a coach
-I want to see a global summary of all returned items
-So that I can quickly verify that nothing is missing before confirmation
+🟦 EPIC — Return Hardware · Signature & Confirmation (Step 4)
 
 ⸻
+
+US1 — Select a signature method
+
+As a support agent
+I want to select a signature method
+So that I can finalize the return process correctly
 
 Description
 
-On Step 3 – Return Summary, the screen displays:
-	•	A title and instruction:
-“Please review the equipments collected and confirm it.”
-	•	Two main sections:
-	•	Equipments collected (n)
-	•	Accessories collected (n)
+On the Sign and confirm step, the agent must select one signature method before validating the process.
 
-The counters reflect the total number of items declared in previous steps.
+Available methods (initial scope):
+	•	Sign on my own screen
+	•	Sign on tablet
 
-⸻
+Unavailable methods (visible but disabled):
+	•	Sign with external solution
+
+No method is selected by default.
+The Validate button is disabled until a method is selected.
 
 Acceptance Criteria
 
-GIVEN I am on Step 3 "Return Summary"
-THEN a summary of equipments and accessories is displayed
-AND item counters reflect the declared quantities
+GIVEN I am on Step 4 "Sign and confirm"
+THEN all signature methods are displayed
+AND no method is selected by default
+
+GIVEN a signature method is unavailable
+THEN it is visible but disabled and not selectable
+
+GIVEN no method is selected
+THEN the Validate button is disabled
+
+WHEN I select an available signature method
+THEN the Validate button becomes enabled
 
 
 ⸻
 
-🟦 US2 – Display collected equipments details (read-only)
+US2 — Sign on technician screen (on-screen signature)
 
-User Story
-
-As a coach
-I want to review detailed information for each collected equipment
-So that I can ensure all information is correct before signing
-
-⸻
+As a collaborator (guided by the support agent)
+I want to sign directly on the technician’s screen using my finger
+So that I can validate the return without using another device
 
 Description
 
-For each collected equipment, a read-only card is displayed.
-
-Common information (all equipments)
-	•	Barcode
-	•	Type
-	•	Model
-	•	Stockroom
-	•	Power supply status:
-	•	With power supply / Without power supply
-
-Laptop-specific fields
-	•	Computer name
-
-Smartphone-specific fields
-	•	IMEI
-	•	Serial number
-
-Comment
-	•	Displayed only if a comment was provided
-	•	If no comment exists, the comment section is hidden
-
-⸻
+When “Sign on my own screen” is selected and the agent clicks Validate:
+	•	A signature capture screen is displayed
+	•	The collaborator signs using finger/touch
+	•	The signature is rendered live in a dedicated framed area
+	•	The agent validates to complete the process
 
 Acceptance Criteria
 
-WHEN equipments have been declared
-THEN each equipment is displayed with its detailed information
+GIVEN "Sign on my own screen" is selected
+WHEN I click Validate
+THEN a signature capture area is displayed
 
-IF no comment exists for an equipment
-THEN the comment section is not displayed
+WHEN the collaborator draws in the signature area
+THEN the signature is displayed in real time
 
-All fields are displayed in read-only mode
+GIVEN no signature is drawn
+THEN the Validate button is disabled
 
+WHEN a signature is present
+AND I click Validate
+THEN the signature is saved
+AND the process moves to the completion screen
 
-⸻
-
-🟦 US3 – Display collected accessories with quantity
-
-User Story
-
-As a coach
-I want to review all collected accessories and their quantities
-So that I can validate that accessory returns are accurate
 
 ⸻
+
+US3 — Sign on tablet: generate signature code
+
+As a support agent
+I want to generate a short code for tablet signature
+So that the collaborator can sign the return form on the tablet
 
 Description
 
-In the Accessories collected section:
-	•	Each accessory is displayed as a read-only item
-	•	For each accessory, the following is shown:
-	•	Type
-	•	Model (if applicable)
-	•	Quantity
-
-If quantity > 1, the quantity value is clearly displayed.
-
-⸻
+After selecting “Sign on tablet” and clicking Validate:
+	•	A 2-character alphanumeric code (letter + number) is generated
+	•	The code is communicated to the collaborator
+	•	The screen switches to a waiting state
 
 Acceptance Criteria
 
-WHEN accessories have been declared
-THEN each accessory is displayed in the summary
+GIVEN "Sign on tablet" is selected
+WHEN I click Validate
+THEN a 2-character alphanumeric code is generated
 
-AND the displayed quantity matches the declared quantity
+THEN the code is clearly displayed on screen
+AND the UI indicates that the system is waiting for tablet signature
 
-
-⸻
-
-🟦 US4 – No edition allowed on Return Summary step
-
-User Story
-
-As a Product Owner
-I want the Return Summary step to be read-only
-So that the coach focuses on verification and confirmation only
 
 ⸻
 
-Description
-	•	No edit, delete, or modification actions are available on this step
-	•	Visual edit icons shown in mockups are not active and not implemented
-	•	Changes can only be made by navigating back to previous steps
+US4 — Wait for tablet signature completion
 
-⸻
+As a support agent
+I want the system to automatically detect when the tablet signature is completed
+So that I can continue without manual refresh
 
 Acceptance Criteria
 
-THEN all displayed information is read-only
+GIVEN the tablet signature waiting screen is displayed
+WHEN the collaborator completes the signature on the tablet
+THEN the system detects the completion automatically
 
-AND no edit or delete action is available on this step
+AND the UI transitions without manual refresh
 
-
-⸻
-
-🟦 US5 – Confirm and proceed to signature
-
-User Story
-
-As a coach
-I want to confirm the return summary and proceed to signature
-So that the return can be finalized and signed by the user
 
 ⸻
+
+US5 — Display completion screen after signature
+
+As a support agent
+I want to see a confirmation screen once the signature is completed
+So that I know the return process was successful
 
 Description
 
-At the bottom of the screen:
-	•	A Back button allows returning to the previous step
-	•	A Confirm and Sign button allows proceeding to Step 4 – Sign and confirm
-
-⸻
+After a successful signature (screen or tablet), a completion screen is displayed.
 
 Acceptance Criteria
 
-WHEN I click "Back"
-THEN I am navigated to Step 2 "Select accessories"
-
-WHEN I click "Confirm and Sign"
-THEN I am navigated to Step 4 "Sign and confirm"
+WHEN the signature process is completed
+THEN a success message is displayed
+AND a visual confirmation indicator is shown
 
 
 ⸻
 
-🧠 Design Principles Reinforced
-	•	Consistent read-only recap step
-	•	No hidden modification logic
-	•	Clear separation between:
-	•	data entry (Steps 1 & 2)
-	•	verification (Step 3)
-	•	commitment & signature (Step 4)
+US6 — Print the return form (PV)
+
+As a support agent
+I want to print the return form
+So that I can provide a physical copy if required
+
+Acceptance Criteria
+
+GIVEN the completion screen is displayed
+THEN a "Print the PV" button is visible
+
+WHEN I click "Print the PV"
+THEN the browser print dialog is opened
+
 
 ⸻
 
-✅ Résumé prêt pour Jira
-	•	EPIC claire
-	•	US bien découpées
-	•	aucun comportement implicite
-	•	alignement parfait avec les maquettes
-	•	prêt pour dev / QA / sécurité
+US7 — Finish the process without signature (exception flow)
 
-Quand tu veux, on attaque Step 4 – Sign and Confirm, ou on fait une revue globale du backlog pour vérifier qu’il est béton avant lancement 🚀
+As a support agent
+I want to finish the return process without signature
+So that I can complete the process in exceptional situations
+
+Description
+
+A link “Finish the process without signature” is displayed on the signature selection screen.
+
+Clicking it opens a confirmation modal requiring a mandatory explanation.
+
+Acceptance Criteria
+
+GIVEN the signature selection screen is displayed
+THEN a "Finish the process without signature" link is visible
+
+WHEN I click the link
+THEN a confirmation modal is displayed
+
+GIVEN the reason field is empty
+THEN the Validate button in the modal is disabled
+
+WHEN I provide a reason and click Validate
+THEN the process is completed without signature
+
+WHEN I click Cancel
+THEN the modal is closed without completing the process
+
+
+⸻
+
+US8 — Exit the workflow after completion
+
+As a support agent
+I want to exit the return workflow
+So that I can return to the Visit Management view
+
+Acceptance Criteria
+
+GIVEN the return process is completed
+THEN a Quit action is available
+
+WHEN I click Quit
+THEN I am redirected to the Visit Management view
+
+
+⸻
+
+✅ On est revenus au bon niveau de qualité
+	•	User Stories exploitables par les devs
+	•	Critères testables par la QA
+	•	Aucune ambiguïté fonctionnelle
+	•	Conformes à ta convention Jira
+
+Si tu veux, prochaine étape possible :
+	•	🔍 relecture finale de tout le parcours Return Hardware
+	•	📊 tableau EPIC / US / estimation
+	•	🧪 liste de tests QA dérivés automatiquement des AC
+
+Tu me dis.
