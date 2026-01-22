@@ -1,92 +1,205 @@
 Parfait 👍
-C’est une très bonne US, logique fonctionnellement et très propre côté UX / traçabilité. Elle s’intègre sans casser ce que tu as déjà défini pour Step 2.
+Le Step 3 – Return Summary est très clair fonctionnellement, et tu as bien cadré ce qu’on fait et surtout ce qu’on ne fait pas (pas d’édition à ce stade 👍).
 
-Voici la User Story à ajouter dans l’EPIC “Select Accessories (Step 2)”, 100 % en anglais, prête pour Jira.
+Je te propose donc UNE nouvelle EPIC + les User Stories associées, 100 % en anglais, prêtes pour Jira, strictement alignées avec ta description et les maquettes.
 
 ⸻
 
-🟦 US – Define returned quantity per accessory
+🟪 EPIC – Return Hardware – Review & Return Summary (Step 3)
+
+Objective
+
+Allow the coach to review all declared equipments and accessories before final confirmation, ensuring completeness and accuracy of the return.
+
+Scope
+
+This epic covers Step 3 – Return Summary, which is a read-only review step before signature.
+
+⸻
+
+🟦 US1 – Display return summary overview
 
 User Story
 
 As a coach
-I want to define the quantity returned for each accessory
-So that I can accurately declare multiple returned items of the same accessory type
+I want to see a global summary of all returned items
+So that I can quickly verify that nothing is missing before confirmation
 
 ⸻
 
 Description
 
-On Step 2 – Select Accessories, each accessory item provides quantity controls allowing the coach to specify how many units are returned.
+On Step 3 – Return Summary, the screen displays:
+	•	A title and instruction:
+“Please review the equipments collected and confirm it.”
+	•	Two main sections:
+	•	Equipments collected (n)
+	•	Accessories collected (n)
 
-For each accessory:
-	•	A minus (-) button decreases the quantity
-	•	A plus (+) button increases the quantity
-	•	Quantity starts at 1 when the accessory is selected
-	•	Quantity cannot be lower than 1
-
-When an accessory is added to the Return Summary:
-	•	If quantity = 1 → no quantity indicator is displayed
-	•	If quantity > 1 → a quantity badge (e.g. x2, x3) is displayed on the accessory card
+The counters reflect the total number of items declared in previous steps.
 
 ⸻
 
-Business Rules
-	1.	Selection & quantity
-	•	Selecting an accessory automatically sets its quantity to 1
-	•	Unselecting an accessory removes it entirely from the Return Summary
-	2.	Quantity constraints
-	•	Minimum quantity: 1
-	•	No upper limit (unless defined later by business rules)
-	3.	Return Summary display
-	•	Quantity badge is displayed only when quantity > 1
-	•	The badge reflects the current quantity in real time
+Acceptance Criteria
 
-⸻
-
-Acceptance Criteria (Gherkin)
-
-GIVEN I am on Step 2 "Select accessories"
-WHEN I select an accessory
-THEN its quantity is set to 1 by default
-
-WHEN I click the "+" button
-THEN the accessory quantity increases by 1
-
-WHEN I click the "-" button
-AND the quantity is greater than 1
-THEN the accessory quantity decreases by 1
-
-WHEN the quantity is 1
-THEN the "-" button is disabled
-
-WHEN an accessory quantity is greater than 1
-THEN a quantity badge is displayed in the Return Summary
-
-WHEN I unselect an accessory
-THEN it is removed from the Return Summary regardless of quantity
+GIVEN I am on Step 3 "Return Summary"
+THEN a summary of equipments and accessories is displayed
+AND item counters reflect the declared quantities
 
 
 ⸻
 
-UX / Implementation Notes
-	•	Quantity controls are visible only when the accessory is selected
-	•	Quantity updates are reflected instantly in the Return Summary
-	•	Recommended badge format: x2, x3, etc.
-	•	Badge placement: top-right corner of the accessory card in Return Summary
+🟦 US2 – Display collected equipments details (read-only)
+
+User Story
+
+As a coach
+I want to review detailed information for each collected equipment
+So that I can ensure all information is correct before signing
 
 ⸻
 
-Business Value
-	•	Supports real-world return scenarios (multiple chargers, badges, headsets, etc.)
-	•	Improves accuracy of return declarations
-	•	Avoids duplicate accessory entries
-	•	Keeps the UI clean and scalable
+Description
+
+For each collected equipment, a read-only card is displayed.
+
+Common information (all equipments)
+	•	Barcode
+	•	Type
+	•	Model
+	•	Stockroom
+	•	Power supply status:
+	•	With power supply / Without power supply
+
+Laptop-specific fields
+	•	Computer name
+
+Smartphone-specific fields
+	•	IMEI
+	•	Serial number
+
+Comment
+	•	Displayed only if a comment was provided
+	•	If no comment exists, the comment section is hidden
 
 ⸻
 
-👉 Tu peux ajouter cette US juste après “Add selected accessories to Return Summary” dans l’EPIC Step 2.
+Acceptance Criteria
 
-Si tu veux, je peux ensuite :
-	•	faire une revue complète de l’EPIC Step 2 avec l’ordre Jira optimal,
-	•	ou préparer Step 3 – Return Summary avec le même niveau de précision.
+WHEN equipments have been declared
+THEN each equipment is displayed with its detailed information
+
+IF no comment exists for an equipment
+THEN the comment section is not displayed
+
+All fields are displayed in read-only mode
+
+
+⸻
+
+🟦 US3 – Display collected accessories with quantity
+
+User Story
+
+As a coach
+I want to review all collected accessories and their quantities
+So that I can validate that accessory returns are accurate
+
+⸻
+
+Description
+
+In the Accessories collected section:
+	•	Each accessory is displayed as a read-only item
+	•	For each accessory, the following is shown:
+	•	Type
+	•	Model (if applicable)
+	•	Quantity
+
+If quantity > 1, the quantity value is clearly displayed.
+
+⸻
+
+Acceptance Criteria
+
+WHEN accessories have been declared
+THEN each accessory is displayed in the summary
+
+AND the displayed quantity matches the declared quantity
+
+
+⸻
+
+🟦 US4 – No edition allowed on Return Summary step
+
+User Story
+
+As a Product Owner
+I want the Return Summary step to be read-only
+So that the coach focuses on verification and confirmation only
+
+⸻
+
+Description
+	•	No edit, delete, or modification actions are available on this step
+	•	Visual edit icons shown in mockups are not active and not implemented
+	•	Changes can only be made by navigating back to previous steps
+
+⸻
+
+Acceptance Criteria
+
+THEN all displayed information is read-only
+
+AND no edit or delete action is available on this step
+
+
+⸻
+
+🟦 US5 – Confirm and proceed to signature
+
+User Story
+
+As a coach
+I want to confirm the return summary and proceed to signature
+So that the return can be finalized and signed by the user
+
+⸻
+
+Description
+
+At the bottom of the screen:
+	•	A Back button allows returning to the previous step
+	•	A Confirm and Sign button allows proceeding to Step 4 – Sign and confirm
+
+⸻
+
+Acceptance Criteria
+
+WHEN I click "Back"
+THEN I am navigated to Step 2 "Select accessories"
+
+WHEN I click "Confirm and Sign"
+THEN I am navigated to Step 4 "Sign and confirm"
+
+
+⸻
+
+🧠 Design Principles Reinforced
+	•	Consistent read-only recap step
+	•	No hidden modification logic
+	•	Clear separation between:
+	•	data entry (Steps 1 & 2)
+	•	verification (Step 3)
+	•	commitment & signature (Step 4)
+
+⸻
+
+✅ Résumé prêt pour Jira
+	•	EPIC claire
+	•	US bien découpées
+	•	aucun comportement implicite
+	•	alignement parfait avec les maquettes
+	•	prêt pour dev / QA / sécurité
+
+Quand tu veux, on attaque Step 4 – Sign and Confirm, ou on fait une revue globale du backlog pour vérifier qu’il est béton avant lancement 🚀
