@@ -1,201 +1,92 @@
 Parfait 👍
-Le parcours Step 2 – Select Accessories est très clair, cohérent avec le Step 1, et la logique UX est excellente (symétrie avec la sélection des équipements).
+C’est une très bonne US, logique fonctionnellement et très propre côté UX / traçabilité. Elle s’intègre sans casser ce que tu as déjà défini pour Step 2.
 
-Je te propose ci-dessous un EPIC dédié + les User Stories associées, 100 % en anglais, prêtes pour Jira, dans la continuité exacte de ce que tu as déjà posé.
-
-⸻
-
-🟪 EPIC – Return Hardware – Select Accessories (Step 2)
-
-Objective
-
-Allow coaches to declare returned accessories, add them to the return summary, and explicitly confirm when no accessory is returned before moving to the final recap.
+Voici la User Story à ajouter dans l’EPIC “Select Accessories (Step 2)”, 100 % en anglais, prête pour Jira.
 
 ⸻
 
-🟦 US1 – Display available accessories list
+🟦 US – Define returned quantity per accessory
 
 User Story
 
 As a coach
-I want to see a list of available accessories that can be returned
-So that I can declare all accessories returned by the user
+I want to define the quantity returned for each accessory
+So that I can accurately declare multiple returned items of the same accessory type
 
 ⸻
 
 Description
 
-On Step 2 – Select Accessories, the screen displays a list of accessories that can be declared as returned.
+On Step 2 – Select Accessories, each accessory item provides quantity controls allowing the coach to specify how many units are returned.
 
-Each accessory:
-	•	is displayed as a selectable item (checkbox / card)
-	•	can be selected independently
-	•	is not limited in number (list can scroll)
+For each accessory:
+	•	A minus (-) button decreases the quantity
+	•	A plus (+) button increases the quantity
+	•	Quantity starts at 1 when the accessory is selected
+	•	Quantity cannot be lower than 1
 
-The list shown in the UI is not exhaustive in the mockup, but represents all accessories supported by the return process.
+When an accessory is added to the Return Summary:
+	•	If quantity = 1 → no quantity indicator is displayed
+	•	If quantity > 1 → a quantity badge (e.g. x2, x3) is displayed on the accessory card
 
 ⸻
 
-Acceptance Criteria
+Business Rules
+	1.	Selection & quantity
+	•	Selecting an accessory automatically sets its quantity to 1
+	•	Unselecting an accessory removes it entirely from the Return Summary
+	2.	Quantity constraints
+	•	Minimum quantity: 1
+	•	No upper limit (unless defined later by business rules)
+	3.	Return Summary display
+	•	Quantity badge is displayed only when quantity > 1
+	•	The badge reflects the current quantity in real time
+
+⸻
+
+Acceptance Criteria (Gherkin)
 
 GIVEN I am on Step 2 "Select accessories"
-THEN a list of selectable accessories is displayed
-
-AND each accessory can be selected or unselected independently
-
-
-⸻
-
-🟦 US2 – Add selected accessories to Return Summary
-
-User Story
-
-As a coach
-I want selected accessories to be added to the Return Summary
-So that I can track everything that has been declared as returned
-
-⸻
-
-Description
-	•	When an accessory is selected:
-	•	it is immediately added to the Return Summary panel
-	•	When an accessory is unselected:
-	•	it is removed from the Return Summary
-
-⸻
-
-Acceptance Criteria
-
 WHEN I select an accessory
-THEN it appears in the Return Summary
+THEN its quantity is set to 1 by default
+
+WHEN I click the "+" button
+THEN the accessory quantity increases by 1
+
+WHEN I click the "-" button
+AND the quantity is greater than 1
+THEN the accessory quantity decreases by 1
+
+WHEN the quantity is 1
+THEN the "-" button is disabled
+
+WHEN an accessory quantity is greater than 1
+THEN a quantity badge is displayed in the Return Summary
 
 WHEN I unselect an accessory
-THEN it is removed from the Return Summary
+THEN it is removed from the Return Summary regardless of quantity
 
 
 ⸻
 
-🟦 US3 – Optional comment for accessories return
-
-User Story
-
-As a coach
-I want to add an optional comment related to accessories
-So that I can provide context if needed (condition, missing parts, etc.)
+UX / Implementation Notes
+	•	Quantity controls are visible only when the accessory is selected
+	•	Quantity updates are reflected instantly in the Return Summary
+	•	Recommended badge format: x2, x3, etc.
+	•	Badge placement: top-right corner of the accessory card in Return Summary
 
 ⸻
 
-Acceptance Criteria
-
-THEN an optional comment field is displayed
-
-AND leaving it empty does not block validation
-
-
-⸻
-
-🟦 US4 – Validate selected accessories
-
-User Story
-
-As a coach
-I want to validate the selected accessories
-So that they are confirmed as part of the return
+Business Value
+	•	Supports real-world return scenarios (multiple chargers, badges, headsets, etc.)
+	•	Improves accuracy of return declarations
+	•	Avoids duplicate accessory entries
+	•	Keeps the UI clean and scalable
 
 ⸻
 
-Description
-	•	Clicking VALIDATE confirms the currently selected accessories
-	•	If at least one accessory is selected:
-	•	validation proceeds directly to the next step
+👉 Tu peux ajouter cette US juste après “Add selected accessories to Return Summary” dans l’EPIC Step 2.
 
-⸻
-
-Acceptance Criteria
-
-GIVEN at least one accessory is selected
-WHEN I click VALIDATE
-THEN the accessories are confirmed
-AND I am navigated to the next step
-
-
-⸻
-
-🟦 US5 – Confirmation modal when no accessory is selected
-
-User Story
-
-As a coach
-I want to confirm that no accessory is returned
-So that I do not skip accessory declaration by mistake
-
-⸻
-
-Description
-
-If the coach clicks Next step (or equivalent navigation action) without selecting any accessory, a confirmation modal is displayed.
-
-Modal content (as per mockup):
-	•	Title: Confirmation
-	•	Message:
-“Are there any accessories to return?
-Next step is the final recap.”
-	•	Actions:
-	•	No, there are → close modal and stay on accessory selection
-	•	Yes, I confirm → continue to the next step
-
-⸻
-
-Acceptance Criteria
-
-GIVEN no accessory is selected
-WHEN I click Next step
-THEN a confirmation modal is displayed
-
-WHEN I click "No, there are"
-THEN the modal closes
-AND I remain on Step 2 "Select accessories"
-
-WHEN I click "Yes, I confirm"
-THEN I am navigated to Step 3 "Return Summary"
-
-
-⸻
-
-🟦 US6 – Prevent navigation without explicit confirmation
-
-User Story
-
-As a Product Owner
-I want to prevent navigation to the recap without confirmation when no accessory is selected
-So that the process is explicit and error-proof
-
-⸻
-
-Acceptance Criteria
-
-Navigation to Step 3 is blocked
-WHEN no accessory is selected
-UNTIL the confirmation modal is validated
-
-
-⸻
-
-🧠 Consistency with Step 1
-
-This step follows the same design principles as Select Equipments:
-	•	immediate update of Return Summary
-	•	explicit validation
-	•	confirmation modal when skipping a declaration
-	•	no implicit assumptions
-
-⸻
-
-✅ Résumé prêt pour Jira
-	•	EPIC clair
-	•	US bien découpées
-	•	alignement UX parfait avec Step 1
-	•	aucun doublon fonctionnel
-	•	prêt pour dev + QA
-
-Quand tu veux, on peut attaquer Step 3 – Return Summary ou Step 4 – Sign and Confirm, ou faire une revue globale du backlog pour vérifier qu’il est nickel avant dev 🚀
+Si tu veux, je peux ensuite :
+	•	faire une revue complète de l’EPIC Step 2 avec l’ordre Jira optimal,
+	•	ou préparer Step 3 – Return Summary avec le même niveau de précision.
