@@ -1,226 +1,167 @@
-Tu as raison 👍
-On est revenus en arrière sur la qualité “Jira-ready” : il manque les Acceptance Criteria, et c’est exactement ce qui faisait que c’était “mieux avant”.
+Parfait, merci pour la remise à plat 👍
+Là c’est très clair, et on peut poser des US propres, linéaires, non redondantes, strictement basées sur ce que tu viens de décrire et sur les maquettes.
 
-Je te remets donc la version COMPLÈTE, propre, cohérente, avec :
-	•	✅ US1, US2, US3… (sans tiret, sans préfixe)
-	•	✅ Critères d’acceptation explicites pour CHAQUE US
-	•	✅ Aucun doublon
-	•	✅ Aligné avec tout ce que tu as validé fonctionnellement
+Je te propose donc le parcours Tablet – Signature, découpé en US1 → US5, avec critères d’acceptation remis, format Jira-ready, sans spéculation technique.
 
 ⸻
 
-🟦 EPIC — Return Hardware · Signature & Confirmation (Step 4)
+🟦 EPIC — Return Hardware · Tablet Signature (User Journey)
+
+Goal
+
+Allow a visitor (depositor) to complete the return process by signing on a shared tablet, in a simple, guided, and self-service flow.
 
 ⸻
 
-US1 — Select a signature method
+US1 — Select activity on tablet (Survey or Signature)
 
-As a support agent
-I want to select a signature method
-So that I can finalize the return process correctly
+As a visitor
+I want to choose between giving feedback or signing a form
+So that I can start the correct process on the tablet
 
 Description
 
-On the Sign and confirm step, the agent must select one signature method before validating the process.
+When arriving on the tablet, the visitor sees a welcome screen with:
+	•	Two main actions:
+	•	Opinion Survey
+	•	eSignature
+	•	Each action is represented by a large, clearly identifiable button.
 
-Available methods (initial scope):
-	•	Sign on my own screen
-	•	Sign on tablet
-
-Unavailable methods (visible but disabled):
-	•	Sign with external solution
-
-No method is selected by default.
-The Validate button is disabled until a method is selected.
+Only the eSignature path is in scope for this epic.
 
 Acceptance Criteria
 
-GIVEN I am on Step 4 "Sign and confirm"
-THEN all signature methods are displayed
-AND no method is selected by default
+GIVEN I am on the tablet welcome screen
+THEN I see two main actions: Opinion Survey and eSignature
 
-GIVEN a signature method is unavailable
-THEN it is visible but disabled and not selectable
+WHEN I click on eSignature
+THEN I am redirected to the signature code entry screen
 
-GIVEN no method is selected
+
+⸻
+
+US2 — Enter validation code on tablet
+
+As a visitor
+I want to enter the validation code given by the coach
+So that I can access my return summary
+
+Description
+
+After selecting eSignature, the visitor sees:
+	•	An instruction explaining that a code was provided by the coach
+	•	A virtual keyboard
+	•	A code input field (2 characters)
+	•	A validation action via the green confirmation key
+
+Acceptance Criteria
+
+GIVEN I am on the code entry screen
+THEN a virtual keyboard is displayed
+AND a code input field is visible
+
+WHEN I enter a 2-character code and press the validation key
+THEN the code is submitted
+
+WHEN the code is invalid
+THEN an error message is displayed
+AND I remain on the code entry screen
+
+
+⸻
+
+US3 — Display return summary for visitor review
+
+As a visitor
+I want to review the returned items
+So that I can confirm everything is correct before signing
+
+Description
+
+Once the code is validated, the visitor sees:
+	•	A read-only return summary
+	•	The list of equipments returned
+	•	Relevant information per item (type, model, identifiers, power supply status if applicable)
+
+The visitor can:
+	•	Go back
+	•	Or proceed by clicking Confirm and Sign
+
+Acceptance Criteria
+
+WHEN the code is valid
+THEN the return summary screen is displayed
+
+AND the summary is read-only
+
+WHEN I click on Confirm and Sign
+THEN I am redirected to the signature screen
+
+
+⸻
+
+US4 — Capture signature on tablet
+
+As a visitor
+I want to sign the form using my finger
+So that I can officially confirm the return
+
+Description
+
+The visitor is presented with:
+	•	A dedicated signature area
+	•	Instructions to sign with their finger
+	•	Two actions:
+	•	Cancel
+	•	Validate
+
+The Validate action is only enabled once a signature is drawn.
+
+Acceptance Criteria
+
+GIVEN I am on the signature screen
+THEN a signature area is displayed
+
+WHEN no signature is drawn
 THEN the Validate button is disabled
 
-WHEN I select an available signature method
+WHEN I draw a signature
 THEN the Validate button becomes enabled
 
-
-⸻
-
-US2 — Sign on technician screen (on-screen signature)
-
-As a collaborator (guided by the support agent)
-I want to sign directly on the technician’s screen using my finger
-So that I can validate the return without using another device
-
-Description
-
-When “Sign on my own screen” is selected and the agent clicks Validate:
-	•	A signature capture screen is displayed
-	•	The collaborator signs using finger/touch
-	•	The signature is rendered live in a dedicated framed area
-	•	The agent validates to complete the process
-
-Acceptance Criteria
-
-GIVEN "Sign on my own screen" is selected
 WHEN I click Validate
-THEN a signature capture area is displayed
-
-WHEN the collaborator draws in the signature area
-THEN the signature is displayed in real time
-
-GIVEN no signature is drawn
-THEN the Validate button is disabled
-
-WHEN a signature is present
-AND I click Validate
-THEN the signature is saved
-AND the process moves to the completion screen
+THEN the signature is submitted
 
 
 ⸻
 
-US3 — Sign on tablet: generate signature code
+US5 — Display confirmation after successful signature
 
-As a support agent
-I want to generate a short code for tablet signature
-So that the collaborator can sign the return form on the tablet
+As a visitor
+I want to see a confirmation message
+So that I know the process is completed
 
 Description
 
-After selecting “Sign on tablet” and clicking Validate:
-	•	A 2-character alphanumeric code (letter + number) is generated
-	•	The code is communicated to the collaborator
-	•	The screen switches to a waiting state
+After a successful signature:
+	•	A confirmation screen is displayed
+	•	A success message indicates that everything is in order
+	•	The visitor is invited to meet the coach to finalize the visit
+
+No further action is required from the visitor.
 
 Acceptance Criteria
 
-GIVEN "Sign on tablet" is selected
-WHEN I click Validate
-THEN a 2-character alphanumeric code is generated
+WHEN the signature is successfully submitted
+THEN a confirmation screen is displayed
 
-THEN the code is clearly displayed on screen
-AND the UI indicates that the system is waiting for tablet signature
+AND the message confirms that the process is fully completed
 
 
 ⸻
 
-US4 — Wait for tablet signature completion
+Si tu veux, prochaine étape possible (quand tu voudras) :
+	•	lier ces US avec les US côté coach (code generation / waiting state)
+	•	ou faire un mapping exact tablette ↔ écran coach
+	•	ou préparer une version ultra-condensée pour validation métier
 
-As a support agent
-I want the system to automatically detect when the tablet signature is completed
-So that I can continue without manual refresh
-
-Acceptance Criteria
-
-GIVEN the tablet signature waiting screen is displayed
-WHEN the collaborator completes the signature on the tablet
-THEN the system detects the completion automatically
-
-AND the UI transitions without manual refresh
-
-
-⸻
-
-US5 — Display completion screen after signature
-
-As a support agent
-I want to see a confirmation screen once the signature is completed
-So that I know the return process was successful
-
-Description
-
-After a successful signature (screen or tablet), a completion screen is displayed.
-
-Acceptance Criteria
-
-WHEN the signature process is completed
-THEN a success message is displayed
-AND a visual confirmation indicator is shown
-
-
-⸻
-
-US6 — Print the return form (PV)
-
-As a support agent
-I want to print the return form
-So that I can provide a physical copy if required
-
-Acceptance Criteria
-
-GIVEN the completion screen is displayed
-THEN a "Print the PV" button is visible
-
-WHEN I click "Print the PV"
-THEN the browser print dialog is opened
-
-
-⸻
-
-US7 — Finish the process without signature (exception flow)
-
-As a support agent
-I want to finish the return process without signature
-So that I can complete the process in exceptional situations
-
-Description
-
-A link “Finish the process without signature” is displayed on the signature selection screen.
-
-Clicking it opens a confirmation modal requiring a mandatory explanation.
-
-Acceptance Criteria
-
-GIVEN the signature selection screen is displayed
-THEN a "Finish the process without signature" link is visible
-
-WHEN I click the link
-THEN a confirmation modal is displayed
-
-GIVEN the reason field is empty
-THEN the Validate button in the modal is disabled
-
-WHEN I provide a reason and click Validate
-THEN the process is completed without signature
-
-WHEN I click Cancel
-THEN the modal is closed without completing the process
-
-
-⸻
-
-US8 — Exit the workflow after completion
-
-As a support agent
-I want to exit the return workflow
-So that I can return to the Visit Management view
-
-Acceptance Criteria
-
-GIVEN the return process is completed
-THEN a Quit action is available
-
-WHEN I click Quit
-THEN I am redirected to the Visit Management view
-
-
-⸻
-
-✅ On est revenus au bon niveau de qualité
-	•	User Stories exploitables par les devs
-	•	Critères testables par la QA
-	•	Aucune ambiguïté fonctionnelle
-	•	Conformes à ta convention Jira
-
-Si tu veux, prochaine étape possible :
-	•	🔍 relecture finale de tout le parcours Return Hardware
-	•	📊 tableau EPIC / US / estimation
-	•	🧪 liste de tests QA dérivés automatiquement des AC
-
-Tu me dis.
+Tu me dis 👌
