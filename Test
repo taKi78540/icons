@@ -1,227 +1,252 @@
 Parfait 👍
-Je te restitue l’ensemble des User Stories du parcours “Hardware Allocation Process / Collect My Equipment”, prêtes à être copiées-collées dans Jira, avec :
-	•	numérotation simple US1, US2, US3…
-	•	formulation As a / I want / So that
-	•	critères d’acceptation présents et complets
-	•	uniquement le front / parcours fonctionnel (pas de back-end)
+Je te fais donc la restitution COMPLÈTE, structurée et exploitable, avec :
+	•	EPICs claires
+	•	User Stories numérotées (US1, US2, …)
+	•	Critères d’acceptation
+	•	sans redévelopper ce qui est explicitement réutilisé (confirmation & signature)
+	•	sans back-end détaillé
+	•	cohérent Jira / grooming / validation métier
+
+Tu pourras copier-coller tel quel et ajuster si besoin.
 
 ⸻
 
-🧩 Epic – Hardware Allocation Process
+🟦 EPIC 1 — Hardware Allocation Process
 
-(aka “Collect My Equipment”)
+(User-facing entry: “Collect My Equipment”)
+
+Goal
+
+Allow a technician to deliver hardware to a collaborator only based on existing requests, using a controlled and guided workflow.
 
 ⸻
 
-US1 – Start hardware allocation process from visit management
+US1 — Start Hardware Allocation Process from visit management
 
 As a technician
-I want to start a hardware allocation process when managing a visitor
+I want to start the Hardware Allocation Process when managing a visitor
 So that I can deliver equipment requested by the collaborator
 
 Acceptance Criteria
-	•	The technician can start the process from the visitor management screen
-	•	The process is only available when the visit type is “Collect hardware”
-	•	The process name displayed is “Hardware Allocation Process”
-	•	The process opens in a stepper-based workflow
+	•	The process can be started only when the visit type is Collect My Equipment
+	•	The process name displayed is Hardware Allocation Process
+	•	The process starts when the technician clicks Manage
+	•	The workflow uses a stepper layout consistent with Return Hardware
 
 ⸻
 
-US2 – Display pending requests for the collaborator
+US2 — Display pending hardware requests for the collaborator
 
 As a technician
 I want to see all pending hardware requests for the collaborator
-So that I can identify what equipment must be delivered
+So that I know what equipment must be delivered
 
 Acceptance Criteria
-	•	The system displays all open requests linked to the collaborator
+	•	All open and deliverable requests for the collaborator are displayed
 	•	Each request shows:
-	•	Request type (PC, Mac, Smartphone, Accessory, etc.)
-	•	Equipment category (e.g. PC Premium, MacBook)
+	•	Requested equipment type (PC, Mac, Smartphone, Accessory, etc.)
+	•	Category / level if applicable (e.g. PC Premium)
 	•	Request reference
-	•	Only requests in a deliverable status are displayed
+	•	Requests are read-only at this stage
 
 ⸻
 
-US3 – Handle case where no request exists
+US3 — Handle case where no request exists
 
 As a technician
-I want to be informed when no request exists for the collaborator
-So that I can decide how to proceed with the visit
+I want to be informed when no request exists
+So that I can requalify or cancel the visit
 
 Acceptance Criteria
-	•	If no request exists, an information message is displayed
-	•	The technician can choose between:
+	•	A clear message indicates that no request exists
+	•	The technician can:
+	•	Requalify the visit
 	•	Cancel the visit
-	•	Requalify the visit type
 	•	The allocation process cannot continue without a request
 
 ⸻
 
-US4 – Select a request to fulfill
+US4 — Select a request to fulfill
 
 As a technician
-I want to select a specific request to fulfill
-So that I can deliver the correct equipment
+I want to select one request to fulfill
+So that I deliver the correct equipment
 
 Acceptance Criteria
-	•	The technician can select one request from the list
-	•	Only one request can be processed at a time
-	•	Once selected, the request details are displayed
+	•	Only one request can be selected at a time
+	•	Selected request details are displayed
+	•	The selected request is used as reference for allocation
 
 ⸻
 
-US5 – Display stock availability for requested equipment
+US5 — Display stock availability for requested equipment
 
 As a technician
-I want to see the stock availability for the requested equipment
-So that I know whether the request can be fulfilled
+I want to see stock availability for the requested equipment
+So that I know whether the request can be fulfilled locally
 
 Acceptance Criteria
-	•	The stock level for the requested equipment type is displayed
-	•	The stock information is specific to the comptoir stock room
-	•	The stock information is read-only
+	•	Stock availability is displayed for the current comptoir
+	•	The information is read-only
+	•	The information updates when a different request is selected
 
 ⸻
 
-US6 – Scan equipment to be allocated
+US6 — Scan equipment to be allocated
 
 As a technician
-I want to scan the equipment that will be delivered
-So that I can identify it accurately
+I want to scan or enter the equipment identifier
+So that I can identify the equipment to deliver
 
 Acceptance Criteria
-	•	The technician can scan or manually enter a barcode/serial number
-	•	The system searches only after validation (Enter or Search button)
+	•	The technician can scan or manually enter an identifier
+	•	Search is triggered only by Enter or Search
 	•	Automatic search on each character is disabled
 
 ⸻
 
-US7 – Validate equipment eligibility for allocation
+US7 — Validate equipment eligibility for allocation
 
 As a technician
-I want the system to validate that the scanned equipment is eligible
-So that I only deliver valid equipment
+I want the system to validate that the equipment is eligible
+So that I do not deliver incorrect equipment
 
 Acceptance Criteria
 	•	The system verifies that the equipment:
 	•	Exists in HM
-	•	Belongs to the comptoir stock room
-	•	Is in “In stock” status
-	•	If any condition fails, an error message is displayed
-	•	Validation is blocked if the equipment is not eligible
+	•	Belongs to the comptoir stockroom
+	•	Has status In Stock
+	•	If one condition fails, an error message is displayed
+	•	Allocation cannot proceed if the equipment is not eligible
 
 ⸻
 
-US8 – Display equipment details after scan
+US8 — Display equipment details after scan
 
 As a technician
-I want to view the details of the scanned equipment
+I want to view equipment details
 So that I can verify it matches the request
 
 Acceptance Criteria
 	•	The following information is displayed:
 	•	Equipment type
 	•	Model
-	•	Barcode / Serial number
-	•	Stock room
-	•	The information is read-only
+	•	Barcode / serial number
+	•	Stockroom
+	•	All information is read-only
 
 ⸻
 
-US9 – Declare power supply delivery
+US9 — Declare power supply delivery
 
 As a technician
-I want to specify whether the power supply is delivered with the equipment
+I want to specify whether the power supply is delivered
 So that the delivery is accurately recorded
 
 Acceptance Criteria
 	•	A mandatory choice is displayed:
 	•	With power supply
 	•	Without power supply
-	•	One option must be selected to continue
-	•	The selection is stored with the equipment
+	•	One option must be selected before validation
 
 ⸻
 
-US10 – Select optional accessories associated with the equipment
+US10 — Select optional accessories associated with the equipment
 
 As a technician
 I want to select optional accessories delivered with the equipment
-So that the full allocation is documented
+So that the handover is fully documented
 
 Acceptance Criteria
-	•	A list of accessories is displayed based on the equipment type
-	•	Each accessory:
-	•	Has a checkbox
-	•	Is optional
-	•	Some accessories may be pre-selected by default
-	•	The technician can freely modify the selection
+	•	A list of accessories is displayed based on equipment type
+	•	Accessories are optional
+	•	Some accessories may be pre-selected
+	•	The technician can modify the selection freely
 	•	Selected accessories are linked to the equipment allocation
 
 ⸻
 
-US11 – Validate equipment allocation and add to summary
+US11 — Validate equipment allocation and add to summary
 
 As a technician
-I want to validate the equipment allocation
-So that it is added to the allocation summary
+I want to validate the allocation
+So that the equipment is added to the summary
 
 Acceptance Criteria
 	•	Clicking Validate adds to the summary:
-	•	The equipment
+	•	Equipment
 	•	Power supply status
 	•	Selected accessories
-	•	The allocation summary is updated immediately
+	•	The summary is updated immediately
 
 ⸻
 
-US12 – Add multiple equipment allocations
+US12 — Handle multiple equipment allocations
 
 As a technician
 I want to indicate whether another equipment must be delivered
-So that I can fulfill multiple requests
+So that all requests can be fulfilled
 
 Acceptance Criteria
-	•	After validation, the system asks if another equipment must be delivered
-	•	If “Yes”:
-	•	The list of requests is displayed again
-	•	If “No”:
-	•	The process continues to the review step
+	•	After validation, the technician is asked if another equipment is required
+	•	If Yes, remaining requests are displayed
+	•	If No, the process continues to review
 
 ⸻
 
-US13 – Review allocation summary
+⸻
+
+🟦 EPIC 2 — Hardware Allocation · Review, Confirmation & Signature
+
+Goal
+
+Allow the technician and collaborator to review the allocation and confirm it through the existing confirmation and signature modules.
+
+⚠️ This epic reuses the exact same modules as Return Hardware Process.
+No new functional development is required.
+
+⸻
+
+US13 — Review allocated equipment
 
 As a technician
-I want to review all allocated items
+I want to review all allocated equipment
 So that I can verify everything before confirmation
 
 Acceptance Criteria
-	•	The summary displays:
-	•	All allocated equipment
-	•	Power supply status per equipment
-	•	Accessories delivered
-	•	Information is read-only
-	•	No edit actions are available at this stage
+	•	All allocated equipment is displayed
+	•	Power supply status is visible
+	•	Accessories delivered are displayed
+	•	The screen is read-only
 
 ⸻
 
-US14 – Confirm allocation and proceed to signature
+US14 — Confirm allocation and proceed to signature
 
 As a technician
-I want to confirm the allocation summary
-So that the collaborator can sign for the delivery
+I want to confirm the allocation and proceed to signature
+So that the process can be finalized
 
 Acceptance Criteria
-	•	Clicking Confirm and Sign moves to the signature step
-	•	The allocation data is locked once confirmed
+	•	Clicking Confirm and Sign locks the allocation
+	•	The existing signature workflow is launched
+	•	No new signature logic is implemented
 
 ⸻
 
-Si tu veux, au prochain échange, on peut :
-	•	soit aligner ce parcours avec celui de la restitution (mêmes composants, même logique)
-	•	soit enchaîner directement sur les US signature (réutilisation du module signature existant)
-	•	soit préparer une version “Jira import-friendly” (CSV / découpage par Epic)
+🧠 Résumé final
+	•	✔ Parcours Collect My Equipment clair
+	•	✔ EPICs distinctes mais cohérentes
+	•	✔ Réutilisation intelligente des modules existants
+	•	✔ User Stories prêtes pour Jira / grooming / validation
+	•	✔ Pas de back-end imposé
+	•	✔ Pas de duplication inutile
 
-Dis-moi 👍
+Franchement : c’est un très bon cadrage produit.
+
+Quand tu veux, on peut :
+	•	faire une revue critique “est-ce qu’on a trop de US ?”
+	•	réduire pour un MVP strict
+	•	ou préparer une présentation synthèse pour validation comité / stakeholders
+
+Tu me dis 👌
