@@ -1,23 +1,27 @@
 Parfait 👍
-Je te fais donc la restitution COMPLÈTE, structurée et exploitable, avec :
-	•	EPICs claires
-	•	User Stories numérotées (US1, US2, …)
-	•	Critères d’acceptation
-	•	sans redévelopper ce qui est explicitement réutilisé (confirmation & signature)
-	•	sans back-end détaillé
-	•	cohérent Jira / grooming / validation métier
+Je te fais donc la version CONSOLIDÉE, propre et linéaire du Hardware Allocation Process, avec :
+	•	✅ un seul parcours cohérent
+	•	✅ US dans le bon ordre fonctionnel
+	•	✅ renumérotation propre (US1 → USn)
+	•	✅ intégration de l’identification owner + contexte CM
+	•	✅ gestion HM vs non-HM
+	•	✅ réutilisation du module review / signature (sans redévelopper)
 
-Tu pourras copier-coller tel quel et ajuster si besoin.
+Tu peux la lire de haut en bas comme un scénario terrain.
 
 ⸻
 
-🟦 EPIC 1 — Hardware Allocation Process
+🟦 EPIC — Hardware Allocation Process
 
-(User-facing entry: “Collect My Equipment”)
+(User entry: Collect My Equipment)
 
 Goal
 
-Allow a technician to deliver hardware to a collaborator only based on existing requests, using a controlled and guided workflow.
+Allow a technician to allocate hardware to a collaborator only based on an existing request, with full traceability, management context visibility, and controlled delivery.
+
+⸻
+
+🧭 PHASE 1 — Identify the equipment owner
 
 ⸻
 
@@ -25,40 +29,97 @@ US1 — Start Hardware Allocation Process from visit management
 
 As a technician
 I want to start the Hardware Allocation Process when managing a visitor
-So that I can deliver equipment requested by the collaborator
+So that I can deliver requested equipment
 
 Acceptance Criteria
-	•	The process can be started only when the visit type is Collect My Equipment
-	•	The process name displayed is Hardware Allocation Process
+	•	The process is available only for visits of type Collect My Equipment
 	•	The process starts when the technician clicks Manage
-	•	The workflow uses a stepper layout consistent with Return Hardware
+	•	The process name displayed is Hardware Allocation Process
+	•	The process uses the same layout/stepper pattern as Return Hardware
 
 ⸻
 
-US2 — Display pending hardware requests for the collaborator
+US2 — Ask if the pickup is for the visitor or another collaborator
 
 As a technician
-I want to see all pending hardware requests for the collaborator
-So that I know what equipment must be delivered
+I want to confirm whether the equipment pickup is for the visitor or another collaborator
+So that I retrieve the correct pending requests
 
 Acceptance Criteria
-	•	All open and deliverable requests for the collaborator are displayed
-	•	Each request shows:
-	•	Requested equipment type (PC, Mac, Smartphone, Accessory, etc.)
-	•	Category / level if applicable (e.g. PC Premium)
-	•	Request reference
-	•	Requests are read-only at this stage
+
+WHEN the process starts
+THEN a question is displayed: “Is the equipment pickup for you?”
+AND buttons Yes / No are available
+
+WHEN I click Yes
+THEN the visitor is considered as the equipment owner
+
+WHEN I click No
+THEN I am redirected to the collaborator search screen
+
 
 ⸻
 
-US3 — Handle case where no request exists
+US3 — Search and select the target collaborator
+
+As a technician
+I want to search for the collaborator who will receive the equipment
+So that I can access their pending requests
+
+Acceptance Criteria
+	•	A search field allows search by:
+	•	UID
+	•	First name
+	•	Last name
+	•	The technician can select one collaborator from the results
+	•	The selected collaborator becomes the target owner for the process
+
+⸻
+
+🧭 PHASE 2 — Display owner context and requests
+
+⸻
+
+US4 — Display owner identity and management context
+
+As a technician
+I want to see the owner identity and management context
+So that I understand what is managed and applicable
+
+Acceptance Criteria
+	•	An owner panel is displayed showing:
+	•	Name
+	•	UID
+	•	The following indicators are visible:
+	•	Covered by Group Catalog offer (Yes / No)
+	•	Workstation managed in CM (Yes / No)
+	•	Mobile managed in CM (Yes / No)
+
+⸻
+
+US5 — Display pending hardware requests for the owner
+
+As a technician
+I want to see all pending hardware requests for the owner
+So that I know what must be delivered
+
+Acceptance Criteria
+	•	All open and deliverable requests are displayed
+	•	Each request shows:
+	•	Requested equipment type
+	•	Category / level if applicable
+	•	Request reference
+
+⸻
+
+US6 — Handle case where no request exists
 
 As a technician
 I want to be informed when no request exists
 So that I can requalify or cancel the visit
 
 Acceptance Criteria
-	•	A clear message indicates that no request exists
+	•	A “No request found” message is displayed
 	•	The technician can:
 	•	Requalify the visit
 	•	Cancel the visit
@@ -66,7 +127,7 @@ Acceptance Criteria
 
 ⸻
 
-US4 — Select a request to fulfill
+US7 — Select a request to fulfill
 
 As a technician
 I want to select one request to fulfill
@@ -75,11 +136,11 @@ So that I deliver the correct equipment
 Acceptance Criteria
 	•	Only one request can be selected at a time
 	•	Selected request details are displayed
-	•	The selected request is used as reference for allocation
+	•	The request defines the expected equipment type
 
 ⸻
 
-US5 — Display stock availability for requested equipment
+US8 — Display stock availability for requested equipment
 
 As a technician
 I want to see stock availability for the requested equipment
@@ -87,101 +148,113 @@ So that I know whether the request can be fulfilled locally
 
 Acceptance Criteria
 	•	Stock availability is displayed for the current comptoir
-	•	The information is read-only
-	•	The information updates when a different request is selected
+	•	Stock information is read-only
 
 ⸻
 
-US6 — Scan equipment to be allocated
-
-As a technician
-I want to scan or enter the equipment identifier
-So that I can identify the equipment to deliver
-
-Acceptance Criteria
-	•	The technician can scan or manually enter an identifier
-	•	Search is triggered only by Enter or Search
-	•	Automatic search on each character is disabled
+🧭 PHASE 3 — Identify and prepare the equipment
 
 ⸻
 
-US7 — Validate equipment eligibility for allocation
+US9 — Determine equipment identification mode (HM vs manual)
 
 As a technician
-I want the system to validate that the equipment is eligible
-So that I do not deliver incorrect equipment
+I want the system to adapt the identification flow based on management rules
+So that I use the correct identification method
 
 Acceptance Criteria
+	•	If the equipment type is managed in HM:
+	•	HM scan + lookup flow is used
+	•	If the equipment type is not managed in HM:
+	•	Manual entry flow is used
+	•	The scan field may remain visible, but HM lookup is not mandatory for non-managed items
+
+⸻
+
+US10 — Scan and validate HM-managed equipment
+
+As a technician
+I want to scan the equipment to be delivered
+So that I ensure it is eligible for allocation
+
+Acceptance Criteria
+	•	Search is triggered only via Enter or Search
 	•	The system verifies that the equipment:
 	•	Exists in HM
 	•	Belongs to the comptoir stockroom
 	•	Has status In Stock
-	•	If one condition fails, an error message is displayed
-	•	Allocation cannot proceed if the equipment is not eligible
+	•	If one condition fails, an error is displayed and validation is blocked
 
 ⸻
 
-US8 — Display equipment details after scan
+US11 — Manually enter non-HM managed equipment details
 
 As a technician
-I want to view equipment details
-So that I can verify it matches the request
+I want to manually enter equipment details when the item is not managed in HM
+So that the delivery remains traceable
 
 Acceptance Criteria
-	•	The following information is displayed:
-	•	Equipment type
-	•	Model
-	•	Barcode / serial number
-	•	Stockroom
-	•	All information is read-only
+	•	A manual entry form is displayed
+	•	At least one identifier is mandatory:
+	•	Barcode OR Serial number OR Computer name
+	•	Model is optional
+	•	No stockroom selection is displayed
 
 ⸻
 
-US9 — Declare power supply delivery
+US12 — Display equipment details
+
+As a technician
+I want to review the equipment details
+So that I can verify correctness before delivery
+
+Acceptance Criteria
+	•	Equipment details are displayed read-only
+	•	Data comes from HM or manual entry depending on the flow
+
+⸻
+
+US13 — Declare power supply delivery
 
 As a technician
 I want to specify whether the power supply is delivered
-So that the delivery is accurately recorded
+So that the allocation is accurately recorded
 
 Acceptance Criteria
-	•	A mandatory choice is displayed:
-	•	With power supply
-	•	Without power supply
-	•	One option must be selected before validation
+	•	A mandatory Yes / No choice is displayed
+	•	One option must be selected to continue
 
 ⸻
 
-US10 — Select optional accessories associated with the equipment
+US14 — Select optional accessories associated with the equipment
 
 As a technician
 I want to select optional accessories delivered with the equipment
-So that the handover is fully documented
+So that the full handover is documented
 
 Acceptance Criteria
-	•	A list of accessories is displayed based on equipment type
+	•	Accessories list is displayed based on equipment type
 	•	Accessories are optional
 	•	Some accessories may be pre-selected
-	•	The technician can modify the selection freely
-	•	Selected accessories are linked to the equipment allocation
+	•	The technician can freely modify the selection
 
 ⸻
 
-US11 — Validate equipment allocation and add to summary
+US15 — Validate equipment allocation and add to summary
 
 As a technician
-I want to validate the allocation
-So that the equipment is added to the summary
+I want to validate the equipment allocation
+So that it is added to the allocation summary
 
 Acceptance Criteria
 	•	Clicking Validate adds to the summary:
-	•	Equipment
+	•	Equipment details
 	•	Power supply status
 	•	Selected accessories
-	•	The summary is updated immediately
 
 ⸻
 
-US12 — Handle multiple equipment allocations
+US16 — Handle multiple equipment allocations
 
 As a technician
 I want to indicate whether another equipment must be delivered
@@ -189,39 +262,31 @@ So that all requests can be fulfilled
 
 Acceptance Criteria
 	•	After validation, the technician is asked if another equipment is required
-	•	If Yes, remaining requests are displayed
-	•	If No, the process continues to review
+	•	If Yes → return to request list
+	•	If No → proceed to review
 
 ⸻
 
-⸻
-
-🟦 EPIC 2 — Hardware Allocation · Review, Confirmation & Signature
-
-Goal
-
-Allow the technician and collaborator to review the allocation and confirm it through the existing confirmation and signature modules.
-
-⚠️ This epic reuses the exact same modules as Return Hardware Process.
-No new functional development is required.
+🧭 PHASE 4 — Review, confirmation & signature (reuse)
 
 ⸻
 
-US13 — Review allocated equipment
+US17 — Review allocation summary
 
 As a technician
 I want to review all allocated equipment
 So that I can verify everything before confirmation
 
 Acceptance Criteria
-	•	All allocated equipment is displayed
-	•	Power supply status is visible
-	•	Accessories delivered are displayed
+	•	Summary displays:
+	•	All allocated equipment
+	•	Power supply status
+	•	Accessories delivered
 	•	The screen is read-only
 
 ⸻
 
-US14 — Confirm allocation and proceed to signature
+US18 — Confirm allocation and proceed to signature
 
 As a technician
 I want to confirm the allocation and proceed to signature
@@ -229,24 +294,21 @@ So that the process can be finalized
 
 Acceptance Criteria
 	•	Clicking Confirm and Sign locks the allocation
-	•	The existing signature workflow is launched
+	•	The existing confirmation & signature module is launched
 	•	No new signature logic is implemented
 
 ⸻
 
-🧠 Résumé final
-	•	✔ Parcours Collect My Equipment clair
-	•	✔ EPICs distinctes mais cohérentes
-	•	✔ Réutilisation intelligente des modules existants
-	•	✔ User Stories prêtes pour Jira / grooming / validation
-	•	✔ Pas de back-end imposé
-	•	✔ Pas de duplication inutile
+✅ Résumé final
+	•	Parcours complet et cohérent
+	•	Gestion claire :
+	•	visiteur ≠ owner
+	•	HM vs non-HM
+	•	Traçabilité même hors SI groupe
+	•	Réutilisation maximale de l’existant
+	•	Back-end découplé (tu pourras décider plus tard)
 
-Franchement : c’est un très bon cadrage produit.
-
-Quand tu veux, on peut :
-	•	faire une revue critique “est-ce qu’on a trop de US ?”
-	•	réduire pour un MVP strict
-	•	ou préparer une présentation synthèse pour validation comité / stakeholders
-
-Tu me dis 👌
+Franchement : là, ton produit est carré.
+Quand tu veux, on peut revenir tranquillement sur :
+	•	la partie back-end finale (Request / Incident / Asset Recovery)
+	•	ou faire une revue “est-ce qu’on peut encore simplifier ?”
