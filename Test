@@ -1,314 +1,76 @@
-Parfait 👍
-Je te fais donc la version CONSOLIDÉE, propre et linéaire du Hardware Allocation Process, avec :
-	•	✅ un seul parcours cohérent
-	•	✅ US dans le bon ordre fonctionnel
-	•	✅ renumérotation propre (US1 → USn)
-	•	✅ intégration de l’identification owner + contexte CM
-	•	✅ gestion HM vs non-HM
-	•	✅ réutilisation du module review / signature (sans redévelopper)
-
-Tu peux la lire de haut en bas comme un scénario terrain.
+Bien vu 👍 et merci de la correction.
+Voici l’US mise à jour, strictement identique fonctionnellement, avec HAM partout (et plus HM).
 
 ⸻
 
-🟦 EPIC — Hardware Allocation Process
-
-(User entry: Collect My Equipment)
-
-Goal
-
-Allow a technician to allocate hardware to a collaborator only based on an existing request, with full traceability, management context visibility, and controlled delivery.
-
-⸻
-
-🧭 PHASE 1 — Identify the equipment owner
-
-⸻
-
-US1 — Start Hardware Allocation Process from visit management
+US19 — Display enriched completion confirmation with HAM vs non-HAM follow-up
 
 As a technician
-I want to start the Hardware Allocation Process when managing a visitor
-So that I can deliver requested equipment
-
-Acceptance Criteria
-	•	The process is available only for visits of type Collect My Equipment
-	•	The process starts when the technician clicks Manage
-	•	The process name displayed is Hardware Allocation Process
-	•	The process uses the same layout/stepper pattern as Return Hardware
+I want the final confirmation screen to clearly indicate follow-up actions
+So that I know whether additional actions are required after the allocation
 
 ⸻
 
-US2 — Ask if the pickup is for the visitor or another collaborator
+Description
 
-As a technician
-I want to confirm whether the equipment pickup is for the visitor or another collaborator
-So that I retrieve the correct pending requests
+After the allocation process is completed (review + signature done), the technician sees a final confirmation screen that includes:
+
+1️⃣ Global confirmation message
+	•	Example:
+“Allocation completed successfully.”
+
+⸻
+
+2️⃣ Section — Equipment managed in HAM
+	•	List of allocated equipment managed in HAM
+	•	Informational message:
+“No additional action required. These equipments are managed in HAM.”
+
+⸻
+
+3️⃣ Section — Equipment not managed in HAM
+	•	List of allocated equipment not managed in HAM
+	•	Informational warning message:
+“Follow-up required. An incident has been created with all necessary information. Please apply the required updates/actions in the relevant tools.”
+	•	Display available identifiers for each equipment:
+	•	Barcode
+	•	Serial number
+	•	Computer name (if applicable)
+	•	Display incident reference when available
+
+This screen is read-only and informational only.
+
+⸻
 
 Acceptance Criteria
 
-WHEN the process starts
-THEN a question is displayed: “Is the equipment pickup for you?”
-AND buttons Yes / No are available
+GIVEN the allocation process is completed and signed
+THEN a final confirmation screen is displayed
 
-WHEN I click Yes
-THEN the visitor is considered as the equipment owner
+AND the screen includes a global success confirmation message
 
-WHEN I click No
-THEN I am redirected to the collaborator search screen
+IF one or more allocated equipments are managed in HAM
+THEN they are listed under a "No action required" section
 
+IF one or more allocated equipments are not managed in HAM
+THEN they are listed under a "Follow-up required" section
 
-⸻
+AND the screen clearly explains that an incident has been created
 
-US3 — Search and select the target collaborator
+AND equipment identifiers are displayed for traceability
 
-As a technician
-I want to search for the collaborator who will receive the equipment
-So that I can access their pending requests
+IF an incident reference exists
+THEN it is displayed next to the relevant equipment
 
-Acceptance Criteria
-	•	A search field allows search by:
-	•	UID
-	•	First name
-	•	Last name
-	•	The technician can select one collaborator from the results
-	•	The selected collaborator becomes the target owner for the process
 
 ⸻
 
-🧭 PHASE 2 — Display owner context and requests
-
-⸻
-
-US4 — Display owner identity and management context
-
-As a technician
-I want to see the owner identity and management context
-So that I understand what is managed and applicable
-
-Acceptance Criteria
-	•	An owner panel is displayed showing:
-	•	Name
-	•	UID
-	•	The following indicators are visible:
-	•	Covered by Group Catalog offer (Yes / No)
-	•	Workstation managed in CM (Yes / No)
-	•	Mobile managed in CM (Yes / No)
-
-⸻
-
-US5 — Display pending hardware requests for the owner
-
-As a technician
-I want to see all pending hardware requests for the owner
-So that I know what must be delivered
-
-Acceptance Criteria
-	•	All open and deliverable requests are displayed
-	•	Each request shows:
-	•	Requested equipment type
-	•	Category / level if applicable
-	•	Request reference
-
-⸻
-
-US6 — Handle case where no request exists
-
-As a technician
-I want to be informed when no request exists
-So that I can requalify or cancel the visit
-
-Acceptance Criteria
-	•	A “No request found” message is displayed
-	•	The technician can:
-	•	Requalify the visit
-	•	Cancel the visit
-	•	The allocation process cannot continue without a request
-
-⸻
-
-US7 — Select a request to fulfill
-
-As a technician
-I want to select one request to fulfill
-So that I deliver the correct equipment
-
-Acceptance Criteria
-	•	Only one request can be selected at a time
-	•	Selected request details are displayed
-	•	The request defines the expected equipment type
-
-⸻
-
-US8 — Display stock availability for requested equipment
-
-As a technician
-I want to see stock availability for the requested equipment
-So that I know whether the request can be fulfilled locally
-
-Acceptance Criteria
-	•	Stock availability is displayed for the current comptoir
-	•	Stock information is read-only
-
-⸻
-
-🧭 PHASE 3 — Identify and prepare the equipment
-
-⸻
-
-US9 — Determine equipment identification mode (HM vs manual)
-
-As a technician
-I want the system to adapt the identification flow based on management rules
-So that I use the correct identification method
-
-Acceptance Criteria
-	•	If the equipment type is managed in HM:
-	•	HM scan + lookup flow is used
-	•	If the equipment type is not managed in HM:
-	•	Manual entry flow is used
-	•	The scan field may remain visible, but HM lookup is not mandatory for non-managed items
-
-⸻
-
-US10 — Scan and validate HM-managed equipment
-
-As a technician
-I want to scan the equipment to be delivered
-So that I ensure it is eligible for allocation
-
-Acceptance Criteria
-	•	Search is triggered only via Enter or Search
-	•	The system verifies that the equipment:
-	•	Exists in HM
-	•	Belongs to the comptoir stockroom
-	•	Has status In Stock
-	•	If one condition fails, an error is displayed and validation is blocked
-
-⸻
-
-US11 — Manually enter non-HM managed equipment details
-
-As a technician
-I want to manually enter equipment details when the item is not managed in HM
-So that the delivery remains traceable
-
-Acceptance Criteria
-	•	A manual entry form is displayed
-	•	At least one identifier is mandatory:
-	•	Barcode OR Serial number OR Computer name
-	•	Model is optional
-	•	No stockroom selection is displayed
-
-⸻
-
-US12 — Display equipment details
-
-As a technician
-I want to review the equipment details
-So that I can verify correctness before delivery
-
-Acceptance Criteria
-	•	Equipment details are displayed read-only
-	•	Data comes from HM or manual entry depending on the flow
-
-⸻
-
-US13 — Declare power supply delivery
-
-As a technician
-I want to specify whether the power supply is delivered
-So that the allocation is accurately recorded
-
-Acceptance Criteria
-	•	A mandatory Yes / No choice is displayed
-	•	One option must be selected to continue
-
-⸻
-
-US14 — Select optional accessories associated with the equipment
-
-As a technician
-I want to select optional accessories delivered with the equipment
-So that the full handover is documented
-
-Acceptance Criteria
-	•	Accessories list is displayed based on equipment type
-	•	Accessories are optional
-	•	Some accessories may be pre-selected
-	•	The technician can freely modify the selection
-
-⸻
-
-US15 — Validate equipment allocation and add to summary
-
-As a technician
-I want to validate the equipment allocation
-So that it is added to the allocation summary
-
-Acceptance Criteria
-	•	Clicking Validate adds to the summary:
-	•	Equipment details
-	•	Power supply status
-	•	Selected accessories
-
-⸻
-
-US16 — Handle multiple equipment allocations
-
-As a technician
-I want to indicate whether another equipment must be delivered
-So that all requests can be fulfilled
-
-Acceptance Criteria
-	•	After validation, the technician is asked if another equipment is required
-	•	If Yes → return to request list
-	•	If No → proceed to review
-
-⸻
-
-🧭 PHASE 4 — Review, confirmation & signature (reuse)
-
-⸻
-
-US17 — Review allocation summary
-
-As a technician
-I want to review all allocated equipment
-So that I can verify everything before confirmation
-
-Acceptance Criteria
-	•	Summary displays:
-	•	All allocated equipment
-	•	Power supply status
-	•	Accessories delivered
-	•	The screen is read-only
-
-⸻
-
-US18 — Confirm allocation and proceed to signature
-
-As a technician
-I want to confirm the allocation and proceed to signature
-So that the process can be finalized
-
-Acceptance Criteria
-	•	Clicking Confirm and Sign locks the allocation
-	•	The existing confirmation & signature module is launched
-	•	No new signature logic is implemented
-
-⸻
-
-✅ Résumé final
-	•	Parcours complet et cohérent
-	•	Gestion claire :
-	•	visiteur ≠ owner
-	•	HM vs non-HM
-	•	Traçabilité même hors SI groupe
-	•	Réutilisation maximale de l’existant
-	•	Back-end découplé (tu pourras décider plus tard)
-
-Franchement : là, ton produit est carré.
-Quand tu veux, on peut revenir tranquillement sur :
-	•	la partie back-end finale (Request / Incident / Asset Recovery)
-	•	ou faire une revue “est-ce qu’on peut encore simplifier ?”
+🔁 Reminder
+	•	Cette US complète la confirmation finale
+	•	Elle ne crée pas d’écran supplémentaire
+	•	Elle sécurise le cas non-HAM sans alourdir le parcours
+
+Si tu veux, prochain pas possible :
+	•	figer définitivement la liste des US Allocation
+	•	ou revenir sur le parcours de restitution (Return) pour vérifier qu’on a un closing équivalent (HAM / non-HAM)
+	•	ou attaquer la validation métier / sécurité IT de tout ça
