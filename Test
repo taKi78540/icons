@@ -1,76 +1,109 @@
-Bien vu 👍 et merci de la correction.
-Voici l’US mise à jour, strictement identique fonctionnellement, avec HAM partout (et plus HM).
+Parfait 👍
+On va donc mettre à jour le parcours de restitution matérielle, de façon symétrique à ce que tu viens de faire pour l’allocation, sans casser l’existant, et en tenant compte de la différence clé que tu soulignes :
+
+🔑 En restitution, on ne cherche pas explicitement l’owner
+👉 on se base sur le visiteur, son entité de rattachement et son pays
+👉 pour déterminer si le matériel est géré par HAM ou non
+
+Je te propose donc une US mise à jour / ajoutée pour le Return Hardware Process, centrée uniquement sur l’écran de confirmation finale.
 
 ⸻
 
-US19 — Display enriched completion confirmation with HAM vs non-HAM follow-up
+🔄 Mise à jour — Return Hardware Process
+
+US-R19 — Display enriched return confirmation with HAM vs non-HAM follow-up
+
+(numérotation indicative, à ajuster selon ton backlog Return)
 
 As a technician
-I want the final confirmation screen to clearly indicate follow-up actions
-So that I know whether additional actions are required after the allocation
+I want the final return confirmation screen to indicate whether follow-up actions are required
+So that I know if returned equipments not managed in HAM require additional actions
 
 ⸻
 
 Description
 
-After the allocation process is completed (review + signature done), the technician sees a final confirmation screen that includes:
-
-1️⃣ Global confirmation message
-	•	Example:
-“Allocation completed successfully.”
+After the Return Hardware Process is completed (review + signature done), the technician sees a final confirmation screen including:
 
 ⸻
 
-2️⃣ Section — Equipment managed in HAM
-	•	List of allocated equipment managed in HAM
+1️⃣ Global confirmation message
+	•	Example:
+“Return completed successfully.”
+
+⸻
+
+2️⃣ Determination of HAM management (Return-specific logic)
+
+For each returned equipment, the system determines whether it is managed in HAM based on:
+	•	The visitor’s entity of attachment
+	•	The visitor’s country
+
+⚠️ In the return process:
+	•	The owner is not explicitly identified
+	•	HAM management eligibility is inferred from the visitor context
+
+⸻
+
+3️⃣ Section — Equipment managed in HAM
+	•	List of returned equipment managed in HAM
 	•	Informational message:
 “No additional action required. These equipments are managed in HAM.”
 
 ⸻
 
-3️⃣ Section — Equipment not managed in HAM
-	•	List of allocated equipment not managed in HAM
+4️⃣ Section — Equipment not managed in HAM
+	•	List of returned equipment not managed in HAM
 	•	Informational warning message:
-“Follow-up required. An incident has been created with all necessary information. Please apply the required updates/actions in the relevant tools.”
-	•	Display available identifiers for each equipment:
+“Follow-up required. These equipments are not managed in HAM. Additional actions may be required in other asset management tools.”
+	•	Display available identifiers:
 	•	Barcode
 	•	Serial number
-	•	Computer name (if applicable)
-	•	Display incident reference when available
+	•	Computer name (if available)
 
-This screen is read-only and informational only.
+This section is informational only.
 
 ⸻
 
 Acceptance Criteria
 
-GIVEN the allocation process is completed and signed
+GIVEN the return process is completed and signed
 THEN a final confirmation screen is displayed
 
 AND the screen includes a global success confirmation message
 
-IF one or more allocated equipments are managed in HAM
+WHEN determining whether equipment is managed in HAM
+THEN the system uses the visitor’s entity and country
+
+IF one or more returned equipments are managed in HAM
 THEN they are listed under a "No action required" section
 
-IF one or more allocated equipments are not managed in HAM
+IF one or more returned equipments are not managed in HAM
 THEN they are listed under a "Follow-up required" section
 
-AND the screen clearly explains that an incident has been created
-
-AND equipment identifiers are displayed for traceability
-
-IF an incident reference exists
-THEN it is displayed next to the relevant equipment
+AND the screen clearly indicates that additional actions may be required
 
 
 ⸻
 
-🔁 Reminder
-	•	Cette US complète la confirmation finale
-	•	Elle ne crée pas d’écran supplémentaire
-	•	Elle sécurise le cas non-HAM sans alourdir le parcours
+🔁 Points importants / alignement produit
+	•	✔ Symétrie fonctionnelle avec Hardware Allocation
+	•	✔ Logique adaptée au Return context
+	•	✔ Pas de recherche explicite de l’owner
+	•	✔ Pas d’écran supplémentaire
+	•	✔ Message préventif, pas bloquant
+	•	✔ Compatible avec des évolutions futures (automation back-end, ServiceNow, etc.)
 
-Si tu veux, prochain pas possible :
-	•	figer définitivement la liste des US Allocation
-	•	ou revenir sur le parcours de restitution (Return) pour vérifier qu’on a un closing équivalent (HAM / non-HAM)
-	•	ou attaquer la validation métier / sécurité IT de tout ça
+⸻
+
+🧠 Lecture métier (pour validation)
+	•	Le technicien sait immédiatement :
+	•	ce qui est “clean” côté HAM
+	•	ce qui doit être traité ailleurs
+	•	Le produit n’impose pas d’action, mais évite l’oubli
+	•	Le comportement est cohérent entre dotation et restitution, malgré des règles de détermination différentes
+
+Si tu veux, prochaine étape possible :
+	•	aligner wording exact entre Allocation / Return (mêmes libellés)
+	•	ou faire une revue finale complète du Return Hardware Process avec ces ajouts intégrés
+	•	ou revenir sur le back-end maintenant que tout le front est béton
