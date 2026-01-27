@@ -1,167 +1,227 @@
-Parfait, merci pour la remise à plat 👍
-Là c’est très clair, et on peut poser des US propres, linéaires, non redondantes, strictement basées sur ce que tu viens de décrire et sur les maquettes.
-
-Je te propose donc le parcours Tablet – Signature, découpé en US1 → US5, avec critères d’acceptation remis, format Jira-ready, sans spéculation technique.
-
-⸻
-
-🟦 EPIC — Return Hardware · Tablet Signature (User Journey)
-
-Goal
-
-Allow a visitor (depositor) to complete the return process by signing on a shared tablet, in a simple, guided, and self-service flow.
+Parfait 👍
+Je te restitue l’ensemble des User Stories du parcours “Hardware Allocation Process / Collect My Equipment”, prêtes à être copiées-collées dans Jira, avec :
+	•	numérotation simple US1, US2, US3…
+	•	formulation As a / I want / So that
+	•	critères d’acceptation présents et complets
+	•	uniquement le front / parcours fonctionnel (pas de back-end)
 
 ⸻
 
-US1 — Select activity on tablet (Survey or Signature)
+🧩 Epic – Hardware Allocation Process
 
-As a visitor
-I want to choose between giving feedback or signing a form
-So that I can start the correct process on the tablet
+(aka “Collect My Equipment”)
 
-Description
+⸻
 
-When arriving on the tablet, the visitor sees a welcome screen with:
-	•	Two main actions:
-	•	Opinion Survey
-	•	eSignature
-	•	Each action is represented by a large, clearly identifiable button.
+US1 – Start hardware allocation process from visit management
 
-Only the eSignature path is in scope for this epic.
+As a technician
+I want to start a hardware allocation process when managing a visitor
+So that I can deliver equipment requested by the collaborator
 
 Acceptance Criteria
-
-GIVEN I am on the tablet welcome screen
-THEN I see two main actions: Opinion Survey and eSignature
-
-WHEN I click on eSignature
-THEN I am redirected to the signature code entry screen
-
+	•	The technician can start the process from the visitor management screen
+	•	The process is only available when the visit type is “Collect hardware”
+	•	The process name displayed is “Hardware Allocation Process”
+	•	The process opens in a stepper-based workflow
 
 ⸻
 
-US2 — Enter validation code on tablet
+US2 – Display pending requests for the collaborator
 
-As a visitor
-I want to enter the validation code given by the coach
-So that I can access my return summary
-
-Description
-
-After selecting eSignature, the visitor sees:
-	•	An instruction explaining that a code was provided by the coach
-	•	A virtual keyboard
-	•	A code input field (2 characters)
-	•	A validation action via the green confirmation key
+As a technician
+I want to see all pending hardware requests for the collaborator
+So that I can identify what equipment must be delivered
 
 Acceptance Criteria
-
-GIVEN I am on the code entry screen
-THEN a virtual keyboard is displayed
-AND a code input field is visible
-
-WHEN I enter a 2-character code and press the validation key
-THEN the code is submitted
-
-WHEN the code is invalid
-THEN an error message is displayed
-AND I remain on the code entry screen
-
+	•	The system displays all open requests linked to the collaborator
+	•	Each request shows:
+	•	Request type (PC, Mac, Smartphone, Accessory, etc.)
+	•	Equipment category (e.g. PC Premium, MacBook)
+	•	Request reference
+	•	Only requests in a deliverable status are displayed
 
 ⸻
 
-US3 — Display return summary for visitor review
+US3 – Handle case where no request exists
 
-As a visitor
-I want to review the returned items
-So that I can confirm everything is correct before signing
-
-Description
-
-Once the code is validated, the visitor sees:
-	•	A read-only return summary
-	•	The list of equipments returned
-	•	Relevant information per item (type, model, identifiers, power supply status if applicable)
-
-The visitor can:
-	•	Go back
-	•	Or proceed by clicking Confirm and Sign
+As a technician
+I want to be informed when no request exists for the collaborator
+So that I can decide how to proceed with the visit
 
 Acceptance Criteria
-
-WHEN the code is valid
-THEN the return summary screen is displayed
-
-AND the summary is read-only
-
-WHEN I click on Confirm and Sign
-THEN I am redirected to the signature screen
-
+	•	If no request exists, an information message is displayed
+	•	The technician can choose between:
+	•	Cancel the visit
+	•	Requalify the visit type
+	•	The allocation process cannot continue without a request
 
 ⸻
 
-US4 — Capture signature on tablet
+US4 – Select a request to fulfill
 
-As a visitor
-I want to sign the form using my finger
-So that I can officially confirm the return
-
-Description
-
-The visitor is presented with:
-	•	A dedicated signature area
-	•	Instructions to sign with their finger
-	•	Two actions:
-	•	Cancel
-	•	Validate
-
-The Validate action is only enabled once a signature is drawn.
+As a technician
+I want to select a specific request to fulfill
+So that I can deliver the correct equipment
 
 Acceptance Criteria
-
-GIVEN I am on the signature screen
-THEN a signature area is displayed
-
-WHEN no signature is drawn
-THEN the Validate button is disabled
-
-WHEN I draw a signature
-THEN the Validate button becomes enabled
-
-WHEN I click Validate
-THEN the signature is submitted
-
+	•	The technician can select one request from the list
+	•	Only one request can be processed at a time
+	•	Once selected, the request details are displayed
 
 ⸻
 
-US5 — Display confirmation after successful signature
+US5 – Display stock availability for requested equipment
 
-As a visitor
-I want to see a confirmation message
-So that I know the process is completed
-
-Description
-
-After a successful signature:
-	•	A confirmation screen is displayed
-	•	A success message indicates that everything is in order
-	•	The visitor is invited to meet the coach to finalize the visit
-
-No further action is required from the visitor.
+As a technician
+I want to see the stock availability for the requested equipment
+So that I know whether the request can be fulfilled
 
 Acceptance Criteria
-
-WHEN the signature is successfully submitted
-THEN a confirmation screen is displayed
-
-AND the message confirms that the process is fully completed
-
+	•	The stock level for the requested equipment type is displayed
+	•	The stock information is specific to the comptoir stock room
+	•	The stock information is read-only
 
 ⸻
 
-Si tu veux, prochaine étape possible (quand tu voudras) :
-	•	lier ces US avec les US côté coach (code generation / waiting state)
-	•	ou faire un mapping exact tablette ↔ écran coach
-	•	ou préparer une version ultra-condensée pour validation métier
+US6 – Scan equipment to be allocated
 
-Tu me dis 👌
+As a technician
+I want to scan the equipment that will be delivered
+So that I can identify it accurately
+
+Acceptance Criteria
+	•	The technician can scan or manually enter a barcode/serial number
+	•	The system searches only after validation (Enter or Search button)
+	•	Automatic search on each character is disabled
+
+⸻
+
+US7 – Validate equipment eligibility for allocation
+
+As a technician
+I want the system to validate that the scanned equipment is eligible
+So that I only deliver valid equipment
+
+Acceptance Criteria
+	•	The system verifies that the equipment:
+	•	Exists in HM
+	•	Belongs to the comptoir stock room
+	•	Is in “In stock” status
+	•	If any condition fails, an error message is displayed
+	•	Validation is blocked if the equipment is not eligible
+
+⸻
+
+US8 – Display equipment details after scan
+
+As a technician
+I want to view the details of the scanned equipment
+So that I can verify it matches the request
+
+Acceptance Criteria
+	•	The following information is displayed:
+	•	Equipment type
+	•	Model
+	•	Barcode / Serial number
+	•	Stock room
+	•	The information is read-only
+
+⸻
+
+US9 – Declare power supply delivery
+
+As a technician
+I want to specify whether the power supply is delivered with the equipment
+So that the delivery is accurately recorded
+
+Acceptance Criteria
+	•	A mandatory choice is displayed:
+	•	With power supply
+	•	Without power supply
+	•	One option must be selected to continue
+	•	The selection is stored with the equipment
+
+⸻
+
+US10 – Select optional accessories associated with the equipment
+
+As a technician
+I want to select optional accessories delivered with the equipment
+So that the full allocation is documented
+
+Acceptance Criteria
+	•	A list of accessories is displayed based on the equipment type
+	•	Each accessory:
+	•	Has a checkbox
+	•	Is optional
+	•	Some accessories may be pre-selected by default
+	•	The technician can freely modify the selection
+	•	Selected accessories are linked to the equipment allocation
+
+⸻
+
+US11 – Validate equipment allocation and add to summary
+
+As a technician
+I want to validate the equipment allocation
+So that it is added to the allocation summary
+
+Acceptance Criteria
+	•	Clicking Validate adds to the summary:
+	•	The equipment
+	•	Power supply status
+	•	Selected accessories
+	•	The allocation summary is updated immediately
+
+⸻
+
+US12 – Add multiple equipment allocations
+
+As a technician
+I want to indicate whether another equipment must be delivered
+So that I can fulfill multiple requests
+
+Acceptance Criteria
+	•	After validation, the system asks if another equipment must be delivered
+	•	If “Yes”:
+	•	The list of requests is displayed again
+	•	If “No”:
+	•	The process continues to the review step
+
+⸻
+
+US13 – Review allocation summary
+
+As a technician
+I want to review all allocated items
+So that I can verify everything before confirmation
+
+Acceptance Criteria
+	•	The summary displays:
+	•	All allocated equipment
+	•	Power supply status per equipment
+	•	Accessories delivered
+	•	Information is read-only
+	•	No edit actions are available at this stage
+
+⸻
+
+US14 – Confirm allocation and proceed to signature
+
+As a technician
+I want to confirm the allocation summary
+So that the collaborator can sign for the delivery
+
+Acceptance Criteria
+	•	Clicking Confirm and Sign moves to the signature step
+	•	The allocation data is locked once confirmed
+
+⸻
+
+Si tu veux, au prochain échange, on peut :
+	•	soit aligner ce parcours avec celui de la restitution (mêmes composants, même logique)
+	•	soit enchaîner directement sur les US signature (réutilisation du module signature existant)
+	•	soit préparer une version “Jira import-friendly” (CSV / découpage par Epic)
+
+Dis-moi 👍
