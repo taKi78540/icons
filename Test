@@ -1,267 +1,225 @@
-Got it 👍
-Here is the final, consolidated, Jira-ready backend backlog for the Return Hardware process, translated into English, fully aligned with the simplified logic and the SharePoint eligibility matrix.
+Parfait, j’ai compris la différence Allocation vs Return 👍
+En allocation, la décision “catalogue vs non catalogue” est faite très tôt, dès qu’on a identifié le bénéficiaire (propriétaire). Du coup, le back-end de fin de parcours est plus simple :
+	•	Si le bénéficiaire est “Catalogue ready” (éligible) → on travaille forcément avec une Request existante (sinon on ne délivre rien). En fin de parcours, on complète la Request (et on n’en crée pas une nouvelle).
+	•	Si le bénéficiaire n’est pas Catalogue ready → on est en saisie libre → en fin de parcours on crée un Incident (et pas de Request).
+
+Je te repropose donc le backlog back-end Allocation reconstruit avec cette logique (Jira-ready, en anglais ou français ? je le mets en anglais comme tout à l’heure, mais je peux te le repasser en FR si tu préfères).
 
 ⸻
 
-🟦 EPIC — Return Hardware · Backend Processing & Integrations
+🟦 EPIC — Hardware Allocation · Backend Processing & Integrations
 
 Epic goal
 
-Trigger the appropriate backend actions after a hardware return in order to:
-	•	ensure equipment traceability,
-	•	conditionally create ServiceNow Requests or Incidents,
-	•	generate and store a return proof (PV),
-	•	notify relevant stakeholders,
-while strictly respecting Group Catalog eligibility rules.
+Finalize backend actions after a hardware allocation by either updating an existing ServiceNow Request (catalog flow) or creating a ServiceNow Incident (non-catalog flow), while generating/storing the allocation PV and notifying stakeholders.
 
 ⸻
 
-US1 — Determine eligibility for Request creation (via SharePoint list)
+US1 — Persist allocation eligibility result from the owner identification step
 
 As a system
-I want to determine whether a hardware return is eligible for Request creation
-So that Group Catalog rules are applied without hardcoding them
+I want to persist the “catalog eligibility” decision made when the beneficiary is selected
+So that the end-of-process backend actions can be deterministic
 
 Description
 
-For each returned equipment, the system must determine whether Request creation is allowed (RequestAllowed = true / false):
-	•	If the equipment is identified in HAM:
-	•	retrieve the Owner OU from the HAM asset record
-	•	If the equipment is not identified in HAM:
-	•	use the visitor’s business entity as a fallback assumption
-	•	Determine the reference country (configuration rule)
-	•	Query a SharePoint list (via Microsoft Graph), maintained by Group Catalog / Convergence teams, to verify:
-	•	whether the business has fully injected its assets into HAM
-	•	whether the business is covered by the Group Catalog offer
+During the owner identification step (early in the flow), the system already determines:
+	•	whether the beneficiary is Catalog-ready (eligible)
+	•	whether the beneficiary’s scope is aligned with Group Catalog rules
 
-Key rule
-
-➡️ RequestAllowed = true only if both conditions are met
-Otherwise → RequestAllowed = false
+This result must be stored for the allocation transaction and reused at completion.
 
 Acceptance Criteria
 
-GIVEN a return is finalized
+GIVEN a beneficiary is selected at the beginning of the allocation process
 WHEN eligibility is evaluated
-THEN the system determines RequestAllowed using the SharePoint list
+THEN the system stores the eligibility result for the current allocation transaction
 
-IF at least one condition is not met
-THEN RequestAllowed = false
-
-
-⸻
-
-US2 — Handle “eligibility rule not found or unavailable” cases
-
-As a system
-I want to handle cases where eligibility rules cannot be resolved
-So that the process remains robust and non-blocking
-
-Description
-
-If:
-	•	no matching rule exists for (Owner OU + country) in the SharePoint list
-OR
-	•	the SharePoint list is unavailable (Graph error / timeout)
-
-Then:
-	•	RequestAllowed = false
-	•	the Incident flow is applied
-	•	the reason is explicitly recorded (e.g. Eligibility rule not found, Eligibility service unavailable)
-
-Acceptance Criteria
-
-GIVEN an eligibility rule cannot be resolved
-WHEN eligibility is evaluated
-THEN RequestAllowed = false
-AND an Incident will be created
+AND the stored value is reused at completion to decide Request vs Incident
 
 
 ⸻
 
-US3 — Process a return with conditional creation of Request or Incident
+US2 — Enforce “no request = no delivery” for Catalog-ready beneficiaries
 
 As a system
-I want to automatically create a Request or an Incident based on eligibility
-So that all returns are traceable without forcing Group processes
-
-Description
-
-At return completion:
-	•	If RequestAllowed = true:
-	•	apply the Request flow
-	•	If RequestAllowed = false:
-	•	create a ServiceNow Incident
-	•	no Request must be created
+I want to prevent allocation if the beneficiary is Catalog-ready but has no pending request
+So that hardware is delivered only against an existing request
 
 Acceptance Criteria
 
-GIVEN a return is finalized
-WHEN RequestAllowed = true
-THEN a ServiceNow Request is created
+GIVEN a beneficiary is Catalog-ready
+WHEN no pending request exists
+THEN the allocation cannot be completed
+AND no equipment delivery can be validated
 
-GIVEN a return is finalized
-WHEN RequestAllowed = false
+
+⸻
+
+US3 — Update the existing ServiceNow Request with delivery details (Catalog flow)
+
+As a system
+I want to update the selected ServiceNow Request with allocation details
+So that the request becomes the traceability record of the delivery
+
+Description
+
+When Catalog-ready:
+	•	A request has been selected in the UI
+	•	At completion, update that same request with:
+	•	delivered equipment identifiers (HAM data if available, otherwise entered identifiers)
+	•	power supply delivered (Yes/No) where applicable
+	•	optional “non-request” accessories delivered (checkbox list)
+	•	date/time, comptoir/site, technician identity
+	•	signature status (+ bypass reason if applicable)
+	•	PV reference (once available)
+
+Acceptance Criteria
+
+GIVEN the beneficiary is Catalog-ready
+AND a request was selected in the allocation UI
+WHEN the allocation is completed
+THEN the same ServiceNow Request is updated with delivery details
+
+AND no new ServiceNow Request is created
+
+
+⸻
+
+US4 — Transition the request status after successful delivery (Catalog flow)
+
+As a system
+I want to update the request status after delivery
+So that the request reflects it has been fulfilled
+
+Acceptance Criteria
+
+GIVEN a Catalog flow allocation is completed successfully
+THEN the request status is updated according to the defined workflow (Fulfilled/Delivered/Closed)
+OR a final fulfillment record is appended (per ServiceNow process rules)
+
+
+⸻
+
+US5 — Create a ServiceNow Incident for non-catalog allocations (free-entry flow)
+
+As a system
+I want to create a ServiceNow Incident when the beneficiary is not Catalog-ready
+So that the delivery remains traceable outside Group Catalog processes
+
+Description
+
+When not Catalog-ready:
+	•	the UI uses free/manual equipment entry
+	•	at completion, create a ServiceNow Incident containing:
+	•	beneficiary identity/context
+	•	delivered equipment identifiers (barcode/serial/computer name/model, IMEI if applicable)
+	•	power supply delivered (Yes/No) if relevant
+	•	delivered accessories
+	•	date/time, comptoir/site, technician
+	•	signature status (+ bypass reason)
+	•	PV link (when available)
+
+Acceptance Criteria
+
+GIVEN the beneficiary is not Catalog-ready
+WHEN the allocation is completed
 THEN a ServiceNow Incident is created
-AND no Request is created
+AND no ServiceNow Request is created or updated
 
 
 ⸻
 
-US4 — Attach the return to an existing restitution request when possible
+US6 — Generate the allocation PV (PDF)
 
 As a system
-I want to attach a return to an existing restitution request
-So that duplicate requests are avoided
-
-Description
-
-Only if:
-	•	RequestAllowed = true
-	•	AND the equipment is identified in HAM
-
-Then:
-	•	search for an open restitution request:
-	•	linked to the HAM owner
-	•	matching the equipment type
-	•	if a request exists → update it
-	•	otherwise → create a new (blank) restitution request
+I want to generate an allocation PV as a PDF
+So that there is a formal proof of delivery
 
 Acceptance Criteria
 
-GIVEN a return eligible for Request creation
-AND an equipment identified in HAM
-WHEN an existing restitution request is found
-THEN it is updated
-
-IF no existing request is found
-THEN a new restitution request is created
-
-
-⸻
-
-US5 — Handle non-identified equipment (controlled recovery)
-
-As a system
-I want to handle non-identified equipment consistently
-So that recovery is triggered only when justified
-
-Description
-
-If the equipment is not identified in HAM:
-	•	If RequestAllowed = true:
-	•	create a ServiceNow Request
-	•	flag the return as Recovery required
-	•	If RequestAllowed = false:
-	•	create a standard ServiceNow Incident
-
-Acceptance Criteria
-
-GIVEN a non-identified equipment
-AND RequestAllowed = true
-THEN a Request is created with "Recovery required" flag
-
-GIVEN a non-identified equipment
-AND RequestAllowed = false
-THEN an Incident is created
-
-
-⸻
-
-US6 — Generate the return PV (PDF)
-
-As a system
-I want to generate a return PV in PDF format
-So that a formal proof of return is available
-
-Acceptance Criteria
-
-WHEN a return is finalized
-THEN a return PV is generated as a PDF
-
-The PV includes:
-- returned equipment
-- visitor identity
+WHEN an allocation is completed (signed or bypassed)
+THEN a PV PDF is generated including:
+- delivered equipment and accessories
+- beneficiary identity
 - technician identity
-- date, time, and counter
-- signature or signature bypass reason
+- date/time and location
+- signature or bypass reason
 
 
 ⸻
 
-US7 — Store the PV on SharePoint
+US7 — Store the PV on SharePoint and persist the reference
 
 As a system
-I want to store the PV on SharePoint
+I want to store the allocation PV on SharePoint
 So that it is archived and accessible
 
 Acceptance Criteria
 
-GIVEN a PV has been generated
+GIVEN a PV PDF is generated
 THEN it is stored in a SharePoint document library
-AND a reference is persisted
+AND a reference/link is persisted and linked to the allocation transaction
 
 
 ⸻
 
-US8 — Attach the PV link to ServiceNow tickets
+US8 — Attach the PV link to the ServiceNow artifact (Request or Incident)
 
 As a support agent
-I want to access the PV directly from ServiceNow
-So that I can consult the return proof
+I want the PV link to be available in ServiceNow
+So that I can access the proof from the ticket
 
 Acceptance Criteria
 
-WHEN a ServiceNow Request or Incident exists
-AND the PV is available
-THEN the PV link is added to the ticket
+WHEN a PV is available
+THEN the PV link is added to:
+- the updated ServiceNow Request (Catalog flow), OR
+- the created ServiceNow Incident (non-catalog flow)
 
 
 ⸻
 
-US9 — Notify stakeholders after return completion
+US9 — Notify stakeholders after allocation completion
 
 As a system
-I want to notify stakeholders after a return
-So that the return is confirmed and the proof is shared
+I want to notify stakeholders after allocation completion
+So that delivery is confirmed and proof is shared
 
 Acceptance Criteria
 
-WHEN a return is finalized
-THEN the visitor receives a notification with the PV link
+WHEN an allocation is completed
+THEN the beneficiary receives a notification with the PV link
 
 IF configured
-THEN the visitor’s manager is also notified
+THEN the beneficiary’s manager is also notified
 
 
 ⸻
 
-US10 — Explicitly track returns completed without signature
+US10 — Explicitly track allocations completed without signature
 
 As a system
-I want to explicitly track returns completed without signature
-So that the process remains auditable
+I want to record allocations completed without signature
+So that exceptions are auditable
 
 Acceptance Criteria
 
-GIVEN a return is finalized without signature
+GIVEN an allocation is completed without signature
 THEN the bypass reason is recorded
 AND visible in:
-- the PV
-- the ServiceNow ticket
+- PV
+- ServiceNow Request/Incident
 
 
 ⸻
 
-🧠 Final summary (plain English)
-	•	Every return is always traced
-	•	A Request is created only when allowed
-	•	Otherwise → Incident
-	•	SharePoint list is the single source of truth
-	•	One central decision: RequestAllowed
-	•	The rest of the flow is deterministic and simple
+✅ Ce que cette version respecte exactement
+	•	Décision Catalogue vs non catalogue faite au début
+	•	Catalogue → Request existante obligatoire → on complète (pas de création)
+	•	Non catalogue → saisie libre → Incident
+	•	PV + SharePoint + notifications + sans signature
 
-If you want, next logical steps could be:
-	•	split this into MVP vs Phase 2
-	•	apply the exact same backend logic to Hardware Allocation
-	•	or produce a 1-page decision diagram for governance / security reviews
+⸻
+
+Si tu veux, je te la repasse en français (même structure, même numérotation).
