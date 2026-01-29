@@ -1,109 +1,267 @@
-Parfait 👍
-On va donc mettre à jour le parcours de restitution matérielle, de façon symétrique à ce que tu viens de faire pour l’allocation, sans casser l’existant, et en tenant compte de la différence clé que tu soulignes :
-
-🔑 En restitution, on ne cherche pas explicitement l’owner
-👉 on se base sur le visiteur, son entité de rattachement et son pays
-👉 pour déterminer si le matériel est géré par HAM ou non
-
-Je te propose donc une US mise à jour / ajoutée pour le Return Hardware Process, centrée uniquement sur l’écran de confirmation finale.
+Got it 👍
+Here is the final, consolidated, Jira-ready backend backlog for the Return Hardware process, translated into English, fully aligned with the simplified logic and the SharePoint eligibility matrix.
 
 ⸻
 
-🔄 Mise à jour — Return Hardware Process
+🟦 EPIC — Return Hardware · Backend Processing & Integrations
 
-US-R19 — Display enriched return confirmation with HAM vs non-HAM follow-up
+Epic goal
 
-(numérotation indicative, à ajuster selon ton backlog Return)
-
-As a technician
-I want the final return confirmation screen to indicate whether follow-up actions are required
-So that I know if returned equipments not managed in HAM require additional actions
+Trigger the appropriate backend actions after a hardware return in order to:
+	•	ensure equipment traceability,
+	•	conditionally create ServiceNow Requests or Incidents,
+	•	generate and store a return proof (PV),
+	•	notify relevant stakeholders,
+while strictly respecting Group Catalog eligibility rules.
 
 ⸻
+
+US1 — Determine eligibility for Request creation (via SharePoint list)
+
+As a system
+I want to determine whether a hardware return is eligible for Request creation
+So that Group Catalog rules are applied without hardcoding them
 
 Description
 
-After the Return Hardware Process is completed (review + signature done), the technician sees a final confirmation screen including:
+For each returned equipment, the system must determine whether Request creation is allowed (RequestAllowed = true / false):
+	•	If the equipment is identified in HAM:
+	•	retrieve the Owner OU from the HAM asset record
+	•	If the equipment is not identified in HAM:
+	•	use the visitor’s business entity as a fallback assumption
+	•	Determine the reference country (configuration rule)
+	•	Query a SharePoint list (via Microsoft Graph), maintained by Group Catalog / Convergence teams, to verify:
+	•	whether the business has fully injected its assets into HAM
+	•	whether the business is covered by the Group Catalog offer
 
-⸻
+Key rule
 
-1️⃣ Global confirmation message
-	•	Example:
-“Return completed successfully.”
-
-⸻
-
-2️⃣ Determination of HAM management (Return-specific logic)
-
-For each returned equipment, the system determines whether it is managed in HAM based on:
-	•	The visitor’s entity of attachment
-	•	The visitor’s country
-
-⚠️ In the return process:
-	•	The owner is not explicitly identified
-	•	HAM management eligibility is inferred from the visitor context
-
-⸻
-
-3️⃣ Section — Equipment managed in HAM
-	•	List of returned equipment managed in HAM
-	•	Informational message:
-“No additional action required. These equipments are managed in HAM.”
-
-⸻
-
-4️⃣ Section — Equipment not managed in HAM
-	•	List of returned equipment not managed in HAM
-	•	Informational warning message:
-“Follow-up required. These equipments are not managed in HAM. Additional actions may be required in other asset management tools.”
-	•	Display available identifiers:
-	•	Barcode
-	•	Serial number
-	•	Computer name (if available)
-
-This section is informational only.
-
-⸻
+➡️ RequestAllowed = true only if both conditions are met
+Otherwise → RequestAllowed = false
 
 Acceptance Criteria
 
-GIVEN the return process is completed and signed
-THEN a final confirmation screen is displayed
+GIVEN a return is finalized
+WHEN eligibility is evaluated
+THEN the system determines RequestAllowed using the SharePoint list
 
-AND the screen includes a global success confirmation message
-
-WHEN determining whether equipment is managed in HAM
-THEN the system uses the visitor’s entity and country
-
-IF one or more returned equipments are managed in HAM
-THEN they are listed under a "No action required" section
-
-IF one or more returned equipments are not managed in HAM
-THEN they are listed under a "Follow-up required" section
-
-AND the screen clearly indicates that additional actions may be required
+IF at least one condition is not met
+THEN RequestAllowed = false
 
 
 ⸻
 
-🔁 Points importants / alignement produit
-	•	✔ Symétrie fonctionnelle avec Hardware Allocation
-	•	✔ Logique adaptée au Return context
-	•	✔ Pas de recherche explicite de l’owner
-	•	✔ Pas d’écran supplémentaire
-	•	✔ Message préventif, pas bloquant
-	•	✔ Compatible avec des évolutions futures (automation back-end, ServiceNow, etc.)
+US2 — Handle “eligibility rule not found or unavailable” cases
+
+As a system
+I want to handle cases where eligibility rules cannot be resolved
+So that the process remains robust and non-blocking
+
+Description
+
+If:
+	•	no matching rule exists for (Owner OU + country) in the SharePoint list
+OR
+	•	the SharePoint list is unavailable (Graph error / timeout)
+
+Then:
+	•	RequestAllowed = false
+	•	the Incident flow is applied
+	•	the reason is explicitly recorded (e.g. Eligibility rule not found, Eligibility service unavailable)
+
+Acceptance Criteria
+
+GIVEN an eligibility rule cannot be resolved
+WHEN eligibility is evaluated
+THEN RequestAllowed = false
+AND an Incident will be created
+
 
 ⸻
 
-🧠 Lecture métier (pour validation)
-	•	Le technicien sait immédiatement :
-	•	ce qui est “clean” côté HAM
-	•	ce qui doit être traité ailleurs
-	•	Le produit n’impose pas d’action, mais évite l’oubli
-	•	Le comportement est cohérent entre dotation et restitution, malgré des règles de détermination différentes
+US3 — Process a return with conditional creation of Request or Incident
 
-Si tu veux, prochaine étape possible :
-	•	aligner wording exact entre Allocation / Return (mêmes libellés)
-	•	ou faire une revue finale complète du Return Hardware Process avec ces ajouts intégrés
-	•	ou revenir sur le back-end maintenant que tout le front est béton
+As a system
+I want to automatically create a Request or an Incident based on eligibility
+So that all returns are traceable without forcing Group processes
+
+Description
+
+At return completion:
+	•	If RequestAllowed = true:
+	•	apply the Request flow
+	•	If RequestAllowed = false:
+	•	create a ServiceNow Incident
+	•	no Request must be created
+
+Acceptance Criteria
+
+GIVEN a return is finalized
+WHEN RequestAllowed = true
+THEN a ServiceNow Request is created
+
+GIVEN a return is finalized
+WHEN RequestAllowed = false
+THEN a ServiceNow Incident is created
+AND no Request is created
+
+
+⸻
+
+US4 — Attach the return to an existing restitution request when possible
+
+As a system
+I want to attach a return to an existing restitution request
+So that duplicate requests are avoided
+
+Description
+
+Only if:
+	•	RequestAllowed = true
+	•	AND the equipment is identified in HAM
+
+Then:
+	•	search for an open restitution request:
+	•	linked to the HAM owner
+	•	matching the equipment type
+	•	if a request exists → update it
+	•	otherwise → create a new (blank) restitution request
+
+Acceptance Criteria
+
+GIVEN a return eligible for Request creation
+AND an equipment identified in HAM
+WHEN an existing restitution request is found
+THEN it is updated
+
+IF no existing request is found
+THEN a new restitution request is created
+
+
+⸻
+
+US5 — Handle non-identified equipment (controlled recovery)
+
+As a system
+I want to handle non-identified equipment consistently
+So that recovery is triggered only when justified
+
+Description
+
+If the equipment is not identified in HAM:
+	•	If RequestAllowed = true:
+	•	create a ServiceNow Request
+	•	flag the return as Recovery required
+	•	If RequestAllowed = false:
+	•	create a standard ServiceNow Incident
+
+Acceptance Criteria
+
+GIVEN a non-identified equipment
+AND RequestAllowed = true
+THEN a Request is created with "Recovery required" flag
+
+GIVEN a non-identified equipment
+AND RequestAllowed = false
+THEN an Incident is created
+
+
+⸻
+
+US6 — Generate the return PV (PDF)
+
+As a system
+I want to generate a return PV in PDF format
+So that a formal proof of return is available
+
+Acceptance Criteria
+
+WHEN a return is finalized
+THEN a return PV is generated as a PDF
+
+The PV includes:
+- returned equipment
+- visitor identity
+- technician identity
+- date, time, and counter
+- signature or signature bypass reason
+
+
+⸻
+
+US7 — Store the PV on SharePoint
+
+As a system
+I want to store the PV on SharePoint
+So that it is archived and accessible
+
+Acceptance Criteria
+
+GIVEN a PV has been generated
+THEN it is stored in a SharePoint document library
+AND a reference is persisted
+
+
+⸻
+
+US8 — Attach the PV link to ServiceNow tickets
+
+As a support agent
+I want to access the PV directly from ServiceNow
+So that I can consult the return proof
+
+Acceptance Criteria
+
+WHEN a ServiceNow Request or Incident exists
+AND the PV is available
+THEN the PV link is added to the ticket
+
+
+⸻
+
+US9 — Notify stakeholders after return completion
+
+As a system
+I want to notify stakeholders after a return
+So that the return is confirmed and the proof is shared
+
+Acceptance Criteria
+
+WHEN a return is finalized
+THEN the visitor receives a notification with the PV link
+
+IF configured
+THEN the visitor’s manager is also notified
+
+
+⸻
+
+US10 — Explicitly track returns completed without signature
+
+As a system
+I want to explicitly track returns completed without signature
+So that the process remains auditable
+
+Acceptance Criteria
+
+GIVEN a return is finalized without signature
+THEN the bypass reason is recorded
+AND visible in:
+- the PV
+- the ServiceNow ticket
+
+
+⸻
+
+🧠 Final summary (plain English)
+	•	Every return is always traced
+	•	A Request is created only when allowed
+	•	Otherwise → Incident
+	•	SharePoint list is the single source of truth
+	•	One central decision: RequestAllowed
+	•	The rest of the flow is deterministic and simple
+
+If you want, next logical steps could be:
+	•	split this into MVP vs Phase 2
+	•	apply the exact same backend logic to Hardware Allocation
+	•	or produce a 1-page decision diagram for governance / security reviews
