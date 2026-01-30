@@ -1,225 +1,153 @@
-Parfait, j’ai compris la différence Allocation vs Return 👍
-En allocation, la décision “catalogue vs non catalogue” est faite très tôt, dès qu’on a identifié le bénéficiaire (propriétaire). Du coup, le back-end de fin de parcours est plus simple :
-	•	Si le bénéficiaire est “Catalogue ready” (éligible) → on travaille forcément avec une Request existante (sinon on ne délivre rien). En fin de parcours, on complète la Request (et on n’en crée pas une nouvelle).
-	•	Si le bénéficiaire n’est pas Catalogue ready → on est en saisie libre → en fin de parcours on crée un Incident (et pas de Request).
-
-Je te repropose donc le backlog back-end Allocation reconstruit avec cette logique (Jira-ready, en anglais ou français ? je le mets en anglais comme tout à l’heure, mais je peux te le repasser en FR si tu préfères).
+OK 👍
+Je te fais un résumé fidèle, structuré et simplifié de tout ce que tu viens d’expliquer, sans créer d’US, juste pour poser la logique métier cible et vérifier qu’on est bien alignés.
 
 ⸻
 
-🟦 EPIC — Hardware Allocation · Backend Processing & Integrations
+🎯 Objectif fondamental de l’application
 
-Epic goal
+L’objectif principal de l’application est de :
 
-Finalize backend actions after a hardware allocation by either updating an existing ServiceNow Request (catalog flow) or creating a ServiceNow Incident (non-catalog flow), while generating/storing the allocation PV and notifying stakeholders.
+Tracer les entrées et sorties de matériel,
+en priorité pour les matériels référencés dans HAM,
+sans imposer systématiquement les processus Catalogue Groupe
+à des métiers qui n’y adhèrent pas.
 
-⸻
-
-US1 — Persist allocation eligibility result from the owner identification step
-
-As a system
-I want to persist the “catalog eligibility” decision made when the beneficiary is selected
-So that the end-of-process backend actions can be deterministic
-
-Description
-
-During the owner identification step (early in the flow), the system already determines:
-	•	whether the beneficiary is Catalog-ready (eligible)
-	•	whether the beneficiary’s scope is aligned with Group Catalog rules
-
-This result must be stored for the allocation transaction and reused at completion.
-
-Acceptance Criteria
-
-GIVEN a beneficiary is selected at the beginning of the allocation process
-WHEN eligibility is evaluated
-THEN the system stores the eligibility result for the current allocation transaction
-
-AND the stored value is reused at completion to decide Request vs Incident
-
+👉 L’application n’est pas un outil prescripteur de process,
+elle s’adapte aux réalités métiers existantes.
 
 ⸻
 
-US2 — Enforce “no request = no delivery” for Catalog-ready beneficiaries
+🧠 Problématique centrale : quand créer une Request ?
 
-As a system
-I want to prevent allocation if the beneficiary is Catalog-ready but has no pending request
-So that hardware is delivered only against an existing request
+Créer une Request (ServiceNow) n’est pas automatique, même si :
+	•	le matériel est présent dans HAM
+	•	le matériel est scanné correctement
 
-Acceptance Criteria
-
-GIVEN a beneficiary is Catalog-ready
-WHEN no pending request exists
-THEN the allocation cannot be completed
-AND no equipment delivery can be validated
-
+Il faut des conditions métiers précises.
 
 ⸻
 
-US3 — Update the existing ServiceNow Request with delivery details (Catalog flow)
+✅ Les 2 conditions ESSENTIELLES pour créer une Request
 
-As a system
-I want to update the selected ServiceNow Request with allocation details
-So that the request becomes the traceability record of the delivery
+Pour qu’une Request soit créée, les deux conditions suivantes doivent être vraies :
 
-Description
+Condition 1 — Le métier a “tout injecté” son matériel dans HAM
+	•	Le métier utilise HAM comme référentiel fiable
+	•	Les équipements sont exhaustivement présents et maintenus
+	•	Même si le métier n’utilise pas les processus Groupe standards
 
-When Catalog-ready:
-	•	A request has been selected in the UI
-	•	At completion, update that same request with:
-	•	delivered equipment identifiers (HAM data if available, otherwise entered identifiers)
-	•	power supply delivered (Yes/No) where applicable
-	•	optional “non-request” accessories delivered (checkbox list)
-	•	date/time, comptoir/site, technician identity
-	•	signature status (+ bypass reason if applicable)
-	•	PV reference (once available)
-
-Acceptance Criteria
-
-GIVEN the beneficiary is Catalog-ready
-AND a request was selected in the allocation UI
-WHEN the allocation is completed
-THEN the same ServiceNow Request is updated with delivery details
-
-AND no new ServiceNow Request is created
-
+👉 Si cette condition est vraie mais que le matériel est mal référencé / introuvable,
+on peut créer une Request avec un traitement de recovery.
 
 ⸻
 
-US4 — Transition the request status after successful delivery (Catalog flow)
-
-As a system
-I want to update the request status after delivery
-So that the request reflects it has been fulfilled
-
-Acceptance Criteria
-
-GIVEN a Catalog flow allocation is completed successfully
-THEN the request status is updated according to the defined workflow (Fulfilled/Delivered/Closed)
-OR a final fulfillment record is appended (per ServiceNow process rules)
-
+Condition 2 — Le métier adhère au Catalogue Groupe
+	•	Le métier passe par les processus Groupe (requests, restitutions, dotations)
+	•	Le Catalogue Groupe est autorisé à créer et gérer des Requests pour ce métier
 
 ⸻
 
-US5 — Create a ServiceNow Incident for non-catalog allocations (free-entry flow)
+🔑 Conclusion
 
-As a system
-I want to create a ServiceNow Incident when the beneficiary is not Catalog-ready
-So that the delivery remains traceable outside Group Catalog processes
+➡️ Request = Condition 1 ET Condition 2
 
-Description
-
-When not Catalog-ready:
-	•	the UI uses free/manual equipment entry
-	•	at completion, create a ServiceNow Incident containing:
-	•	beneficiary identity/context
-	•	delivered equipment identifiers (barcode/serial/computer name/model, IMEI if applicable)
-	•	power supply delivered (Yes/No) if relevant
-	•	delivered accessories
-	•	date/time, comptoir/site, technician
-	•	signature status (+ bypass reason)
-	•	PV link (when available)
-
-Acceptance Criteria
-
-GIVEN the beneficiary is not Catalog-ready
-WHEN the allocation is completed
-THEN a ServiceNow Incident is created
-AND no ServiceNow Request is created or updated
-
+Si une seule des deux conditions manque → pas de Request, mais Incident.
 
 ⸻
 
-US6 — Generate the allocation PV (PDF)
+🔍 Comment on vérifie ces conditions (cas standard)
 
-As a system
-I want to generate an allocation PV as a PDF
-So that there is a formal proof of delivery
+Quand un matériel est scanné et identifié dans HAM :
+	1.	On récupère la propriété du matériel
+	•	via le champ Owner OU / entité métier
+	2.	À partir de cette entité :
+	•	on vérifie si le métier a tout injecté dans HAM
+	•	on vérifie s’il est couvert par le Catalogue Groupe
 
-Acceptance Criteria
-
-WHEN an allocation is completed (signed or bypassed)
-THEN a PV PDF is generated including:
-- delivered equipment and accessories
-- beneficiary identity
-- technician identity
-- date/time and location
-- signature or bypass reason
-
+👉
+	•	Si les 2 conditions sont remplies → on peut créer une Request
+	•	Sinon → on crée un Incident (avec toutes les infos)
 
 ⸻
 
-US7 — Store the PV on SharePoint and persist the reference
+🔄 Cas spécifique : restitution avec matériel identifié
 
-As a system
-I want to store the allocation PV on SharePoint
-So that it is archived and accessible
+Quand le matériel est identifié ET que les 2 conditions sont remplies :
+	•	On vérifie s’il existe déjà une demande de restitution ouverte pour le propriétaire
+	•	✅ si oui → on complète la demande existante
+	•	❌ si non → on crée une demande de restitution
 
-Acceptance Criteria
-
-GIVEN a PV PDF is generated
-THEN it is stored in a SharePoint document library
-AND a reference/link is persisted and linked to the allocation transaction
-
+👉 Là, la création de Request est légitime et cohérente.
 
 ⸻
 
-US8 — Attach the PV link to the ServiceNow artifact (Request or Incident)
+❓ Cas plus complexe : matériel NON identifié (pas trouvé dans HAM)
 
-As a support agent
-I want the PV link to be available in ServiceNow
-So that I can access the proof from the ticket
+Quand le matériel n’est pas trouvé dans HAM :
 
-Acceptance Criteria
+Problème
+	•	On ne connaît pas :
+	•	le propriétaire réel
+	•	le métier propriétaire du matériel
 
-WHEN a PV is available
-THEN the PV link is added to:
-- the updated ServiceNow Request (Catalog flow), OR
-- the created ServiceNow Incident (non-catalog flow)
-
-
-⸻
-
-US9 — Notify stakeholders after allocation completion
-
-As a system
-I want to notify stakeholders after allocation completion
-So that delivery is confirmed and proof is shared
-
-Acceptance Criteria
-
-WHEN an allocation is completed
-THEN the beneficiary receives a notification with the PV link
-
-IF configured
-THEN the beneficiary’s manager is also notified
-
+Deux possibilités métier réelles :
+	1.	Le matériel appartient à un métier :
+	•	qui n’a pas tout injecté dans HAM
+➜ pas de Request
+	2.	Le matériel appartient à un métier :
+	•	qui a tout injecté
+	•	et qui est au Catalogue Groupe
+➜ Request + recovery nécessaire
 
 ⸻
 
-US10 — Explicitly track allocations completed without signature
+🧩 Comment on tranche quand le matériel n’est pas identifié
 
-As a system
-I want to record allocations completed without signature
-So that exceptions are auditable
+Dans ce cas, on fait une hypothèse raisonnable :
 
-Acceptance Criteria
+Le matériel appartient à l’entité métier du visiteur qui le restitue.
 
-GIVEN an allocation is completed without signature
-THEN the bypass reason is recorded
-AND visible in:
-- PV
-- ServiceNow Request/Incident
+À partir de l’identité du visiteur :
+	•	on regarde son métier / entité
+	•	on vérifie :
+	•	s’il a tout injecté dans HAM
+	•	s’il est au Catalogue Groupe
 
-
-⸻
-
-✅ Ce que cette version respecte exactement
-	•	Décision Catalogue vs non catalogue faite au début
-	•	Catalogue → Request existante obligatoire → on complète (pas de création)
-	•	Non catalogue → saisie libre → Incident
-	•	PV + SharePoint + notifications + sans signature
+Résultat :
+	•	✅ les 2 conditions sont remplies
+➜ Request créée, avec notion de recovery
+	•	❌ au moins une condition manquante
+➜ Incident créé
 
 ⸻
 
-Si tu veux, je te la repasse en français (même structure, même numérotation).
+🧾 Incident : rôle et intention
+
+Quand une Request n’est pas créée :
+	•	on crée toujours un Incident
+	•	avec toutes les informations disponibles
+	•	pour :
+	•	assurer la traçabilité
+	•	permettre des actions manuelles ultérieures
+	•	sans forcer les processus Groupe
+
+⸻
+
+🧠 Résumé ultra-synthétique
+	•	L’app trace toujours
+	•	La Request est un privilège, pas un automatisme
+	•	2 conditions obligatoires pour une Request :
+	1.	métier exhaustif dans HAM
+	2.	métier adhérent Catalogue Groupe
+	•	Si matériel inconnu :
+	•	on se base sur l’identité du visiteur
+	•	Sinon :
+	•	Incident, toujours
+
+⸻
+
+👉 Si tu veux, prochaine étape logique (quand tu seras prêt) :
+	•	transformer ce raisonnement en 1 arbre de décision clair
+	•	puis simplifier le backlog US à partir de cette logique (en en supprimant certaines)
+
+Mais là, déjà, ton raisonnement est cohérent, sain et réaliste.
