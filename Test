@@ -1,153 +1,49 @@
-OK 👍
-Je te fais un résumé fidèle, structuré et simplifié de tout ce que tu viens d’expliquer, sans créer d’US, juste pour poser la logique métier cible et vérifier qu’on est bien alignés.
+@startuml
+title Decision Tree — Request vs Incident
 
-⸻
+start
 
-🎯 Objectif fondamental de l’application
+:Equipment scanned;
 
-L’objectif principal de l’application est de :
+if (Equipment found in HAM?) then (Yes)
+  :Read Owner OU from HAM;
+else (No)
+  :Use Visitor Business Entity (fallback);
+endif
 
-Tracer les entrées et sorties de matériel,
-en priorité pour les matériels référencés dans HAM,
-sans imposer systématiquement les processus Catalogue Groupe
-à des métiers qui n’y adhèrent pas.
+:Determine reference country;
 
-👉 L’application n’est pas un outil prescripteur de process,
-elle s’adapte aux réalités métiers existantes.
+:Query SharePoint eligibility matrix;
 
-⸻
+if (Rule found in SharePoint?) then (Yes)
+  if (Assets exhaustive in HAM?) then (Yes)
+    if (Catalog Group eligible?) then (Yes)
+      :RequestAllowed = TRUE;
+    else (No)
+      :RequestAllowed = FALSE;
+    endif
+  else (No)
+    :RequestAllowed = FALSE;
+  endif
+else (No)
+  :RequestAllowed = FALSE;
+endif
 
-🧠 Problématique centrale : quand créer une Request ?
+if (RequestAllowed = TRUE) then (Yes)
+  if (Existing Request found?) then (Yes)
+    :Update existing Request;
+  else (No)
+    :Create new Request;
+  endif
+  :Generate PV (PDF);
+  :Store PV in SharePoint;
+  :Link PV to Request;
+else (No)
+  :Create ServiceNow Incident;
+  :Generate PV (PDF);
+  :Store PV in SharePoint;
+  :Link PV to Incident;
+endif
 
-Créer une Request (ServiceNow) n’est pas automatique, même si :
-	•	le matériel est présent dans HAM
-	•	le matériel est scanné correctement
-
-Il faut des conditions métiers précises.
-
-⸻
-
-✅ Les 2 conditions ESSENTIELLES pour créer une Request
-
-Pour qu’une Request soit créée, les deux conditions suivantes doivent être vraies :
-
-Condition 1 — Le métier a “tout injecté” son matériel dans HAM
-	•	Le métier utilise HAM comme référentiel fiable
-	•	Les équipements sont exhaustivement présents et maintenus
-	•	Même si le métier n’utilise pas les processus Groupe standards
-
-👉 Si cette condition est vraie mais que le matériel est mal référencé / introuvable,
-on peut créer une Request avec un traitement de recovery.
-
-⸻
-
-Condition 2 — Le métier adhère au Catalogue Groupe
-	•	Le métier passe par les processus Groupe (requests, restitutions, dotations)
-	•	Le Catalogue Groupe est autorisé à créer et gérer des Requests pour ce métier
-
-⸻
-
-🔑 Conclusion
-
-➡️ Request = Condition 1 ET Condition 2
-
-Si une seule des deux conditions manque → pas de Request, mais Incident.
-
-⸻
-
-🔍 Comment on vérifie ces conditions (cas standard)
-
-Quand un matériel est scanné et identifié dans HAM :
-	1.	On récupère la propriété du matériel
-	•	via le champ Owner OU / entité métier
-	2.	À partir de cette entité :
-	•	on vérifie si le métier a tout injecté dans HAM
-	•	on vérifie s’il est couvert par le Catalogue Groupe
-
-👉
-	•	Si les 2 conditions sont remplies → on peut créer une Request
-	•	Sinon → on crée un Incident (avec toutes les infos)
-
-⸻
-
-🔄 Cas spécifique : restitution avec matériel identifié
-
-Quand le matériel est identifié ET que les 2 conditions sont remplies :
-	•	On vérifie s’il existe déjà une demande de restitution ouverte pour le propriétaire
-	•	✅ si oui → on complète la demande existante
-	•	❌ si non → on crée une demande de restitution
-
-👉 Là, la création de Request est légitime et cohérente.
-
-⸻
-
-❓ Cas plus complexe : matériel NON identifié (pas trouvé dans HAM)
-
-Quand le matériel n’est pas trouvé dans HAM :
-
-Problème
-	•	On ne connaît pas :
-	•	le propriétaire réel
-	•	le métier propriétaire du matériel
-
-Deux possibilités métier réelles :
-	1.	Le matériel appartient à un métier :
-	•	qui n’a pas tout injecté dans HAM
-➜ pas de Request
-	2.	Le matériel appartient à un métier :
-	•	qui a tout injecté
-	•	et qui est au Catalogue Groupe
-➜ Request + recovery nécessaire
-
-⸻
-
-🧩 Comment on tranche quand le matériel n’est pas identifié
-
-Dans ce cas, on fait une hypothèse raisonnable :
-
-Le matériel appartient à l’entité métier du visiteur qui le restitue.
-
-À partir de l’identité du visiteur :
-	•	on regarde son métier / entité
-	•	on vérifie :
-	•	s’il a tout injecté dans HAM
-	•	s’il est au Catalogue Groupe
-
-Résultat :
-	•	✅ les 2 conditions sont remplies
-➜ Request créée, avec notion de recovery
-	•	❌ au moins une condition manquante
-➜ Incident créé
-
-⸻
-
-🧾 Incident : rôle et intention
-
-Quand une Request n’est pas créée :
-	•	on crée toujours un Incident
-	•	avec toutes les informations disponibles
-	•	pour :
-	•	assurer la traçabilité
-	•	permettre des actions manuelles ultérieures
-	•	sans forcer les processus Groupe
-
-⸻
-
-🧠 Résumé ultra-synthétique
-	•	L’app trace toujours
-	•	La Request est un privilège, pas un automatisme
-	•	2 conditions obligatoires pour une Request :
-	1.	métier exhaustif dans HAM
-	2.	métier adhérent Catalogue Groupe
-	•	Si matériel inconnu :
-	•	on se base sur l’identité du visiteur
-	•	Sinon :
-	•	Incident, toujours
-
-⸻
-
-👉 Si tu veux, prochaine étape logique (quand tu seras prêt) :
-	•	transformer ce raisonnement en 1 arbre de décision clair
-	•	puis simplifier le backlog US à partir de cette logique (en en supprimant certaines)
-
-Mais là, déjà, ton raisonnement est cohérent, sain et réaliste.
+stop
+@enduml
