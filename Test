@@ -1,1 +1,202 @@
-https://www.figma.com/make/r0uHU8g8QwMcUOAuwMViLM/Hardware-Logistic-Stock-Tool?p=f&t=WdsYjmN9p6KtMzaS-0&fullscreen=1
+Parfait, je repars de zéro et je te refais la restitution complète, propre, cohérente et prête à être envoyée, comme un cadrage V2 clair à destination de ton UX.
+Tu peux quasiment copier-coller.
+
+⸻
+
+Attendus V2 – Maquettes Stock Management / Transfer Orders (TO)
+
+1. Objectif global de la V2
+
+Cette V2 des maquettes doit :
+	•	Renforcer la compréhension immédiate des TO
+	•	Donner le même niveau d’information partout (liste → détail)
+	•	Clarifier les parcours de réception, en respectant strictement les règles métier
+	•	Réduire les erreurs de réception (mauvaise TO, mauvais stockroom, scellé absent)
+
+⸻
+
+2. Informations visibles sur les TO – partout
+
+Principe fondamental
+
+👉 Les mêmes informations de contexte doivent être visibles :
+	•	dans la liste des TO
+	•	dans la vue détail d’une TO
+
+Il ne doit pas y avoir de perte d’information quand on entre dans une TO.
+
+⸻
+
+Informations de contexte obligatoires (liste + détail TO)
+
+Pour chaque TO, on doit voir clairement :
+	•	Business owner / business associé
+	•	À quel business appartient le matériel
+	•	Catégorie de matériel
+	•	Ex. : PC, Mac, écran, périphérique, etc.
+	•	Stockroom d’origine
+	•	Stockroom de destination
+	•	Numéro de scellé
+	•	Affiché si existant
+	•	Sinon mention explicite : Aucun ou Inconnu
+
+Attendu UX
+	•	Ces informations sont non ambiguës
+	•	Présentées comme du contexte, pas comme des champs à remplir
+	•	Idéalement visibles sans scroller (header, bandeau, cartes info)
+
+⸻
+
+3. Liste des TO
+
+Attendu sur la liste
+
+La liste des TO ne doit plus être une simple liste d’identifiants.
+
+Pour chaque TO affichée, on doit pouvoir comprendre en un coup d’œil :
+	•	ce que c’est
+	•	à qui ça appartient
+	•	d’où ça vient / où ça va
+	•	comment c’est sécurisé (scellé)
+
+👉 La liste doit permettre de décider si je peux réceptionner ou non, sans entrer dans la TO.
+
+⸻
+
+4. Réception d’une TO – principes généraux
+
+Il existe deux méthodes distinctes pour réceptionner une TO.
+Les deux doivent être visibles et compréhensibles dans l’UX.
+
+⸻
+
+5. Parcours 1 – Réception depuis la liste des TO en cours d’arrivée
+
+Principe
+
+Le technicien voit une TO dans la liste, la reconnaît, et décide de la réceptionner.
+
+Comportement attendu
+	1.	Le technicien sélectionne une TO depuis la liste
+	2.	Avant d’entrer dans la TO, l’application doit poser la question suivante :
+
+“Un numéro de scellé est-il associé à cette TO ?”
+
+⸻
+
+Modale scellé (obligatoire)
+
+La réponse se fait via une modale dédiée avec :
+	•	Champ de saisie : Numéro de scellé
+	•	Actions possibles :
+	•	✔️ Oui, je renseigne le numéro
+	•	❌ Non, il n’y a pas de scellé
+	•	❓ Je ne connais pas le numéro
+
+➡️ La réponse est tracée et associée à la TO.
+	3.	Une fois la modale validée :
+	•	Entrée dans la TO
+	•	Scan du matériel (comportement existant)
+	4.	Validation de la réception uniquement si les règles métier sont respectées
+
+⸻
+
+6. Parcours 2 – Réception via le bouton “Réceptionner du matériel”
+
+Principe
+
+Le technicien ne part pas d’une TO visible, mais d’un élément physique (scellé ou référence).
+
+Point d’entrée
+
+Bouton visible dans la vue réception :
+
+Réceptionner du matériel
+
+⸻
+
+Étape 1 – Choix du mode d’entrée
+
+L’application propose plusieurs options, au choix :
+	•	🔐 Saisir ou scanner un numéro de scellé
+	•	📦 Saisir ou scanner un numéro de TO
+
+⸻
+
+Cas A – Saisie / scan d’un numéro de scellé
+	1.	Le technicien saisit ou scanne le numéro de scellé
+	2.	L’application vérifie :
+	•	que le scellé est valide
+	•	qu’il est associé à la stockroom courante
+	3.	Si OK :
+	•	affichage de la liste des TO contenues dans ce scellé
+	4.	Le technicien sélectionne une TO
+	5.	Entrée dans la TO
+	6.	Scan du matériel et poursuite du flux standard
+
+⸻
+
+Cas B – Saisie / scan d’un numéro de TO
+	1.	Le technicien saisit ou scanne un numéro de TO
+	2.	L’application vérifie que la TO existe
+	3.	Le technicien peut :
+	•	entrer dans la TO
+	•	voir son contenu
+	•	scanner le matériel
+
+⚠️ Même si la TO n’est pas associée à la stockroom courante, l’accès est autorisé.
+
+⸻
+
+7. Règles métier – validation de la réception
+
+Accès à une TO
+	•	✅ Possible même si la TO n’est pas pour la stockroom courante
+
+Validation finale de la réception
+
+❌ Interdite si :
+	•	la TO n’est pas en statut “en transit”
+	•	la stockroom courante n’est pas la stockroom de destination
+
+✅ Autorisée uniquement si :
+	•	TO en transit
+	•	stockroom courante = stockroom de destination
+	•	matériel scanné conforme
+
+➡️ Les blocages doivent être clairs et explicités en UI (message, état désactivé, etc.).
+
+⸻
+
+8. Vue détail d’une TO
+
+Attendu clé
+
+Quand on est dans une TO, on doit retrouver exactement le même contexte que dans la liste.
+
+Informations visibles dans la vue TO
+	•	Business owner / business associé
+	•	Catégorie de matériel
+	•	Stockroom d’origine
+	•	Stockroom de destination
+	•	Numéro de scellé (ou statut associé)
+
+👉 Ces informations servent de repère permanent pendant toute la réception.
+
+⸻
+
+9. Règle de cohérence globale V2
+
+Même information, même vocabulaire, même logique
+Liste TO = Vue TO = Parcours de réception
+
+Seuls les points d’entrée changent, jamais la compréhension métier.
+
+⸻
+
+Si tu veux, prochaine étape possible (au choix) :
+	•	je te fais le message exact à envoyer à ton UX (mail / Teams),
+	•	je te produis un schéma de parcours (flow / UML),
+	•	ou je transforme tout ça en user stories V2 avec critères d’acceptation.
+
+Dis-moi comment tu veux enchaîner.
