@@ -1,163 +1,242 @@
-Excellente idée 👍
-Cette slide est stratégique : elle prépare la démo, donne la grille de lecture, et évite que les gens regardent la démo sans comprendre ce qu’ils doivent y voir.
+Parfait 👍
+Voici UN PROMPT COMPLET ET PRÉCIS EN ANGLAIS, prêt à être envoyé tel quel dans Figma Make, pour ajouter la fonctionnalité d’inventaire dans la vue Stock Overview, sans ambiguïté fonctionnelle.
 
-Je te propose :
-	1.	ce que doit contenir cette slide
-	2.	la structure exacte d’UNE slide
-	3.	le texte prêt à l’emploi
-	4.	quoi ajouter si tu veux la rendre encore plus forte
-
-⸻
-
-1️⃣ Ce que doit couvrir la slide “Bénéfices du MVP”
-
-Tu as déjà identifié les bons axes. Il faut 3 dimensions minimum :
-
-✅ A. Les bénéfices concrets (ROI)
-	•	Gains opérationnels
-	•	Réduction des erreurs
-	•	Sécurisation
-
-✅ B. Les équipes concernées
-	•	Qui utilise
-	•	Qui bénéficie
-	•	Qui est impacté indirectement
-
-✅ C. Ce que le MVP change dès maintenant
-	•	Pas “à terme”
-	•	Pas “quand tout sera fait”
-
-👉 Optionnel mais très fort :
-
-➕ D. Ce que le MVP ne fait volontairement pas
-	•	Ça rassure énormément
+👉 Ce prompt est structuré pour que Figma comprenne :
+	•	où placer les actions
+	•	comment se déroule l’inventaire
+	•	quelles données doivent être visibles avant / pendant / après
 
 ⸻
 
-2️⃣ Structure recommandée de la slide
+🔧 FIGMA MAKE UPDATE PROMPT – Stock Inventory workflow (Stock Overview)
 
-Titre
+You are extending the Stock Overview feature in
+“Le Comptoir Stock Management” by adding a full inventory workflow.
 
-Bénéfices concrets du MVP
-
-Sous-titre
-
-Valeur immédiate pour les équipes terrain et la gouvernance
+This feature must be clear, guided, and auditable.
+Do not simplify. Do not omit any step.
 
 ⸻
 
-🔹 Colonne gauche — Bénéfices clés (ROI)
+1) Stock Overview – New inventory entry points
 
-🔹 Colonne droite — Équipes concernées
+1.1 Add “Start inventory” action
 
-🔹 Bas de slide — Périmètre clair du MVP
+In the Stock Overview section:
+	•	Add a visible button: Start inventory
+	•	This button is global to the Stock Overview (not per category)
 
-⸻
+Near this button, also add:
+	•	A secondary button: Inventory history
 
-3️⃣ Slide prête à copier-coller
-
-🟦 SLIDE — Bénéfices et périmètre du MVP
-
-Titre
-
-Bénéfices concrets du MVP
-
-Sous-titre
-
-Un socle opérationnel utile dès le premier déploiement
+Both buttons must be clearly visible and accessible.
 
 ⸻
 
-🔹 BÉNÉFICES IMMÉDIATS (ROI)
-	•	Gain de temps terrain
-	•	Moins de ressaisies
-	•	Moins de recherches de matériel
-	•	Moins d’allers-retours manuels
-	•	Réduction des erreurs
-	•	Réceptions fiables, y compris partielles
-	•	Moins de matériel “fantôme”
-	•	Moins de corrections a posteriori
-	•	Traçabilité et sécurité
-	•	Qui a quoi, quand, et où
-	•	Responsabilités clairement définies
-	•	Meilleure posture audit et sécurité
-	•	Standardisation des pratiques
-	•	Un même parcours pour tous
-	•	Moins de dépendance aux habitudes locales
+2) Start inventory – Configuration modal
+
+Clicking Start inventory opens a modal to configure the inventory scope.
+
+2.1 Inventory scope selection (mandatory)
+
+In the modal, allow the user to configure:
+	•	Hardware category (mandatory, single selection)
+	•	Example: Workstation, Mobile, Headset
+	•	Only one category can be inventoried at a time
+	•	Model selection (optional, within the selected category)
+	•	Options:
+	•	All models
+	•	One specific model
+	•	Multiple selected models (checkbox list)
+
+These fields must be:
+	•	Clickable
+	•	Clearly explained
+	•	Validated before proceeding
 
 ⸻
 
-🔹 ÉQUIPES CONCERNÉES
+2.2 Inventory start action
 
-Utilisateurs directs
-	•	Équipes Campus
-	•	Gestionnaires de stock central
+Actions in the modal:
+	•	Cancel
+	•	Start inventory
 
-Bénéficiaires indirects
-	•	Équipes IT / Asset Management
-	•	Sécurité & audit
-	•	Management opérationnel
+Starting the inventory opens the inventory scanning view.
 
 ⸻
 
-🔹 PÉRIMÈTRE DU MVP (VOLONTAIREMENT CIBLÉ)
-	•	✔️ Transfer Orders (Send / Receive)
-	•	✔️ Scan et réception de matériel
-	•	✔️ Gestion des rôles et périmètres
-	•	❌ Pas de gestion fournisseur
-	•	❌ Pas de pilotage avancé
-	•	❌ Pas de prévision long terme
+3) Inventory scanning view (core workflow)
 
-Message clé (bas de slide)
+3.1 Inventory context display
 
-Le MVP apporte une valeur immédiate, sans dépendance lourde ni complexité inutile.
+At the top of the inventory screen, display:
+	•	Selected category
+	•	Selected model(s)
+	•	Inventory status (In progress)
 
 ⸻
 
-4️⃣ Ce que tu peux ajouter (optionnel mais très efficace)
+3.2 Expected items list
 
-➕ Un encadré “Avant / Après”
+The system must display:
+	•	The list of expected items (equipment supposed to be present)
+	•	Based on:
+	•	Selected category
+	•	Selected models
+	•	Current stockroom
 
-Avant
-	•	Excel
-	•	Processus hétérogènes
-	•	Visibilité limitée
-
-Après MVP
-	•	Parcours outillés
-	•	Données fiables
-	•	Gouvernance claire
-
-⸻
-
-➕ Une phrase de transition vers la démo
-
-La démo que vous allez voir illustre concrètement ces bénéfices sur un parcours simple.
+Each expected item shows:
+	•	Barcode
+	•	Model
+	•	Status:
+	•	Not scanned
+	•	Scanned (found)
 
 ⸻
 
-5️⃣ Où placer cette slide dans ton déroulé
+3.3 Scanning behavior
 
-👉 Juste AVANT la démo, idéalement.
+When scanning equipment:
 
-Ordre optimal :
-	1.	Irritants & couverture
-	2.	Bénéfices du MVP
-	3.	Démo
-	4.	Trajectoire / suite
+Case 1 – Expected item
+	•	Mark item as Found
+	•	Update status in the list
 
-⸻
-
-🧠 Ce que cette slide évite
-	•	“C’est intéressant, mais ça sert à quoi ?”
-	•	“Qui est concerné ?”
-	•	“Pourquoi commencer par ça ?”
+Case 2 – Unexpected item
+	•	Item is not expected in this inventory scope
+	•	Display it in a separate section:
+	•	Unexpected items found
+	•	Highlight visually
 
 ⸻
 
-Si tu veux, je peux :
-	•	te faire une version encore plus executive (5 bullets max)
-	•	t’aider à quantifier un ou deux gains sans te mettre en danger
-	•	ou écrire le script exact pour enchaîner avec la démo
+4) Inventory completion & summary
+
+4.1 Inventory summary screen
+
+When the user finishes scanning and clicks Complete inventory, display a summary showing:
+	•	Total expected items
+	•	Items found
+	•	Items missing (expected but not scanned)
+	•	Items unexpected (scanned but not expected)
+
+This distinction is mandatory.
+
+⸻
+
+4.2 Inventory validation
+
+Actions:
+	•	Cancel (return to scanning)
+	•	Validate inventory
+
+Once validated:
+	•	Inventory is closed
+	•	Results are saved
+	•	No further modification possible
+
+⸻
+
+5) Stock Overview – Inventory indicators
+
+5.1 Inventory freshness per model
+
+In the Stock Overview list, for each model:
+	•	Display “Days since last inventory”
+	•	Example: “12 days ago”
+	•	Do NOT display exact dates
+	•	This value updates after each validated inventory
+
+This indicator must be:
+	•	Visible
+	•	Readable
+	•	Useful for operational follow-up
+
+⸻
+
+6) Inventory history
+
+6.1 Inventory history access
+
+Clicking Inventory history opens a modal displaying:
+	•	List of past inventories
+	•	Ordered from most recent to oldest
+
+Each inventory entry shows:
+	•	Category
+	•	Model(s)
+	•	Inventory date
+	•	Summary:
+	•	Found / Missing / Unexpected counts
+
+⸻
+
+6.2 Inventory details
+
+Clicking an inventory entry opens a detail view showing:
+	•	Full list of:
+	•	Expected items
+	•	Found items
+	•	Missing items
+	•	Unexpected items
+	•	Clear separation between each group
+
+This view is read-only.
+
+⸻
+
+7) Roles & permissions (important)
+	•	Inventory actions are available to:
+	•	Campus role
+	•	Central Stock Manager
+	•	Purchase role:
+	•	Cannot start inventories
+	•	Can view inventory history (read-only)
+	•	Business role:
+	•	No access to inventory
+
+⸻
+
+8) UX & design constraints
+	•	Inventory workflow must be:
+	•	Guided
+	•	Step-by-step
+	•	Easy to understand for non-technical users
+	•	Scanning view must:
+	•	Support long lists
+	•	Be scrollable
+	•	Clearly distinguish item states
+
+Avoid:
+	•	Complex tables
+	•	Hidden actions
+	•	Ambiguous statuses
+
+⸻
+
+Expected result
+	•	Inventories are easy to launch
+	•	Scope is clearly defined
+	•	Discrepancies are immediately visible
+	•	Inventory freshness is visible per model
+	•	Full audit trail is available via history
+
+⸻
+
+Validation sentence
+
+If a user cannot clearly see what was expected, what was found,
+what is missing, and what should not have been there,
+then the inventory feature is incomplete.
+
+⸻
+
+✅ END OF UPDATE PROMPT – Stock Inventory
+
+Si tu veux, prochaine étape possible :
+	•	🎨 améliorer la lisibilité visuelle du scan d’inventaire
+	•	🧠 ajouter un statut post-inventaire (OK / Attention / Action required)
+	•	📊 exploiter l’inventaire pour alertes automatiques
 
 Dis-moi 👍
