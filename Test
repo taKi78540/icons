@@ -1,72 +1,163 @@
-Parfait 👍
-Voici LA slide “Irritants & couverture”, pensée pour être lisible en 10 secondes, solide face aux questions, et parfaitement alignée avec ta démarche MVP → V2 → V3.
+Excellente idée 👍
+Cette slide est stratégique : elle prépare la démo, donne la grille de lecture, et évite que les gens regardent la démo sans comprendre ce qu’ils doivent y voir.
 
-Tu peux la copier-coller telle quelle.
+Je te propose :
+	1.	ce que doit contenir cette slide
+	2.	la structure exacte d’UNE slide
+	3.	le texte prêt à l’emploi
+	4.	quoi ajouter si tu veux la rendre encore plus forte
 
 ⸻
 
-🟦 SLIDE — Irritants & couverture par le produit
+1️⃣ Ce que doit couvrir la slide “Bénéfices du MVP”
+
+Tu as déjà identifié les bons axes. Il faut 3 dimensions minimum :
+
+✅ A. Les bénéfices concrets (ROI)
+	•	Gains opérationnels
+	•	Réduction des erreurs
+	•	Sécurisation
+
+✅ B. Les équipes concernées
+	•	Qui utilise
+	•	Qui bénéficie
+	•	Qui est impacté indirectement
+
+✅ C. Ce que le MVP change dès maintenant
+	•	Pas “à terme”
+	•	Pas “quand tout sera fait”
+
+👉 Optionnel mais très fort :
+
+➕ D. Ce que le MVP ne fait volontairement pas
+	•	Ça rassure énormément
+
+⸻
+
+2️⃣ Structure recommandée de la slide
 
 Titre
 
-Couverture des irritants par la solution
+Bénéfices concrets du MVP
 
 Sous-titre
 
-De l’identification terrain à une réponse progressive et structurée
+Valeur immédiate pour les équipes terrain et la gouvernance
 
 ⸻
 
-Contenu (tableau central)
+🔹 Colonne gauche — Bénéfices clés (ROI)
 
-Catégorie d’irritants	Exemples de pain points	MVP	V2	V3
-Outillage & exécution terrain	Excel, scans non intégrés, erreurs de réception	✅		
-Gouvernance & accès (RBAC)	Droits trop larges, pas de séparation des rôles	✅		
-Traçabilité & cohérence des données	Doublons, statuts incohérents	🟡	✅	
-Stock & visibilité	Pas d’anticipation, ruptures non visibles	🟡	✅	
-Commandes & fournisseurs	Processus Excel, recettage manuel		🟡	✅
-Processus & standardisation	Pratiques hétérogènes		🟡	✅
+🔹 Colonne droite — Équipes concernées
 
+🔹 Bas de slide — Périmètre clair du MVP
 
 ⸻
 
-Légende
-	•	✅ Couvert
-	•	🟡 Partiellement couvert / préparé
-	•	⬜ Hors périmètre
+3️⃣ Slide prête à copier-coller
+
+🟦 SLIDE — Bénéfices et périmètre du MVP
+
+Titre
+
+Bénéfices concrets du MVP
+
+Sous-titre
+
+Un socle opérationnel utile dès le premier déploiement
 
 ⸻
+
+🔹 BÉNÉFICES IMMÉDIATS (ROI)
+	•	Gain de temps terrain
+	•	Moins de ressaisies
+	•	Moins de recherches de matériel
+	•	Moins d’allers-retours manuels
+	•	Réduction des erreurs
+	•	Réceptions fiables, y compris partielles
+	•	Moins de matériel “fantôme”
+	•	Moins de corrections a posteriori
+	•	Traçabilité et sécurité
+	•	Qui a quoi, quand, et où
+	•	Responsabilités clairement définies
+	•	Meilleure posture audit et sécurité
+	•	Standardisation des pratiques
+	•	Un même parcours pour tous
+	•	Moins de dépendance aux habitudes locales
+
+⸻
+
+🔹 ÉQUIPES CONCERNÉES
+
+Utilisateurs directs
+	•	Équipes Campus
+	•	Gestionnaires de stock central
+
+Bénéficiaires indirects
+	•	Équipes IT / Asset Management
+	•	Sécurité & audit
+	•	Management opérationnel
+
+⸻
+
+🔹 PÉRIMÈTRE DU MVP (VOLONTAIREMENT CIBLÉ)
+	•	✔️ Transfer Orders (Send / Receive)
+	•	✔️ Scan et réception de matériel
+	•	✔️ Gestion des rôles et périmètres
+	•	❌ Pas de gestion fournisseur
+	•	❌ Pas de pilotage avancé
+	•	❌ Pas de prévision long terme
 
 Message clé (bas de slide)
 
-Le MVP sécurise l’exécution et la gouvernance.
-Les versions suivantes industrialisent et optimisent.
+Le MVP apporte une valeur immédiate, sans dépendance lourde ni complexité inutile.
 
 ⸻
 
-🎙️ Script oral (30–40 secondes)
+4️⃣ Ce que tu peux ajouter (optionnel mais très efficace)
 
-« Cette slide montre clairement le lien entre les irritants identifiés lors des ateliers et la couverture apportée par le produit.
+➕ Un encadré “Avant / Après”
 
-Le MVP se concentre volontairement sur les points les plus critiques : l’exécution terrain, la traçabilité minimale et la gouvernance des accès.
+Avant
+	•	Excel
+	•	Processus hétérogènes
+	•	Visibilité limitée
 
-Les versions suivantes permettent ensuite d’aller plus loin sur la visibilité stock, la relation fournisseur et l’industrialisation des processus. »
-
-⸻
-
-✅ Pourquoi cette slide est très efficace
-	•	Elle répond visuellement à “qu’est-ce qui est couvert et quand”
-	•	Elle justifie le périmètre du MVP
-	•	Elle montre que rien n’est oublié
-	•	Elle protège contre : “Pourquoi ce point n’est pas encore traité ?”
+Après MVP
+	•	Parcours outillés
+	•	Données fiables
+	•	Gouvernance claire
 
 ⸻
 
-Prochaine étape possible
+➕ Une phrase de transition vers la démo
 
-Je peux :
-	•	te faire une version encore plus executive (1 phrase par ligne)
-	•	te préparer les réponses aux questions pièges liées à cette slide
-	•	ou te faire une slide complémentaire “Pourquoi ce découpage MVP / V2 / V3”
+La démo que vous allez voir illustre concrètement ces bénéfices sur un parcours simple.
 
-Dis-moi 👌
+⸻
+
+5️⃣ Où placer cette slide dans ton déroulé
+
+👉 Juste AVANT la démo, idéalement.
+
+Ordre optimal :
+	1.	Irritants & couverture
+	2.	Bénéfices du MVP
+	3.	Démo
+	4.	Trajectoire / suite
+
+⸻
+
+🧠 Ce que cette slide évite
+	•	“C’est intéressant, mais ça sert à quoi ?”
+	•	“Qui est concerné ?”
+	•	“Pourquoi commencer par ça ?”
+
+⸻
+
+Si tu veux, je peux :
+	•	te faire une version encore plus executive (5 bullets max)
+	•	t’aider à quantifier un ou deux gains sans te mettre en danger
+	•	ou écrire le script exact pour enchaîner avec la démo
+
+Dis-moi 👍
