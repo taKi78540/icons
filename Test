@@ -1,242 +1,49 @@
-Parfait 👍
-Voici UN PROMPT COMPLET ET PRÉCIS EN ANGLAIS, prêt à être envoyé tel quel dans Figma Make, pour ajouter la fonctionnalité d’inventaire dans la vue Stock Overview, sans ambiguïté fonctionnelle.
-
-👉 Ce prompt est structuré pour que Figma comprenne :
-	•	où placer les actions
-	•	comment se déroule l’inventaire
-	•	quelles données doivent être visibles avant / pendant / après
-
-⸻
-
-🔧 FIGMA MAKE UPDATE PROMPT – Stock Inventory workflow (Stock Overview)
-
-You are extending the Stock Overview feature in
-“Le Comptoir Stock Management” by adding a full inventory workflow.
-
-This feature must be clear, guided, and auditable.
-Do not simplify. Do not omit any step.
-
-⸻
-
-1) Stock Overview – New inventory entry points
-
-1.1 Add “Start inventory” action
-
-In the Stock Overview section:
-	•	Add a visible button: Start inventory
-	•	This button is global to the Stock Overview (not per category)
-
-Near this button, also add:
-	•	A secondary button: Inventory history
-
-Both buttons must be clearly visible and accessible.
-
-⸻
-
-2) Start inventory – Configuration modal
-
-Clicking Start inventory opens a modal to configure the inventory scope.
-
-2.1 Inventory scope selection (mandatory)
-
-In the modal, allow the user to configure:
-	•	Hardware category (mandatory, single selection)
-	•	Example: Workstation, Mobile, Headset
-	•	Only one category can be inventoried at a time
-	•	Model selection (optional, within the selected category)
-	•	Options:
-	•	All models
-	•	One specific model
-	•	Multiple selected models (checkbox list)
-
-These fields must be:
-	•	Clickable
-	•	Clearly explained
-	•	Validated before proceeding
-
-⸻
-
-2.2 Inventory start action
-
-Actions in the modal:
-	•	Cancel
-	•	Start inventory
-
-Starting the inventory opens the inventory scanning view.
-
-⸻
-
-3) Inventory scanning view (core workflow)
-
-3.1 Inventory context display
-
-At the top of the inventory screen, display:
-	•	Selected category
-	•	Selected model(s)
-	•	Inventory status (In progress)
-
-⸻
-
-3.2 Expected items list
-
-The system must display:
-	•	The list of expected items (equipment supposed to be present)
-	•	Based on:
-	•	Selected category
-	•	Selected models
-	•	Current stockroom
-
-Each expected item shows:
-	•	Barcode
-	•	Model
-	•	Status:
-	•	Not scanned
-	•	Scanned (found)
-
-⸻
-
-3.3 Scanning behavior
-
-When scanning equipment:
-
-Case 1 – Expected item
-	•	Mark item as Found
-	•	Update status in the list
-
-Case 2 – Unexpected item
-	•	Item is not expected in this inventory scope
-	•	Display it in a separate section:
-	•	Unexpected items found
-	•	Highlight visually
-
-⸻
-
-4) Inventory completion & summary
-
-4.1 Inventory summary screen
-
-When the user finishes scanning and clicks Complete inventory, display a summary showing:
-	•	Total expected items
-	•	Items found
-	•	Items missing (expected but not scanned)
-	•	Items unexpected (scanned but not expected)
-
-This distinction is mandatory.
-
-⸻
-
-4.2 Inventory validation
-
-Actions:
-	•	Cancel (return to scanning)
-	•	Validate inventory
-
-Once validated:
-	•	Inventory is closed
-	•	Results are saved
-	•	No further modification possible
-
-⸻
-
-5) Stock Overview – Inventory indicators
-
-5.1 Inventory freshness per model
-
-In the Stock Overview list, for each model:
-	•	Display “Days since last inventory”
-	•	Example: “12 days ago”
-	•	Do NOT display exact dates
-	•	This value updates after each validated inventory
-
-This indicator must be:
-	•	Visible
-	•	Readable
-	•	Useful for operational follow-up
-
-⸻
-
-6) Inventory history
-
-6.1 Inventory history access
-
-Clicking Inventory history opens a modal displaying:
-	•	List of past inventories
-	•	Ordered from most recent to oldest
-
-Each inventory entry shows:
-	•	Category
-	•	Model(s)
-	•	Inventory date
-	•	Summary:
-	•	Found / Missing / Unexpected counts
-
-⸻
-
-6.2 Inventory details
-
-Clicking an inventory entry opens a detail view showing:
-	•	Full list of:
-	•	Expected items
-	•	Found items
-	•	Missing items
-	•	Unexpected items
-	•	Clear separation between each group
-
-This view is read-only.
-
-⸻
-
-7) Roles & permissions (important)
-	•	Inventory actions are available to:
-	•	Campus role
-	•	Central Stock Manager
-	•	Purchase role:
-	•	Cannot start inventories
-	•	Can view inventory history (read-only)
-	•	Business role:
-	•	No access to inventory
-
-⸻
-
-8) UX & design constraints
-	•	Inventory workflow must be:
-	•	Guided
-	•	Step-by-step
-	•	Easy to understand for non-technical users
-	•	Scanning view must:
-	•	Support long lists
-	•	Be scrollable
-	•	Clearly distinguish item states
-
-Avoid:
-	•	Complex tables
-	•	Hidden actions
-	•	Ambiguous statuses
-
-⸻
-
-Expected result
-	•	Inventories are easy to launch
-	•	Scope is clearly defined
-	•	Discrepancies are immediately visible
-	•	Inventory freshness is visible per model
-	•	Full audit trail is available via history
-
-⸻
-
-Validation sentence
-
-If a user cannot clearly see what was expected, what was found,
-what is missing, and what should not have been there,
-then the inventory feature is incomplete.
-
-⸻
-
-✅ END OF UPDATE PROMPT – Stock Inventory
-
-Si tu veux, prochaine étape possible :
-	•	🎨 améliorer la lisibilité visuelle du scan d’inventaire
-	•	🧠 ajouter un statut post-inventaire (OK / Attention / Action required)
-	•	📊 exploiter l’inventaire pour alertes automatiques
-
-Dis-moi 👍
+#"Personnalisée ajoutée5" =
+    Table.AddColumn(
+        #"Liste des comptoirs développée",
+        "createdAt_local",
+        each
+            let
+                dt = DateTime.From([createdAt]),     // UTC
+                d  = Date.From(dt),
+                y  = Date.Year(d),
+
+                // Helpers
+                LastSunday = (yy as number, mm as number) as date =>
+                    let
+                        lastDay = Date.EndOfMonth(#date(yy, mm, 1)),
+                        offset  = Date.DayOfWeek(lastDay, Day.Sunday)
+                    in
+                        Date.AddDays(lastDay, -offset),
+
+                NthSunday = (yy as number, mm as number, n as number) as date =>
+                    let
+                        firstDay = #date(yy, mm, 1),
+                        firstSundayOffset = Number.Mod(7 - Date.DayOfWeek(firstDay, Day.Sunday), 7),
+                        firstSunday = Date.AddDays(firstDay, firstSundayOffset)
+                    in
+                        Date.AddDays(firstSunday, 7 * (n - 1)),
+
+                // EU DST: last Sunday of March -> last Sunday of October
+                euStart = LastSunday(y, 3),
+                euEnd   = LastSunday(y, 10),
+                isDstEU = d >= euStart and d < euEnd,
+
+                // NA DST: 2nd Sunday of March -> 1st Sunday of November
+                naStart = NthSunday(y, 3, 2),
+                naEnd   = NthSunday(y, 11, 1),
+                isDstNA = d >= naStart and d < naEnd,
+
+                rule = Text.Upper(Text.From([Liste des comptoirs.DST Rule])),
+                isDst =
+                    if rule = "EU" then isDstEU
+                    else if rule = "NA" then isDstNA
+                    else false,
+
+                baseOffset = [Liste des comptoirs.UTC_number],
+                dstAdd = if [Liste des comptoirs.DST Delta] = 1 and isDst then 1 else 0,
+                offsetReal = baseOffset + dstAdd
+            in
+                dt + #duration(0, offsetReal, 0, 0),
+        type datetime
+    ),
