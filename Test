@@ -1,137 +1,48 @@
-Voici une User Story claire pour ton backlog Le Comptoir, orientée expérience utilisateur sur la tablette d’accueil.
+Voici une slide prête à l’emploi, structurée et orientée comité (claire, impactante, sans surcharge) :
 
 ⸻
 
-US — Ajouter un message de sensibilisation au respect des techniciens sur l’écran d’attente
+🚀 Traçabilité matériel – Roadmap & déploiement
 
-Titre
-Afficher un message de sensibilisation à la bienveillance envers les techniciens sur l’écran confirmant l’enregistrement dans la file d’attente.
+🎯 Objectif
 
-⸻
-
-User Story
-
-En tant que visiteur du Comptoir,
-je veux voir un message rappelant que le technicien est là pour m’aider,
-afin de favoriser un climat respectueux et bienveillant lors de la prise en charge.
+Mettre en place des parcours standardisés pour sécuriser, tracer et automatiser les mouvements de matériel au sein des comptoirs.
 
 ⸻
 
-Contexte
+📅 Déploiement du parcours “Restitution matériel”
+	•	Avril 2026 : Lancement d’un pilote
+	•	Mai 2026 : Généralisation à l’ensemble des comptoirs
+	•	🔎 Une présentation détaillée + documentation complète seront partagées en avril
 
-Après avoir terminé l’enregistrement sur la tablette d’accueil, l’utilisateur arrive sur un écran confirmant :
-	•	son inscription dans la file d’attente
-	•	sa position dans la file
-	•	le temps d’attente estimé
-
-Cet écran est un moment opportun pour sensibiliser les visiteurs au respect des techniciens, qui peuvent parfois être confrontés à des situations de tension.
-
-L’objectif est d’encourager une attitude positive et respectueuse avant la prise en charge.
-
-⸻
-
-Fonctionnement attendu
-
-Sur l’écran affichant :
-	•	la position dans la file
-	•	le temps d’attente estimé
-
-un message de sensibilisation doit être affiché.
-
-Ce message doit rappeler que :
-	•	le technicien est là pour aider
-	•	la bienveillance est importante
-	•	une interaction respectueuse facilite la résolution du problème.
+👉 Ce parcours permet de :
+	•	Garantir la signature des restitutions
+	•	Fiabiliser les inventaires
+	•	Réduire le temps opérationnel des équipes
 
 ⸻
 
-Contenu du message
+🔄 Extension progressive des use cases
 
-Le wording exact reste à définir par UX / communication, mais doit rester :
-	•	court
-	•	positif
-	•	non moralisateur
+📆 Mois	Use case	Description
+Juin 2026	Attribution (sur demande)	Remise de matériel liée à une request
+Juillet 2026	Échange (incident)	Remplacement de matériel défectueux
+Septembre 2026	Attribution (onboarding)	Équipement des nouveaux arrivants
 
-Exemple d’intention (non final) :
-
-Our technicians are here to help you.
-Thank you for staying respectful and kind during your interaction.
 
 ⸻
 
-Illustration
+💡 Vision globale
 
-Une petite illustration peut accompagner le message afin de :
-	•	contextualiser visuellement le message
-	•	rendre l’écran plus chaleureux.
+Construire une traçabilité complète du cycle de vie matériel :
+	•	Attribution
+	•	Échange
+	•	Restitution
 
-Exemples possibles :
-	•	technicien aidant un collaborateur
-	•	icône de collaboration / assistance
-	•	illustration légère type support IT.
+➡️ Avec une expérience guidée, standardisée et automatisée pour les équipes
 
 ⸻
 
-Emplacement
-
-Le message doit apparaître sur l’écran après l’enregistrement du visiteur, sous les informations :
-	•	queue position
-	•	estimated waiting time
-
-⸻
-
-Critères d’acceptation
-
-Affichage du message
-
-Given un visiteur termine son enregistrement
-When l’écran de confirmation s’affiche
-Then un message de sensibilisation au respect des techniciens est visible
-
-⸻
-
-Contenu du message
-
-Given le message est affiché
-Then il doit être court et positif
-And rappeler que les techniciens sont là pour aider
-
-⸻
-
-Illustration
-
-Given l’écran de confirmation
-Then une illustration légère peut accompagner le message
-
-⸻
-
-Contraintes UX
-	•	message court (1 à 2 lignes)
-	•	lisible à distance
-	•	compatible avec l’affichage tablette
-	•	ne doit pas détourner l’attention des informations principales
-
-⸻
-
-Définition of Done
-	•	message validé par UX / communication
-	•	message visible sur l’écran d’attente
-	•	illustration intégrée si validée
-	•	test d’affichage sur tablette
-
-⸻
-
-💡 Suggestion produit (très intéressante pour ton projet)
-Ajouter une phrase dynamique selon l’attente, par exemple :
-	•	attente courte → message simple
-	•	attente longue → message + remerciement pour la patience
-
-Exemple :
-
-Thank you for your patience. Our technicians will assist you shortly.
-
-Cela améliore beaucoup l’expérience perçue par les visiteurs.
-
-⸻
-
-Si tu veux, je peux aussi te proposer 3 slogans très efficaces utilisés dans les services IT de grandes entreprises, qui fonctionnent bien pour faire baisser les tensions au support desk.
+Si tu veux, je peux aussi :
+	•	te faire une version visuelle type PowerPoint (design + icônes)
+	•	ou une version encore plus punchy / executive (30 sec pitch) pour ton passage en comité 👍
