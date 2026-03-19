@@ -1,83 +1,179 @@
-Voici un bug report clair et exploitable que tu peux mettre directement dans ton backlog (Jira / Azure DevOps).
+Voici une User Story orientée UX pour ton designer afin de créer le modèle de PV de restitution qui sera généré par Le Comptoir et stocké sur SharePoint.
 
 ⸻
 
-Bug — Le bouton Back ne fonctionne pas dans le formulaire d’ajout manuel d’un équipement
+US — Conception du modèle de PV de restitution matériel
 
 Titre
-Le bouton Back ne permet pas de revenir à l’étape précédente dans le formulaire Add equipment manually.
+Concevoir un modèle de PV de restitution matériel léger et lisible pour génération automatique et stockage sur SharePoint.
 
 ⸻
 
-Description
+User Story
 
-Lors de l’ajout manuel d’un équipement dans le parcours Material Return, lorsque l’utilisateur accède au formulaire Add equipment manually, le bouton Back ne fonctionne pas.
-
-L’utilisateur ne peut donc pas revenir à l’étape précédente, ce qui bloque la navigation normale dans le parcours.
-
-⸻
-
-Étapes pour reproduire
-	1.	Ouvrir une visite de type restitution matériel
-	2.	Arriver à l’étape Ajout d’équipements
-	3.	Cliquer sur Add Manually
-	4.	Accéder au formulaire d’ajout manuel
-	5.	Cliquer sur le bouton Back
+En tant que Product Owner du Comptoir,
+je veux disposer d’un modèle UX de PV de restitution matériel,
+afin de générer automatiquement un document clair, léger et exploitable qui sera stocké sur SharePoint comme preuve de restitution.
 
 ⸻
 
-Résultat observé
-	•	Le bouton Back ne fait rien
-	•	L’utilisateur reste bloqué dans le formulaire
+Contexte
+
+Lorsqu’un matériel est restitué via Le Comptoir, un PV de restitution doit être généré automatiquement et archivé sur SharePoint.
+
+Ce document sert de preuve de restitution et doit :
+	•	rester léger (peu de pages / peu d’images)
+	•	être facilement lisible
+	•	contenir les informations nécessaires à la traçabilité
 
 ⸻
 
-Résultat attendu
+Objectif UX
 
-Lorsque l’utilisateur clique sur Back :
-	•	il doit revenir à l’étape précédente (Ajout d’équipements / Return equipment step)
-	•	les équipements déjà ajoutés dans le Return bucket / summary doivent rester présents
+Créer un template de document simple, structuré et léger, compatible avec une génération automatisée.
 
-⸻
-
-Impact
-	•	navigation bloquée dans le parcours
-	•	mauvaise expérience utilisateur
-	•	risque d’abandon du processus
-	•	obligation de fermer la page ou recommencer le parcours
+Le document doit idéalement tenir sur 1 page lorsque possible.
 
 ⸻
 
-Environnement
+Éléments à afficher dans le PV
 
-Application : Le Comptoir
-Module : Material Return
-Écran : Add equipment manually
+1. En-tête du document
 
-⸻
+Le document doit inclure :
+	•	logo BNP Paribas
+	•	slogan BNP Paribas
 
-Sévérité suggérée
+L’image doit rester petite et optimisée pour ne pas alourdir le fichier.
 
-Medium
+Exemple :
 
-Le processus n’est pas complètement bloqué mais la navigation est incorrecte.
+[Logo BNP Paribas]
+The bank for a changing world
 
-⸻
-
-Critère de correction
-	•	Le bouton Back ramène à l’étape précédente
-	•	Aucun équipement déjà ajouté n’est perdu
-	•	Le parcours peut continuer normalement
 
 ⸻
 
-💡 Petit conseil produit (important)
-Dans les parcours multi-steps comme le tien, il est préférable que :
-	•	Back = retour étape précédente
-	•	Cancel = abandon du formulaire
+2. Informations de restitution
 
-Cela évite énormément de confusion côté techniciens.
+Section contenant :
+	•	nom du visiteur / collaborateur
+	•	UID
+	•	date de restitution
+	•	comptoir / localisation
+	•	coach / technicien
 
 ⸻
 
-Si tu veux, je peux aussi te faire la checklist complète des bugs typiques à tester dans un parcours de restitution matériel (il y en a environ 10 très classiques que les équipes oublient souvent). Cela t’aidera beaucoup pour ta recette fonctionnelle.
+3. Liste des équipements restitués
+
+Le PV doit afficher tous les équipements restitués.
+
+Pour chaque élément :
+	•	type d’équipement
+	•	modèle / description
+	•	numéro de série (si disponible)
+
+⸻
+
+4. Références ServiceNow associées
+
+Pour chaque équipement restitué, le PV doit afficher :
+	•	la request
+	•	ou l’incident associé
+
+Exemple :
+
+Laptop Dell Latitude 7420
+Serial: ABC12345
+Request: RITM0012456
+
+ou
+
+iPhone
+Serial: XYZ987
+Incident: INC0054872
+
+
+⸻
+
+Cas particulier
+
+Si plusieurs équipements ont des tickets associés :
+
+➡️ plusieurs request / incidents doivent apparaître dans le document.
+
+Exemple :
+
+Returned equipment
+
+1. Laptop Dell Latitude 7420
+Serial: ABC12345
+Request: RITM0012456
+
+2. iPhone 13
+Serial: XYZ987
+Incident: INC0054872
+
+3. Charger USB-C
+(no ticket)
+
+
+⸻
+
+5. Signature
+
+Section contenant :
+	•	signature du collaborateur
+	•	date de signature
+
+⸻
+
+Critères UX
+
+Le modèle doit être :
+	•	léger
+	•	lisible
+	•	compatible génération automatique
+	•	adapté à un archivage SharePoint
+
+⸻
+
+Contraintes
+	•	éviter les images lourdes
+	•	privilégier une structure simple (table ou liste)
+	•	document imprimable
+
+⸻
+
+Livrables attendus
+
+Le designer UX doit produire :
+	•	un mockup du PV
+	•	la structure du document
+	•	les zones dynamiques à injecter
+	•	les recommandations de format (PDF)
+
+⸻
+
+Définition of Done
+	•	maquette validée
+	•	structure compatible génération automatique
+	•	poids optimisé du document
+	•	toutes les informations nécessaires présentes
+
+⸻
+
+💡 Suggestion produit très utile pour ton projet
+
+Ajouter en bas du document un identifiant unique du PV :
+
+Return Certificate ID : PV-2026-000145
+
+Cela permet :
+	•	de retrouver rapidement le document dans SharePoint
+	•	de faire le lien avec la restitution dans Le Comptoir.
+
+⸻
+
+Si tu veux, je peux aussi te proposer la structure idéale du PV (celle utilisée dans les grands outils ITSM) qui permet d’avoir un document ultra léger mais juridiquement solide.
