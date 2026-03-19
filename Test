@@ -1,179 +1,137 @@
-Voici une User Story orientée UX pour ton designer afin de créer le modèle de PV de restitution qui sera généré par Le Comptoir et stocké sur SharePoint.
+Voici une User Story claire pour ton backlog Le Comptoir, orientée expérience utilisateur sur la tablette d’accueil.
 
 ⸻
 
-US — Conception du modèle de PV de restitution matériel
+US — Ajouter un message de sensibilisation au respect des techniciens sur l’écran d’attente
 
 Titre
-Concevoir un modèle de PV de restitution matériel léger et lisible pour génération automatique et stockage sur SharePoint.
+Afficher un message de sensibilisation à la bienveillance envers les techniciens sur l’écran confirmant l’enregistrement dans la file d’attente.
 
 ⸻
 
 User Story
 
-En tant que Product Owner du Comptoir,
-je veux disposer d’un modèle UX de PV de restitution matériel,
-afin de générer automatiquement un document clair, léger et exploitable qui sera stocké sur SharePoint comme preuve de restitution.
+En tant que visiteur du Comptoir,
+je veux voir un message rappelant que le technicien est là pour m’aider,
+afin de favoriser un climat respectueux et bienveillant lors de la prise en charge.
 
 ⸻
 
 Contexte
 
-Lorsqu’un matériel est restitué via Le Comptoir, un PV de restitution doit être généré automatiquement et archivé sur SharePoint.
+Après avoir terminé l’enregistrement sur la tablette d’accueil, l’utilisateur arrive sur un écran confirmant :
+	•	son inscription dans la file d’attente
+	•	sa position dans la file
+	•	le temps d’attente estimé
 
-Ce document sert de preuve de restitution et doit :
-	•	rester léger (peu de pages / peu d’images)
-	•	être facilement lisible
-	•	contenir les informations nécessaires à la traçabilité
+Cet écran est un moment opportun pour sensibiliser les visiteurs au respect des techniciens, qui peuvent parfois être confrontés à des situations de tension.
 
-⸻
-
-Objectif UX
-
-Créer un template de document simple, structuré et léger, compatible avec une génération automatisée.
-
-Le document doit idéalement tenir sur 1 page lorsque possible.
+L’objectif est d’encourager une attitude positive et respectueuse avant la prise en charge.
 
 ⸻
 
-Éléments à afficher dans le PV
+Fonctionnement attendu
 
-1. En-tête du document
+Sur l’écran affichant :
+	•	la position dans la file
+	•	le temps d’attente estimé
 
-Le document doit inclure :
-	•	logo BNP Paribas
-	•	slogan BNP Paribas
+un message de sensibilisation doit être affiché.
 
-L’image doit rester petite et optimisée pour ne pas alourdir le fichier.
-
-Exemple :
-
-[Logo BNP Paribas]
-The bank for a changing world
-
+Ce message doit rappeler que :
+	•	le technicien est là pour aider
+	•	la bienveillance est importante
+	•	une interaction respectueuse facilite la résolution du problème.
 
 ⸻
 
-2. Informations de restitution
+Contenu du message
 
-Section contenant :
-	•	nom du visiteur / collaborateur
-	•	UID
-	•	date de restitution
-	•	comptoir / localisation
-	•	coach / technicien
+Le wording exact reste à définir par UX / communication, mais doit rester :
+	•	court
+	•	positif
+	•	non moralisateur
 
-⸻
+Exemple d’intention (non final) :
 
-3. Liste des équipements restitués
-
-Le PV doit afficher tous les équipements restitués.
-
-Pour chaque élément :
-	•	type d’équipement
-	•	modèle / description
-	•	numéro de série (si disponible)
+Our technicians are here to help you.
+Thank you for staying respectful and kind during your interaction.
 
 ⸻
 
-4. Références ServiceNow associées
+Illustration
 
-Pour chaque équipement restitué, le PV doit afficher :
-	•	la request
-	•	ou l’incident associé
+Une petite illustration peut accompagner le message afin de :
+	•	contextualiser visuellement le message
+	•	rendre l’écran plus chaleureux.
 
-Exemple :
-
-Laptop Dell Latitude 7420
-Serial: ABC12345
-Request: RITM0012456
-
-ou
-
-iPhone
-Serial: XYZ987
-Incident: INC0054872
-
+Exemples possibles :
+	•	technicien aidant un collaborateur
+	•	icône de collaboration / assistance
+	•	illustration légère type support IT.
 
 ⸻
 
-Cas particulier
+Emplacement
 
-Si plusieurs équipements ont des tickets associés :
-
-➡️ plusieurs request / incidents doivent apparaître dans le document.
-
-Exemple :
-
-Returned equipment
-
-1. Laptop Dell Latitude 7420
-Serial: ABC12345
-Request: RITM0012456
-
-2. iPhone 13
-Serial: XYZ987
-Incident: INC0054872
-
-3. Charger USB-C
-(no ticket)
-
+Le message doit apparaître sur l’écran après l’enregistrement du visiteur, sous les informations :
+	•	queue position
+	•	estimated waiting time
 
 ⸻
 
-5. Signature
+Critères d’acceptation
 
-Section contenant :
-	•	signature du collaborateur
-	•	date de signature
+Affichage du message
 
-⸻
-
-Critères UX
-
-Le modèle doit être :
-	•	léger
-	•	lisible
-	•	compatible génération automatique
-	•	adapté à un archivage SharePoint
+Given un visiteur termine son enregistrement
+When l’écran de confirmation s’affiche
+Then un message de sensibilisation au respect des techniciens est visible
 
 ⸻
 
-Contraintes
-	•	éviter les images lourdes
-	•	privilégier une structure simple (table ou liste)
-	•	document imprimable
+Contenu du message
+
+Given le message est affiché
+Then il doit être court et positif
+And rappeler que les techniciens sont là pour aider
 
 ⸻
 
-Livrables attendus
+Illustration
 
-Le designer UX doit produire :
-	•	un mockup du PV
-	•	la structure du document
-	•	les zones dynamiques à injecter
-	•	les recommandations de format (PDF)
+Given l’écran de confirmation
+Then une illustration légère peut accompagner le message
+
+⸻
+
+Contraintes UX
+	•	message court (1 à 2 lignes)
+	•	lisible à distance
+	•	compatible avec l’affichage tablette
+	•	ne doit pas détourner l’attention des informations principales
 
 ⸻
 
 Définition of Done
-	•	maquette validée
-	•	structure compatible génération automatique
-	•	poids optimisé du document
-	•	toutes les informations nécessaires présentes
+	•	message validé par UX / communication
+	•	message visible sur l’écran d’attente
+	•	illustration intégrée si validée
+	•	test d’affichage sur tablette
 
 ⸻
 
-💡 Suggestion produit très utile pour ton projet
+💡 Suggestion produit (très intéressante pour ton projet)
+Ajouter une phrase dynamique selon l’attente, par exemple :
+	•	attente courte → message simple
+	•	attente longue → message + remerciement pour la patience
 
-Ajouter en bas du document un identifiant unique du PV :
+Exemple :
 
-Return Certificate ID : PV-2026-000145
+Thank you for your patience. Our technicians will assist you shortly.
 
-Cela permet :
-	•	de retrouver rapidement le document dans SharePoint
-	•	de faire le lien avec la restitution dans Le Comptoir.
+Cela améliore beaucoup l’expérience perçue par les visiteurs.
 
 ⸻
 
-Si tu veux, je peux aussi te proposer la structure idéale du PV (celle utilisée dans les grands outils ITSM) qui permet d’avoir un document ultra léger mais juridiquement solide.
+Si tu veux, je peux aussi te proposer 3 slogans très efficaces utilisés dans les services IT de grandes entreprises, qui fonctionnent bien pour faire baisser les tensions au support desk.
