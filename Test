@@ -1,120 +1,145 @@
-US — Reprendre une restitution matériel en cours (Resume Return Process)
+US — Identification du propriétaire lors de l’ajout manuel d’un équipement
 
 Titre
-Permettre de reprendre une restitution matériel en cours depuis l’onglet In Progress.
+Ajouter une question obligatoire permettant d’identifier si le visiteur est le propriétaire du matériel lors de l’ajout manuel d’un équipement.
 
 ⸻
 
 User Story
 
 En tant que coach / technicien au Comptoir,
-je veux reprendre une restitution matériel que j’ai commencée,
-afin de continuer le processus sans perdre les équipements déjà ajoutés si la page ou le navigateur a été fermé.
+je veux indiquer si le visiteur est le propriétaire du matériel lors d’un ajout manuel,
+afin de garantir une meilleure traçabilité du matériel restitué lorsque l’équipement n’est pas retrouvé dans HM.
 
 ⸻
 
 Contexte
 
-Lors du parcours Restitution matériel, il peut arriver que :
-	•	la page soit fermée accidentellement,
-	•	l’onglet soit fermé,
-	•	le navigateur soit rafraîchi,
-	•	le coach doive interrompre la restitution pour gérer un autre visiteur.
+Lorsqu’un équipement est ajouté manuellement (car non trouvé dans HM), les informations du matériel doivent être renseignées.
 
-Aujourd’hui, lorsqu’on revient dans Visit Management → In Progress, seule l’action Close est disponible.
-
-Pour les visites de type restitution matériel, il est nécessaire de pouvoir reprendre la restitution là où elle s’est arrêtée.
+Cependant, il est également nécessaire d’identifier le propriétaire du matériel, afin d’éviter les ambiguïtés dans la traçabilité.
 
 ⸻
 
 Fonctionnement attendu
 
-Lorsqu’une restitution matériel est en cours mais non finalisée :
-	•	l’état de progression doit être sauvegardé automatiquement
-	•	les équipements déjà ajoutés doivent être conservés
-	•	l’utilisateur doit pouvoir reprendre le parcours exactement à l’étape où il s’était arrêté
+Dans la section Owner Info, une question obligatoire doit apparaître :
+
+Question :
+
+Is the visitor the owner of the equipment?
+
+Trois choix sont proposés :
+	•	Yes
+	•	No
+	•	Unknown (ou icône ?)
+
+Cette question est obligatoire pour poursuivre le parcours.
 
 ⸻
 
-Comportement dans Visit Management
+Comportement selon la réponse
 
-Dans l’onglet In Progress :
+Cas 1 — Yes
 
-Pour une visite de type Material Return :
+Signification :
+Le visiteur est le propriétaire du matériel.
 
-les actions disponibles deviennent :
-	•	Resume
-	•	Close
+Comportement :
+	•	aucun champ supplémentaire n’apparaît
+	•	l’application considère automatiquement que Owner = Visitor
 
 ⸻
 
-Comportement du bouton Resume
+Cas 2 — No
 
-Lorsque l’utilisateur clique sur Resume :
-	•	il est redirigé vers le parcours de restitution
-	•	l’application recharge :
-	•	l’étape courante
-	•	les équipements déjà ajoutés dans le bucket / summary
-	•	les données saisies précédemment
+Signification :
+Le matériel appartient à un autre collaborateur.
+
+Comportement :
+
+Un champ supplémentaire apparaît :
+
+Search owner
+
+Ce champ permet de rechercher l’utilisateur via :
+	•	UID
+	•	Prénom / Nom
+
+(comportement identique aux autres recherches utilisateur déjà présentes dans l’application).
+
+⸻
+
+Cas 3 — Unknown
+
+Signification :
+Le coach ne connaît pas le propriétaire du matériel.
+
+Comportement :
+	•	aucun champ supplémentaire n’apparaît
+	•	la restitution peut continuer
 
 ⸻
 
 Critères d’acceptation
 
-Visite en cours
+Affichage de la question
 
-Given une restitution matériel a été commencée
-And elle n’a pas été finalisée
-When je consulte l’onglet In Progress
-Then je vois un bouton Resume
+Given je suis dans le formulaire d’ajout manuel d’un équipement
+Then la section Owner Info contient la question :
 
-⸻
+Is the visitor the owner of the equipment?
 
-Reprise du parcours
-
-Given une restitution matériel est en cours
-When je clique sur Resume
-Then je suis redirigé vers le parcours de restitution
-And je retrouve l’étape où je m’étais arrêté
+And trois options sont visibles :
+	•	Yes
+	•	No
+	•	Unknown
 
 ⸻
 
-Conservation des équipements
+Cas Yes
 
-Given des équipements ont été ajoutés au summary
-When je reprends la restitution
-Then les équipements ajoutés sont toujours présents
-
-⸻
-
-Cas de fermeture navigateur
-
-Given je ferme l’onglet ou le navigateur pendant la restitution
-When je reviens dans Visit Management → In Progress
-Then je peux cliquer sur Resume
-And reprendre le processus sans perte de données
+Given je sélectionne Yes
+Then aucun champ supplémentaire n’apparaît
+And je peux continuer le formulaire
 
 ⸻
 
-Cas sans restitution
+Cas No
 
-Given une visite n’est pas de type restitution matériel
-Then le bouton Resume n’est pas affiché
+Given je sélectionne No
+Then un champ Search owner apparaît
+And je peux rechercher un utilisateur par UID ou nom
+
+⸻
+
+Cas Unknown
+
+Given je sélectionne Unknown
+Then aucun champ supplémentaire n’apparaît
+And je peux continuer le formulaire
+
+⸻
+
+Validation obligatoire
+
+Given je n’ai sélectionné aucune option
+When je tente de continuer
+Then un message indique que la question est mandatory
 
 ⸻
 
 Règles métier
-	•	La progression doit être persistée côté backend (pas uniquement localement dans le navigateur).
-	•	La reprise doit fonctionner même si :
-	•	l’utilisateur change d’ordinateur
-	•	la session est relancée.
-	•	Une restitution finalisée ne doit plus être reprise.
+	•	La question doit être renseignée pour poursuivre.
+	•	Si Yes, le propriétaire est automatiquement associé au visiteur.
+	•	Si No, la recherche d’utilisateur devient obligatoire.
+	•	Si Unknown, aucune information supplémentaire n’est requise.
 
 ⸻
 
 Définition of Done
-	•	bouton Resume visible pour les restitutions en cours
-	•	progression sauvegardée
-	•	reprise sur la bonne étape
-	•	summary correctement restauré
-	•	test OK avec fermeture navigateur / refresh
+	•	question affichée dans la section Owner Info
+	•	comportement conditionnel des champs
+	•	validation obligatoire fonctionnelle
+	•	recherche utilisateur fonctionnelle
+	•	données correctement enregistrées dans la restitution
