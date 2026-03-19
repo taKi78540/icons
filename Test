@@ -1,137 +1,83 @@
-Voici une User Story claire pour ton backlog Le Comptoir, centrée sur l’affichage des quantités d’accessoires dans l’étape finale de restitution.
+Voici un bug report clair et exploitable que tu peux mettre directement dans ton backlog (Jira / Azure DevOps).
 
 ⸻
 
-US — Afficher la quantité des accessoires dans le Return Summary
+Bug — Le bouton Back ne fonctionne pas dans le formulaire d’ajout manuel d’un équipement
 
 Titre
-Afficher la quantité d’accessoires restitués dans l’écran de confirmation de restitution (Return Summary).
+Le bouton Back ne permet pas de revenir à l’étape précédente dans le formulaire Add equipment manually.
 
 ⸻
 
-User Story
+Description
 
-En tant que coach / technicien au Comptoir,
-je veux voir la quantité des accessoires restitués dans le Return Summary,
-afin de vérifier correctement que tous les accessoires ont bien été restitués avant de confirmer la restitution.
+Lors de l’ajout manuel d’un équipement dans le parcours Material Return, lorsque l’utilisateur accède au formulaire Add equipment manually, le bouton Back ne fonctionne pas.
 
-⸻
-
-Contexte
-
-Dans le parcours Material Return, lorsque des accessoires sont ajoutés (ex : badge, chargeur, adaptateur, câble…), il est possible d’indiquer une quantité supérieure à 1.
-
-Cependant, dans l’écran final Return Summary / confirmation, la quantité n’est actuellement pas visible, ce qui peut créer :
-	•	des erreurs de validation,
-	•	une vérification visuelle difficile pour le coach,
-	•	un manque de clarté sur ce qui est réellement restitué.
+L’utilisateur ne peut donc pas revenir à l’étape précédente, ce qui bloque la navigation normale dans le parcours.
 
 ⸻
 
-Fonctionnement attendu
-
-Dans l’écran Return Summary, chaque accessoire doit afficher :
-	•	le nom de l’accessoire
-	•	la quantité restituée
-
-⸻
-
-Exemple d’affichage attendu
-
-Actuellement :
-
-Accessories
-• Badge
-• Charger
-• Adapter
-
-Attendu :
-
-Accessories
-• Badge ×2
-• Charger ×1
-• Adapter ×3
-
-ou
-
-Accessories
-Badge (2)
-Charger (1)
-Adapter (3)
-
-Le format exact pourra être validé par l’UX.
+Étapes pour reproduire
+	1.	Ouvrir une visite de type restitution matériel
+	2.	Arriver à l’étape Ajout d’équipements
+	3.	Cliquer sur Add Manually
+	4.	Accéder au formulaire d’ajout manuel
+	5.	Cliquer sur le bouton Back
 
 ⸻
 
-Critères d’acceptation
-
-Accessoire avec quantité 1
-
-Given un accessoire est ajouté avec une quantité de 1
-Then il apparaît dans le Return Summary avec la quantité indiquée
-
-Exemple :
-
-Charger ×1
-
+Résultat observé
+	•	Le bouton Back ne fait rien
+	•	L’utilisateur reste bloqué dans le formulaire
 
 ⸻
 
-Accessoire avec quantité multiple
+Résultat attendu
 
-Given un accessoire est ajouté avec une quantité supérieure à 1
-Then la quantité est visible dans le Return Summary
-
-Exemple :
-
-Badge ×3
-
+Lorsque l’utilisateur clique sur Back :
+	•	il doit revenir à l’étape précédente (Ajout d’équipements / Return equipment step)
+	•	les équipements déjà ajoutés dans le Return bucket / summary doivent rester présents
 
 ⸻
 
-Plusieurs accessoires
-
-Given plusieurs accessoires ont été ajoutés
-Then chacun affiche sa quantité correspondante
-
-⸻
-
-Cohérence avec les données
-
-Given la restitution est confirmée
-Then les quantités affichées correspondent aux quantités réellement enregistrées
+Impact
+	•	navigation bloquée dans le parcours
+	•	mauvaise expérience utilisateur
+	•	risque d’abandon du processus
+	•	obligation de fermer la page ou recommencer le parcours
 
 ⸻
 
-Règles métier
-	•	La quantité doit être affichée pour tous les accessoires, même si elle est égale à 1.
-	•	La quantité affichée doit correspondre exactement à la quantité saisie lors de l’ajout.
-	•	Cette modification concerne uniquement l’affichage du Return Summary.
+Environnement
+
+Application : Le Comptoir
+Module : Material Return
+Écran : Add equipment manually
 
 ⸻
 
-Définition of Done
-	•	quantité visible pour chaque accessoire
-	•	affichage cohérent avec la saisie
-	•	affichage testé avec :
-	•	quantité = 1
-	•	quantité > 1
-	•	plusieurs accessoires
+Sévérité suggérée
+
+Medium
+
+Le processus n’est pas complètement bloqué mais la navigation est incorrecte.
 
 ⸻
 
-💡 Suggestion UX utile pour les techniciens
-
-Afficher les accessoires avec un petit badge de quantité, par exemple :
-
-Badge        [2]
-Charger      [1]
-Adapter      [3]
-
-C’est :
-	•	plus lisible sur tablette
-	•	plus rapide à vérifier au comptoir.
+Critère de correction
+	•	Le bouton Back ramène à l’étape précédente
+	•	Aucun équipement déjà ajouté n’est perdu
+	•	Le parcours peut continuer normalement
 
 ⸻
 
-Si tu veux, je peux aussi te faire 2 autres US très importantes pour cette étape finale, qui évitent souvent des erreurs dans les outils de restitution matériel (notamment sur les confirmations utilisateur et les signatures).
+💡 Petit conseil produit (important)
+Dans les parcours multi-steps comme le tien, il est préférable que :
+	•	Back = retour étape précédente
+	•	Cancel = abandon du formulaire
+
+Cela évite énormément de confusion côté techniciens.
+
+⸻
+
+Si tu veux, je peux aussi te faire la checklist complète des bugs typiques à tester dans un parcours de restitution matériel (il y en a environ 10 très classiques que les équipes oublient souvent). Cela t’aidera beaucoup pour ta recette fonctionnelle.
