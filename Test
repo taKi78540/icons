@@ -1,53 +1,26 @@
-Parfait — très bon point, c’est exactement le type de bénéfice qui parle en comité 👌
-Voici la slide enrichie en anglais, avec ton ajout intégré de manière claire et impactante :
+Parfait — voici un pitch oral fluide (≈45–60 secondes), calibré pour un comité : clair, structuré, impactant 👇
 
 ⸻
 
-🚀 Hardware Traceability – Roadmap & Deployment
+🎤 Pitch
 
-🎯 Objective
+“On this slide, I’d like to share our upcoming roadmap on hardware traceability.
 
-Implement standardized workflows to secure, track, and automate hardware lifecycle operations across all counters.
+Starting in April, we will launch a pilot for the hardware return workflow, with a full rollout to all counters in May. A detailed presentation and supporting documentation will be provided next month.
 
-⸻
+The objective of this first use case is to standardize how hardware returns are handled: ensuring user signature, improving inventory accuracy, and reducing operational effort for support teams.
 
-📅 “Hardware Return” rollout
-	•	April 2026: Pilot launch
-	•	May 2026: Rollout to all counters
-	•	🔎 A detailed presentation and documentation will be shared in April
+For users covered by the ITG Group Catalog, this will also bring automation benefits — with requests created instead of incidents, and automatic updates of HLM.
 
-👉 This workflow enables:
-	•	Enforced user signature for returns
-	•	Improved inventory accuracy
-	•	Reduced operational time for teams
-	•	For users covered by the ITG Group Catalog:
-	•	Automatic creation of requests (instead of incidents)
-	•	Automatic update of HLM (Hardware Lifecycle Management)
+In addition, all return activities processed at counters will now be captured and consolidated in Power BI, giving us full visibility and enabling data-driven analysis.
+
+This is only the first step. We will progressively extend this capability to cover other key use cases:
+hardware assignment on request in June, replacement in case of incident in July, and onboarding equipment in September.
+
+Overall, the ambition is to build a fully traceable, standardized, and data-driven hardware lifecycle across all counters.”
 
 ⸻
 
-🔄 Progressive rollout of use cases
-
-📆 Month	Use case	Description
-April / May 2026	Return	Hardware return with user signature
-June 2026	Assignment (on request)	Hardware delivery linked to a request
-July 2026	Exchange (incident)	Replacement of faulty hardware
-September 2026	Assignment (onboarding)	Equipment provisioning for new joiners
-
-
-⸻
-
-💡 Overall vision
-
-Build end-to-end hardware lifecycle traceability:
-	•	Assignment
-	•	Exchange
-	•	Return
-
-➡️ With guided, standardized, and automated workflows for support teams
-
-⸻
-
-Si tu veux encore monter d’un cran pour le comité, je peux te proposer une version :
-	•	encore plus orientée valeur business (risque, compliance, productivité)
-	•	ou une version très synthétique en 5 bullets max pour un slide ultra impact 👍
+Si tu veux, je peux te faire :
+	•	une version ultra courte (30 sec)
+	•	ou une version avec punchlines + pauses pour impact comité 🎯
