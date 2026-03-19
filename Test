@@ -1,49 +1,144 @@
-#"Personnalisée ajoutée5" =
-    Table.AddColumn(
-        #"Liste des comptoirs développée",
-        "createdAt_local",
-        each
-            let
-                dt = DateTime.From([createdAt]),     // UTC
-                d  = Date.From(dt),
-                y  = Date.Year(d),
+Voici une User Story claire et exploitable pour ton backlog Le Comptoir, structurée pour Jira / Azure DevOps.
 
-                // Helpers
-                LastSunday = (yy as number, mm as number) as date =>
-                    let
-                        lastDay = Date.EndOfMonth(#date(yy, mm, 1)),
-                        offset  = Date.DayOfWeek(lastDay, Day.Sunday)
-                    in
-                        Date.AddDays(lastDay, -offset),
+⸻
 
-                NthSunday = (yy as number, mm as number, n as number) as date =>
-                    let
-                        firstDay = #date(yy, mm, 1),
-                        firstSundayOffset = Number.Mod(7 - Date.DayOfWeek(firstDay, Day.Sunday), 7),
-                        firstSunday = Date.AddDays(firstDay, firstSundayOffset)
-                    in
-                        Date.AddDays(firstSunday, 7 * (n - 1)),
+US — Suppression d’un équipement ajouté dans le Return Summary
 
-                // EU DST: last Sunday of March -> last Sunday of October
-                euStart = LastSunday(y, 3),
-                euEnd   = LastSunday(y, 10),
-                isDstEU = d >= euStart and d < euEnd,
+Titre
+Permettre la suppression d’un équipement ajouté dans le Return Summary via une icône de suppression avec confirmation.
 
-                // NA DST: 2nd Sunday of March -> 1st Sunday of November
-                naStart = NthSunday(y, 3, 2),
-                naEnd   = NthSunday(y, 11, 1),
-                isDstNA = d >= naStart and d < naEnd,
+⸻
 
-                rule = Text.Upper(Text.From([Liste des comptoirs.DST Rule])),
-                isDst =
-                    if rule = "EU" then isDstEU
-                    else if rule = "NA" then isDstNA
-                    else false,
+User Story
 
-                baseOffset = [Liste des comptoirs.UTC_number],
-                dstAdd = if [Liste des comptoirs.DST Delta] = 1 and isDst then 1 else 0,
-                offsetReal = baseOffset + dstAdd
-            in
-                dt + #duration(0, offsetReal, 0, 0),
-        type datetime
-    ),
+En tant que coach / technicien au Comptoir,
+je veux pouvoir supprimer un équipement ajouté dans la restitution,
+afin de corriger facilement une erreur de scan ou de sélection avant de finaliser la restitution.
+
+⸻
+
+Contexte
+
+Lors du parcours Restitution matériel, les équipements ajoutés (via scan, recherche HM ou ajout manuel) apparaissent progressivement dans le Return Summary / bucket.
+
+Aujourd’hui, une erreur peut survenir :
+	•	mauvais scan,
+	•	mauvais équipement sélectionné,
+	•	restitution finalement annulée.
+
+Le coach doit donc pouvoir retirer un équipement facilement avant la finalisation du parcours.
+
+⸻
+
+Fonctionnement attendu
+
+Chaque équipement affiché dans le Return Summary doit comporter :
+	•	une icône de suppression (croix) visible,
+	•	permettant de retirer l’équipement de la restitution en cours.
+
+Lorsqu’un utilisateur clique sur cette croix :
+	1.	une modale de confirmation apparaît,
+	2.	l’utilisateur peut confirmer ou annuler la suppression.
+
+⸻
+
+Modale de confirmation
+
+Titre :
+Remove equipment
+
+Message :
+Are you sure you want to remove this equipment from the return?
+
+Boutons :
+	•	Cancel
+	•	Remove
+
+⸻
+
+Comportement attendu
+
+Si l’utilisateur clique sur Cancel
+	•	la modale se ferme
+	•	l’équipement reste dans le summary
+
+Si l’utilisateur clique sur Remove
+	•	l’équipement est retiré du summary
+	•	la liste des équipements est immédiatement mise à jour
+	•	le compteur d’équipements (si présent) est recalculé
+
+⸻
+
+Critères d’acceptation
+
+Affichage
+
+Given un équipement est ajouté dans le parcours de restitution
+Then il apparaît dans le Return Summary
+And une croix de suppression est visible sur la ligne de l’équipement
+
+⸻
+
+Ouverture de la modale
+
+Given je clique sur la croix de suppression d’un équipement
+Then une modale de confirmation s’affiche
+
+⸻
+
+Annulation
+
+Given la modale est affichée
+When je clique sur Cancel
+Then la modale se ferme
+And l’équipement reste dans le summary
+
+⸻
+
+Confirmation
+
+Given la modale est affichée
+When je clique sur Remove
+Then l’équipement est supprimé du summary
+And la liste est mise à jour immédiatement
+
+⸻
+
+Cas avec plusieurs équipements
+
+Given plusieurs équipements sont présents dans le summary
+When je supprime l’un d’eux
+Then seuls les équipements restants restent affichés
+
+⸻
+
+Règles métier
+	•	La suppression est possible tant que la restitution n’est pas finalisée.
+	•	La suppression ne doit pas impacter les autres équipements ajoutés.
+	•	La suppression ne déclenche aucune action CMDB (car la restitution n’est pas encore validée).
+
+⸻
+
+Définition of Done
+	•	icône de suppression visible pour chaque équipement
+	•	modale de confirmation fonctionnelle
+	•	suppression effective de l’élément
+	•	mise à jour immédiate du summary
+	•	comportement testé avec :
+	•	scan
+	•	ajout manuel
+	•	recherche HM
+
+⸻
+
+💡 Suggestion UX (qui marche très bien sur ce type d’écran)
+Plutôt qu’une croix seule, utiliser :
+	•	🗑️ icône poubelle
+	•	ou croix hover (visible au survol)
+
+car cela évite les suppressions accidentelles.
+
+⸻
+
+Si tu veux, je peux aussi t’aider à écrire les 5–6 US essentielles du parcours complet de restitution matériel (ce que fait un très bon PO avant dev).
+Ça t’aidera énormément pour structurer ton prochain sprint et ton backlog.
