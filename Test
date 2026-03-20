@@ -1,26 +1,106 @@
-Parfait — voici un pitch oral fluide (≈45–60 secondes), calibré pour un comité : clair, structuré, impactant 👇
+Parfait — voici la version finale avec OPAL en majuscules 👇
 
 ⸻
 
-🎤 Pitch
+User Story — Vérification d’éligibilité catalogue via remontée hiérarchique OPAL
 
-“On this slide, I’d like to share our upcoming roadmap on hardware traceability.
+Titre
+Déterminer l’éligibilité catalogue d’un asset en remontant l’arborescence OPAL
 
-Starting in April, we will launch a pilot for the hardware return workflow, with a full rollout to all counters in May. A detailed presentation and supporting documentation will be provided next month.
+En tant que
+technicien / système Le Comptoir
 
-The objective of this first use case is to standardize how hardware returns are handled: ensuring user signature, improving inventory accuracy, and reducing operational effort for support teams.
+Je veux
+qu’à partir du champ organisationnel récupéré depuis l’asset dans HAM (par exemple le owner OU, ou tout autre champ équivalent permettant d’identifier l’entité propriétaire du poste), l’application puisse remonter dans l’arborescence OPAL
 
-For users covered by the ITG Group Catalog, this will also bring automation benefits — with requests created instead of incidents, and automatic updates of HLM.
-
-In addition, all return activities processed at counters will now be captured and consolidated in Power BI, giving us full visibility and enabling data-driven analysis.
-
-This is only the first step. We will progressively extend this capability to cover other key use cases:
-hardware assignment on request in June, replacement in case of incident in July, and onboarding equipment in September.
-
-Overall, the ambition is to build a fully traceable, standardized, and data-driven hardware lifecycle across all counters.”
+Afin de
+déterminer si l’asset appartient à une entité éligible à la création de requests, même lorsque la valeur récupérée ne correspond pas directement au niveau de référence présent dans la liste SharePoint des entités membres du catalogue groupe.
 
 ⸻
 
-Si tu veux, je peux te faire :
-	•	une version ultra courte (30 sec)
-	•	ou une version avec punchlines + pauses pour impact comité 🎯
+Contexte
+
+Lorsqu’un asset est détecté dans HAM, Le Comptoir récupère une information organisationnelle permettant d’identifier l’entité propriétaire du matériel.
+Cette information est ensuite utilisée pour savoir si l’utilisateur / le matériel relève d’une entité couverte par le catalogue groupe, et donc si l’application doit créer une request plutôt qu’un autre type de ticket.
+
+Le problème constaté est que la valeur récupérée depuis HAM (ex. owner OU) ne correspond pas toujours exactement à une valeur présente dans la liste SharePoint de référence.
+En effet, l’OU récupérée peut se situer à un niveau plus fin ou différent dans l’arborescence organisationnelle, alors que la liste SharePoint contient parfois un niveau parent.
+
+Il est donc nécessaire que l’application soit capable de remonter la hiérarchie OPAL afin de rechercher si l’un des parents de l’entité récupérée figure dans la liste des entités éligibles.
+
+⸻
+
+Description fonctionnelle
+
+Lorsque Le Comptoir récupère depuis HAM le champ organisationnel d’un asset :
+	1.	l’application identifie l’entité correspondante dans l’arborescence OPAL ;
+	2.	elle vérifie si cette entité est présente dans la liste SharePoint des entités éligibles au catalogue groupe ;
+	3.	si ce n’est pas le cas, elle remonte successivement aux niveaux parents dans l’arborescence OPAL ;
+	4.	à chaque niveau, elle vérifie si le parent est présent dans la liste SharePoint ;
+	5.	dès qu’un parent correspondant est trouvé, l’entité est considérée comme éligible ;
+	6.	si aucun niveau parent ne correspond, l’entité est considérée comme non éligible.
+
+⸻
+
+Règles de gestion
+	•	Le point d’entrée de la vérification est la valeur organisationnelle récupérée depuis HAM pour l’asset.
+	•	La comparaison ne doit pas se limiter à une égalité stricte sur le niveau exact retourné par HAM.
+	•	La recherche doit inclure l’ensemble des parents disponibles dans l’arborescence OPAL, jusqu’au plus haut niveau pertinent défini par le référentiel.
+	•	La première correspondance trouvée dans la hiérarchie suffit à déclarer l’entité éligible.
+	•	En absence de correspondance, l’entité doit être considérée comme non membre du catalogue groupe.
+	•	Le résultat de cette vérification doit être exploitable par la logique de création de ticket pour orienter le flux vers la création d’une request lorsque l’entité est couverte.
+
+⸻
+
+Critères d’acceptation
+
+Cas nominal — correspondance directe
+
+Étant donné qu’un asset récupéré dans HAM contient un owner OU
+Et que cette valeur existe directement dans la liste SharePoint des entités éligibles
+Quand l’application contrôle l’éligibilité catalogue
+Alors l’entité est considérée comme éligible
+Et le workflow peut autoriser la création d’une request.
+
+⸻
+
+Cas avec correspondance sur un parent
+
+Étant donné qu’un asset récupéré dans HAM contient un owner OU
+Et que cette valeur n’existe pas directement dans la liste SharePoint
+Mais qu’un de ses parents dans l’arborescence OPAL est présent dans cette liste
+Quand l’application remonte la hiérarchie
+Alors l’entité est considérée comme éligible
+Et le workflow peut autoriser la création d’une request.
+
+⸻
+
+Cas non éligible
+
+Étant donné qu’un asset récupéré dans HAM contient un owner OU
+Et que ni cette valeur ni aucun de ses parents dans l’arborescence OPAL ne sont présents dans la liste SharePoint
+Quand l’application contrôle l’éligibilité
+Alors l’entité est considérée comme non éligible
+Et le workflow request ne doit pas être déclenché sur cette base.
+
+⸻
+
+Cas de robustesse — valeur organisationnelle absente ou inexploitable
+
+Étant donné qu’aucune valeur organisationnelle exploitable n’est retournée par HAM pour l’asset
+Quand l’application tente d’évaluer l’éligibilité catalogue
+Alors elle ne doit pas bloquer le parcours
+Et elle doit considérer le résultat comme indéterminé ou non éligible selon la règle définie
+Et journaliser l’anomalie pour analyse.
+
+⸻
+
+Valeur métier
+	•	Fiabiliser la détection des entités couvertes par le catalogue groupe.
+	•	Éviter les erreurs de qualification dues à des écarts de granularité entre HAM, OPAL et SharePoint.
+	•	Garantir le bon déclenchement du bon type de ticket.
+	•	Réduire les traitements manuels et les exceptions opérationnelles pour les équipes comptoir.
+
+⸻
+
+Si tu veux, prochaine étape logique 👉 je peux te générer le pseudo-code (très concret pour les devs) ou la structure technique (API + logique de matching + cache).
