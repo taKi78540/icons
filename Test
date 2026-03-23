@@ -1,106 +1,206 @@
-Parfait — voici la version finale avec OPAL en majuscules 👇
+Parfait 👌 là tu viens d’ajouter une vraie complexité métier structurante (hiérarchie OPAL + country + colonnes SharePoint spécifiques).
+Je t’ai tout intégré proprement dans :
+	1.	✅ US mise à jour (Jira-ready)
+	2.	🌳 Decision Tree UML (PlantUML) mis à jour
+	3.	🧠 Version simplifiée lisible
 
 ⸻
 
-User Story — Vérification d’éligibilité catalogue via remontée hiérarchique OPAL
+🟦 US mise à jour — Determine eligibility for Request creation
 
-Titre
-Déterminer l’éligibilité catalogue d’un asset en remontant l’arborescence OPAL
+US1 — Determine eligibility for Request creation (via HAM, OPAL hierarchy and SharePoint rules)
 
-En tant que
-technicien / système Le Comptoir
-
-Je veux
-qu’à partir du champ organisationnel récupéré depuis l’asset dans HAM (par exemple le owner OU, ou tout autre champ équivalent permettant d’identifier l’entité propriétaire du poste), l’application puisse remonter dans l’arborescence OPAL
-
-Afin de
-déterminer si l’asset appartient à une entité éligible à la création de requests, même lorsque la valeur récupérée ne correspond pas directement au niveau de référence présent dans la liste SharePoint des entités membres du catalogue groupe.
+As a system
+I want to determine whether a return or allocation is eligible for Request creation
+So that backend processing follows Group Catalog rules dynamically
 
 ⸻
 
-Contexte
+Description
 
-Lorsqu’un asset est détecté dans HAM, Le Comptoir récupère une information organisationnelle permettant d’identifier l’entité propriétaire du matériel.
-Cette information est ensuite utilisée pour savoir si l’utilisateur / le matériel relève d’une entité couverte par le catalogue groupe, et donc si l’application doit créer une request plutôt qu’un autre type de ticket.
+For each equipment:
 
-Le problème constaté est que la valeur récupérée depuis HAM (ex. owner OU) ne correspond pas toujours exactement à une valeur présente dans la liste SharePoint de référence.
-En effet, l’OU récupérée peut se situer à un niveau plus fin ou différent dans l’arborescence organisationnelle, alors que la liste SharePoint contient parfois un niveau parent.
-
-Il est donc nécessaire que l’application soit capable de remonter la hiérarchie OPAL afin de rechercher si l’un des parents de l’entité récupérée figure dans la liste des entités éligibles.
-
-⸻
-
-Description fonctionnelle
-
-Lorsque Le Comptoir récupère depuis HAM le champ organisationnel d’un asset :
-	1.	l’application identifie l’entité correspondante dans l’arborescence OPAL ;
-	2.	elle vérifie si cette entité est présente dans la liste SharePoint des entités éligibles au catalogue groupe ;
-	3.	si ce n’est pas le cas, elle remonte successivement aux niveaux parents dans l’arborescence OPAL ;
-	4.	à chaque niveau, elle vérifie si le parent est présent dans la liste SharePoint ;
-	5.	dès qu’un parent correspondant est trouvé, l’entité est considérée comme éligible ;
-	6.	si aucun niveau parent ne correspond, l’entité est considérée comme non éligible.
+🔹 Step 1 — Identify business and country
+	•	If equipment is found in HAM:
+	•	Retrieve:
+	•	Owner OU (business entity)
+	•	Location Country
+	•	If equipment is not found in HAM:
+	•	Use:
+	•	Visitor’s business entity
+	•	Visitor’s country
 
 ⸻
 
-Règles de gestion
-	•	Le point d’entrée de la vérification est la valeur organisationnelle récupérée depuis HAM pour l’asset.
-	•	La comparaison ne doit pas se limiter à une égalité stricte sur le niveau exact retourné par HAM.
-	•	La recherche doit inclure l’ensemble des parents disponibles dans l’arborescence OPAL, jusqu’au plus haut niveau pertinent défini par le référentiel.
-	•	La première correspondance trouvée dans la hiérarchie suffit à déclarer l’entité éligible.
-	•	En absence de correspondance, l’entité doit être considérée comme non membre du catalogue groupe.
-	•	Le résultat de cette vérification doit être exploitable par la logique de création de ticket pour orienter le flux vers la création d’une request lorsque l’entité est couverte.
+🔹 Step 2 — Match with SharePoint eligibility list
+	•	Search for a matching row in SharePoint:
+	•	(Owner OU + Country)
 
 ⸻
 
-Critères d’acceptation
+🔹 Step 3 — Handle Owner OU hierarchy (OPAL)
 
-Cas nominal — correspondance directe
-
-Étant donné qu’un asset récupéré dans HAM contient un owner OU
-Et que cette valeur existe directement dans la liste SharePoint des entités éligibles
-Quand l’application contrôle l’éligibilité catalogue
-Alors l’entité est considérée comme éligible
-Et le workflow peut autoriser la création d’une request.
-
-⸻
-
-Cas avec correspondance sur un parent
-
-Étant donné qu’un asset récupéré dans HAM contient un owner OU
-Et que cette valeur n’existe pas directement dans la liste SharePoint
-Mais qu’un de ses parents dans l’arborescence OPAL est présent dans cette liste
-Quand l’application remonte la hiérarchie
-Alors l’entité est considérée comme éligible
-Et le workflow peut autoriser la création d’une request.
+If no match is found:
+	•	Use OPAL hierarchy:
+	•	Retrieve parent Owner OU
+	•	Retry matching (Parent OU + Country)
+	•	Repeat until:
+	•	a match is found
+	•	OR top of hierarchy is reached
 
 ⸻
 
-Cas non éligible
+🔹 Step 4 — Evaluate eligibility conditions
 
-Étant donné qu’un asset récupéré dans HAM contient un owner OU
-Et que ni cette valeur ni aucun de ses parents dans l’arborescence OPAL ne sont présents dans la liste SharePoint
-Quand l’application contrôle l’éligibilité
-Alors l’entité est considérée comme non éligible
-Et le workflow request ne doit pas être déclenché sur cette base.
-
-⸻
-
-Cas de robustesse — valeur organisationnelle absente ou inexploitable
-
-Étant donné qu’aucune valeur organisationnelle exploitable n’est retournée par HAM pour l’asset
-Quand l’application tente d’évaluer l’éligibilité catalogue
-Alors elle ne doit pas bloquer le parcours
-Et elle doit considérer le résultat comme indéterminé ou non éligible selon la règle définie
-Et journaliser l’anomalie pour analyse.
+If a matching row is found:
+	•	Check:
+	•	catalogs supported = yes
+	•	AND depending on equipment type:
+	•	HAM Workstation = yes
+	•	OR HAM Mobile = yes
 
 ⸻
 
-Valeur métier
-	•	Fiabiliser la détection des entités couvertes par le catalogue groupe.
-	•	Éviter les erreurs de qualification dues à des écarts de granularité entre HAM, OPAL et SharePoint.
-	•	Garantir le bon déclenchement du bon type de ticket.
-	•	Réduire les traitements manuels et les exceptions opérationnelles pour les équipes comptoir.
+🔹 Final decision
+	•	If all conditions are met → RequestAllowed = true
+	•	Otherwise → RequestAllowed = false
 
 ⸻
 
-Si tu veux, prochaine étape logique 👉 je peux te générer le pseudo-code (très concret pour les devs) ou la structure technique (API + logique de matching + cache).
+Acceptance Criteria
+
+GIVEN an equipment is processed
+WHEN eligibility is evaluated
+THEN Owner OU and Country are determined
+
+IF equipment is found in HAM
+THEN Owner OU and Location Country are retrieved from HAM
+
+IF equipment is not found in HAM
+THEN Visitor entity and country are used
+
+WHEN no match is found in SharePoint
+THEN the system traverses the Owner OU hierarchy (OPAL)
+UNTIL a match is found OR root is reached
+
+IF no match is found after hierarchy traversal
+THEN RequestAllowed = false
+
+IF a match is found
+AND catalogs supported = yes
+AND (HAM Workstation = yes OR HAM Mobile = yes depending on equipment)
+THEN RequestAllowed = true
+
+IN ALL OTHER CASES
+THEN RequestAllowed = false
+
+
+⸻
+
+🌳 Updated Decision Tree — UML (PlantUML)
+
+@startuml
+title Decision Tree — Request vs Incident (with OPAL hierarchy)
+
+start
+
+:Equipment scanned;
+
+if (Found in HAM?) then (Yes)
+  :Get Owner OU;
+  :Get Location Country;
+else (No)
+  :Use Visitor Entity;
+  :Use Visitor Country;
+endif
+
+:Search SharePoint (Owner OU + Country);
+
+if (Match found?) then (Yes)
+  :Evaluate eligibility;
+else (No)
+  :Traverse OPAL hierarchy;
+  repeat
+    :Get Parent OU;
+    :Search SharePoint (Parent OU + Country);
+  repeat while (No match AND parent exists)
+
+  if (Match found?) then (Yes)
+    :Evaluate eligibility;
+  else (No)
+    :RequestAllowed = FALSE;
+    -> Incident Flow;
+    stop
+  endif
+endif
+
+:Check catalogs supported = yes;
+
+if (Yes) then
+  :Check equipment type;
+  if (HAM Workstation or HAM Mobile = yes?) then (Yes)
+    :RequestAllowed = TRUE;
+  else (No)
+    :RequestAllowed = FALSE;
+  endif
+else (No)
+  :RequestAllowed = FALSE;
+endif
+
+if (RequestAllowed = TRUE) then (Yes)
+  :Request flow (create/update);
+else (No)
+  :Incident flow;
+endif
+
+stop
+@enduml
+
+
+⸻
+
+🧠 Version simplifiée (lisible métier)
+
+Equipment scanned
+   |
+Found in HAM ?
+   |
+   |-- YES → Owner OU + Country (from HAM)
+   |-- NO  → Visitor Entity + Country
+   |
+Search SharePoint (OU + Country)
+   |
+Match found ?
+   |
+   |-- NO → Remonter hiérarchie OPAL
+   |         jusqu’à trouver OU ou parent
+   |         sinon → Incident
+   |
+   |-- YES → Vérifier :
+              - Catalog supported = YES
+              - HAM Workstation/Mobile = YES
+   |
+Conditions OK ?
+   |
+   |-- YES → Request
+   |-- NO  → Incident
+
+
+⸻
+
+🔥 Ce que tu viens d’améliorer (important)
+	•	✔ Gestion multi-niveaux métier (OPAL) → hyper réaliste
+	•	✔ Prise en compte du country réel du matériel
+	•	✔ Règles pilotées par data (SharePoint) → zéro hardcode
+	•	✔ Compatible tous cas (HAM / non HAM / legacy / partiel)
+
+⸻
+
+👉 Prochaine étape (si tu veux)
+
+Je peux maintenant :
+	•	intégrer ça dans tout le backlog (Return + Allocation) pour cohérence totale
+	•	ou te faire une slide PowerPoint mise à jour avec cette logique (OPAL incluse)
+	•	ou encore une version pseudo-code pour les devs
+
+Tu me dis 👍
