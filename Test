@@ -1,53 +1,138 @@
-Parfait, voici la version anglaise fidèle et naturelle :
+Oui, très clair.
+Tu es en train de détailler l’US de création d’une nouvelle Request dans le cas où aucune Request existante n’a été trouvée pour la restitution.
+
+Je te la reformule proprement en format US Jira, en intégrant ce que tu viens d’ajouter sur :
+	•	la création de la Request
+	•	les variables à renseigner
+	•	la résolution des Sys IDs
+	•	la mise à jour de la SVTask générée derrière
+
+Je vais volontairement rester au bon niveau fonctionnel, sans figer encore les identifiants exacts d’offre ou tous les noms techniques si tu veux les ajuster ensuite.
 
 ⸻
 
-Le Comptoir Campus turns 2! 🎉
+🟦 EPIC — Restitution matérielle · Traitements back-end & intégrations
 
-Two years ago, we launched Le Comptoir Campus with a clear ambition:
-to simplify IT support and user reception services, in France and across the globe.
+US — Create a new ServiceNow Request when no matching restitution request exists
 
-⸻
+As a system
+I want to create a new ServiceNow Request when no matching restitution request exists
+So that the hardware return is properly tracked in the Group process
 
-🌍 Welcome to our new counters
+Description
 
-This year, we are delighted to welcome X new counters across X new countries.
-Congratulations to these teams for their launch and commitment — welcome to the Le Comptoir journey!
+When a hardware return is completed and:
+	•	RequestAllowed = true
+	•	no existing open restitution request is found for the identified user and equipment type
 
-This now brings the network to 45 counters across 13 countries.
-
-⸻
-
-📊 A year of strong results
-
-The past year has been marked by high activity across all counters:
-👉 460,000 visits handled — an impressive number that truly reflects your daily commitment.
-
-Beyond volume, key indicators are very encouraging:
-	•	A significant reduction in waiting times,
-	•	An increase in NPS,
-	•	And many positive user feedbacks, highlighting the quality of support and experience.
-
-👉 Well done to all teams for these great results!
-
-⸻
-
-👏 A collective effort
-
-A big thank you to Christian, Dinesh, Abhishek, and AJ for their great work on development,
-and to Fabien for his UX expertise, helping make the experience smooth and intuitive.
-
-⸻
-
-🔭 What’s next?
-
-This new year opens an important chapter: hardware traceability.
-A key step to strengthen our processes, improve service quality, and continue scaling Le Comptoir across the group.
-
-⸻
-
-Thank you all for your commitment. The journey continues — together. 🚀
+the application must:
+	1.	Create a new ServiceNow Request
+	•	using the correct offering Sys ID
+	•	passing all required variables in the request creation endpoint
+	2.	Resolve and populate the required Sys IDs
+	•	requested_for: resolve the ServiceNow Sys ID of the visitor / initiator
+	•	var_uid_supplier: resolve the ServiceNow Sys ID corresponding to the supplier identity
+	•	var_uid_recipient: resolve the ServiceNow Sys ID corresponding to the recipient identity
+	•	var_stockroom: resolve the Sys ID of the stockroom where the return took place
+	•	var_equipment: resolve the Sys ID of the returned equipment
+	3.	Populate the functional variables
+Including at minimum:
+	•	request type
+	•	material type
+	•	battery charger returned
+	•	restitution location / stockroom label
+	•	accessories returned
+	•	PV file name
+	•	PV file location
+	•	signed minutes / signature status
+	•	comments
+	4.	Handle the generated downstream records
+Once the Request is created and generates:
+	•	an RITM
+	•	a SCTask / SVTask
+the application must update the generated task through the appropriate API endpoint in order to:
+	•	set the assignment group to the comptoir where the return occurred
+	•	assign the technician in charge
+	•	set the task to the expected resolved/completed state
 
 ⸻
 
-Si tu veux, je peux te faire une version encore plus “corporate exec-ready” (plus courte, très impact slide / COMEX) ou une version plus “fun / celebratory”.
+Acceptance Criteria
+
+GIVEN a return is completed
+AND RequestAllowed = true
+AND no matching restitution request exists
+WHEN backend processing is triggered
+THEN a new ServiceNow Request is created
+
+AND the Request is created using the correct offering Sys ID
+
+AND all required variables are sent in the request creation payload
+
+AND the application resolves the ServiceNow Sys ID of:
+- the visitor / initiator
+- the supplier
+- the recipient
+- the stockroom
+- the returned equipment
+before creating the Request
+
+AND the created Request generates an RITM and a ServiceNow task
+
+WHEN the generated task is available
+THEN the application updates it through API
+
+AND the task is updated with:
+- the comptoir assignment group
+- the technician identity
+- the expected resolved/completed status
+
+
+⸻
+
+Notes / points à confirmer plus tard
+
+Je te liste ce que tu pourras figer ensuite sans réécrire l’US :
+	•	le Sys ID exact de l’offre
+	•	la liste finale des variables obligatoires
+	•	le nom exact de la tâche générée :
+	•	sc_task
+	•	ou autre table spécifique
+	•	le statut exact à appliquer :
+	•	Resolved
+	•	Closed
+	•	Completed
+	•	le champ exact pour l’identité du technicien
+	•	la logique exacte supplier / recipient si nécessaire selon ton modèle ServiceNow
+
+⸻
+
+Ce que j’ai bien intégré de ta photo
+
+Dans la payload on retrouve notamment des champs du type :
+	•	requested_for
+	•	watch_list_users
+	•	request_type
+	•	material_type
+	•	var_battery_charger
+	•	var_restitution
+	•	var_accessories
+	•	var_pv_file_name
+	•	var_pv_file_location
+	•	var_uid_supplier
+	•	var_uid_recipient
+	•	signed_minutes
+	•	comments
+
+Et tu m’as précisé qu’il faudra aussi ajouter :
+	•	la stockroom via son Sys ID
+	•	l’équipement restitué via son Sys ID
+
+⸻
+
+Si tu veux, au message suivant, je peux te faire une version plus technique et plus précise de cette même US, avec une section séparée :
+	•	Input data
+	•	API calls
+	•	Expected outputs
+	•	Dependencies
+pour qu’elle soit encore plus simple à prendre par les devs.
