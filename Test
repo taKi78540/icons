@@ -1,138 +1,180 @@
-Oui, très clair.
-Tu es en train de détailler l’US de création d’une nouvelle Request dans le cas où aucune Request existante n’a été trouvée pour la restitution.
+Parfait, tu es exactement sur la bonne approche 👍
+Dans un CVSIT, ta partie est clé : c’est elle qui permet à la Sécurité IT de comprendre le produit, avant même de juger la technique.
 
-Je te la reformule proprement en format US Jira, en intégrant ce que tu viens d’ajouter sur :
-	•	la création de la Request
-	•	les variables à renseigner
-	•	la résolution des Sys IDs
-	•	la mise à jour de la SVTask générée derrière
-
-Je vais volontairement rester au bon niveau fonctionnel, sans figer encore les identifiants exacts d’offre ou tous les noms techniques si tu veux les ajuster ensuite.
+Je te propose directement une version propre, structurée et prête à intégrer dans ton CVSIT pour Le Comptoir Campus.
 
 ⸻
 
-🟦 EPIC — Restitution matérielle · Traitements back-end & intégrations
+🧾 CVSIT – Partie Fonctionnelle
 
-US — Create a new ServiceNow Request when no matching restitution request exists
-
-As a system
-I want to create a new ServiceNow Request when no matching restitution request exists
-So that the hardware return is properly tracked in the Group process
-
-Description
-
-When a hardware return is completed and:
-	•	RequestAllowed = true
-	•	no existing open restitution request is found for the identified user and equipment type
-
-the application must:
-	1.	Create a new ServiceNow Request
-	•	using the correct offering Sys ID
-	•	passing all required variables in the request creation endpoint
-	2.	Resolve and populate the required Sys IDs
-	•	requested_for: resolve the ServiceNow Sys ID of the visitor / initiator
-	•	var_uid_supplier: resolve the ServiceNow Sys ID corresponding to the supplier identity
-	•	var_uid_recipient: resolve the ServiceNow Sys ID corresponding to the recipient identity
-	•	var_stockroom: resolve the Sys ID of the stockroom where the return took place
-	•	var_equipment: resolve the Sys ID of the returned equipment
-	3.	Populate the functional variables
-Including at minimum:
-	•	request type
-	•	material type
-	•	battery charger returned
-	•	restitution location / stockroom label
-	•	accessories returned
-	•	PV file name
-	•	PV file location
-	•	signed minutes / signature status
-	•	comments
-	4.	Handle the generated downstream records
-Once the Request is created and generates:
-	•	an RITM
-	•	a SCTask / SVTask
-the application must update the generated task through the appropriate API endpoint in order to:
-	•	set the assignment group to the comptoir where the return occurred
-	•	assign the technician in charge
-	•	set the task to the expected resolved/completed state
+Le Comptoir Campus
 
 ⸻
 
-Acceptance Criteria
+1. 🎯 Contexte et objectif du produit
 
-GIVEN a return is completed
-AND RequestAllowed = true
-AND no matching restitution request exists
-WHEN backend processing is triggered
-THEN a new ServiceNow Request is created
+Le Comptoir Campus est une application de support IT de proximité déployée au sein des entités de l’entreprise, permettant d’accueillir les collaborateurs sur des points de service physiques appelés “Comptoirs”.
 
-AND the Request is created using the correct offering Sys ID
+L’objectif principal est de :
+	•	Faciliter la prise en charge des utilisateurs en présentiel
+	•	Structurer et fluidifier les interactions entre utilisateurs et support IT
+	•	Améliorer la traçabilité des interventions et des équipements
+	•	Réduire les temps d’attente et améliorer l’expérience utilisateur
 
-AND all required variables are sent in the request creation payload
-
-AND the application resolves the ServiceNow Sys ID of:
-- the visitor / initiator
-- the supplier
-- the recipient
-- the stockroom
-- the returned equipment
-before creating the Request
-
-AND the created Request generates an RITM and a ServiceNow task
-
-WHEN the generated task is available
-THEN the application updates it through API
-
-AND the task is updated with:
-- the comptoir assignment group
-- the technician identity
-- the expected resolved/completed status
-
+L’application s’inscrit dans une démarche globale de modernisation du support IT et de digitalisation des processus opérationnels.
 
 ⸻
 
-Notes / points à confirmer plus tard
+2. 🌍 Périmètre et déploiement
 
-Je te liste ce que tu pourras figer ensuite sans réécrire l’US :
-	•	le Sys ID exact de l’offre
-	•	la liste finale des variables obligatoires
-	•	le nom exact de la tâche générée :
-	•	sc_task
-	•	ou autre table spécifique
-	•	le statut exact à appliquer :
-	•	Resolved
-	•	Closed
-	•	Completed
-	•	le champ exact pour l’identité du technicien
-	•	la logique exacte supplier / recipient si nécessaire selon ton modèle ServiceNow
+Le Comptoir Campus est actuellement déployé :
+	•	Dans plusieurs pays
+	•	Sur plusieurs dizaines de comptoirs physiques
+	•	Avec un volume annuel de plusieurs centaines de milliers de visites
+
+Chaque comptoir est équipé de :
+	•	Tablettes d’accueil (iPad ou PC)
+	•	Interfaces pour les techniciens (“coachs”)
+	•	Éventuellement des écrans d’affichage (type Apple TV)
 
 ⸻
 
-Ce que j’ai bien intégré de ta photo
+3. 👥 Acteurs et utilisateurs
 
-Dans la payload on retrouve notamment des champs du type :
-	•	requested_for
-	•	watch_list_users
-	•	request_type
-	•	material_type
-	•	var_battery_charger
-	•	var_restitution
-	•	var_accessories
-	•	var_pv_file_name
-	•	var_pv_file_location
-	•	var_uid_supplier
-	•	var_uid_recipient
-	•	signed_minutes
-	•	comments
+🔹 Visiteurs (collaborateurs)
+	•	Employés venant au comptoir pour :
+	•	Déclarer un incident
+	•	Récupérer ou restituer du matériel
+	•	Demander une information ou assistance
 
-Et tu m’as précisé qu’il faudra aussi ajouter :
-	•	la stockroom via son Sys ID
-	•	l’équipement restitué via son Sys ID
+🔹 Coachs (techniciens IT)
+	•	Assurent la prise en charge des visiteurs
+	•	Gèrent les demandes et les équipements
+	•	Utilisent l’application pour :
+	•	Créer ou compléter des tickets
+	•	Suivre les interactions
+	•	Piloter les files d’attente
+
+🔹 Managers de comptoir
+	•	Supervisent l’activité du comptoir
+	•	Gèrent les configurations (droits, stockrooms, etc.)
+	•	Suivent les indicateurs de performance
+
+🔹 Équipes centrales IT / Produit
+	•	Maintiennent et font évoluer l’application
+	•	Analysent les données (Power BI)
+	•	Assurent la cohérence avec les outils du SI (ServiceNow, HAM…)
 
 ⸻
 
-Si tu veux, au message suivant, je peux te faire une version plus technique et plus précise de cette même US, avec une section séparée :
-	•	Input data
-	•	API calls
-	•	Expected outputs
-	•	Dependencies
-pour qu’elle soit encore plus simple à prendre par les devs.
+4. ⚙️ Fonctionnalités principales
+
+🔹 Accueil et gestion des visiteurs
+	•	Enregistrement des visiteurs via tablette d’accueil
+	•	Identification de la demande
+	•	Mise en file d’attente dynamique
+
+🔹 Gestion des tickets
+	•	Création automatique de tickets dans ServiceNow
+	•	Pré-remplissage des informations
+	•	Mise à jour des demandes existantes
+
+🔹 Gestion du matériel
+	•	Identification des équipements liés à un utilisateur
+	•	Suivi des mouvements de matériel
+
+🔹 Traçabilité des échanges de matériel (fonction clé)
+	•	Enregistrement des remises et restitutions
+	•	Signature électronique obligatoire
+	•	Génération de preuve de transfert (PV)
+	•	Mise à jour automatique des référentiels (CMDB / HAM)
+
+🔹 Parcours guidés
+	•	Scénarios adaptés selon le type de demande :
+	•	Incident
+	•	Onboarding
+	•	Restitution
+	•	Échange de matériel
+
+🔹 Gestion des files d’attente
+	•	Suivi en temps réel
+	•	Optimisation de la répartition des coachs
+
+🔹 Reporting et pilotage
+	•	Analyse des visites
+	•	Temps d’attente
+	•	Performance des comptoirs
+	•	NPS et satisfaction utilisateur
+
+⸻
+
+5. 🔄 Processus métier couverts
+
+Le Comptoir Campus couvre plusieurs processus clés :
+	•	Support IT de proximité (incident / assistance)
+	•	Gestion des équipements (distribution, restitution, échange)
+	•	Onboarding / offboarding IT
+	•	Gestion de l’expérience utilisateur sur site
+
+⸻
+
+6. 📈 Valeur ajoutée
+
+Pour les utilisateurs
+	•	Réduction du temps d’attente
+	•	Expérience fluide et encadrée
+	•	Meilleure visibilité sur le traitement de leur demande
+
+Pour les équipes IT
+	•	Gain de temps opérationnel
+	•	Standardisation des प्रक्रेस
+	•	Meilleure qualité des données
+
+Pour l’entreprise
+	•	Amélioration de la traçabilité des équipements
+	•	Réduction des pertes et erreurs
+	•	Contribution aux objectifs de Sustainable IT (meilleure gestion du parc matériel)
+
+⸻
+
+7. 🔐 Enjeux liés à la sécurité (vision fonctionnelle)
+
+Le produit manipule :
+	•	Des données utilisateurs (identité, UID, interactions)
+	•	Des données liées aux équipements
+	•	Des signatures électroniques engageantes
+
+Les principaux enjeux sont :
+	•	Garantir la confidentialité des données
+	•	Assurer l’intégrité des échanges de matériel
+	•	Fournir une traçabilité fiable et auditable
+	•	Sécuriser les parcours utilisateurs
+
+⸻
+
+8. 🚀 Évolutions prévues
+	•	Renforcement de la traçabilité du matériel
+	•	Automatisation des processus IT (onboarding / offboarding)
+	•	Amélioration des parcours utilisateurs
+	•	Extension du déploiement à de nouveaux comptoirs
+	•	Intégration renforcée avec les outils du SI
+
+⸻
+
+💡 Ce que tu peux faire ensuite
+
+Si tu veux aller encore plus loin, je peux :
+
+👉 Te faire une version encore plus “corporate / COMEX”
+
+(très synthétique, impactante)
+
+👉 Ou une version “sécurité IT friendly”
+
+avec les bons mots-clés qui rassurent (très utile pour validation rapide)
+
+👉 Ou t’aider à compléter la partie technique avec les équipes
+
+(en leur donnant exactement ce qu’ils doivent remplir)
+
+Dis-moi 👍
