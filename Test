@@ -1,180 +1,183 @@
-Parfait, tu es exactement sur la bonne approche 👍
-Dans un CVSIT, ta partie est clé : c’est elle qui permet à la Sécurité IT de comprendre le produit, avant même de juger la technique.
-
-Je te propose directement une version propre, structurée et prête à intégrer dans ton CVSIT pour Le Comptoir Campus.
+Parfait, voici la version anglaise propre, prête pour Jira, alignée avec ton UX Access Rights 👇
 
 ⸻
 
-🧾 CVSIT – Partie Fonctionnelle
+US1 Manage stockrooms assigned to a comptoir
 
-Le Comptoir Campus
+As a
 
-⸻
+Comptoir Manager
 
-1. 🎯 Contexte et objectif du produit
+I want to
 
-Le Comptoir Campus est une application de support IT de proximité déployée au sein des entités de l’entreprise, permettant d’accueillir les collaborateurs sur des points de service physiques appelés “Comptoirs”.
+view, add and remove stockrooms assigned to my comptoir, and define a display name for each
 
-L’objectif principal est de :
-	•	Faciliter la prise en charge des utilisateurs en présentiel
-	•	Structurer et fluidifier les interactions entre utilisateurs et support IT
-	•	Améliorer la traçabilité des interventions et des équipements
-	•	Réduire les temps d’attente et améliorer l’expérience utilisateur
+So that
 
-L’application s’inscrit dans une démarche globale de modernisation du support IT et de digitalisation des processus opérationnels.
+technicians can use clear and simplified names while keeping the original stockroom reference
 
 ⸻
 
-2. 🌍 Périmètre et déploiement
+Description
 
-Le Comptoir Campus est actuellement déployé :
-	•	Dans plusieurs pays
-	•	Sur plusieurs dizaines de comptoirs physiques
-	•	Avec un volume annuel de plusieurs centaines de milliers de visites
+A new section “Stockrooms management” is available in the comptoir settings, following the same UX pattern as Access rights management.
 
-Chaque comptoir est équipé de :
-	•	Tablettes d’accueil (iPad ou PC)
-	•	Interfaces pour les techniciens (“coachs”)
-	•	Éventuellement des écrans d’affichage (type Apple TV)
+This section allows the manager to:
+	•	view all stockrooms assigned to the comptoir
+	•	add a stockroom via a search flow
+	•	define a display name at the time of addition
+	•	display both:
+	•	the display name (primary label)
+	•	the real stockroom name (secondary label)
+	•	remove a stockroom
 
-⸻
-
-3. 👥 Acteurs et utilisateurs
-
-🔹 Visiteurs (collaborateurs)
-	•	Employés venant au comptoir pour :
-	•	Déclarer un incident
-	•	Récupérer ou restituer du matériel
-	•	Demander une information ou assistance
-
-🔹 Coachs (techniciens IT)
-	•	Assurent la prise en charge des visiteurs
-	•	Gèrent les demandes et les équipements
-	•	Utilisent l’application pour :
-	•	Créer ou compléter des tickets
-	•	Suivre les interactions
-	•	Piloter les files d’attente
-
-🔹 Managers de comptoir
-	•	Supervisent l’activité du comptoir
-	•	Gèrent les configurations (droits, stockrooms, etc.)
-	•	Suivent les indicateurs de performance
-
-🔹 Équipes centrales IT / Produit
-	•	Maintiennent et font évoluer l’application
-	•	Analysent les données (Power BI)
-	•	Assurent la cohérence avec les outils du SI (ServiceNow, HAM…)
+The display name is a user-friendly label defined at comptoir level, while the real name remains the technical reference.
 
 ⸻
 
-4. ⚙️ Fonctionnalités principales
+UX Behavior
 
-🔹 Accueil et gestion des visiteurs
-	•	Enregistrement des visiteurs via tablette d’accueil
-	•	Identification de la demande
-	•	Mise en file d’attente dynamique
-
-🔹 Gestion des tickets
-	•	Création automatique de tickets dans ServiceNow
-	•	Pré-remplissage des informations
-	•	Mise à jour des demandes existantes
-
-🔹 Gestion du matériel
-	•	Identification des équipements liés à un utilisateur
-	•	Suivi des mouvements de matériel
-
-🔹 Traçabilité des échanges de matériel (fonction clé)
-	•	Enregistrement des remises et restitutions
-	•	Signature électronique obligatoire
-	•	Génération de preuve de transfert (PV)
-	•	Mise à jour automatique des référentiels (CMDB / HAM)
-
-🔹 Parcours guidés
-	•	Scénarios adaptés selon le type de demande :
-	•	Incident
-	•	Onboarding
-	•	Restitution
-	•	Échange de matériel
-
-🔹 Gestion des files d’attente
-	•	Suivi en temps réel
-	•	Optimisation de la répartition des coachs
-
-🔹 Reporting et pilotage
-	•	Analyse des visites
-	•	Temps d’attente
-	•	Performance des comptoirs
-	•	NPS et satisfaction utilisateur
+Main view (similar to Access rights management)
+	•	Card titled: Stockrooms management
+	•	List of assigned stockrooms
+	•	Each row displays:
+	•	Display name (main text)
+	•	Real stockroom name (secondary text)
+	•	Remove (X) action on the right
 
 ⸻
 
-5. 🔄 Processus métier couverts
+Add stockroom flow (modal)
 
-Le Comptoir Campus couvre plusieurs processus clés :
-	•	Support IT de proximité (incident / assistance)
-	•	Gestion des équipements (distribution, restitution, échange)
-	•	Onboarding / offboarding IT
-	•	Gestion de l’expérience utilisateur sur site
+Same pattern as “Add a viewer”:
 
-⸻
+Step 1 – Search
+	•	Input field:
+Enter stockroom name or ID
 
-6. 📈 Valeur ajoutée
+Step 2 – Select
+	•	Display matching stockrooms
+	•	User selects one
 
-Pour les utilisateurs
-	•	Réduction du temps d’attente
-	•	Expérience fluide et encadrée
-	•	Meilleure visibilité sur le traitement de leur demande
+Step 3 – Display name
+	•	Mandatory input:
+Enter display name
+	•	Pre-filled with real name (recommended)
 
-Pour les équipes IT
-	•	Gain de temps opérationnel
-	•	Standardisation des प्रक्रेस
-	•	Meilleure qualité des données
-
-Pour l’entreprise
-	•	Amélioration de la traçabilité des équipements
-	•	Réduction des pertes et erreurs
-	•	Contribution aux objectifs de Sustainable IT (meilleure gestion du parc matériel)
+Actions
+	•	Validate
+	•	Cancel
 
 ⸻
 
-7. 🔐 Enjeux liés à la sécurité (vision fonctionnelle)
-
-Le produit manipule :
-	•	Des données utilisateurs (identité, UID, interactions)
-	•	Des données liées aux équipements
-	•	Des signatures électroniques engageantes
-
-Les principaux enjeux sont :
-	•	Garantir la confidentialité des données
-	•	Assurer l’intégrité des échanges de matériel
-	•	Fournir une traçabilité fiable et auditable
-	•	Sécuriser les parcours utilisateurs
+Business Rules
+	•	A stockroom can only be assigned once per comptoir
+	•	The display name is mandatory
+	•	The real stockroom name is read-only and cannot be modified
+	•	The display name is defined at creation time
+	•	Only authorized managers can add or remove stockrooms
+	•	Removing a stockroom makes it immediately unavailable for technicians
 
 ⸻
 
-8. 🚀 Évolutions prévues
-	•	Renforcement de la traçabilité du matériel
-	•	Automatisation des processus IT (onboarding / offboarding)
-	•	Amélioration des parcours utilisateurs
-	•	Extension du déploiement à de nouveaux comptoirs
-	•	Intégration renforcée avec les outils du SI
+Acceptance Criteria
+
+AC1 View stockrooms
+
+Given I am a manager
+When I open the stockrooms section
+Then I see the list of assigned stockrooms
+And each row displays:
+	•	display name
+	•	real stockroom name
 
 ⸻
 
-💡 Ce que tu peux faire ensuite
+AC2 Empty state
 
-Si tu veux aller encore plus loin, je peux :
+Given no stockroom is assigned
+Then an empty state is displayed
+And an Add button is available
 
-👉 Te faire une version encore plus “corporate / COMEX”
+⸻
 
-(très synthétique, impactante)
+AC3 Open add flow
 
-👉 Ou une version “sécurité IT friendly”
+Given I click on Add stockroom
+Then a modal opens
+And I can search for a stockroom
 
-avec les bons mots-clés qui rassurent (très utile pour validation rapide)
+⸻
 
-👉 Ou t’aider à compléter la partie technique avec les équipes
+AC4 Search stockroom
 
-(en leur donnant exactement ce qu’ils doivent remplir)
+When I type in the search field
+Then matching stockrooms are displayed
 
-Dis-moi 👍
+⸻
+
+AC5 Select stockroom
+
+When I select a stockroom
+Then I can proceed to define a display name
+
+⸻
+
+AC6 Display name required
+
+When I validate the creation
+Then the display name is mandatory
+And an error is shown if empty
+
+⸻
+
+AC7 Add stockroom
+
+Given I selected a stockroom and defined a display name
+When I validate
+Then the stockroom is added
+And appears immediately in the list
+
+⸻
+
+AC8 Prevent duplicate
+
+Given the stockroom is already assigned
+When I try to add it again
+Then the action is blocked
+And a clear message is displayed
+
+⸻
+
+AC9 Remove stockroom
+
+When I click on the remove icon
+Then the stockroom is removed
+And disappears immediately from the list
+
+⸻
+
+AC10 Persistence
+
+When I reload the page
+Then the assigned stockrooms remain
+And their display names are preserved
+
+⸻
+
+AC11 Authorization
+
+Given I am not authorized
+Then I cannot add or remove stockrooms
+
+⸻
+
+Nice to have (UX recommendation)
+	•	Pre-fill display name with the real stockroom name
+	•	Allow simple naming for readability (e.g. “Paris IT” instead of technical name)
+
+⸻
+
+Si tu veux, je peux t’enchaîner direct avec :
+👉 la US backend (data model + API endpoints)
+👉 ou une US pour l’utilisation côté parcours technicien (sélection du stockroom)
