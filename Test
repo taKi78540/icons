@@ -1,183 +1,81 @@
-Parfait, voici la version anglaise propre, prête pour Jira, alignée avec ton UX Access Rights 👇
+@startuml
+title Return Backend Decision Flow — Full Logic with HAM / SharePoint / OPAL / PIRUS
 
-⸻
+start
 
-US1 Manage stockrooms assigned to a comptoir
+:Equipment scanned;
 
-As a
+if (Equipment found in HAM?) then (Yes)
+  :Retrieve Owner OU from HAM;
+  :Retrieve Location Country from HAM;
+else (No)
+  :Use Visitor Entity as fallback;
+  :Use Visitor Country as fallback;
+endif
 
-Comptoir Manager
+:Search SharePoint eligibility list\nusing (Owner OU + Country);
 
-I want to
+if (Match found in SharePoint?) then (Yes)
+else (No)
+  :Traverse OPAL hierarchy;
+  repeat
+    :Get parent Owner OU;
+    :Search SharePoint eligibility list\nusing (Parent OU + Country);
+  repeat while (No match found and parent exists)
 
-view, add and remove stockrooms assigned to my comptoir, and define a display name for each
+  if (Match found after OPAL traversal?) then (Yes)
+  else (No)
+    :RequestAllowed = FALSE;
+    :Create Incident;
+    :Fill Incident description\nwith all return details;
+    stop
+  endif
+endif
 
-So that
+if (catalogs supported = yes?) then (Yes)
+  if (HAM Workstation = yes\nor HAM Mobile = yes\naccording to equipment type?) then (Yes)
+    :RequestAllowed = TRUE;
+  else (No)
+    :RequestAllowed = FALSE;
+  endif
+else (No)
+  :RequestAllowed = FALSE;
+endif
 
-technicians can use clear and simplified names while keeping the original stockroom reference
+if (RequestAllowed = FALSE?) then (Yes)
+  :Create Incident;
+  :Fill Incident description\nwith all return details;
+  stop
+else (No)
+endif
 
-⸻
+:Retrieve HAM owner;
+:Determine equipment type;
+:Search open restitution RITMs\nfor HAM owner + equipment type;
 
-Description
+if (Matching RITM found?) then (Yes)
+  :Update existing Request/RITM\nwith return details;
+  stop
+else (No)
+endif
 
-A new section “Stockrooms management” is available in the comptoir settings, following the same UX pattern as Access rights management.
+:Query PIRUS for primary user;
 
-This section allows the manager to:
-	•	view all stockrooms assigned to the comptoir
-	•	add a stockroom via a search flow
-	•	define a display name at the time of addition
-	•	display both:
-	•	the display name (primary label)
-	•	the real stockroom name (secondary label)
-	•	remove a stockroom
+if (PIRUS primary user = HAM owner?) then (Yes)
+  :Create new blank Request;
+  :Complete new Request with return details;
+  stop
+else (No)
+  :Search open restitution RITMs\nfor PIRUS primary user + equipment type;
 
-The display name is a user-friendly label defined at comptoir level, while the real name remains the technical reference.
+  if (Matching RITM found?) then (Yes)
+    :Update existing Request/RITM\nwith return details;
+    stop
+  else (No)
+    :Create new blank Request;
+    :Complete new Request with return details;
+    stop
+  endif
+endif
 
-⸻
-
-UX Behavior
-
-Main view (similar to Access rights management)
-	•	Card titled: Stockrooms management
-	•	List of assigned stockrooms
-	•	Each row displays:
-	•	Display name (main text)
-	•	Real stockroom name (secondary text)
-	•	Remove (X) action on the right
-
-⸻
-
-Add stockroom flow (modal)
-
-Same pattern as “Add a viewer”:
-
-Step 1 – Search
-	•	Input field:
-Enter stockroom name or ID
-
-Step 2 – Select
-	•	Display matching stockrooms
-	•	User selects one
-
-Step 3 – Display name
-	•	Mandatory input:
-Enter display name
-	•	Pre-filled with real name (recommended)
-
-Actions
-	•	Validate
-	•	Cancel
-
-⸻
-
-Business Rules
-	•	A stockroom can only be assigned once per comptoir
-	•	The display name is mandatory
-	•	The real stockroom name is read-only and cannot be modified
-	•	The display name is defined at creation time
-	•	Only authorized managers can add or remove stockrooms
-	•	Removing a stockroom makes it immediately unavailable for technicians
-
-⸻
-
-Acceptance Criteria
-
-AC1 View stockrooms
-
-Given I am a manager
-When I open the stockrooms section
-Then I see the list of assigned stockrooms
-And each row displays:
-	•	display name
-	•	real stockroom name
-
-⸻
-
-AC2 Empty state
-
-Given no stockroom is assigned
-Then an empty state is displayed
-And an Add button is available
-
-⸻
-
-AC3 Open add flow
-
-Given I click on Add stockroom
-Then a modal opens
-And I can search for a stockroom
-
-⸻
-
-AC4 Search stockroom
-
-When I type in the search field
-Then matching stockrooms are displayed
-
-⸻
-
-AC5 Select stockroom
-
-When I select a stockroom
-Then I can proceed to define a display name
-
-⸻
-
-AC6 Display name required
-
-When I validate the creation
-Then the display name is mandatory
-And an error is shown if empty
-
-⸻
-
-AC7 Add stockroom
-
-Given I selected a stockroom and defined a display name
-When I validate
-Then the stockroom is added
-And appears immediately in the list
-
-⸻
-
-AC8 Prevent duplicate
-
-Given the stockroom is already assigned
-When I try to add it again
-Then the action is blocked
-And a clear message is displayed
-
-⸻
-
-AC9 Remove stockroom
-
-When I click on the remove icon
-Then the stockroom is removed
-And disappears immediately from the list
-
-⸻
-
-AC10 Persistence
-
-When I reload the page
-Then the assigned stockrooms remain
-And their display names are preserved
-
-⸻
-
-AC11 Authorization
-
-Given I am not authorized
-Then I cannot add or remove stockrooms
-
-⸻
-
-Nice to have (UX recommendation)
-	•	Pre-fill display name with the real stockroom name
-	•	Allow simple naming for readability (e.g. “Paris IT” instead of technical name)
-
-⸻
-
-Si tu veux, je peux t’enchaîner direct avec :
-👉 la US backend (data model + API endpoints)
-👉 ou une US pour l’utilisation côté parcours technicien (sélection du stockroom)
+@enduml
