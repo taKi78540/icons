@@ -1,81 +1,90 @@
-@startuml
-title Return Backend Decision Flow — Full Logic with HAM / SharePoint / OPAL / PIRUS
+Create a clean, modern illustrated slide presenting a dual journey for "Le Comptoir" application.
 
-start
+OBJECTIVE:
+Show a high-level, easy-to-understand flow of how the system works, with both the user journey (top) and the coach (technician) journey (bottom). The style should be visual, simple, and product-oriented (not too detailed, not too cartoonish).
 
-:Equipment scanned;
+LAYOUT:
+- Horizontal slide (16:9)
+- Two parallel flows:
+  → Top: USER JOURNEY
+  → Bottom: COACH JOURNEY
+- A central visual element representing "Le Comptoir Platform" connecting both journeys
+- Use arrows to show flow from left to right
+- Add a loop on the coach journey to show continuous processing of users
 
-if (Equipment found in HAM?) then (Yes)
-  :Retrieve Owner OU from HAM;
-  :Retrieve Location Country from HAM;
-else (No)
-  :Use Visitor Entity as fallback;
-  :Use Visitor Country as fallback;
-endif
+STYLE:
+- Modern product illustration style (inspired by SaaS / UX flows)
+- Minimalist characters or no characters (prefer UI-focused visuals)
+- Clean icons and soft illustrations
+- Use real UI inspiration (tablet, screen, dashboard, queue display)
+- Avoid overly cartoonish or marketing-style visuals
+- Keep it professional and credible for executive presentation
 
-:Search SharePoint eligibility list\nusing (Owner OU + Country);
+CONTENT:
 
-if (Match found in SharePoint?) then (Yes)
-else (No)
-  :Traverse OPAL hierarchy;
-  repeat
-    :Get parent Owner OU;
-    :Search SharePoint eligibility list\nusing (Parent OU + Country);
-  repeat while (No match found and parent exists)
+USER JOURNEY (Top):
+1. Check-in  
+User scans badge or identifies himself  
+Selects reason for visit  
 
-  if (Match found after OPAL traversal?) then (Yes)
-  else (No)
-    :RequestAllowed = FALSE;
-    :Create Incident;
-    :Fill Incident description\nwith all return details;
-    stop
-  endif
-endif
+2. Wait  
+User enters the queue  
+Follows status on screen  
 
-if (catalogs supported = yes?) then (Yes)
-  if (HAM Workstation = yes\nor HAM Mobile = yes\naccording to equipment type?) then (Yes)
-    :RequestAllowed = TRUE;
-  else (No)
-    :RequestAllowed = FALSE;
-  endif
-else (No)
-  :RequestAllowed = FALSE;
-endif
+3. Assistance  
+User is called by a coach  
+Interaction and support  
 
-if (RequestAllowed = FALSE?) then (Yes)
-  :Create Incident;
-  :Fill Incident description\nwith all return details;
-  stop
-else (No)
-endif
+4. Closure  
+User gives feedback  
+Visit is completed  
 
-:Retrieve HAM owner;
-:Determine equipment type;
-:Search open restitution RITMs\nfor HAM owner + equipment type;
+COACH JOURNEY (Bottom):
 
-if (Matching RITM found?) then (Yes)
-  :Update existing Request/RITM\nwith return details;
-  stop
-else (No)
-endif
+1. Availability  
+Coach is available  
+Monitors queue via interface  
 
-:Query PIRUS for primary user;
+2. Call next user  
+Coach clicks "Manage"  
+Next user is automatically called  
 
-if (PIRUS primary user = HAM owner?) then (Yes)
-  :Create new blank Request;
-  :Complete new Request with return details;
-  stop
-else (No)
-  :Search open restitution RITMs\nfor PIRUS primary user + equipment type;
+3. Interaction  
+Coach welcomes user  
+Confirms request  
 
-  if (Matching RITM found?) then (Yes)
-    :Update existing Request/RITM\nwith return details;
-    stop
-  else (No)
-    :Create new blank Request;
-    :Complete new Request with return details;
-    stop
-  endif
-endif
+4. Resolution  
+Coach performs intervention  
+Completes ServiceNow ticket  
 
-@enduml
+5. Closure  
+Ticket is closed  
+Coach returns to queue  
+
+LOGIC TO SHOW VISUALLY:
+- Continuous loop on coach side:
+  → If queue not empty → next user
+  → If empty → stay available
+
+VISUAL ELEMENTS TO INCLUDE:
+- Tablet (user check-in)
+- Queue / waiting screen (TV or display)
+- Coach interface (laptop/dashboard)
+- Subtle arrows showing system orchestration
+
+DESIGN SYSTEM:
+Apply the provided design system:
+- Colors
+- Typography
+- UI components
+- Visual identity of "Le Comptoir"
+
+TONE:
+- Professional
+- Clear
+- Product-driven
+- Executive-ready
+- Easy to understand in less than 30 seconds
+
+OUTPUT:
+A single slide, visually balanced, with strong hierarchy and clear storytelling.
