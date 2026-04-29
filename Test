@@ -1,90 +1,9 @@
-Create a clean, modern illustrated slide presenting a dual journey for "Le Comptoir" application.
-
-OBJECTIVE:
-Show a high-level, easy-to-understand flow of how the system works, with both the user journey (top) and the coach (technician) journey (bottom). The style should be visual, simple, and product-oriented (not too detailed, not too cartoonish).
-
-LAYOUT:
-- Horizontal slide (16:9)
-- Two parallel flows:
-  → Top: USER JOURNEY
-  → Bottom: COACH JOURNEY
-- A central visual element representing "Le Comptoir Platform" connecting both journeys
-- Use arrows to show flow from left to right
-- Add a loop on the coach journey to show continuous processing of users
-
-STYLE:
-- Modern product illustration style (inspired by SaaS / UX flows)
-- Minimalist characters or no characters (prefer UI-focused visuals)
-- Clean icons and soft illustrations
-- Use real UI inspiration (tablet, screen, dashboard, queue display)
-- Avoid overly cartoonish or marketing-style visuals
-- Keep it professional and credible for executive presentation
-
-CONTENT:
-
-USER JOURNEY (Top):
-1. Check-in  
-User scans badge or identifies himself  
-Selects reason for visit  
-
-2. Wait  
-User enters the queue  
-Follows status on screen  
-
-3. Assistance  
-User is called by a coach  
-Interaction and support  
-
-4. Closure  
-User gives feedback  
-Visit is completed  
-
-COACH JOURNEY (Bottom):
-
-1. Availability  
-Coach is available  
-Monitors queue via interface  
-
-2. Call next user  
-Coach clicks "Manage"  
-Next user is automatically called  
-
-3. Interaction  
-Coach welcomes user  
-Confirms request  
-
-4. Resolution  
-Coach performs intervention  
-Completes ServiceNow ticket  
-
-5. Closure  
-Ticket is closed  
-Coach returns to queue  
-
-LOGIC TO SHOW VISUALLY:
-- Continuous loop on coach side:
-  → If queue not empty → next user
-  → If empty → stay available
-
-VISUAL ELEMENTS TO INCLUDE:
-- Tablet (user check-in)
-- Queue / waiting screen (TV or display)
-- Coach interface (laptop/dashboard)
-- Subtle arrows showing system orchestration
-
-DESIGN SYSTEM:
-Apply the provided design system:
-- Colors
-- Typography
-- UI components
-- Visual identity of "Le Comptoir"
-
-TONE:
-- Professional
-- Clear
-- Product-driven
-- Executive-ready
-- Easy to understand in less than 30 seconds
-
-OUTPUT:
-A single slide, visually balanced, with strong hierarchy and clear storytelling.
+formatDateTime(
+  convertTimeZone(
+    triggerOutputs()?['body/Visitdate'],
+    'UTC',
+    outputs('Compose_Windows_Timezone_ID')
+  ),
+  'dddd, MMMM d, yyyy ''at'' HH:mm',
+  'en-US'
+)
