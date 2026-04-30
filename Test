@@ -1,9 +1,137 @@
-formatDateTime(
-  convertTimeZone(
-    triggerOutputs()?['body/Visitdate'],
-    'UTC',
-    outputs('Compose_Windows_Timezone_ID')
-  ),
-  'dddd, MMMM d, yyyy ''at'' HH:mm',
-  'en-US'
-)
+Here is the User Story in English, ready to be used in Jira.
+
+⸻
+
+🧩 User Story
+
+Title
+User identification via RFID badge with IMEX fallback and mandatory confirmation
+
+As a
+Visitor / employee using a comptoir
+
+I want
+To be automatically identified by scanning my RFID badge
+
+So that
+My check-in is faster while ensuring my identity is accurate
+
+⸻
+
+🎯 Description
+
+When a user scans their RFID badge on the tablet:
+
+* The application first attempts identification using the local badge collection
+* If the badge is unknown or rejected, it queries the IMEX API
+* In all cases (local or IMEX), user confirmation is mandatory
+* If no match is found, the user must manually enter their UID
+* Every association is stored locally with a source (Manual or IMEX)
+
+⸻
+
+✅ Acceptance Criteria
+
+🔹 Case 1 — Badge found locally and confirmed
+
+Given the Tag ID exists in the local collection
+When the user scans their badge
+Then the associated UID is displayed
+And the user is asked to confirm their identity
+And if confirmed, the journey continues
+
+⸻
+
+🔹 Case 2 — Badge found locally but rejected
+
+Given the Tag ID exists in the local collection
+When the user rejects the proposed identity
+Then the local association is deleted
+And the application queries the IMEX API
+
+⸻
+
+🔹 Case 3 — Badge not found locally but found in IMEX
+
+Given the Tag ID does not exist locally
+When the application queries IMEX
+And IMEX returns a UID
+Then the UID is displayed
+And the user must confirm their identity
+And if confirmed:
+
+* the association is stored locally
+* with source = IMEX
+* the journey continues
+
+⸻
+
+🔹 Case 4 — IMEX result rejected
+
+Given IMEX returns a UID
+When the user rejects the identity
+Then the association is not kept
+And the user must manually enter their UID
+
+⸻
+
+🔹 Case 5 — Badge not found in IMEX
+
+Given IMEX returns no result
+When the user scans their badge
+Then a message indicates the card is not recognized
+And the user must manually enter their UID
+
+⸻
+
+🔹 Case 6 — Manual entry
+
+Given the user manually enters their UID
+Then the Tag ID / UID association is stored locally
+And with source = Manual
+And the journey continues
+
+⸻
+
+⚙️ Business Rules
+
+* User confirmation is mandatory in all cases (local or IMEX)
+* A “No” response always deletes the local association
+* The IMEX API is used only:
+    * when the badge is not found locally
+    * or after a user rejection
+* The local collection acts as a cache and resilience layer
+
+⸻
+
+📦 Data Model (simplified)
+
+Badge
+- tagId (string)
+- uid (string)
+- source (IMEX | Manual)
+- createdAt
+- updatedAt
+
+⸻
+
+🚨 Edge Cases
+
+* IMEX API unavailable:
+    * fallback directly to manual UID entry
+* Invalid UID entered:
+    * error message and retry
+* Shared or incorrectly assigned badge:
+    * corrected via user rejection mechanism
+
+⸻
+
+💡 Future Enhancements (optional)
+
+* Add a confidence level on associations
+* Track rejection history to detect IMEX inconsistencies
+* Pre-fill UID based on context (SSO, session, etc.)
+
+⸻
+
+If you want, I can also split this into technical stories (frontend, backend, API, data model) aligned with your sprint planning.
