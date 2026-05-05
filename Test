@@ -1,137 +1,79 @@
-Here is the User Story in English, ready to be used in Jira.
+Oui, ça donne un parcours très simple et propre. Je le formaliserais comme ça :
 
-⸻
+Parcours tablette Surveil — module Pointage
+	1.	Le technicien clique sur Pointage.
+	2.	L’application affiche : “Veuillez badger votre carte”.
+	3.	Le technicien badge.
+	4.	L’application identifie le technicien et récupère son dernier statut connu.
+	5.	L’application affiche uniquement les actions possibles selon son statut.
+	6.	Le technicien sélectionne l’action.
+	7.	L’application affiche une confirmation.
+	8.	Le technicien confirme.
+	9.	L’application enregistre le pointage et met à jour le statut.
 
-🧩 User Story
+États et actions disponibles
 
-Title
-User identification via RFID badge with IMEX fallback and mandatory confirmation
+Statut actuel	Actions proposées
+Aucun statut / non arrivé	Déclarer mon arrivée
+Arrivé	Aller en pause / Terminer ma journée
+En pause	Revenir de pause / Terminer ma journée
+Journée terminée	Déclarer mon arrivée
 
-As a
-Visitor / employee using a comptoir
+Libellés côté écran
 
-I want
-To be automatically identified by scanning my RFID badge
+Écran 1 — Pointage
 
-So that
-My check-in is faster while ensuring my identity is accurate
+Pointage technicien
+Veuillez badger votre carte pour continuer.
 
-⸻
+Écran 2 — Choix d’action
 
-🎯 Description
+Bonjour [Prénom]
+Que souhaitez-vous déclarer ?
 
-When a user scans their RFID badge on the tablet:
+Actions affichées dynamiquement selon le statut :
+	•	Je commence ma journée
+	•	Je pars en pause
+	•	Je reviens de pause
+	•	Je termine ma journée
 
-* The application first attempts identification using the local badge collection
-* If the badge is unknown or rejected, it queries the IMEX API
-* In all cases (local or IMEX), user confirmation is mandatory
-* If no match is found, the user must manually enter their UID
-* Every association is stored locally with a source (Manual or IMEX)
+Écran 3 — Confirmation
 
-⸻
+Confirmation du pointage
+Vous êtes sur le point de déclarer :
+[action sélectionnée]
 
-✅ Acceptance Criteria
+Confirmez-vous ce pointage ?
 
-🔹 Case 1 — Badge found locally and confirmed
+Boutons :
+	•	Annuler
+	•	Confirmer
 
-Given the Tag ID exists in the local collection
-When the user scans their badge
-Then the associated UID is displayed
-And the user is asked to confirm their identity
-And if confirmed, the journey continues
+Écran 4 — Succès
 
-⸻
+Pointage enregistré
+Votre déclaration a bien été prise en compte.
 
-🔹 Case 2 — Badge found locally but rejected
+Règle importante
 
-Given the Tag ID exists in the local collection
-When the user rejects the proposed identity
-Then the local association is deleted
-And the application queries the IMEX API
+Le technicien ne choisit pas librement tous les statuts. L’application propose uniquement les transitions cohérentes avec son dernier état connu.
 
-⸻
+Ça évite les erreurs, par exemple :
+	•	déclarer deux arrivées d’affilée ;
+	•	revenir de pause sans être parti en pause ;
+	•	terminer une journée déjà terminée.
 
-🔹 Case 3 — Badge not found locally but found in IMEX
+Version courte pour user story
 
-Given the Tag ID does not exist locally
-When the application queries IMEX
-And IMEX returns a UID
-Then the UID is displayed
-And the user must confirm their identity
-And if confirmed:
+As a technician,
+I want to clock in, pause, resume, or end my day by badging on the Surveil tablet,
+so that my attendance status can be recorded accurately with minimal interaction.
 
-* the association is stored locally
-* with source = IMEX
-* the journey continues
-
-⸻
-
-🔹 Case 4 — IMEX result rejected
-
-Given IMEX returns a UID
-When the user rejects the identity
-Then the association is not kept
-And the user must manually enter their UID
-
-⸻
-
-🔹 Case 5 — Badge not found in IMEX
-
-Given IMEX returns no result
-When the user scans their badge
-Then a message indicates the card is not recognized
-And the user must manually enter their UID
-
-⸻
-
-🔹 Case 6 — Manual entry
-
-Given the user manually enters their UID
-Then the Tag ID / UID association is stored locally
-And with source = Manual
-And the journey continues
-
-⸻
-
-⚙️ Business Rules
-
-* User confirmation is mandatory in all cases (local or IMEX)
-* A “No” response always deletes the local association
-* The IMEX API is used only:
-    * when the badge is not found locally
-    * or after a user rejection
-* The local collection acts as a cache and resilience layer
-
-⸻
-
-📦 Data Model (simplified)
-
-Badge
-- tagId (string)
-- uid (string)
-- source (IMEX | Manual)
-- createdAt
-- updatedAt
-
-⸻
-
-🚨 Edge Cases
-
-* IMEX API unavailable:
-    * fallback directly to manual UID entry
-* Invalid UID entered:
-    * error message and retry
-* Shared or incorrectly assigned badge:
-    * corrected via user rejection mechanism
-
-⸻
-
-💡 Future Enhancements (optional)
-
-* Add a confidence level on associations
-* Track rejection history to detect IMEX inconsistencies
-* Pre-fill UID based on context (SSO, session, etc.)
-
-⸻
-
-If you want, I can also split this into technical stories (frontend, backend, API, data model) aligned with your sprint planning.
+Acceptance criteria
+	•	The technician must badge before selecting any attendance action.
+	•	The app must identify the technician from the badge.
+	•	The app must retrieve the technician’s current attendance status.
+	•	The app must only display actions allowed from the current status.
+	•	The technician must confirm the selected action before it is recorded.
+	•	Once confirmed, the attendance record and technician status are updated.
+	•	A success message is displayed after confirmation.
