@@ -1,79 +1,363 @@
-Oui, ça donne un parcours très simple et propre. Je le formaliserais comme ça :
+User Story — Feature Management in Le Comptoir Settings
 
-Parcours tablette Surveil — module Pointage
-	1.	Le technicien clique sur Pointage.
-	2.	L’application affiche : “Veuillez badger votre carte”.
-	3.	Le technicien badge.
-	4.	L’application identifie le technicien et récupère son dernier statut connu.
-	5.	L’application affiche uniquement les actions possibles selon son statut.
-	6.	Le technicien sélectionne l’action.
-	7.	L’application affiche une confirmation.
-	8.	Le technicien confirme.
-	9.	L’application enregistre le pointage et met à jour le statut.
+Title
 
-États et actions disponibles
+Feature Toggle Management in Le Comptoir Settings
 
-Statut actuel	Actions proposées
-Aucun statut / non arrivé	Déclarer mon arrivée
-Arrivé	Aller en pause / Terminer ma journée
-En pause	Revenir de pause / Terminer ma journée
-Journée terminée	Déclarer mon arrivée
+⸻
 
-Libellés côté écran
+User Story
 
-Écran 1 — Pointage
+As a Comptoir Manager,
+I want to enable or disable specific features and modules directly from the Settings page,
+So that I can adapt the Le Comptoir experience to the needs, maturity, and deployment scope of my comptoir without requiring technical intervention.
 
-Pointage technicien
-Veuillez badger votre carte pour continuer.
+⸻
 
-Écran 2 — Choix d’action
+Context
 
-Bonjour [Prénom]
-Que souhaitez-vous déclarer ?
+Le Comptoir currently already supports configuration for some Microsoft Teams-related features in the Settings section.
 
-Actions affichées dynamiquement selon le statut :
-	•	Je commence ma journée
-	•	Je pars en pause
-	•	Je reviens de pause
-	•	Je termine ma journée
+The objective of this evolution is to generalize this concept by introducing a centralized “Feature Management” capability allowing managers to activate or deactivate functionalities by category.
 
-Écran 3 — Confirmation
+This mechanism will support:
 
-Confirmation du pointage
-Vous êtes sur le point de déclarer :
-[action sélectionnée]
+* progressive deployments,
+* pilot phases,
+* local adaptations,
+* optional modules,
+* and future scalability.
 
-Confirmez-vous ce pointage ?
+The system must be designed to easily accommodate additional feature categories and features in the future.
 
-Boutons :
-	•	Annuler
-	•	Confirmer
+⸻
 
-Écran 4 — Succès
+Functional Scope
 
-Pointage enregistré
-Votre déclaration a bien été prise en compte.
+Feature Management Section
 
-Règle importante
+The Settings page must include a dedicated section named:
 
-Le technicien ne choisit pas librement tous les statuts. L’application propose uniquement les transitions cohérentes avec son dernier état connu.
+“Feature Management”
 
-Ça évite les erreurs, par exemple :
-	•	déclarer deux arrivées d’affilée ;
-	•	revenir de pause sans être parti en pause ;
-	•	terminer une journée déjà terminée.
+Inside this section, functionalities are grouped by categories and displayed as configurable feature toggles.
 
-Version courte pour user story
+⸻
 
-As a technician,
-I want to clock in, pause, resume, or end my day by badging on the Surveil tablet,
-so that my attendance status can be recorded accurately with minimal interaction.
+Feature Categories
 
-Acceptance criteria
-	•	The technician must badge before selecting any attendance action.
-	•	The app must identify the technician from the badge.
-	•	The app must retrieve the technician’s current attendance status.
-	•	The app must only display actions allowed from the current status.
-	•	The technician must confirm the selected action before it is recorded.
-	•	Once confirmed, the attendance record and technician status are updated.
-	•	A success message is displayed after confirmation.
+Category A — Teams Features
+
+Contains existing Teams-related configuration items.
+
+Examples:
+
+* Teams notifications
+* Teams integration
+* Presence synchronization
+* Teams channel features
+
+This category mainly reorganizes existing functionality into the new Feature Management structure.
+
+⸻
+
+Category B — Surveil Tablet Modules
+
+This category controls which modules are available on the Surveil tablet interface.
+
+Examples:
+
+* Visitor queue monitoring
+* Coach attendance / time tracking
+* Statistics display
+* Operational modules
+* Future tablet capabilities
+
+When a module is disabled:
+
+* it must not appear on the tablet UI,
+* it must not be accessible through navigation or direct access.
+
+⸻
+
+Category C — Global Features
+
+This category controls broader product capabilities impacting complete workflows across Le Comptoir.
+
+Examples:
+
+* Hardware Return workflow
+* Asset Traceability workflow
+* Signature workflow
+* Future end-to-end business processes
+
+When a feature is disabled:
+
+* associated buttons,
+* menus,
+* entry points,
+* and workflows
+    must be hidden or inaccessible across the application.
+
+Example:
+If “Hardware Return Workflow” is disabled:
+
+* the return hardware journey is not displayed,
+* related actions cannot be triggered,
+* navigation entries are hidden.
+
+⸻
+
+Feature Administration Permissions
+
+Some features must only be manageable by users with an Administrator role.
+
+In this case:
+
+* Comptoir Managers can still see the feature,
+* but cannot modify its state.
+
+The objective is:
+
+* to maintain visibility on available capabilities,
+* while clearly indicating that activation/deactivation requires higher privileges.
+
+⸻
+
+UX Expectations
+
+General Layout
+
+The Feature Management section should provide:
+
+* clear visual separation between categories,
+* scalable organization,
+* intuitive ON/OFF interactions,
+* support for future expansion.
+
+Suggested UX patterns:
+
+* grouped cards,
+* accordion/collapsible sections,
+* toggle switches,
+* category headers.
+
+⸻
+
+UX Expectations for Restricted Features
+
+When a feature is restricted to Administrators:
+
+Visual Behavior
+
+The feature must appear visually distinct from editable features.
+
+Possible UX patterns:
+
+* reduced opacity,
+* disabled toggle state,
+* lock icon,
+* different background styling,
+* tooltip or info icon.
+
+The restriction must be understandable immediately.
+
+⸻
+
+Information Message
+
+A contextual explanation must indicate why the feature cannot be modified.
+
+Example:
+
+“This feature can only be managed by an Administrator.”
+
+The explanation may appear:
+
+* on hover,
+* via tooltip,
+* through an information icon (“i”),
+* or inline below the feature.
+
+⸻
+
+Behavior Rules
+
+When a Feature is Enabled
+
+* the functionality becomes immediately available,
+* related UI elements are displayed,
+* users can access the workflow/module normally.
+
+⸻
+
+When a Feature is Disabled
+
+* the functionality is hidden from the UI,
+* direct access is blocked,
+* associated actions cannot be triggered.
+
+⸻
+
+Restricted Features
+
+For Administrators
+
+* the toggle is editable,
+* the state can be modified normally.
+
+For Managers without sufficient permissions
+
+* the feature remains visible,
+* the current state remains visible,
+* the toggle is not editable,
+* interaction does not modify the state,
+* an explanatory message is available.
+
+⸻
+
+Permissions
+
+Only authorized roles can modify feature toggles.
+
+Expected roles:
+
+* Administrator
+* Comptoir Manager (limited depending on feature permissions)
+
+Standard users/coaches must not access Feature Management settings.
+
+⸻
+
+Technical / Architectural Expectations
+
+The implementation should:
+
+* support easy addition of future categories,
+* support easy addition of future features,
+* avoid hardcoded logic whenever possible,
+* centralize feature configuration,
+* expose feature states consistently across frontend and backend.
+
+The architecture should ideally support:
+
+* feature-driven rendering,
+* feature-driven authorization,
+* future API-driven configuration,
+* scalable feature governance.
+
+⸻
+
+Acceptance Criteria
+
+AC1 — Feature Management Section
+
+Given I am an authorized user
+When I open the Settings page
+Then I can access a “Feature Management” section.
+
+⸻
+
+AC2 — Categorized Features
+
+Given the Feature Management section
+When it is displayed
+Then features are grouped by categories:
+
+* Teams Features
+* Surveil Tablet Modules
+* Global Features.
+
+⸻
+
+AC3 — Toggle Interaction
+
+Given an editable feature toggle
+When I activate or deactivate it
+Then the new state is saved and applied.
+
+⸻
+
+AC4 — Hidden Disabled Features
+
+Given a feature is disabled
+When a user accesses the application
+Then related UI elements and workflows are hidden or inaccessible.
+
+⸻
+
+AC5 — Surveil Tablet Module Visibility
+
+Given a Surveil tablet module is disabled
+When the tablet interface is displayed
+Then the module does not appear.
+
+⸻
+
+AC6 — Global Workflow Deactivation
+
+Given the Hardware Return workflow is disabled
+When a user accesses Le Comptoir
+Then all related entry points and actions are unavailable.
+
+⸻
+
+AC7 — Permissions
+
+Given a standard user
+When accessing Settings
+Then Feature Management controls are not visible.
+
+⸻
+
+AC8 — Restricted Feature Visibility
+
+Given a feature restricted to Administrators
+When a Comptoir Manager opens Feature Management
+Then the feature is visible but not editable.
+
+⸻
+
+AC9 — Visual Identification of Restricted Features
+
+Given a restricted feature
+When displayed to a non-admin user
+Then the feature appears visually differentiated from editable features.
+
+⸻
+
+AC10 — Restriction Explanation
+
+Given a restricted feature
+When a non-admin user interacts with it
+Then an explanatory message indicates that Administrator rights are required.
+
+⸻
+
+UX / Design Topics for Discovery
+
+Topics to explore with UX:
+
+* Should categories be collapsible?
+* Should there be search/filter capability for future scalability?
+* Should features display descriptions/tooltips?
+* Should changes require confirmation?
+* Should changes be audited/logged?
+* Should some features depend on others?
+* Should disabled features optionally appear as “coming soon”?
+
+⸻
+
+Future Considerations (Out of Scope for V1)
+
+Potential future extensions:
+
+* Feature dependencies
+* Country-level inheritance
+* Scheduled activation/deactivation
+* Temporary feature activation
+* Beta/Pilot labels
+* Usage analytics per feature
+* Central administration across multiple comptoirs
+* Environment-specific feature flags
+* Gradual rollout mechanisms
