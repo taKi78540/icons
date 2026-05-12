@@ -1,363 +1,375 @@
-User Story — Feature Management in Le Comptoir Settings
+Je pense que, dans ton cas, le meilleur format pour un premier alignement avec les key users, c’est :
 
-Title
+1. Un document Word structuré → pour détailler clairement le parcours, les cas de figure, les règles métier et les étapes.
+2. Puis ensuite seulement un PowerPoint → quand le parcours sera validé, pour la communication, les comités, les sponsors ou les ateliers UX/UI.
 
-Feature Toggle Management in Le Comptoir Settings
+Là, tu es encore dans une phase :
 
-⸻
+* d’alignement fonctionnel,
+* de validation métier,
+* d’identification des trous dans le process,
+* et de clarification des règles.
 
-User Story
+Donc le Word est beaucoup plus adapté pour annoter, commenter, challenger et faire évoluer le parcours.
 
-As a Comptoir Manager,
-I want to enable or disable specific features and modules directly from the Settings page,
-So that I can adapt the Le Comptoir experience to the needs, maturity, and deployment scope of my comptoir without requiring technical intervention.
-
-⸻
-
-Context
-
-Le Comptoir currently already supports configuration for some Microsoft Teams-related features in the Settings section.
-
-The objective of this evolution is to generalize this concept by introducing a centralized “Feature Management” capability allowing managers to activate or deactivate functionalities by category.
-
-This mechanism will support:
-
-* progressive deployments,
-* pilot phases,
-* local adaptations,
-* optional modules,
-* and future scalability.
-
-The system must be designed to easily accommodate additional feature categories and features in the future.
+Je te propose donc ci-dessous une structure de document quasi prête à être utilisée avec les key users.
 
 ⸻
 
-Functional Scope
+Parcours – Hardware Pickup / Material Delivery Process
 
-Feature Management Section
+1. Objectif du parcours
 
-The Settings page must include a dedicated section named:
+Ce parcours permet aux techniciens de gérer la remise de matériel à un utilisateur dans le cadre d’une demande métier.
 
-“Feature Management”
+Le parcours doit :
 
-Inside this section, functionalities are grouped by categories and displayed as configurable feature toggles.
+* couvrir tous les utilisateurs du groupe,
+* fonctionner que le matériel soit géré dans HAM ou non,
+* permettre la traçabilité des équipements remis,
+* permettre la signature utilisateur,
+* guider les techniciens selon les cas de figure,
+* centraliser les éléments remis dans un bucket avant validation finale.
 
-⸻
+Le parcours repose sur une logique hybride :
 
-Feature Categories
-
-Category A — Teams Features
-
-Contains existing Teams-related configuration items.
-
-Examples:
-
-* Teams notifications
-* Teams integration
-* Presence synchronization
-* Teams channel features
-
-This category mainly reorganizes existing functionality into the new Feature Management structure.
+* automatisée lorsque les informations sont disponibles,
+* déclarative lorsque les systèmes ne permettent pas l’identification automatique.
 
 ⸻
 
-Category B — Surveil Tablet Modules
+2. Principes généraux
 
-This category controls which modules are available on the Surveil tablet interface.
+Deux grands cas de figure
 
-Examples:
+Cas 1 – Utilisateur non supporté par le catalogue groupe
 
-* Visitor queue monitoring
-* Coach attendance / time tracking
-* Statistics display
-* Operational modules
-* Future tablet capabilities
+Le système ne peut pas récupérer automatiquement les demandes métier.
 
-When a module is disabled:
+Le technicien :
 
-* it must not appear on the tablet UI,
-* it must not be accessible through navigation or direct access.
+* déclare manuellement le type de matériel remis,
+* renseigne la référence de la demande métier,
+* puis suit le parcours de scan ou de saisie manuelle.
 
 ⸻
 
-Category C — Global Features
+Cas 2 – Utilisateur supporté par le catalogue groupe
 
-This category controls broader product capabilities impacting complete workflows across Le Comptoir.
+Le système récupère automatiquement les demandes identifiées pour l’utilisateur.
 
-Examples:
+Le technicien :
 
-* Hardware Return workflow
-* Asset Traceability workflow
-* Signature workflow
-* Future end-to-end business processes
-
-When a feature is disabled:
-
-* associated buttons,
-* menus,
-* entry points,
-* and workflows
-    must be hidden or inaccessible across the application.
-
-Example:
-If “Hardware Return Workflow” is disabled:
-
-* the return hardware journey is not displayed,
-* related actions cannot be triggered,
-* navigation entries are hidden.
+* sélectionne les demandes concernées,
+* puis suit le parcours de scan ou de saisie manuelle.
 
 ⸻
 
-Feature Administration Permissions
+3. Étape 1 – Identification utilisateur
 
-Some features must only be manageable by users with an Administrator role.
+Le technicien identifie l’utilisateur.
 
-In this case:
+Le système vérifie :
 
-* Comptoir Managers can still see the feature,
-* but cannot modify its state.
-
-The objective is:
-
-* to maintain visibility on available capabilities,
-* while clearly indicating that activation/deactivation requires higher privileges.
+* si l’utilisateur est supporté par le catalogue groupe,
+* si les demandes peuvent être récupérées,
+* si les équipements de l’utilisateur sont supposés être gérés dans HAM.
 
 ⸻
 
-UX Expectations
+4. Cas 1 – Utilisateur non supporté par le catalogue groupe
 
-General Layout
+4.1 Déclaration du type de remise
 
-The Feature Management section should provide:
+Le technicien sélectionne un ou plusieurs types d’items :
 
-* clear visual separation between categories,
-* scalable organization,
-* intuitive ON/OFF interactions,
-* support for future expansion.
-
-Suggested UX patterns:
-
-* grouped cards,
-* accordion/collapsible sections,
-* toggle switches,
-* category headers.
+* PC
+* Mac
+* Mobile
+* Accessoire
+* autres catégories futures
 
 ⸻
 
-UX Expectations for Restricted Features
+4.2 Référence de demande métier
 
-When a feature is restricted to Administrators:
+Après sélection du type d’item, le système demande :
 
-Visual Behavior
+* la référence de la demande métier externe.
 
-The feature must appear visually distinct from editable features.
-
-Possible UX patterns:
-
-* reduced opacity,
-* disabled toggle state,
-* lock icon,
-* different background styling,
-* tooltip or info icon.
-
-The restriction must be understandable immediately.
+Cette information est conservée à titre de traçabilité même si le système ne peut pas récupérer automatiquement la demande.
 
 ⸻
 
-Information Message
+4.3 Vérification de gestion HAM
 
-A contextual explanation must indicate why the feature cannot be modified.
-
-Example:
-
-“This feature can only be managed by an Administrator.”
-
-The explanation may appear:
-
-* on hover,
-* via tooltip,
-* through an information icon (“i”),
-* or inline below the feature.
+Le système vérifie si le matériel concerné est supposé être géré dans HAM.
 
 ⸻
 
-Behavior Rules
+Cas A – Matériel géré dans HAM
 
-When a Feature is Enabled
+Le technicien doit :
 
-* the functionality becomes immediately available,
-* related UI elements are displayed,
-* users can access the workflow/module normally.
+* scanner le matériel,
+* ou rechercher le matériel.
 
-⸻
-
-When a Feature is Disabled
-
-* the functionality is hidden from the UI,
-* direct access is blocked,
-* associated actions cannot be triggered.
+Le système tente d’identifier l’équipement dans HAM.
 
 ⸻
 
-Restricted Features
+Si le matériel est identifié
 
-For Administrators
+Le système :
 
-* the toggle is editable,
-* the state can be modified normally.
-
-For Managers without sufficient permissions
-
-* the feature remains visible,
-* the current state remains visible,
-* the toggle is not editable,
-* interaction does not modify the state,
-* an explanatory message is available.
+* récupère les informations disponibles,
+* affiche le formulaire complémentaire,
+* puis ajoute l’item au bucket.
 
 ⸻
 
-Permissions
+Si le matériel n’est pas identifié
 
-Only authorized roles can modify feature toggles.
+Le système propose :
 
-Expected roles:
+* un ajout manuel.
 
-* Administrator
-* Comptoir Manager (limited depending on feature permissions)
+Le technicien renseigne :
 
-Standard users/coaches must not access Feature Management settings.
+* modèle,
+* numéro de série,
+* informations complémentaires,
+* etc.
 
-⸻
-
-Technical / Architectural Expectations
-
-The implementation should:
-
-* support easy addition of future categories,
-* support easy addition of future features,
-* avoid hardcoded logic whenever possible,
-* centralize feature configuration,
-* expose feature states consistently across frontend and backend.
-
-The architecture should ideally support:
-
-* feature-driven rendering,
-* feature-driven authorization,
-* future API-driven configuration,
-* scalable feature governance.
+Puis l’item est ajouté au bucket.
 
 ⸻
 
-Acceptance Criteria
+Cas B – Matériel non géré dans HAM
 
-AC1 — Feature Management Section
+Le système informe explicitement le technicien que :
 
-Given I am an authorized user
-When I open the Settings page
-Then I can access a “Feature Management” section.
+* ce matériel n’est pas géré dans HAM.
 
-⸻
+Le technicien doit :
 
-AC2 — Categorized Features
+* saisir manuellement les informations nécessaires.
 
-Given the Feature Management section
-When it is displayed
-Then features are grouped by categories:
-
-* Teams Features
-* Surveil Tablet Modules
-* Global Features.
+Puis l’item est ajouté au bucket.
 
 ⸻
 
-AC3 — Toggle Interaction
+4.4 Ajout de plusieurs items
 
-Given an editable feature toggle
-When I activate or deactivate it
-Then the new state is saved and applied.
+Une fois un item ajouté :
 
-⸻
+* le technicien revient sur la vue de sélection,
+* et peut ajouter un nouvel item.
 
-AC4 — Hidden Disabled Features
+Exemples :
 
-Given a feature is disabled
-When a user accesses the application
-Then related UI elements and workflows are hidden or inaccessible.
-
-⸻
-
-AC5 — Surveil Tablet Module Visibility
-
-Given a Surveil tablet module is disabled
-When the tablet interface is displayed
-Then the module does not appear.
+* ajout d’un PC puis d’un mobile,
+* ajout de plusieurs équipements liés à une même demande,
+* ajout de plusieurs demandes.
 
 ⸻
 
-AC6 — Global Workflow Deactivation
+5. Cas 2 – Utilisateur supporté par le catalogue groupe
 
-Given the Hardware Return workflow is disabled
-When a user accesses Le Comptoir
-Then all related entry points and actions are unavailable.
+5.1 Affichage des demandes
 
-⸻
+Le système affiche :
 
-AC7 — Permissions
-
-Given a standard user
-When accessing Settings
-Then Feature Management controls are not visible.
+* les demandes identifiées pour l’utilisateur,
+* correspondant aux services supportés par le catalogue groupe.
 
 ⸻
 
-AC8 — Restricted Feature Visibility
+5.2 Sélection des demandes
 
-Given a feature restricted to Administrators
-When a Comptoir Manager opens Feature Management
-Then the feature is visible but not editable.
+Le technicien sélectionne :
 
-⸻
+* les demandes concernées par la remise de matériel.
 
-AC9 — Visual Identification of Restricted Features
+Exemples :
 
-Given a restricted feature
-When displayed to a non-admin user
-Then the feature appears visually differentiated from editable features.
+* demande PC,
+* demande mobile,
+* demande accessoire.
 
 ⸻
 
-AC10 — Restriction Explanation
+5.3 Traitement d’une demande
 
-Given a restricted feature
-When a non-admin user interacts with it
-Then an explanatory message indicates that Administrator rights are required.
+Après sélection :
 
-⸻
+* le technicien suit le parcours de remise.
 
-UX / Design Topics for Discovery
-
-Topics to explore with UX:
-
-* Should categories be collapsible?
-* Should there be search/filter capability for future scalability?
-* Should features display descriptions/tooltips?
-* Should changes require confirmation?
-* Should changes be audited/logged?
-* Should some features depend on others?
-* Should disabled features optionally appear as “coming soon”?
+Le système vérifie si le type de matériel est géré dans HAM.
 
 ⸻
 
-Future Considerations (Out of Scope for V1)
+Cas A – Matériel géré dans HAM
 
-Potential future extensions:
+Le technicien :
 
-* Feature dependencies
-* Country-level inheritance
-* Scheduled activation/deactivation
-* Temporary feature activation
-* Beta/Pilot labels
-* Usage analytics per feature
-* Central administration across multiple comptoirs
-* Environment-specific feature flags
-* Gradual rollout mechanisms
+* scanne le matériel,
+* le système l’identifie dans HAM,
+* les informations sont récupérées,
+* puis l’item est ajouté au bucket.
+
+⸻
+
+Cas B – Matériel non géré dans HAM
+
+Le technicien :
+
+* saisit manuellement les informations.
+
+Puis l’item est ajouté au bucket.
+
+⸻
+
+5.4 Traitement de plusieurs demandes
+
+Une fois une demande traitée :
+
+* le système réaffiche les demandes restantes.
+
+Le technicien peut alors :
+
+* traiter un autre équipement,
+* ou finaliser le parcours.
+
+⸻
+
+6. Gestion des accessoires
+
+6.1 Sélection d’un accessoire
+
+Lorsque le technicien ajoute un accessoire :
+
+* le système affiche les catégories disponibles.
+
+Exemples :
+
+* casque,
+* filtre de confidentialité,
+* chargeur,
+* clavier,
+* souris,
+* etc.
+
+⸻
+
+6.2 Sous-catégories
+
+Selon le type d’accessoire :
+
+* des sous-catégories peuvent être proposées.
+
+Exemple :
+
+* casque filaire,
+* casque sans fil.
+
+⸻
+
+6.3 Niveau de détail
+
+Le premier MVP ne nécessitera pas :
+
+* une exhaustivité HAM,
+* ni une gestion complète des références accessoires.
+
+L’objectif est :
+
+* d’assurer une traçabilité minimale et cohérente.
+
+⸻
+
+7. Return Summary / Delivery Summary
+
+Une fois les items ajoutés :
+
+* le technicien accède à une vue récapitulative.
+
+Cette vue permet :
+
+* de contrôler les équipements remis,
+* vérifier les informations,
+* supprimer un item si nécessaire,
+* confirmer la remise globale.
+
+⸻
+
+8. Signature utilisateur
+
+Le parcours de signature est identique au parcours de restitution.
+
+Le système réutilise :
+
+* les mécanismes existants,
+* les méthodes de signature existantes.
+
+Après signature :
+
+* la remise est validée.
+
+⸻
+
+9. Étape finale – Actions post-remise
+
+Une fois l’utilisateur parti :
+
+* le système affiche les actions complémentaires éventuellement nécessaires.
+
+⸻
+
+Exemples d’actions affichées
+
+Matériel ajouté manuellement
+
+Le système peut indiquer :
+
+* qu’une mise à jour HAM est nécessaire,
+* ou qu’une régularisation manuelle doit être réalisée.
+
+⸻
+
+Demandes non catalogue groupe
+
+Le système peut rappeler :
+
+* qu’une mise à jour manuelle de la demande métier externe reste à faire.
+
+⸻
+
+10. Objectifs UX du parcours
+
+Le parcours doit :
+
+* guider les techniciens étape par étape,
+* limiter les oublis,
+* standardiser les pratiques,
+* assurer la traçabilité,
+* maximiser le reuse des composants existants du parcours restitution,
+* permettre une adaptation selon le niveau d’intégration disponible.
+
+⸻
+
+Franchement, tu tiens déjà quelque chose de très structuré.
+On voit bien :
+
+* la séparation des cas,
+* les règles métier,
+* les points de reuse,
+* les dépendances HAM/catalogue,
+* et les futures actions techniques.
+
+L’étape suivante logique serait probablement :
+
+1. validation key users,
+2. schéma visuel du flow,
+3. découpage en epics,
+4. puis user stories détaillées par écran/composant.
