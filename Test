@@ -1,375 +1,62 @@
-Je pense que, dans ton cas, le meilleur format pour un premier alignement avec les key users, c’est :
+User Story – Enable Hardware Return Workflow per Counter
 
-1. Un document Word structuré → pour détailler clairement le parcours, les cas de figure, les règles métier et les étapes.
-2. Puis ensuite seulement un PowerPoint → quand le parcours sera validé, pour la communication, les comités, les sponsors ou les ateliers UX/UI.
+As a Le Comptoir Product Owner / administrator,
+I want to enable or disable the Hardware Return workflow for a specific counter,
+so that the pilot can be limited to selected counters without making the feature available globally.
 
-Là, tu es encore dans une phase :
+Context
 
-* d’alignement fonctionnel,
-* de validation métier,
-* d’identification des trous dans le process,
-* et de clarification des règles.
+The Hardware Return workflow must be progressively deployed, starting with one or several pilot counters.
 
-Donc le Word est beaucoup plus adapté pour annoter, commenter, challenger et faire évoluer le parcours.
+In the future, the activation will be managed through the Settings page using each counter’s VU Settings.
+For this first pilot version, no front-end integration in the Settings page is required.
 
-Je te propose donc ci-dessous une structure de document quasi prête à être utilisée avec les key users.
+The objective of this story is only to implement the configuration/back-end capability so the workflow is available exclusively for enabled counters.
 
-⸻
+Functional Rules
 
-Parcours – Hardware Pickup / Material Delivery Process
+* A new parameter must allow enabling or disabling the Hardware Return workflow for a counter.
+* This parameter is defined at counter level within the VU Settings.
+* By default, the workflow must be disabled for counters without configuration.
+* If the parameter is enabled for a counter, the Hardware Return workflow actions must be available for this counter.
+* If the parameter is disabled or missing, the workflow must not be accessible from this counter.
+* For the pilot phase, the parameter can be updated directly in configuration/back-end without any administration UI.
 
-1. Objectif du parcours
+Out of Scope
 
-Ce parcours permet aux techniciens de gérer la remise de matériel à un utilisateur dans le cadre d’une demande métier.
+* No front-end integration in the Settings page.
+* No visual toggle management in the administration interface.
+* No modification of the existing Settings mockups already designed.
+* No global deployment of the workflow to all counters.
 
-Le parcours doit :
+Acceptance Criteria
 
-* couvrir tous les utilisateurs du groupe,
-* fonctionner que le matériel soit géré dans HAM ou non,
-* permettre la traçabilité des équipements remis,
-* permettre la signature utilisateur,
-* guider les techniciens selon les cas de figure,
-* centraliser les éléments remis dans un bucket avant validation finale.
+AC1 – Counter-level activation parameter
 
-Le parcours repose sur une logique hybride :
+Given an existing counter,
+when a Hardware Return workflow activation parameter is defined in its VU Settings,
+then the application can determine whether the workflow is enabled or disabled for this counter.
 
-* automatisée lorsque les informations sont disponibles,
-* déclarative lorsque les systèmes ne permettent pas l’identification automatique.
+AC2 – Disabled by default
 
-⸻
+Given a counter without any configured parameter,
+when the application checks the workflow activation status,
+then the Hardware Return workflow is considered disabled.
 
-2. Principes généraux
+AC3 – Workflow available for enabled counters
 
-Deux grands cas de figure
+Given a counter for which the activation parameter is enabled,
+when a coach accesses the available actions from this counter,
+then the action allowing the launch of the Hardware Return workflow is available.
 
-Cas 1 – Utilisateur non supporté par le catalogue groupe
+AC4 – Workflow hidden for non-enabled counters
 
-Le système ne peut pas récupérer automatiquement les demandes métier.
+Given a counter for which the activation parameter is disabled or missing,
+when a coach accesses the available actions from this counter,
+then the action allowing the launch of the Hardware Return workflow is not available.
 
-Le technicien :
+AC5 – Pilot activation without Settings UI
 
-* déclare manuellement le type de matériel remis,
-* renseigne la référence de la demande métier,
-* puis suit le parcours de scan ou de saisie manuelle.
-
-⸻
-
-Cas 2 – Utilisateur supporté par le catalogue groupe
-
-Le système récupère automatiquement les demandes identifiées pour l’utilisateur.
-
-Le technicien :
-
-* sélectionne les demandes concernées,
-* puis suit le parcours de scan ou de saisie manuelle.
-
-⸻
-
-3. Étape 1 – Identification utilisateur
-
-Le technicien identifie l’utilisateur.
-
-Le système vérifie :
-
-* si l’utilisateur est supporté par le catalogue groupe,
-* si les demandes peuvent être récupérées,
-* si les équipements de l’utilisateur sont supposés être gérés dans HAM.
-
-⸻
-
-4. Cas 1 – Utilisateur non supporté par le catalogue groupe
-
-4.1 Déclaration du type de remise
-
-Le technicien sélectionne un ou plusieurs types d’items :
-
-* PC
-* Mac
-* Mobile
-* Accessoire
-* autres catégories futures
-
-⸻
-
-4.2 Référence de demande métier
-
-Après sélection du type d’item, le système demande :
-
-* la référence de la demande métier externe.
-
-Cette information est conservée à titre de traçabilité même si le système ne peut pas récupérer automatiquement la demande.
-
-⸻
-
-4.3 Vérification de gestion HAM
-
-Le système vérifie si le matériel concerné est supposé être géré dans HAM.
-
-⸻
-
-Cas A – Matériel géré dans HAM
-
-Le technicien doit :
-
-* scanner le matériel,
-* ou rechercher le matériel.
-
-Le système tente d’identifier l’équipement dans HAM.
-
-⸻
-
-Si le matériel est identifié
-
-Le système :
-
-* récupère les informations disponibles,
-* affiche le formulaire complémentaire,
-* puis ajoute l’item au bucket.
-
-⸻
-
-Si le matériel n’est pas identifié
-
-Le système propose :
-
-* un ajout manuel.
-
-Le technicien renseigne :
-
-* modèle,
-* numéro de série,
-* informations complémentaires,
-* etc.
-
-Puis l’item est ajouté au bucket.
-
-⸻
-
-Cas B – Matériel non géré dans HAM
-
-Le système informe explicitement le technicien que :
-
-* ce matériel n’est pas géré dans HAM.
-
-Le technicien doit :
-
-* saisir manuellement les informations nécessaires.
-
-Puis l’item est ajouté au bucket.
-
-⸻
-
-4.4 Ajout de plusieurs items
-
-Une fois un item ajouté :
-
-* le technicien revient sur la vue de sélection,
-* et peut ajouter un nouvel item.
-
-Exemples :
-
-* ajout d’un PC puis d’un mobile,
-* ajout de plusieurs équipements liés à une même demande,
-* ajout de plusieurs demandes.
-
-⸻
-
-5. Cas 2 – Utilisateur supporté par le catalogue groupe
-
-5.1 Affichage des demandes
-
-Le système affiche :
-
-* les demandes identifiées pour l’utilisateur,
-* correspondant aux services supportés par le catalogue groupe.
-
-⸻
-
-5.2 Sélection des demandes
-
-Le technicien sélectionne :
-
-* les demandes concernées par la remise de matériel.
-
-Exemples :
-
-* demande PC,
-* demande mobile,
-* demande accessoire.
-
-⸻
-
-5.3 Traitement d’une demande
-
-Après sélection :
-
-* le technicien suit le parcours de remise.
-
-Le système vérifie si le type de matériel est géré dans HAM.
-
-⸻
-
-Cas A – Matériel géré dans HAM
-
-Le technicien :
-
-* scanne le matériel,
-* le système l’identifie dans HAM,
-* les informations sont récupérées,
-* puis l’item est ajouté au bucket.
-
-⸻
-
-Cas B – Matériel non géré dans HAM
-
-Le technicien :
-
-* saisit manuellement les informations.
-
-Puis l’item est ajouté au bucket.
-
-⸻
-
-5.4 Traitement de plusieurs demandes
-
-Une fois une demande traitée :
-
-* le système réaffiche les demandes restantes.
-
-Le technicien peut alors :
-
-* traiter un autre équipement,
-* ou finaliser le parcours.
-
-⸻
-
-6. Gestion des accessoires
-
-6.1 Sélection d’un accessoire
-
-Lorsque le technicien ajoute un accessoire :
-
-* le système affiche les catégories disponibles.
-
-Exemples :
-
-* casque,
-* filtre de confidentialité,
-* chargeur,
-* clavier,
-* souris,
-* etc.
-
-⸻
-
-6.2 Sous-catégories
-
-Selon le type d’accessoire :
-
-* des sous-catégories peuvent être proposées.
-
-Exemple :
-
-* casque filaire,
-* casque sans fil.
-
-⸻
-
-6.3 Niveau de détail
-
-Le premier MVP ne nécessitera pas :
-
-* une exhaustivité HAM,
-* ni une gestion complète des références accessoires.
-
-L’objectif est :
-
-* d’assurer une traçabilité minimale et cohérente.
-
-⸻
-
-7. Return Summary / Delivery Summary
-
-Une fois les items ajoutés :
-
-* le technicien accède à une vue récapitulative.
-
-Cette vue permet :
-
-* de contrôler les équipements remis,
-* vérifier les informations,
-* supprimer un item si nécessaire,
-* confirmer la remise globale.
-
-⸻
-
-8. Signature utilisateur
-
-Le parcours de signature est identique au parcours de restitution.
-
-Le système réutilise :
-
-* les mécanismes existants,
-* les méthodes de signature existantes.
-
-Après signature :
-
-* la remise est validée.
-
-⸻
-
-9. Étape finale – Actions post-remise
-
-Une fois l’utilisateur parti :
-
-* le système affiche les actions complémentaires éventuellement nécessaires.
-
-⸻
-
-Exemples d’actions affichées
-
-Matériel ajouté manuellement
-
-Le système peut indiquer :
-
-* qu’une mise à jour HAM est nécessaire,
-* ou qu’une régularisation manuelle doit être réalisée.
-
-⸻
-
-Demandes non catalogue groupe
-
-Le système peut rappeler :
-
-* qu’une mise à jour manuelle de la demande métier externe reste à faire.
-
-⸻
-
-10. Objectifs UX du parcours
-
-Le parcours doit :
-
-* guider les techniciens étape par étape,
-* limiter les oublis,
-* standardiser les pratiques,
-* assurer la traçabilité,
-* maximiser le reuse des composants existants du parcours restitution,
-* permettre une adaptation selon le niveau d’intégration disponible.
-
-⸻
-
-Franchement, tu tiens déjà quelque chose de très structuré.
-On voit bien :
-
-* la séparation des cas,
-* les règles métier,
-* les points de reuse,
-* les dépendances HAM/catalogue,
-* et les futures actions techniques.
-
-L’étape suivante logique serait probablement :
-
-1. validation key users,
-2. schéma visuel du flow,
-3. découpage en epics,
-4. puis user stories détaillées par écran/composant.
+Given the pilot phase context,
+when the technical team needs to activate the workflow for a targeted counter,
+then the activation can be performed directly through configuration/back-end without using a front-end Settings interface.
