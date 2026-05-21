@@ -1,225 +1,163 @@
-Dans le cadre d’une visite en comptoir IT pour un incident, la “bonne expérience utilisateur” ne repose pas principalement sur l’application, mais sur le ressenti global du collaborateur pendant toute sa prise en charge.
-
-Les facteurs clés sont généralement les suivants :
-
-⸻
-
-1. Être pris en charge rapidement
-
-C’est souvent le facteur numéro un.
-
-Quand un utilisateur vient au comptoir :
-
-* il est souvent bloqué ;
-* stressé ;
-* sous pression ;
-* parfois en réunion imminente ;
-* ou incapable de travailler.
-
-L’attente est donc extrêmement sensible.
-
-Les éléments importants :
-
-* faible temps d’attente ;
-* visibilité sur la file ;
-* sentiment que “ça avance” ;
-* accueil rapide même si la résolution prend du temps.
-
-Même un simple :
-
-“Bonjour, on vous prend dans 5 minutes”
-
-améliore énormément l’expérience.
+Oui, clairement.
+Je te le restructure en mode “speaker friendly”, avec des titres très visibles et naturels à annoncer pendant ton meeting. Comme ça, tu peux facilement retrouver ton fil si tu improvises entre deux parties.
 
 ⸻
 
-2. Être accueilli humainement
+ROADMAP SLIDE
 
-L’utilisateur ne vient pas juste chercher une réparation technique.
+Introduction
 
-Il veut :
+“Let me now give you a quick focus on the most important roadmap topics and upcoming evolutions for Le Comptoir.
 
-* être écouté ;
-* compris ;
-* rassuré ;
-* considéré.
-
-Les irritants fréquents :
-
-* technicien froid ;
-* jargon technique ;
-* sentiment d’être “un ticket parmi d’autres”.
-
-Les leviers forts :
-
-* empathie ;
-* écoute active ;
-* reformulation du problème ;
-* posture calme et professionnelle.
+I will not go through every single roadmap item today because it would take too much time, but I would like to highlight the key initiatives that are coming soon.”
 
 ⸻
 
-3. Avoir confiance dans la compétence du support
+1. Hardware Traceability
 
-Très important psychologiquement.
+“The most important short-term topic is clearly the hardware traceability journey that we are integrating directly into Le Comptoir.
 
-L’utilisateur veut sentir :
+We are almost done with the development of the hardware return declaration process.
 
-* que le technicien maîtrise la situation ;
-* que le problème est compris ;
-* qu’il existe une solution ;
-* qu’il est entre de bonnes mains.
+Just as a reminder, this process will ensure full traceability for all hardware return scenarios.
 
-Les marqueurs :
+The technician will scan the equipment, the application will retrieve the asset information directly from the CMDB, and the whole process will end with a user signature and proof storage.
 
-* diagnostic rapide ;
-* discours clair ;
-* gestes assurés ;
-* processus fluide ;
-* environnement organisé.
+During the pilot phase, I will organize a dedicated demonstration session to show exactly how the process works and how the teams will use it operationally.
 
-Même avant la résolution réelle, la confiance améliore déjà l’expérience.
+There are too many details to explain today, so we will really focus on this topic separately.”
 
 ⸻
 
-4. Minimiser l’impact sur son activité
+2. Next Traceability Use Cases
 
-Le collaborateur pense surtout :
+“During the next few months, we will extend this traceability capability to additional use cases:
 
-“Quand vais-je pouvoir retravailler normalement ?”
-
-Donc l’expérience est fortement liée à :
-
-* la rapidité de résolution ;
-* le prêt immédiat d’un équipement ;
-* l’absence de ressaisie ;
-* la continuité de service.
-
-Un utilisateur peut accepter une panne…
-mais beaucoup moins une immobilisation prolongée.
+* hardware delivery following a request,
+* hardware exchange in the context of an incident,
+* onboarding scenarios for new joiners,
+* and welcome lunch sessions.”
 
 ⸻
 
-5. Donner de la visibilité
+3. Power BI Enhancements
 
-L’incertitude dégrade énormément l’expérience.
+“We will also enrich the Power BI reporting with new indicators.
 
-L’utilisateur veut savoir :
-
-* ce qui se passe ;
-* combien de temps cela va prendre ;
-* quelles sont les prochaines étapes ;
-* s’il doit revenir ;
-* s’il recevra des nouvelles.
-
-Même une mauvaise nouvelle passe mieux qu’une absence d’information.
+You will soon have more visibility regarding treatment times by ServiceNow category, which should help you identify where the biggest operational impacts are and where improvement opportunities may exist.”
 
 ⸻
 
-6. Éviter les efforts inutiles
+4. Badge Database Integration
 
-L’utilisateur déteste :
+“Another important topic concerns the welcome tablet in France.
 
-* répéter plusieurs fois son problème ;
-* redonner ses informations ;
-* remplir des formulaires inutiles ;
-* devoir “se battre” avec le process.
+Le Comptoir will soon be connected directly to the badge management database — currently managed by IMEX.
 
-Les expériences perçues comme excellentes donnent une impression :
+This means that for new joiners or temporary badge loans, the application will immediately identify the user behind the badge in real time.
 
-“Ils ont déjà compris ma situation.”
-
-Exemples :
-
-* matériel détecté automatiquement ;
-* ticket déjà préparé ;
-* informations pré-remplies ;
-* récupération automatique du contexte.
+And if some of your countries or territories have the possibility to expose an API from their own badge management provider, we can also study similar integrations locally.”
 
 ⸻
 
-7. Résoudre réellement le problème
+5. AI Analytics & Insights
 
-Évidemment essentiel.
+“Moving now to more mid-term initiatives.
 
-Mais point intéressant :
-la satisfaction n’est pas uniquement liée au succès technique.
+We are planning to introduce AI capabilities into the Power BI analytics.
 
-Un incident difficile peut malgré tout produire une bonne expérience si :
+The objective is to automatically analyze dissatisfaction reasons, user comments, and treatment times by category.
 
-* l’utilisateur a été bien accompagné ;
-* tenu informé ;
-* dépanné temporairement ;
-* pris au sérieux.
+The AI will analyze user sentiment, categorize dissatisfaction drivers, and provide rankings and insights for each counter.
+
+The idea is really to help pre-analyze the data and simplify the identification of improvement opportunities.”
 
 ⸻
 
-8. Donner une impression de fluidité et d’organisation
+6. Apple Ecosystem Evolution
 
-L’utilisateur juge énormément :
+“Another upcoming evolution is the support of Apple TV devices as a replacement for Mini PCs connected to TVs in the counters.
 
-* l’organisation visible ;
-* la propreté ;
-* le calme ;
-* la coordination ;
-* le professionnalisme du comptoir.
-
-Même inconsciemment.
-
-Exemples :
-
-* pas d’attente “chaotique” ;
-* techniciens synchronisés ;
-* matériel prêt ;
-* process clair ;
-* signalétique compréhensible.
+For new counter deployments, this will allow territories that want it to move to a fully Apple and Intune ecosystem.”
 
 ⸻
 
-9. Créer un sentiment de personnalisation
+7. Optional Modules
 
-Les très bonnes expériences donnent l’impression :
+“We are also planning several optional modules that each counter will be able to activate or deactivate depending on their local needs.”
 
-“On s’occupe de moi.”
+Technician Attendance Tracking
 
-Même avec des processus industriels.
+“For example, some countries requested a very simple attendance tracking solution for technicians, directly on the back-office tablet, allowing technicians to easily declare arrival, breaks, and departure.”
 
-Petits détails puissants :
+Electronic Signature Module
 
-* appeler l’utilisateur par son nom ;
-* connaître son contexte ;
-* adapter le discours ;
-* anticiper les besoins.
+“The electronic signature module is also coming soon and will support signature workflows for hardware exchanges at the counter.”
 
-⸻
+Mia Awareness on Welcome Tablet
 
-10. Finir sur une conclusion claire et rassurante
+“On the welcome tablet side, we are also preparing a communication feature around Mia, in order to remind and encourage employees to use Mia before coming to the counter, especially when they have questions or incidents that could potentially be solved upstream.
 
-La dernière impression compte énormément.
+Again, this feature will remain optional depending on whether Mia has been deployed in your country.”
 
-L’utilisateur doit repartir en sachant :
+Respect & Kindness Reminder
 
-* ce qui a été fait ;
-* ce qu’il doit faire ;
-* ce qui va se passer ensuite ;
-* où trouver de l’aide si besoin.
-
-Une sortie confuse dégrade le souvenir global.
+“And finally, based on some feedback we received in France, we also plan to display a short kindness and respect reminder message at the end of the visit registration journey, simply to encourage respectful and positive interactions with the support teams.”
 
 ⸻
 
-En résumé, dans un comptoir IT, les grands piliers d’une excellente expérience sont généralement :
+Conclusion
 
-Facteur	Impact émotionnel
-Rapidité	Réduit le stress
-Empathie	Donne confiance
-Compétence perçue	Rassure
-Fluidité	Réduit l’effort
-Visibilité	Réduit l’incertitude
-Continuité de travail	Protège la productivité
-Organisation	Inspire le professionnalisme
-Personnalisation	Donne de la considération
+“I will stop here for the roadmap section because I already covered quite a lot of information.”
 
-Et souvent, la perception globale peut se résumer à une seule question :
+⸻
 
-“Est-ce que ce comptoir m’a simplifié la vie… ou compliqué ma journée ?”
+KPI SLIDE
+
+1. Waiting Time KPI Trend
+
+“Now, regarding the KPI follow-up and waiting time objectives.
+
+Globally, we can see that fewer and fewer counters are currently in the red zone regarding waiting time objectives, which is a positive trend.”
+
+⸻
+
+2. Counters Still Facing Challenges
+
+“However, for April, we still observe that the counters displayed below remain the same ones month after month.
+
+So I really encourage you to analyze the situation locally and define action plans to reduce waiting times and improve the overall user experience.”
+
+⸻
+
+3. Support & Collaboration
+
+“And of course, if needed, I can support you on this topic.
+
+We can organize dedicated sessions to review your indicators together and identify potential improvement levers.”
+
+⸻
+
+4. New KPI Objective: Treatment Time
+
+“I would also like to announce that we are preparing a new KPI objective around treatment time.
+
+Today, user satisfaction is not only impacted by waiting time, but also by the overall duration of the visit itself.
+
+Users want to spend as little time as possible at the counter, so we believe it is important to progressively introduce treatment time objectives as well.”
+
+⸻
+
+5. Pilot & Benchmarking
+
+“We will probably start with a pilot on one counter first to evaluate the approach.
+
+The idea is for each counter to compare treatment times by category with other counters and identify opportunities to improve operational efficiency.
+
+I am convinced that we still have room for optimization.”
+
+⸻
+
+6. Future Power BI Evolutions
+
+“To support this, we will continue enriching the Power BI reports with additional indicators, especially based on ServiceNow ticket categories and subcategories, in order to help you better understand and analyze your local operations.”
