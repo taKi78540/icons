@@ -1,62 +1,253 @@
-User Story – Enable Hardware Return Workflow per Counter
+Voici le résumé fonctionnel complet du parcours, rédigé pour accompagner le diagramme UML et servir ensuite de base à la rédaction des User Stories.
 
-As a Le Comptoir Product Owner / administrator,
-I want to enable or disable the Hardware Return workflow for a specific counter,
-so that the pilot can be limited to selected counters without making the feature available globally.
+⸻
 
-Context
+Hardware Delivery Process – Functional Summary
 
-The Hardware Return workflow must be progressively deployed, starting with one or several pilot counters.
+Overview
 
-In the future, the activation will be managed through the Settings page using each counter’s VU Settings.
-For this first pilot version, no front-end integration in the Settings page is required.
+This workflow manages hardware delivery operations performed at Le Comptoir.
 
-The objective of this story is only to implement the configuration/back-end capability so the workflow is available exclusively for enabled counters.
+It supports two different contexts:
 
-Functional Rules
+* Users supported by the Group Catalog
+* Users not supported by the Group Catalog
 
-* A new parameter must allow enabling or disabling the Hardware Return workflow for a counter.
-* This parameter is defined at counter level within the VU Settings.
-* By default, the workflow must be disabled for counters without configuration.
-* If the parameter is enabled for a counter, the Hardware Return workflow actions must be available for this counter.
-* If the parameter is disabled or missing, the workflow must not be accessible from this counter.
-* For the pilot phase, the parameter can be updated directly in configuration/back-end without any administration UI.
+The process also supports replacement scenarios, where existing hardware must be returned before the new equipment is delivered.
 
-Out of Scope
+The objective is to ensure:
 
-* No front-end integration in the Settings page.
-* No visual toggle management in the administration interface.
-* No modification of the existing Settings mockups already designed.
-* No global deployment of the workflow to all counters.
+* End-to-end traceability
+* Standardized technician workflows
+* Proper linkage between delivery and return operations
+* Flexibility when exceptions occur
+* Auditability of all actions performed
 
-Acceptance Criteria
+⸻
 
-AC1 – Counter-level activation parameter
+1. User Identification
 
-Given an existing counter,
-when a Hardware Return workflow activation parameter is defined in its VU Settings,
-then the application can determine whether the workflow is enabled or disabled for this counter.
+The workflow always starts with the identification of the visitor.
 
-AC2 – Disabled by default
+Depending on the user profile, the system determines whether the user is supported by the Group Catalog or not.
 
-Given a counter without any configured parameter,
-when the application checks the workflow activation status,
-then the Hardware Return workflow is considered disabled.
+This decision drives the workflow branch that will be used.
 
-AC3 – Workflow available for enabled counters
+⸻
 
-Given a counter for which the activation parameter is enabled,
-when a coach accesses the available actions from this counter,
-then the action allowing the launch of the Hardware Return workflow is available.
+2. User Supported by Group Catalog (2B)
 
-AC4 – Workflow hidden for non-enabled counters
+Request Identification
 
-Given a counter for which the activation parameter is disabled or missing,
-when a coach accesses the available actions from this counter,
-then the action allowing the launch of the Hardware Return workflow is not available.
+When the user is catalog-supported:
 
-AC5 – Pilot activation without Settings UI
+* the system displays all identified requests associated with the user.
 
-Given the pilot phase context,
-when the technical team needs to activate the workflow for a targeted counter,
-then the activation can be performed directly through configuration/back-end without using a front-end Settings interface.
+If no request is available:
+
+* the process ends immediately.
+
+The technician selects the request to process.
+
+⸻
+
+Replacement Handling
+
+The system checks whether the selected request is a replacement request.
+
+If the request is NOT a replacement
+
+The workflow continues directly to the new hardware delivery process.
+
+If the request IS a replacement
+
+The hardware return workflow must be executed first.
+
+⸻
+
+3. Replacement Return Workflow
+
+Missing Hardware Check
+
+The system checks whether the hardware that should be returned is available.
+
+If the hardware is available
+
+The technician proceeds with the return process.
+
+The system checks whether the returned hardware is managed in HAM.
+
+If the hardware is managed in HAM
+
+The technician:
+
+* scans or searches the equipment in HAM
+* retrieves equipment information automatically
+
+If the equipment cannot be identified:
+
+* the technician manually enters the equipment information.
+
+If the hardware is NOT managed in HAM
+
+The technician manually enters the available equipment information.
+
+Once completed:
+
+* the returned hardware is added to the bucket
+* the return operation is associated with the current request
+
+⸻
+
+Missing Hardware Exception
+
+If the hardware to return is missing:
+
+* the technician may decide whether or not to continue the process.
+
+If the technician refuses to continue
+
+The process ends and the request is not completed.
+
+If the technician decides to continue anyway
+
+The technician must:
+
+* click “Skip return”
+* enter a mandatory justification
+
+The system then:
+
+* logs the incomplete return
+* associates the justification with the current request
+
+This guarantees operational flexibility while preserving auditability.
+
+⸻
+
+4. New Hardware Delivery Workflow
+
+Once the return workflow is completed (or bypassed), the technician starts the new hardware delivery workflow.
+
+The system checks whether the delivered hardware is managed in HAM.
+
+If the hardware is managed in HAM
+
+The technician:
+
+* scans or searches the equipment in HAM
+* retrieves hardware information automatically
+
+If the hardware cannot be identified:
+
+* the technician manually enters the equipment information.
+
+If the hardware is NOT managed in HAM
+
+The technician manually enters the hardware information directly.
+
+Once completed:
+
+* the delivered item is added to the bucket
+
+⸻
+
+5. User Not Supported by Group Catalog (2A)
+
+For users outside the Group Catalog:
+
+* the technician manually selects the delivery type
+* the technician enters the business request reference
+
+The system then asks whether the operation is a replacement requiring hardware collection.
+
+⸻
+
+Replacement Scenario
+
+If replacement hardware must be collected:
+
+* the return workflow is executed first
+* the same return rules and exception handling apply
+
+This includes:
+
+* HAM lookup
+* manual entry
+* missing hardware handling
+* mandatory justification when bypassing return
+
+Returned items are associated with the business request reference.
+
+⸻
+
+Delivery Workflow
+
+After return handling:
+
+* the new hardware delivery workflow is executed
+* delivered items are added to the bucket
+
+The technician may continue adding:
+
+* additional hardware
+* additional requests
+
+⸻
+
+6. Bucket Logic
+
+Throughout the workflow:
+
+* all delivered items
+* all returned items
+
+are progressively added into a common bucket.
+
+The bucket represents the full transaction currently being processed.
+
+This enables:
+
+* consolidated review
+* unified signature
+* full traceability
+
+⸻
+
+7. Final Summary and Validation
+
+At the end of the workflow, the system displays a complete delivery summary.
+
+The technician can:
+
+* review items
+* modify information
+* remove incorrect items if necessary
+
+The user then:
+
+* reviews the summary
+* signs the delivery electronically
+
+Finally, the technician:
+
+* validates the operation
+* saves traceability and history
+
+The system then displays:
+
+* post-delivery actions
+* next operational steps if required
+
+⸻
+
+Key Functional Objectives
+
+The workflow is designed to:
+
+* Standardize hardware delivery operations
+* Support onboarding and replacement scenarios
+* Ensure complete hardware traceability
+* Maintain technician flexibility in exceptional situations
+* Preserve auditability when returns are bypassed
+* Simplify operational workflows across all comptoirs
