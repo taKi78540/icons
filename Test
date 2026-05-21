@@ -1,253 +1,225 @@
-Voici le résumé fonctionnel complet du parcours, rédigé pour accompagner le diagramme UML et servir ensuite de base à la rédaction des User Stories.
+Dans le cadre d’une visite en comptoir IT pour un incident, la “bonne expérience utilisateur” ne repose pas principalement sur l’application, mais sur le ressenti global du collaborateur pendant toute sa prise en charge.
+
+Les facteurs clés sont généralement les suivants :
 
 ⸻
 
-Hardware Delivery Process – Functional Summary
+1. Être pris en charge rapidement
 
-Overview
+C’est souvent le facteur numéro un.
 
-This workflow manages hardware delivery operations performed at Le Comptoir.
+Quand un utilisateur vient au comptoir :
 
-It supports two different contexts:
+* il est souvent bloqué ;
+* stressé ;
+* sous pression ;
+* parfois en réunion imminente ;
+* ou incapable de travailler.
 
-* Users supported by the Group Catalog
-* Users not supported by the Group Catalog
+L’attente est donc extrêmement sensible.
 
-The process also supports replacement scenarios, where existing hardware must be returned before the new equipment is delivered.
+Les éléments importants :
 
-The objective is to ensure:
+* faible temps d’attente ;
+* visibilité sur la file ;
+* sentiment que “ça avance” ;
+* accueil rapide même si la résolution prend du temps.
 
-* End-to-end traceability
-* Standardized technician workflows
-* Proper linkage between delivery and return operations
-* Flexibility when exceptions occur
-* Auditability of all actions performed
+Même un simple :
 
-⸻
+“Bonjour, on vous prend dans 5 minutes”
 
-1. User Identification
-
-The workflow always starts with the identification of the visitor.
-
-Depending on the user profile, the system determines whether the user is supported by the Group Catalog or not.
-
-This decision drives the workflow branch that will be used.
+améliore énormément l’expérience.
 
 ⸻
 
-2. User Supported by Group Catalog (2B)
+2. Être accueilli humainement
 
-Request Identification
+L’utilisateur ne vient pas juste chercher une réparation technique.
 
-When the user is catalog-supported:
+Il veut :
 
-* the system displays all identified requests associated with the user.
+* être écouté ;
+* compris ;
+* rassuré ;
+* considéré.
 
-If no request is available:
+Les irritants fréquents :
 
-* the process ends immediately.
+* technicien froid ;
+* jargon technique ;
+* sentiment d’être “un ticket parmi d’autres”.
 
-The technician selects the request to process.
+Les leviers forts :
 
-⸻
-
-Replacement Handling
-
-The system checks whether the selected request is a replacement request.
-
-If the request is NOT a replacement
-
-The workflow continues directly to the new hardware delivery process.
-
-If the request IS a replacement
-
-The hardware return workflow must be executed first.
+* empathie ;
+* écoute active ;
+* reformulation du problème ;
+* posture calme et professionnelle.
 
 ⸻
 
-3. Replacement Return Workflow
+3. Avoir confiance dans la compétence du support
 
-Missing Hardware Check
+Très important psychologiquement.
 
-The system checks whether the hardware that should be returned is available.
+L’utilisateur veut sentir :
 
-If the hardware is available
+* que le technicien maîtrise la situation ;
+* que le problème est compris ;
+* qu’il existe une solution ;
+* qu’il est entre de bonnes mains.
 
-The technician proceeds with the return process.
+Les marqueurs :
 
-The system checks whether the returned hardware is managed in HAM.
+* diagnostic rapide ;
+* discours clair ;
+* gestes assurés ;
+* processus fluide ;
+* environnement organisé.
 
-If the hardware is managed in HAM
-
-The technician:
-
-* scans or searches the equipment in HAM
-* retrieves equipment information automatically
-
-If the equipment cannot be identified:
-
-* the technician manually enters the equipment information.
-
-If the hardware is NOT managed in HAM
-
-The technician manually enters the available equipment information.
-
-Once completed:
-
-* the returned hardware is added to the bucket
-* the return operation is associated with the current request
+Même avant la résolution réelle, la confiance améliore déjà l’expérience.
 
 ⸻
 
-Missing Hardware Exception
+4. Minimiser l’impact sur son activité
 
-If the hardware to return is missing:
+Le collaborateur pense surtout :
 
-* the technician may decide whether or not to continue the process.
+“Quand vais-je pouvoir retravailler normalement ?”
 
-If the technician refuses to continue
+Donc l’expérience est fortement liée à :
 
-The process ends and the request is not completed.
+* la rapidité de résolution ;
+* le prêt immédiat d’un équipement ;
+* l’absence de ressaisie ;
+* la continuité de service.
 
-If the technician decides to continue anyway
-
-The technician must:
-
-* click “Skip return”
-* enter a mandatory justification
-
-The system then:
-
-* logs the incomplete return
-* associates the justification with the current request
-
-This guarantees operational flexibility while preserving auditability.
+Un utilisateur peut accepter une panne…
+mais beaucoup moins une immobilisation prolongée.
 
 ⸻
 
-4. New Hardware Delivery Workflow
+5. Donner de la visibilité
 
-Once the return workflow is completed (or bypassed), the technician starts the new hardware delivery workflow.
+L’incertitude dégrade énormément l’expérience.
 
-The system checks whether the delivered hardware is managed in HAM.
+L’utilisateur veut savoir :
 
-If the hardware is managed in HAM
+* ce qui se passe ;
+* combien de temps cela va prendre ;
+* quelles sont les prochaines étapes ;
+* s’il doit revenir ;
+* s’il recevra des nouvelles.
 
-The technician:
-
-* scans or searches the equipment in HAM
-* retrieves hardware information automatically
-
-If the hardware cannot be identified:
-
-* the technician manually enters the equipment information.
-
-If the hardware is NOT managed in HAM
-
-The technician manually enters the hardware information directly.
-
-Once completed:
-
-* the delivered item is added to the bucket
+Même une mauvaise nouvelle passe mieux qu’une absence d’information.
 
 ⸻
 
-5. User Not Supported by Group Catalog (2A)
+6. Éviter les efforts inutiles
 
-For users outside the Group Catalog:
+L’utilisateur déteste :
 
-* the technician manually selects the delivery type
-* the technician enters the business request reference
+* répéter plusieurs fois son problème ;
+* redonner ses informations ;
+* remplir des formulaires inutiles ;
+* devoir “se battre” avec le process.
 
-The system then asks whether the operation is a replacement requiring hardware collection.
+Les expériences perçues comme excellentes donnent une impression :
 
-⸻
+“Ils ont déjà compris ma situation.”
 
-Replacement Scenario
+Exemples :
 
-If replacement hardware must be collected:
-
-* the return workflow is executed first
-* the same return rules and exception handling apply
-
-This includes:
-
-* HAM lookup
-* manual entry
-* missing hardware handling
-* mandatory justification when bypassing return
-
-Returned items are associated with the business request reference.
+* matériel détecté automatiquement ;
+* ticket déjà préparé ;
+* informations pré-remplies ;
+* récupération automatique du contexte.
 
 ⸻
 
-Delivery Workflow
+7. Résoudre réellement le problème
 
-After return handling:
+Évidemment essentiel.
 
-* the new hardware delivery workflow is executed
-* delivered items are added to the bucket
+Mais point intéressant :
+la satisfaction n’est pas uniquement liée au succès technique.
 
-The technician may continue adding:
+Un incident difficile peut malgré tout produire une bonne expérience si :
 
-* additional hardware
-* additional requests
-
-⸻
-
-6. Bucket Logic
-
-Throughout the workflow:
-
-* all delivered items
-* all returned items
-
-are progressively added into a common bucket.
-
-The bucket represents the full transaction currently being processed.
-
-This enables:
-
-* consolidated review
-* unified signature
-* full traceability
+* l’utilisateur a été bien accompagné ;
+* tenu informé ;
+* dépanné temporairement ;
+* pris au sérieux.
 
 ⸻
 
-7. Final Summary and Validation
+8. Donner une impression de fluidité et d’organisation
 
-At the end of the workflow, the system displays a complete delivery summary.
+L’utilisateur juge énormément :
 
-The technician can:
+* l’organisation visible ;
+* la propreté ;
+* le calme ;
+* la coordination ;
+* le professionnalisme du comptoir.
 
-* review items
-* modify information
-* remove incorrect items if necessary
+Même inconsciemment.
 
-The user then:
+Exemples :
 
-* reviews the summary
-* signs the delivery electronically
-
-Finally, the technician:
-
-* validates the operation
-* saves traceability and history
-
-The system then displays:
-
-* post-delivery actions
-* next operational steps if required
+* pas d’attente “chaotique” ;
+* techniciens synchronisés ;
+* matériel prêt ;
+* process clair ;
+* signalétique compréhensible.
 
 ⸻
 
-Key Functional Objectives
+9. Créer un sentiment de personnalisation
 
-The workflow is designed to:
+Les très bonnes expériences donnent l’impression :
 
-* Standardize hardware delivery operations
-* Support onboarding and replacement scenarios
-* Ensure complete hardware traceability
-* Maintain technician flexibility in exceptional situations
-* Preserve auditability when returns are bypassed
-* Simplify operational workflows across all comptoirs
+“On s’occupe de moi.”
+
+Même avec des processus industriels.
+
+Petits détails puissants :
+
+* appeler l’utilisateur par son nom ;
+* connaître son contexte ;
+* adapter le discours ;
+* anticiper les besoins.
+
+⸻
+
+10. Finir sur une conclusion claire et rassurante
+
+La dernière impression compte énormément.
+
+L’utilisateur doit repartir en sachant :
+
+* ce qui a été fait ;
+* ce qu’il doit faire ;
+* ce qui va se passer ensuite ;
+* où trouver de l’aide si besoin.
+
+Une sortie confuse dégrade le souvenir global.
+
+⸻
+
+En résumé, dans un comptoir IT, les grands piliers d’une excellente expérience sont généralement :
+
+Facteur	Impact émotionnel
+Rapidité	Réduit le stress
+Empathie	Donne confiance
+Compétence perçue	Rassure
+Fluidité	Réduit l’effort
+Visibilité	Réduit l’incertitude
+Continuité de travail	Protège la productivité
+Organisation	Inspire le professionnalisme
+Personnalisation	Donne de la considération
+
+Et souvent, la perception globale peut se résumer à une seule question :
+
+“Est-ce que ce comptoir m’a simplifié la vie… ou compliqué ma journée ?”
