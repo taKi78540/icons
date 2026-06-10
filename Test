@@ -1,190 +1,160 @@
-@startuml
-title Return Hardware — Global Front + Backend Flow
+Je pense que ton entretien avec Fred doit être organisé comme une enquête. Tu ne cherches pas à obtenir le poste. Tu cherches à comprendre exactement ce qu’il veut construire, pour ensuite pouvoir discuter avec Marc avec des faits et non des suppositions.
 
-legend right
-|= Color |= Meaning |
-|<#DDEEFF>| Visitor / Entry tablet |
-|<#E8F5E9>| Technician front workflow |
-|<#FFF4CC>| Validation / decision |
-|<#EADCF8>| Signature |
-|<#E0F7FA>| Backend identification |
-|<#DFF0D8>| Backend request creation |
-|<#FFF4CC>| Catalog check |
-|<#EADCF8>| Traceability / existing request link |
-|<#FCE4EC>| PV generation / SharePoint storage |
-endlegend
+Je structurerais la discussion en 5 blocs.
 
-start
+1. Quelle est ta vision ?
 
-partition "Visitor experience — Entry tablet" #DDEEFF {
-  :Visitor arrives at Le Comptoir;
-  :Visitor identifies himself on entry tablet;
-  :Visitor selects **Return Hardware**;
-  :Visit is created / updated;
-  :Visit reason = Hardware return;
-  :Visitor joins waiting queue;
-}
+Commence par le plus stratégique.
 
-partition "Technician experience — Return Hardware front workflow" #E8F5E9 {
-  :Technician takes charge of visitor;
-  :Open visitor file;
-  :Start **Return Hardware process**;
+“J’ai réfléchi à notre échange et j’aimerais mieux comprendre la vision que tu as derrière ce poste.”
 
-  :Open barcode scan / manual entry step;
+Puis :
 
-  repeat
-    :Scan barcode / enter serial number;
+“Quel problème cherches-tu à résoudre en me proposant de te rejoindre ?”
 
-    if (Equipment identified?) then (Yes)
-      :Display equipment information;
-      :Technician selects target stockroom;
-    else (No)
-      :Technician enters available equipment data manually;
-      :Technician selects target stockroom;
-    endif
+Pourquoi ?
 
-    :Technician validates item;
-    :Add equipment to return bucket;
+Parce que tu vas découvrir si :
 
-  repeat while (Another equipment with barcode?) is (Yes)
+* il manque un PO ;
+* il manque un coordinateur ;
+* il manque un leader produit ;
+* il manque un relais entre les équipes.
 
-  :Proceed to accessories step;
+C’est probablement la question la plus importante de toutes.
 
-  if (Accessories returned?) then (Yes)
-    repeat
-      :Technician selects returned accessory;
-      :Set quantity if more than one;
-      :Accessory is automatically added to return bucket;
-    repeat while (Another accessory?) is (Yes)
-  else (No)
-    :No accessories declared;
-  endif
+⸻
 
-  :Technician clicks Next;
-  :Proceed to Return Summary;
+2. Quel serait concrètement mon rôle ?
 
-  :Display all returned elements;
-  :Equipment with barcode;
-  :Manual / non-HAM equipment;
-  :Accessories with quantities;
-  :Target stockroom per item;
+Ensuite :
 
-  if (Technician validates summary?) then (Yes)
-    :Proceed to signature step;
-  else (No)
-    :Technician goes back and updates bucket;
-  endif
-}
+“Si David valide, qu’est-ce que tu attends de moi dès les six premiers mois ?”
 
-partition "Signature and front confirmation" #EADCF8 {
-  :Choose signature method;
+Puis :
 
-  if (Signature on technician screen?) then (Yes)
-    :Visitor signs on technician screen;
-  else (Signature on entry tablet)
-    :Generate short signature code;
-    :Visitor enters code on tablet;
-    :Visitor signs on tablet;
-    :Signature completion is sent back to technician screen;
-  endif
+“Quelles seraient mes responsabilités principales ?”
 
-  if (Signature completed?) then (Yes)
-    :Technician validates final return;
-    :Front process completed;
-  else (No)
-    :Return remains pending signature;
-    stop
-  endif
-}
+Puis :
 
-partition "Backend — Identification" #E0F7FA {
-  :Returned item received;
+“Comment se répartirait mon temps entre mes produits, l’accompagnement des autres PO, les études et les sujets transverses ?”
 
-  if (Item type = PC / Mac / Mobile?) then (Yes)
+Pourquoi ?
 
-    if (Item identified in HAM?) then (Yes)
-      :Retrieve equipment data from HAM;
-      :Retrieve HAM owner as reference user;
+Aujourd’hui tu as beaucoup d’indices mais pas encore une définition claire du poste.
 
-    else (No)
-      :Search item in PIRUS;
+À la fin de cette partie, tu dois être capable de décrire ton futur rôle en trois phrases.
 
-      if (Item identified in PIRUS?) then (Yes)
-        :Retrieve equipment data from PIRUS;
-        :Retrieve PIRUS primary user as reference user;
-      else (No)
-        :Technician enters available equipment data manually;
-        :Retrieve declared owner as reference user if provided;
-      endif
-    endif
+⸻
 
-  else (No)
-    :Accessory or non-HAM searchable item;
-    :Use visitor as reference user;
-  endif
-}
+3. Quel niveau de responsabilité ?
 
-partition "Backend — Request creation" #DFF0D8 {
-  if (Item type = Accessory?) then (Yes)
-    :Create dedicated ServiceNow Return Request;
-    :Populate Request with accessory return data;
+Là on entre dans le cœur du sujet.
 
-  else (No)
-    if (Item identified in HAM?) then (Yes)
-      :Create dedicated ServiceNow Return Request;
-      :Populate Request with HAM equipment data;
-    else (No)
-      :Create dedicated ServiceNow Return Request;
-      :Set "equipment not found in HAM" = true;
-      :Populate Request with PIRUS or manual data;
-    endif
-  endif
+“Quand tu me parles d’accompagner les autres PO, qu’est-ce que cela signifie concrètement ?”
 
-  :Retrieve created Request reference;
-  :Update generated SC Task;
-  :Assignment group, technician, status;
-}
+Puis :
 
-partition "Backend — Traceability / existing request link" #EADCF8 {
-  if (Reference user identified?) then (Yes)
+“Est-ce que j’aurai simplement un rôle de conseil ou également un rôle d’arbitrage sur certains sujets ?”
 
-    partition "Catalog check" #FFF4CC {
-      :Check whether reference user is catalog-supported;
+Puis :
 
-      if (Catalog-supported?) then (Yes)
-        :Search open restitution RITM;
-        :For reference user + returned item type;
+“Est-ce que tu me vois comme un référent produit transverse du domaine ?”
 
-        if (Matching RITM found?) then (Yes)
-          :Add created Request reference;
-          :To additional notes of existing RITM;
-        else (No)
-          :No existing restitution request found;
-        endif
+Pourquoi ?
 
-      else (No)
-        :Reference user not catalog-supported;
-        :No existing request link required;
-      endif
-    }
+C’est ce qui permet de savoir si :
 
-  else (No)
-    :Reference user not identified;
-    :No existing request link possible;
-  endif
-}
+* tu restes PO ;
+* tu deviens Lead Product ;
+* tu deviens une sorte de bras droit produit.
 
-partition "Backend — PV generation and SharePoint storage" #FCE4EC {
-  :Generate signed return proof / PV;
-  :Attach returned equipment list;
-  :Attach accessories and quantities;
-  :Attach visitor / reference user;
-  :Attach technician information;
-  :Attach date/time and Le Comptoir location;
-  :Generate PDF document;
-  :Store signed PV in SharePoint;
-}
+La différence est énorme.
 
-stop
+⸻
 
-@enduml
+4. Quelle trajectoire ?
+
+Une fois le rôle compris :
+
+“Si tout se passe bien, comment vois-tu mon évolution dans les deux ou trois prochaines années ?”
+
+Puis :
+
+“Quel serait le prochain palier après ce poste ?”
+
+Puis :
+
+“Qu’est-ce qui te ferait dire dans deux ans que j’ai pleinement réussi ?”
+
+Pourquoi ?
+
+Parce que tu veux savoir si ce poste est :
+
+* une mobilité latérale ;
+* un tremplin ;
+* une préparation à du management ;
+* une préparation à un rôle de leadership produit.
+
+⸻
+
+5. Positionnement, grade et rémunération
+
+Je mettrais ce sujet à la fin.
+
+Pas sous l’angle de l’argent.
+
+Sous l’angle de la cohérence.
+
+Tu peux dire :
+
+“De ce que tu me décris, j’ai l’impression qu’on est sur un périmètre plus large que celui que j’ai aujourd’hui. Comment vois-tu le positionnement du poste en termes de grade et de reconnaissance ?”
+
+Puis :
+
+“Est-ce que tu considères cette évolution comme une mobilité équivalente ou comme une progression de responsabilités ?”
+
+Et enfin :
+
+“Si le poste est validé, comment imagines-tu que cela se traduise en termes de package ou d’évolution salariale ?”
+
+Pourquoi ?
+
+Parce que tu ne négocies pas.
+
+Tu vérifies simplement que :
+
+* les responsabilités ;
+* le grade ;
+* la rémunération ;
+
+évoluent dans le même sens.
+
+⸻
+
+La question que je ne manquerais surtout pas
+
+À la fin de l’entretien :
+
+“Quand tu vas présenter mon profil à David, qu’est-ce que tu vas mettre en avant pour expliquer pourquoi tu veux que je rejoigne ton équipe ?”
+
+Celle-là vaut de l’or.
+
+Parce qu’elle te donnera la perception réelle de Fred.
+
+Et c’est précisément cette réponse que tu pourras ensuite reprendre auprès de Marc :
+
+“Fred me voit comme quelqu’un capable de porter la cohérence produit du domaine, d’accompagner les autres PO et de faire le lien entre les équipes techniques et fonctionnelles.”
+
+C’est beaucoup plus solide que :
+
+“Fred m’a proposé un poste qui a l’air intéressant.”
+
+À la fin de l’entretien, tu devrais idéalement repartir avec quatre réponses très claires :
+
+1. Quel est mon rôle exact ?
+2. Quel est mon niveau réel de responsabilité ?
+3. Quelle trajectoire d’évolution est envisagée ?
+4. Comment ce nouveau périmètre est-il reconnu en termes de grade et de rémunération ?
+
+Avec ces quatre éléments, tu seras en position de discuter sereinement avec Marc et de comparer objectivement cette opportunité à ton poste actuel sur Le Comptoir.
