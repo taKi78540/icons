@@ -1,9 +1,13 @@
 let
     Source = #"lecomptoir allvisits_181124",
 
-    // On élimine immédiatement les lignes sans restitution
-    FiltrerRITMNonVides = Table.SelectRows(
+    ColonnesUtiles = Table.SelectColumns(
         Source,
+        {"cdspp_ritmlist"}
+    ),
+
+    FiltrerRITMNonVides = Table.SelectRows(
+        ColonnesUtiles,
         each [cdspp_ritmlist] <> null
             and Text.Trim(Text.From([cdspp_ritmlist])) <> ""
     ),
@@ -11,11 +15,10 @@ let
     AjoutListeEquipements = Table.AddColumn(
         FiltrerRITMNonVides,
         "ListeEquipements",
-        each
-            List.Split(
-                Text.Split(Text.From([cdspp_ritmlist]), ";"),
-                2
-            )
+        each List.Split(
+            Text.Split(Text.From([cdspp_ritmlist]), ";"),
+            2
+        )
     ),
 
     DevelopperListeEquipements = Table.ExpandListColumn(
