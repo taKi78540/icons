@@ -1,7 +1,17 @@
-if [cdspp_rtmlist] = null then
-    {}
-else
-    List.Split(
-        Text.Split([cdspp_rtmlist], ";"),
-        2
+let
+    Source = #"lecomptoir_allvisits_181124",
+
+    AjoutListeEquipements = Table.AddColumn(
+        Source,
+        "ListeEquipements",
+        each
+            if [cdspp_rtmlist] = null then
+                {}
+            else
+                List.Split(
+                    Text.Split([cdspp_rtmlist], ";"),
+                    2
+                )
     )
+in
+    AjoutListeEquipements
