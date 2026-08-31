@@ -1,17 +1,41 @@
 let
-    Source = #"lecomptoir_allvisits_181124",
+    Source = #"lecomptoir allvisits_181124",
 
     AjoutListeEquipements = Table.AddColumn(
         Source,
         "ListeEquipements",
         each
-            if [cdspp_rtmlist] = null then
+            if [ritmList] = null or Text.Trim(Text.From([ritmList])) = "" then
                 {}
             else
                 List.Split(
-                    Text.Split([cdspp_rtmlist], ";"),
+                    Text.Split(Text.From([ritmList]), ";"),
                     2
                 )
+    ),
+
+    DevelopperListeEquipements = Table.ExpandListColumn(
+        AjoutListeEquipements,
+        "ListeEquipements"
+    ),
+
+    AjoutTypeEquipement = Table.AddColumn(
+        DevelopperListeEquipements,
+        "TypeEquipement",
+        each try Text.Trim(Text.From([ListeEquipements]{0})) otherwise null,
+        type text
+    ),
+
+    AjoutRITM = Table.AddColumn(
+        AjoutTypeEquipement,
+        "RITM",
+        each try Text.Trim(Text.From([ListeEquipements]{1})) otherwise null,
+        type text
+    ),
+
+    SuppressionListeEquipements = Table.RemoveColumns(
+        AjoutRITM,
+        {"ListeEquipements"}
     )
 in
-    AjoutListeEquipements
+    SuppressionListeEquipements
