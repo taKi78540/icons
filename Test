@@ -2,9 +2,7 @@ let
     Source = #"lecomptoir allvisits_181124",
 
     // ============================================================
-    // 1. On ne conserve dès le départ que les colonnes utiles
-    // Cela évite de dupliquer toutes les colonnes de la table source
-    // lorsqu'une visite contient plusieurs équipements.
+    // 1. Conservation uniquement des colonnes utiles
     // ============================================================
     ColonnesUtiles = Table.SelectColumns(
         Source,
@@ -92,8 +90,11 @@ let
     // ============================================================
     // 5. Extraction du RITM
     //
+    // Format récent :
     // Workstation,RITM001 -> RITM001
-    // RITM001             -> RITM001
+    //
+    // Format ancien :
+    // RITM001 -> RITM001
     // ============================================================
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
@@ -130,8 +131,16 @@ let
     // ============================================================
     // 6. Type utilisé dans les graphiques
     //
-    // Les anciens équipements sans type deviennent :
-    // "Non renseigné"
+    // Règles :
+    //
+    // RITM null + Type null
+    // -> null
+    //
+    // RITM renseigné + Type null
+    // -> "Non renseigné"
+    //
+    // RITM renseigné + Type renseigné
+    // -> Type réel
     // ============================================================
     AjoutTypeEquipementAffiche = Table.AddColumn(
         AjoutRITM,
@@ -142,11 +151,17 @@ let
                     try Text.Trim(
                         Text.From([TypeEquipement])
                     )
+                    otherwise null,
+
+                Ritm =
+                    try Text.Trim(
+                        Text.From([RITM])
+                    )
                     otherwise null
             in
-                if Type = null then
-                    "Non renseigné"
-                else if Type = "" then
+                if Ritm = null or Ritm = "" then
+                    null
+                else if Type = null or Type = "" then
                     "Non renseigné"
                 else
                     Type,
