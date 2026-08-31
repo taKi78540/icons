@@ -1,1 +1,7 @@
-Zebra Technologies - Scanner de présentation DS9308 SR à kit USB - Design Compact avec Un encombrement Quasi nul - pour Les comptoirs à Espace restreint - Numérisation Rapide - Noir https://amzn.eu/d/0ghvkWhM
+if [cdspp_rtmlist] = null then
+    {}
+else
+    List.Split(
+        Text.Split([cdspp_rtmlist], ";"),
+        2
+    )
