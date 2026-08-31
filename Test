@@ -1,17 +1,222 @@
+# Power BI – Rapport de restitution de matériel
+
+## Objectif
+
+Créer dans Power BI une table dédiée aux équipements restitués afin d’alimenter les visuels suivants :
+
+- KPI `Restitutions`
+- KPI `Équipements restitués`
+- KPI `Moyenne / restitution`
+- KPI `Top type`
+- Graphique mensuel empilé par type d’équipement
+- Treemap `Poids de chaque type`
+- Graphique horizontal `Top types d’équipement restitués`
+
+---
+
+## 1. Structure de la donnée source
+
+La requête source est :
+
+```powerquery
+#"lecomptoir allvisits_181124"
+```
+
+La colonne qui contient la liste des équipements restitués est :
+
+```powerquery
+[cdspp_ritmlist]
+```
+
+Le format de cette colonne est le suivant :
+
+```text
+TypeEquipement,RITM;TypeEquipement,RITM;TypeEquipement,RITM
+```
+
+Exemple :
+
+```text
+Workstation,RITM001234;Display Device,RITM001235;Headset,RITM001236
+```
+
+Règles :
+
+- `,` sépare le type d’équipement du RITM
+- `;` sépare plusieurs équipements
+
+Exemple attendu après transformation :
+
+| TypeEquipement | RITM |
+|---|---|
+| Workstation | RITM001234 |
+| Display Device | RITM001235 |
+| Headset | RITM001236 |
+
+---
+
+## 2. Création de la requête `EquipementsRestitues`
+
+Dans Power Query :
+
+1. Clic droit sur la requête :
+
+```text
+lecomptoir allvisits_181124
+```
+
+2. Choisir :
+
+```text
+Référence
+```
+
+3. Renommer la nouvelle requête :
+
+```text
+EquipementsRestitues
+```
+
+4. Ouvrir :
+
+```text
+Accueil > Éditeur avancé
+```
+
+5. Remplacer tout le contenu par le code Power Query M ci-dessous.
+
+---
+
+## 3. Code Power Query M
+
+Version actuellement retenue : **sans filtre initial**, afin d’éviter les temps de traitement trop longs pendant la phase de construction.
+
+```powerquery
 let
+    // Requête source principale
     Source = #"lecomptoir allvisits_181124",
 
+    // Création d'une liste d'équipements.
+    // Si cdspp_ritmlist est vide ou null, on crée une liste vide.
+    // Sinon, on découpe la chaîne sur le point-virgule.
+    //
+    // Exemple :
+    // Workstation,RITM001;Display Device,RITM002
+    //
+    // devient :
+    // Workstation,RITM001
+    // Display Device,RITM002
     AjoutListeEquipements = Table.AddColumn(
         Source,
         "ListeEquipements",
         each
-            if [cdspp_ritmlist] = null or Text.Trim(Text.From([cdspp_ritmlist])) = "" then
+            if [cdspp_ritmlist] = null
+                or Text.Trim(Text.From([cdspp_ritmlist])) = ""
+            then
                 {}
             else
                 Text.Split(
                     Text.From([cdspp_ritmlist]),
                     ";"
                 )
+    ),
+
+    // Chaque élément de la liste devient une ligne distincte.
+    //
+    // Une visite contenant 3 équipements génère donc 3 lignes.
+    DevelopperListeEquipements = Table.ExpandListColumn(
+        AjoutListeEquipements,
+        "ListeEquipements"
+    ),
+
+    // Extraction du type d'équipement.
+    // On récupère la partie située avant la virgule.
+    //
+    // Exemple :
+    // Workstation,RITM001
+    // devient :
+    // Workstation
+    AjoutTypeEquipement = Table.AddColumn(
+        DevelopperListeEquipements,
+        "TypeEquipement",
+        each
+            try
+                Text.Trim(
+                    Text.BeforeDelimiter(
+                        Text.From([ListeEquipements]),
+                        ","
+                    )
+                )
+            otherwise
+                null,
+        type text
+    ),
+
+    // Extraction du RITM.
+    // On récupère la partie située après la virgule.
+    //
+    // Exemple :
+    // Workstation,RITM001
+    // devient :
+    // RITM001
+    AjoutRITM = Table.AddColumn(
+        AjoutTypeEquipement,
+        "RITM",
+        each
+            try
+                Text.Trim(
+                    Text.AfterDelimiter(
+                        Text.From([ListeEquipements]),
+                        ","
+                    )
+                )
+            otherwise
+                null,
+        type text
+    ),
+
+    // Suppression de la colonne intermédiaire devenue inutile.
+    SuppressionListeEquipements = Table.RemoveColumns(
+        AjoutRITM,
+        {
+            "ListeEquipements"
+        }
+    )
+
+in
+    SuppressionListeEquipements
+```
+
+---
+
+## 4. Variante avec filtre des lignes nulles
+
+Cette version pourra être utilisée plus tard pour la production.
+
+Attention : sur une grosse volumétrie, ce filtre peut être lent si Power Query doit recalculer toute la requête source avant de l’appliquer.
+
+```powerquery
+let
+    Source = #"lecomptoir allvisits_181124",
+
+    // Suppression immédiate des lignes sans restitution
+    FiltrerRITMNonVides = Table.SelectRows(
+        Source,
+        each
+            [cdspp_ritmlist] <> null
+            and Text.Trim(
+                Text.From([cdspp_ritmlist])
+            ) <> ""
+    ),
+
+    AjoutListeEquipements = Table.AddColumn(
+        FiltrerRITMNonVides,
+        "ListeEquipements",
+        each
+            Text.Split(
+                Text.From([cdspp_ritmlist]),
+                ";"
+            )
     ),
 
     DevelopperListeEquipements = Table.ExpandListColumn(
@@ -23,13 +228,15 @@ let
         DevelopperListeEquipements,
         "TypeEquipement",
         each
-            try Text.Trim(
-                Text.BeforeDelimiter(
-                    Text.From([ListeEquipements]),
-                    ","
+            try
+                Text.Trim(
+                    Text.BeforeDelimiter(
+                        Text.From([ListeEquipements]),
+                        ","
+                    )
                 )
-            )
-            otherwise null,
+            otherwise
+                null,
         type text
     ),
 
@@ -37,19 +244,648 @@ let
         AjoutTypeEquipement,
         "RITM",
         each
-            try Text.Trim(
-                Text.AfterDelimiter(
-                    Text.From([ListeEquipements]),
-                    ","
+            try
+                Text.Trim(
+                    Text.AfterDelimiter(
+                        Text.From([ListeEquipements]),
+                        ","
+                    )
                 )
-            )
-            otherwise null,
+            otherwise
+                null,
         type text
     ),
 
     SuppressionListeEquipements = Table.RemoveColumns(
         AjoutRITM,
-        {"ListeEquipements"}
+        {
+            "ListeEquipements"
+        }
     )
+
 in
     SuppressionListeEquipements
+```
+
+---
+
+## 5. Remarque performances
+
+Le filtre Power Query n’impacte généralement pas directement l’utilisateur qui consulte le rapport.
+
+Il impacte surtout :
+
+```text
+Rafraîchissement des données
+```
+
+Par exemple :
+
+- actualisation dans Power BI Desktop
+- actualisation planifiée dans Power BI Service
+- actualisation manuelle
+- recalcul de la requête Power Query
+
+Une fois le modèle chargé, l’utilisateur final travaille essentiellement sur les données importées dans le modèle Power BI.
+
+Si les performances deviennent problématiques, optimiser dans cet ordre :
+
+1. filtrer les restitutions le plus tôt possible
+2. limiter les colonnes conservées dans `EquipementsRestitues`
+3. vérifier le query folding
+4. si possible, filtrer directement côté source
+5. éviter de transporter toutes les colonnes de la grosse table source dans la table équipements
+
+---
+
+## 6. Colonnes de la table `EquipementsRestitues`
+
+La table doit notamment contenir :
+
+```text
+TypeEquipement
+RITM
+```
+
+ainsi que les colonnes de contexte héritées de la table source, par exemple :
+
+```text
+ID de visite
+Date
+Comptoir
+Pays
+Technicien
+...
+```
+
+Le principe est :
+
+```text
+1 ligne = 1 équipement restitué
+```
+
+---
+
+## 7. Mesures DAX
+
+### 7.1 Nombre d’équipements restitués
+
+Version simple :
+
+```DAX
+Equipements restitues =
+COUNTROWS(
+    EquipementsRestitues
+)
+```
+
+Attention : si la table conserve les lignes sans équipement, utiliser plutôt la version suivante.
+
+```DAX
+Equipements restitues =
+CALCULATE(
+    COUNTROWS(EquipementsRestitues),
+    NOT ISBLANK(
+        EquipementsRestitues[TypeEquipement]
+    )
+)
+```
+
+---
+
+### 7.2 Nombre de restitutions
+
+Il faut compter les visites distinctes.
+
+Remplacer `[VisitId]` par le vrai nom de la colonne qui identifie une visite de manière unique.
+
+```DAX
+Restitutions =
+DISTINCTCOUNT(
+    EquipementsRestitues[VisitId]
+)
+```
+
+Exemple :
+
+```text
+Une visite contenant :
+- 1 PC
+- 2 écrans
+- 1 casque
+
+donne :
+
+Restitutions = 1
+Equipements restitues = 4
+```
+
+---
+
+### 7.3 Moyenne d’équipements par restitution
+
+```DAX
+Moyenne par restitution =
+DIVIDE(
+    [Equipements restitues],
+    [Restitutions]
+)
+```
+
+Exemple :
+
+```text
+100 restitutions
+225 équipements restitués
+
+Moyenne = 2,25
+```
+
+---
+
+### 7.4 Top type d’équipement
+
+```DAX
+Top type =
+VAR TopTable =
+    TOPN(
+        1,
+        SUMMARIZE(
+            EquipementsRestitues,
+            EquipementsRestitues[TypeEquipement],
+            "Nb",
+                CALCULATE(
+                    COUNTROWS(
+                        EquipementsRestitues
+                    )
+                )
+        ),
+        [Nb],
+        DESC
+    )
+RETURN
+    MAXX(
+        TopTable,
+        EquipementsRestitues[TypeEquipement]
+    )
+```
+
+---
+
+### 7.5 Nombre du Top type
+
+```DAX
+Top type volume =
+VAR TopTable =
+    TOPN(
+        1,
+        SUMMARIZE(
+            EquipementsRestitues,
+            EquipementsRestitues[TypeEquipement],
+            "Nb",
+                CALCULATE(
+                    COUNTROWS(
+                        EquipementsRestitues
+                    )
+                )
+        ),
+        [Nb],
+        DESC
+    )
+RETURN
+    MAXX(
+        TopTable,
+        [Nb]
+    )
+```
+
+---
+
+### 7.6 Pourcentage du Top type
+
+```DAX
+Top type % =
+DIVIDE(
+    [Top type volume],
+    [Equipements restitues]
+)
+```
+
+Formater cette mesure en :
+
+```text
+Pourcentage
+```
+
+Exemple :
+
+```text
+Laptop
+34 %
+```
+
+---
+
+## 8. Mesure nombre d’équipements par type
+
+```DAX
+Nb equipements =
+CALCULATE(
+    COUNTROWS(
+        EquipementsRestitues
+    ),
+    NOT ISBLANK(
+        EquipementsRestitues[TypeEquipement]
+    )
+)
+```
+
+Cette mesure pourra être utilisée dans :
+
+```text
+Treemap
+Histogramme
+Top type
+Graphique empilé
+```
+
+---
+
+## 9. Pourcentage par type d’équipement
+
+```DAX
+% Equipements par type =
+DIVIDE(
+    [Nb equipements],
+    CALCULATE(
+        [Nb equipements],
+        ALL(
+            EquipementsRestitues[TypeEquipement]
+        )
+    )
+)
+```
+
+Format :
+
+```text
+Pourcentage
+```
+
+---
+
+## 10. Visuels Power BI
+
+### KPI 1 – Restitutions
+
+Visuel :
+
+```text
+Carte
+```
+
+Valeur :
+
+```text
+[Restitutions]
+```
+
+Titre :
+
+```text
+Restitutions
+```
+
+---
+
+### KPI 2 – Équipements restitués
+
+Visuel :
+
+```text
+Carte
+```
+
+Valeur :
+
+```text
+[Equipements restitues]
+```
+
+Titre :
+
+```text
+Équipements restitués
+```
+
+---
+
+### KPI 3 – Moyenne / restitution
+
+Visuel :
+
+```text
+Carte
+```
+
+Valeur :
+
+```text
+[Moyenne par restitution]
+```
+
+Format conseillé :
+
+```text
+2 décimales
+```
+
+Titre :
+
+```text
+Moyenne / restitution
+```
+
+---
+
+### KPI 4 – Top type
+
+Visuel :
+
+```text
+Carte
+```
+
+Valeur principale :
+
+```text
+[Top type]
+```
+
+Afficher également :
+
+```text
+[Top type %]
+```
+
+Exemple rendu :
+
+```text
+Laptop
+
+34 % des équipements
+```
+
+---
+
+## 11. Graphique principal
+
+Titre :
+
+```text
+Évolution mensuelle des équipements restitués par type
+```
+
+Visuel :
+
+```text
+Histogramme empilé
+```
+
+Champs :
+
+```text
+Axe X :
+Mois
+
+Valeurs :
+[Nb equipements]
+
+Légende :
+TypeEquipement
+```
+
+Exemple de catégories :
+
+```text
+Workstation
+Mobile
+Display Device
+Headset
+...
+```
+
+---
+
+## 12. Treemap
+
+Titre :
+
+```text
+Poids de chaque type
+```
+
+Sous-titre :
+
+```text
+% du volume d'équipements restitués
+```
+
+Visuel :
+
+```text
+Treemap
+```
+
+Champs :
+
+```text
+Groupe :
+TypeEquipement
+
+Valeurs :
+[Nb equipements]
+```
+
+Infobulles :
+
+```text
+[Nb equipements]
+[% Equipements par type]
+```
+
+---
+
+## 13. Top types d’équipement restitués
+
+Visuel :
+
+```text
+Histogramme horizontal
+```
+
+Titre :
+
+```text
+Top types d'équipement restitués
+```
+
+Axe Y :
+
+```text
+TypeEquipement
+```
+
+Valeur :
+
+```text
+[Nb equipements]
+```
+
+Infobulle :
+
+```text
+[% Equipements par type]
+```
+
+Tri :
+
+```text
+[Nb equipements]
+Décroissant
+```
+
+---
+
+## 14. Filtres / segments
+
+Prévoir les segments suivants :
+
+```text
+Année
+Mois
+Pays
+Le Comptoir
+TypeEquipement
+```
+
+---
+
+## 15. Maquette cible
+
+```text
+---------------------------------------------------------
+Le Comptoir – Analyse des restitutions matérielles
+Vue mensuelle
+---------------------------------------------------------
+
+Année | Mois | Pays | Le Comptoir | Type équipement
+
+---------------------------------------------------------
+Restitutions
+Équipements restitués
+Moyenne / restitution
+Top type
+---------------------------------------------------------
+
+Évolution mensuelle des équipements restitués par type
+                                 | Poids de chaque type
+                                 | Treemap
+---------------------------------------------------------
+
+Top types d'équipement restitués | À retenir
+---------------------------------------------------------
+```
+
+---
+
+## 16. Types d’équipement
+
+Pour le moment, conserver les libellés techniques tels quels :
+
+```text
+Workstation
+Mobile
+Display Device
+Headset
+...
+```
+
+Ne pas les renommer pour l’instant.
+
+Une normalisation pourra être effectuée plus tard, par exemple :
+
+```text
+Workstation -> PC
+Display Device -> Écran
+Headset -> Casque
+```
+
+---
+
+## 17. Point restant à définir
+
+Il faut identifier le nom exact de la colonne correspondant à :
+
+```text
+ID unique de la visite
+```
+
+Elle sera utilisée dans la mesure :
+
+```DAX
+Restitutions =
+DISTINCTCOUNT(
+    EquipementsRestitues[ID_VISITE]
+)
+```
+
+Remplacer `ID_VISITE` par le vrai nom de colonne.
+
+---
+
+## 18. Principe métier important
+
+Il faut bien distinguer :
+
+```text
+Restitution
+```
+
+et :
+
+```text
+Équipement restitué
+```
+
+Exemple :
+
+```text
+1 visite de restitution
+avec
+1 Workstation
+2 Display Device
+1 Headset
+```
+
+donne :
+
+```text
+Restitutions = 1
+
+Équipements restitués = 4
+
+Moyenne / restitution = 4
+```
+
+C’est ce principe qui justifie la création de la table :
+
+```text
+EquipementsRestitues
+```
+
+avec :
+
+```text
+1 ligne = 1 équipement
+```
