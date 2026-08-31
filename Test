@@ -5,11 +5,11 @@ let
         Source,
         "ListeEquipements",
         each
-            if [ritmList] = null or Text.Trim(Text.From([ritmList])) = "" then
+            if [cdspp_ritmList] = null or Text.Trim(Text.From([cdspp_ritmList])) = "" then
                 {}
             else
                 List.Split(
-                    Text.Split(Text.From([ritmList]), ";"),
+                    Text.Split(Text.From([cdspp_ritmList]), ";"),
                     2
                 )
     ),
