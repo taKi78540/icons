@@ -1,3 +1,14 @@
+Restitutions =
+CALCULATE(
+    DISTINCTCOUNT(EquipementsRestitues[ID_VISITE]),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(EquipementsRestitues[TypeEquipement])
+            && TRIM(EquipementsRestitues[TypeEquipement]) <> ""
+            && LOWER(TRIM(EquipementsRestitues[TypeEquipement])) <> "null"
+    )
+)
+
 Equipements restitues =
 CALCULATE(
     COUNTROWS(EquipementsRestitues),
