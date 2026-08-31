@@ -1,173 +1,67 @@
-# Power BI – Rapport de restitution de matériel
-
-## Objectif
-
-Créer dans Power BI une table dédiée aux équipements restitués afin d’alimenter les visuels suivants :
-
-- KPI `Restitutions`
-- KPI `Équipements restitués`
-- KPI `Moyenne / restitution`
-- KPI `Top type`
-- Graphique mensuel empilé par type d’équipement
-- Treemap `Poids de chaque type`
-- Graphique horizontal `Top types d’équipement restitués`
-
----
-
-# 1. Structure de la donnée source
-
-La requête source est :
-
-```powerquery
-#"lecomptoir allvisits_181124"
-```
-
-La colonne qui contient la liste des équipements restitués est :
-
-```powerquery
-[cdspp_ritmlist]
-```
-
-Deux formats existent dans l’historique.
-
-## Format récent
-
-```text
-TypeEquipement,RITM;TypeEquipement,RITM;TypeEquipement,RITM
-```
-
-Exemple :
-
-```text
-Workstation,RITM7583878;Accessory,RITM7583876
-```
-
-Règles :
-
-- `,` sépare le type d’équipement du RITM
-- `;` sépare plusieurs équipements
-
-## Ancien format
-
-Certaines anciennes lignes ne contiennent pas le type d’équipement.
-
-Exemple :
-
-```text
-RITM7583426;RITM7583427;RITM7583431
-```
-
-Dans ce cas :
-
-- le RITM est valide
-- le type d’équipement est inconnu
-- l’équipement doit tout de même être compté
-
----
-
-# 2. Règle métier importante
-
-La règle de comptage devient :
-
-```text
-Un équipement restitué valide = un RITM renseigné
-```
-
-Le `TypeEquipement` peut être vide pour certaines anciennes données.
-
-Il ne faut donc plus utiliser `TypeEquipement` comme condition pour déterminer si un équipement est valide.
-
----
-
-# 3. Création de la requête `EquipementsRestitues`
-
-Dans Power Query :
-
-1. Clic droit sur la requête :
-
-```text
-lecomptoir allvisits_181124
-```
-
-2. Choisir :
-
-```text
-Référence
-```
-
-3. Renommer la nouvelle requête :
-
-```text
-EquipementsRestitues
-```
-
-4. Ouvrir :
-
-```text
-Accueil > Éditeur avancé
-```
-
-5. Remplacer tout le contenu par le code suivant.
-
----
-
-# 4. Code Power Query M
-
-```powerquery
 let
-    // Requête source principale
     Source = #"lecomptoir allvisits_181124",
 
-    // Création d'une liste d'équipements.
+    // ============================================================
+    // 1. Création de la liste des équipements
     //
-    // Si cdspp_ritmlist est vide ou null,
-    // on crée une liste vide.
+    // ; = séparateur entre plusieurs équipements
     //
-    // Sinon, on découpe la chaîne sur le point-virgule.
-    //
-    // Format récent :
+    // Exemple récent :
     // Workstation,RITM001;Accessory,RITM002
     //
-    // Ancien format :
-    // RITM001;RITM002;RITM003
+    // Exemple ancien :
+    // RITM001;RITM002
+    // ============================================================
     AjoutListeEquipements = Table.AddColumn(
         Source,
         "ListeEquipements",
         each
-            if [cdspp_ritmlist] = null
-                or Text.Trim(Text.From([cdspp_ritmlist])) = ""
-            then
-                {}
-            else
-                Text.Split(
-                    Text.From([cdspp_ritmlist]),
-                    ";"
-                )
+            let
+                ValeurSource = try Text.From([cdspp_ritmlist]) otherwise null
+            in
+                if ValeurSource = null then
+                    {}
+                else if Text.Trim(ValeurSource) = "" then
+                    {}
+                else
+                    Text.Split(
+                        ValeurSource,
+                        ";"
+                    )
     ),
 
-    // Une ligne par équipement
+    // ============================================================
+    // 2. Une ligne par équipement
+    // ============================================================
     DevelopperListeEquipements = Table.ExpandListColumn(
         AjoutListeEquipements,
         "ListeEquipements"
     ),
 
-    // Extraction du type d'équipement.
+    // ============================================================
+    // 3. Extraction du TypeEquipement
     //
-    // Si une virgule existe :
     // Workstation,RITM001 -> Workstation
     //
-    // Si aucune virgule n'existe :
     // RITM001 -> null
+    // car l'ancien format ne contient pas le type
+    // ============================================================
     AjoutTypeEquipement = Table.AddColumn(
         DevelopperListeEquipements,
         "TypeEquipement",
         each
             let
-                Valeur = Text.Trim(
-                    Text.From([ListeEquipements])
-                )
+                Valeur =
+                    try Text.Trim(
+                        Text.From([ListeEquipements])
+                    )
+                    otherwise null
             in
-                if Text.Contains(Valeur, ",") then
+                if Valeur = null then
+                    null
+                else if Valeur = "" then
+                    null
+                else if Text.Contains(Valeur, ",") then
                     Text.Trim(
                         Text.BeforeDelimiter(
                             Valeur,
@@ -179,23 +73,31 @@ let
         type text
     ),
 
-    // Extraction du RITM.
+    // ============================================================
+    // 4. Extraction du RITM
     //
     // Format récent :
     // Workstation,RITM001 -> RITM001
     //
-    // Ancien format :
+    // Format ancien :
     // RITM001 -> RITM001
+    // ============================================================
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
         "RITM",
         each
             let
-                Valeur = Text.Trim(
-                    Text.From([ListeEquipements])
-                )
+                Valeur =
+                    try Text.Trim(
+                        Text.From([ListeEquipements])
+                    )
+                    otherwise null
             in
-                if Text.Contains(Valeur, ",") then
+                if Valeur = null then
+                    null
+                else if Valeur = "" then
+                    null
+                else if Text.Contains(Valeur, ",") then
                     Text.Trim(
                         Text.AfterDelimiter(
                             Valeur,
@@ -212,28 +114,35 @@ let
         type text
     ),
 
-    // Création d'un type d'équipement utilisable dans les graphiques.
+    // ============================================================
+    // 5. Type utilisé dans les graphiques
     //
-    // Si le type est absent dans les anciennes données,
-    // on affiche "Non renseigné".
+    // Les anciennes données dont le type n'était pas renseigné
+    // apparaissent sous "Non renseigné"
+    // ============================================================
     AjoutTypeEquipementAffiche = Table.AddColumn(
         AjoutRITM,
         "TypeEquipementAffiche",
         each
-            if [TypeEquipement] = null
-                or Text.Trim(
-                    Text.From([TypeEquipement])
-                ) = ""
-            then
-                "Non renseigné"
-            else
-                Text.Trim(
-                    Text.From([TypeEquipement])
-                ),
+            let
+                Type =
+                    try Text.Trim(
+                        Text.From([TypeEquipement])
+                    )
+                    otherwise null
+            in
+                if Type = null then
+                    "Non renseigné"
+                else if Type = "" then
+                    "Non renseigné"
+                else
+                    Type,
         type text
     ),
 
-    // Suppression de la colonne technique intermédiaire
+    // ============================================================
+    // 6. Suppression de la colonne technique intermédiaire
+    // ============================================================
     SuppressionListeEquipements = Table.RemoveColumns(
         AjoutTypeEquipementAffiche,
         {
@@ -243,970 +152,3 @@ let
 
 in
     SuppressionListeEquipements
-```
-
----
-
-# 5. Résultat attendu
-
-## Cas récent
-
-Source :
-
-```text
-Workstation,RITM7583878;Accessory,RITM7583876
-```
-
-Résultat :
-
-| TypeEquipement | RITM | TypeEquipementAffiche |
-|---|---|---|
-| Workstation | RITM7583878 | Workstation |
-| Accessory | RITM7583876 | Accessory |
-
-## Cas historique
-
-Source :
-
-```text
-RITM7583426;RITM7583427
-```
-
-Résultat :
-
-| TypeEquipement | RITM | TypeEquipementAffiche |
-|---|---|---|
-| null | RITM7583426 | Non renseigné |
-| null | RITM7583427 | Non renseigné |
-
----
-
-# 6. Règle DAX standard pour un équipement valide
-
-Toute mesure qui doit compter des équipements réels doit utiliser le RITM.
-
-Condition standard :
-
-```DAX
-NOT ISBLANK(EquipementsRestitues[RITM])
-    && TRIM(EquipementsRestitues[RITM]) <> ""
-    && LOWER(
-        TRIM(
-            EquipementsRestitues[RITM]
-        )
-    ) <> "null"
-```
-
----
-
-# 7. Mesure de contrôle – Nombre total de lignes
-
-Cette mesure sert uniquement au diagnostic.
-
-```DAX
-Lignes EquipementsRestitues =
-COUNTROWS(
-    EquipementsRestitues
-)
-```
-
-Elle peut être beaucoup plus élevée que le nombre réel d’équipements valides.
-
----
-
-# 8. Équipements restitués
-
-```DAX
-Equipements restitues =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
----
-
-# 9. Restitutions
-
-Une restitution correspond à une visite distincte ayant au moins un RITM valide.
-
-Remplacer :
-
-```text
-ID_VISITE
-```
-
-par le vrai nom de la colonne identifiant une visite.
-
-```DAX
-Restitutions =
-CALCULATE(
-    DISTINCTCOUNT(
-        EquipementsRestitues[ID_VISITE]
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
-Exemple :
-
-```text
-Visite 1001
-- Workstation,RITM001
-- Display Device,RITM002
-- Headset,RITM003
-
-Résultat :
-
-Restitutions = 1
-Equipements restitues = 3
-```
-
----
-
-# 10. Moyenne d’équipements par restitution
-
-Cette mesure n’a pas besoin de filtre supplémentaire car elle utilise déjà les deux mesures corrigées.
-
-```DAX
-Moyenne par restitution =
-DIVIDE(
-    [Equipements restitues],
-    [Restitutions]
-)
-```
-
-Exemple :
-
-```text
-100 restitutions
-225 équipements
-
-Moyenne = 2,25
-```
-
----
-
-# 11. Nombre d’équipements
-
-Cette mesure sera utilisée dans les graphiques.
-
-```DAX
-Nb equipements =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
----
-
-# 12. Pourcentage par type d’équipement
-
-Cette mesure doit utiliser :
-
-```text
-TypeEquipementAffiche
-```
-
-afin d’intégrer également la catégorie :
-
-```text
-Non renseigné
-```
-
-```DAX
-% Equipements par type =
-DIVIDE(
-    [Nb equipements],
-    CALCULATE(
-        [Nb equipements],
-        ALL(
-            EquipementsRestitues[TypeEquipementAffiche]
-        )
-    )
-)
-```
-
-Formater en :
-
-```text
-Pourcentage
-```
-
----
-
-# 13. Top type d’équipement
-
-Le Top type doit ignorer :
-
-```text
-Non renseigné
-```
-
-afin de toujours retourner un vrai type d’équipement.
-
-```DAX
-Top type =
-VAR TableTypes =
-    FILTER(
-        VALUES(
-            EquipementsRestitues[TypeEquipementAffiche]
-        ),
-        EquipementsRestitues[TypeEquipementAffiche]
-            <> "Non renseigné"
-    )
-
-VAR TopTable =
-    TOPN(
-        1,
-        ADDCOLUMNS(
-            TableTypes,
-            "Nb",
-                CALCULATE(
-                    [Nb equipements]
-                )
-        ),
-        [Nb],
-        DESC
-    )
-
-RETURN
-    MAXX(
-        TopTable,
-        EquipementsRestitues[TypeEquipementAffiche]
-    )
-```
-
----
-
-# 14. Volume du Top type
-
-```DAX
-Top type volume =
-VAR TableTypes =
-    FILTER(
-        VALUES(
-            EquipementsRestitues[TypeEquipementAffiche]
-        ),
-        EquipementsRestitues[TypeEquipementAffiche]
-            <> "Non renseigné"
-    )
-
-VAR TopTable =
-    TOPN(
-        1,
-        ADDCOLUMNS(
-            TableTypes,
-            "Nb",
-                CALCULATE(
-                    [Nb equipements]
-                )
-        ),
-        [Nb],
-        DESC
-    )
-
-RETURN
-    MAXX(
-        TopTable,
-        [Nb]
-    )
-```
-
----
-
-# 15. Pourcentage du Top type
-
-Cette mesure compare le Top type à l’ensemble des équipements, y compris les équipements historiques `Non renseigné`.
-
-```DAX
-Top type % =
-DIVIDE(
-    [Top type volume],
-    [Equipements restitues]
-)
-```
-
-Formater en :
-
-```text
-Pourcentage
-```
-
----
-
-# 16. RITM non vides
-
-Mesure de contrôle.
-
-```DAX
-RITM non vides =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
-Cette mesure doit normalement retourner le même résultat que :
-
-```text
-[Equipements restitues]
-```
-
----
-
-# 17. Types renseignés
-
-Cette mesure est uniquement un indicateur de qualité de données.
-
-Elle compte les équipements pour lesquels un vrai type est connu.
-
-```DAX
-Types renseignes =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && NOT ISBLANK(
-                EquipementsRestitues[TypeEquipement]
-            )
-            && TRIM(
-                EquipementsRestitues[TypeEquipement]
-            ) <> ""
-    )
-)
-```
-
----
-
-# 18. Types non renseignés
-
-Cette mesure permet de mesurer l’historique où le type n’était pas enregistré.
-
-```DAX
-Types non renseignes =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && (
-                ISBLANK(
-                    EquipementsRestitues[TypeEquipement]
-                )
-                ||
-                TRIM(
-                    EquipementsRestitues[TypeEquipement]
-                ) = ""
-            )
-    )
-)
-```
-
----
-
-# 19. Pourcentage de types non renseignés
-
-```DAX
-% Types non renseignes =
-DIVIDE(
-    [Types non renseignes],
-    [Equipements restitues]
-)
-```
-
-Formater en :
-
-```text
-Pourcentage
-```
-
-Cette mesure peut être utile pour surveiller la qualité des données historiques.
-
----
-
-# 20. KPI Power BI
-
-## KPI 1 – Restitutions
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Restitutions]
-```
-
-Titre :
-
-```text
-Restitutions
-```
-
----
-
-## KPI 2 – Équipements restitués
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Equipements restitues]
-```
-
-Titre :
-
-```text
-Équipements restitués
-```
-
----
-
-## KPI 3 – Moyenne / restitution
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Moyenne par restitution]
-```
-
-Format conseillé :
-
-```text
-2 décimales
-```
-
-Titre :
-
-```text
-Moyenne / restitution
-```
-
----
-
-## KPI 4 – Top type
-
-Valeur principale :
-
-```text
-[Top type]
-```
-
-Pourcentage :
-
-```text
-[Top type %]
-```
-
-Exemple :
-
-```text
-Workstation
-
-34 % des équipements
-```
-
----
-
-# 21. Graphique principal
-
-Titre :
-
-```text
-Évolution mensuelle des équipements restitués par type
-```
-
-Visuel :
-
-```text
-Histogramme empilé
-```
-
-Configuration :
-
-```text
-Axe X :
-Mois
-
-Valeurs :
-[Nb equipements]
-
-Légende :
-TypeEquipementAffiche
-```
-
-Exemples de catégories :
-
-```text
-Workstation
-Mobile
-Display Device
-Headset
-Accessory
-Non renseigné
-```
-
-Important :
-
-```text
-Utiliser TypeEquipementAffiche
-et non TypeEquipement
-```
-
-Ainsi, les anciens équipements sont visibles dans :
-
-```text
-Non renseigné
-```
-
----
-
-# 22. Treemap
-
-Titre :
-
-```text
-Poids de chaque type
-```
-
-Sous-titre :
-
-```text
-% du volume d'équipements restitués
-```
-
-Configuration :
-
-```text
-Groupe :
-TypeEquipementAffiche
-
-Valeurs :
-[Nb equipements]
-```
-
-Infobulles :
-
-```text
-[Nb equipements]
-[% Equipements par type]
-```
-
-La catégorie :
-
-```text
-Non renseigné
-```
-
-sera affichée dans le Treemap.
-
----
-
-# 23. Top types d’équipement restitués
-
-Visuel :
-
-```text
-Histogramme horizontal
-```
-
-Titre :
-
-```text
-Top types d'équipement restitués
-```
-
-Configuration :
-
-```text
-Axe Y :
-TypeEquipementAffiche
-
-Valeurs :
-[Nb equipements]
-```
-
-Infobulles :
-
-```text
-[Nb equipements]
-[% Equipements par type]
-```
-
-Tri :
-
-```text
-[Nb equipements]
-Décroissant
-```
-
-Option possible :
-
-Si l’on ne veut pas afficher `Non renseigné` dans ce graphique, ajouter un filtre visuel :
-
-```text
-TypeEquipementAffiche
-n'est pas égal à
-Non renseigné
-```
-
----
-
-# 24. Filtres / segments
-
-Prévoir les segments suivants :
-
-```text
-Année
-Mois
-Pays
-Le Comptoir
-TypeEquipementAffiche
-```
-
-Utiliser :
-
-```text
-TypeEquipementAffiche
-```
-
-plutôt que :
-
-```text
-TypeEquipement
-```
-
-pour permettre à l’utilisateur de filtrer également sur :
-
-```text
-Non renseigné
-```
-
----
-
-# 25. Maquette cible
-
-```text
----------------------------------------------------------
-Le Comptoir – Analyse des restitutions matérielles
-Vue mensuelle
----------------------------------------------------------
-
-Année | Mois | Pays | Le Comptoir | Type équipement
-
----------------------------------------------------------
-Restitutions
-Équipements restitués
-Moyenne / restitution
-Top type
----------------------------------------------------------
-
-Évolution mensuelle des équipements restitués par type
-                                 | Poids de chaque type
-                                 | Treemap
----------------------------------------------------------
-
-Top types d'équipement restitués | À retenir
----------------------------------------------------------
-```
-
----
-
-# 26. Types d’équipement
-
-Pour le moment, conserver les libellés métier tels quels.
-
-Exemples :
-
-```text
-Workstation
-Mobile
-Display Device
-Headset
-Accessory
-...
-```
-
-Ne pas les renommer pour l’instant.
-
-Une normalisation pourra être réalisée plus tard.
-
-Exemple :
-
-```text
-Workstation -> PC
-Display Device -> Écran
-Headset -> Casque
-Accessory -> Accessoire
-```
-
----
-
-# 27. Catégorie `Non renseigné`
-
-La catégorie :
-
-```text
-Non renseigné
-```
-
-correspond aux anciennes restitutions pour lesquelles le RITM est connu mais pas le type d’équipement.
-
-Exemple source :
-
-```text
-RITM7583426
-```
-
-Résultat :
-
-```text
-RITM = RITM7583426
-TypeEquipement = null
-TypeEquipementAffiche = Non renseigné
-```
-
-L’équipement doit être inclus dans :
-
-```text
-Equipements restitues
-Restitutions
-Moyenne par restitution
-Nb equipements
-% Equipements par type
-```
-
-Il doit être exclu du calcul :
-
-```text
-Top type
-```
-
-afin qu’un type inconnu ne puisse pas devenir le type le plus restitué.
-
----
-
-# 28. Principe métier final
-
-Il faut distinguer :
-
-```text
-Restitution
-```
-
-et :
-
-```text
-Équipement restitué
-```
-
-Exemple :
-
-```text
-Une visite contient :
-
-Workstation,RITM001
-Display Device,RITM002
-RITM003
-```
-
-Après transformation :
-
-```text
-Ligne 1
-TypeEquipementAffiche = Workstation
-RITM = RITM001
-
-Ligne 2
-TypeEquipementAffiche = Display Device
-RITM = RITM002
-
-Ligne 3
-TypeEquipementAffiche = Non renseigné
-RITM = RITM003
-```
-
-Les KPI donnent :
-
-```text
-Restitutions = 1
-
-Equipements restitues = 3
-
-Moyenne par restitution = 3
-```
-
----
-
-# 29. Mesures à mettre à jour
-
-Suite à la découverte des anciennes données sans type d’équipement, les mesures suivantes doivent être mises à jour :
-
-```text
-Equipements restitues
-Restitutions
-Nb equipements
-% Equipements par type
-Top type
-Top type volume
-Top type %
-```
-
-Les mesures suivantes utilisent automatiquement les résultats corrigés :
-
-```text
-Moyenne par restitution
-```
-
-Les mesures de contrôle recommandées sont :
-
-```text
-Lignes EquipementsRestitues
-RITM non vides
-Types renseignes
-Types non renseignes
-% Types non renseignes
-```
-
----
-
-# 30. Règle générale pour les futures mesures
-
-Pour déterminer si une ligne correspond à un véritable équipement restitué, utiliser :
-
-```DAX
-NOT ISBLANK(
-    EquipementsRestitues[RITM]
-)
-    && TRIM(
-        EquipementsRestitues[RITM]
-    ) <> ""
-    && LOWER(
-        TRIM(
-            EquipementsRestitues[RITM]
-        )
-    ) <> "null"
-```
-
-Ne plus utiliser :
-
-```DAX
-TypeEquipement <> BLANK()
-```
-
-comme critère principal de validité.
-
-Le type d’équipement est désormais une information descriptive.
-
-Le RITM est l’information qui permet de confirmer qu’un équipement existe réellement dans la restitution.
-
----
-
-# 31. Ordre recommandé de mise à jour
-
-```text
-1. Mettre à jour le code Power Query M
-2. Vérifier TypeEquipement
-3. Vérifier RITM
-4. Vérifier TypeEquipementAffiche
-5. Mettre à jour Equipements restitues
-6. Mettre à jour Restitutions
-7. Vérifier Moyenne par restitution
-8. Mettre à jour Nb equipements
-9. Mettre à jour % Equipements par type
-10. Mettre à jour Top type
-11. Mettre à jour Top type volume
-12. Vérifier Top type %
-13. Ajouter les mesures de contrôle
-14. Utiliser TypeEquipementAffiche dans les graphiques
-15. Vérifier que les totaux des graphiques correspondent au KPI Equipements restitues
-```
