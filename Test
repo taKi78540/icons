@@ -2,7 +2,7 @@ let
     Source = #"lecomptoir allvisits_181124",
 
     // ============================================================
-    // 1. Conservation uniquement des colonnes utiles
+    // 1. On ne garde que les colonnes utiles
     // ============================================================
     ColonnesUtiles = Table.SelectColumns(
         Source,
@@ -15,38 +15,33 @@ let
     ),
 
     // ============================================================
-    // 2. Création de la liste des équipements
-    //
-    // ; = séparateur entre plusieurs équipements
-    //
-    // Format récent :
-    // Workstation,RITM001;Accessory,RITM002
-    //
-    // Format ancien :
-    // RITM001;RITM002
+    // 2. Suppression des lignes sans donnée de restitution
     // ============================================================
-    AjoutListeEquipements = Table.AddColumn(
+    LignesAvecRITM = Table.SelectRows(
         ColonnesUtiles,
-        "ListeEquipements",
         each
-            let
-                ValeurSource =
-                    try Text.From([cdspp_ritmlist])
-                    otherwise null
-            in
-                if ValeurSource = null then
-                    {}
-                else if Text.Trim(ValeurSource) = "" then
-                    {}
-                else
-                    Text.Split(
-                        ValeurSource,
-                        ";"
-                    )
+            [cdspp_ritmlist] <> null
+            and Text.Trim(
+                Text.From([cdspp_ritmlist])
+            ) <> ""
     ),
 
     // ============================================================
-    // 3. Une ligne par équipement
+    // 3. Découpage des différents équipements
+    // ; = séparateur entre plusieurs équipements
+    // ============================================================
+    AjoutListeEquipements = Table.AddColumn(
+        LignesAvecRITM,
+        "ListeEquipements",
+        each
+            Text.Split(
+                Text.From([cdspp_ritmlist]),
+                ";"
+            )
+    ),
+
+    // ============================================================
+    // 4. Une ligne par équipement
     // ============================================================
     DevelopperListeEquipements = Table.ExpandListColumn(
         AjoutListeEquipements,
@@ -54,11 +49,10 @@ let
     ),
 
     // ============================================================
-    // 4. Extraction du type d'équipement
+    // 5. Extraction du type d'équipement
     //
     // Workstation,RITM001 -> Workstation
-    //
-    // RITM001 -> null
+    // RITM001             -> null
     // ============================================================
     AjoutTypeEquipement = Table.AddColumn(
         DevelopperListeEquipements,
@@ -88,13 +82,10 @@ let
     ),
 
     // ============================================================
-    // 5. Extraction du RITM
+    // 6. Extraction du RITM
     //
-    // Format récent :
     // Workstation,RITM001 -> RITM001
-    //
-    // Format ancien :
-    // RITM001 -> RITM001
+    // RITM001             -> RITM001
     // ============================================================
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
@@ -129,18 +120,7 @@ let
     ),
 
     // ============================================================
-    // 6. Type utilisé dans les graphiques
-    //
-    // Règles :
-    //
-    // RITM null + Type null
-    // -> null
-    //
-    // RITM renseigné + Type null
-    // -> "Non renseigné"
-    //
-    // RITM renseigné + Type renseigné
-    // -> Type réel
+    // 7. Type affiché dans les graphiques
     // ============================================================
     AjoutTypeEquipementAffiche = Table.AddColumn(
         AjoutRITM,
@@ -151,17 +131,9 @@ let
                     try Text.Trim(
                         Text.From([TypeEquipement])
                     )
-                    otherwise null,
-
-                Ritm =
-                    try Text.Trim(
-                        Text.From([RITM])
-                    )
                     otherwise null
             in
-                if Ritm = null or Ritm = "" then
-                    null
-                else if Type = null or Type = "" then
+                if Type = null or Type = "" then
                     "Non renseigné"
                 else
                     Type,
@@ -169,7 +141,7 @@ let
     ),
 
     // ============================================================
-    // 7. Suppression des colonnes techniques devenues inutiles
+    // 8. Suppression des colonnes techniques
     // ============================================================
     SuppressionColonnesTechniques = Table.RemoveColumns(
         AjoutTypeEquipementAffiche,
