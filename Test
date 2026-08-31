@@ -2,22 +2,39 @@ let
     Source = #"lecomptoir allvisits_181124",
 
     // ============================================================
-    // 1. Création de la liste des équipements
+    // 1. On ne conserve dès le départ que les colonnes utiles
+    // Cela évite de dupliquer toutes les colonnes de la table source
+    // lorsqu'une visite contient plusieurs équipements.
+    // ============================================================
+    ColonnesUtiles = Table.SelectColumns(
+        Source,
+        {
+            "_id",
+            "createdAt_local",
+            "cdspp_ritmlist"
+        },
+        MissingField.Ignore
+    ),
+
+    // ============================================================
+    // 2. Création de la liste des équipements
     //
     // ; = séparateur entre plusieurs équipements
     //
-    // Exemple récent :
+    // Format récent :
     // Workstation,RITM001;Accessory,RITM002
     //
-    // Exemple ancien :
+    // Format ancien :
     // RITM001;RITM002
     // ============================================================
     AjoutListeEquipements = Table.AddColumn(
-        Source,
+        ColonnesUtiles,
         "ListeEquipements",
         each
             let
-                ValeurSource = try Text.From([cdspp_ritmlist]) otherwise null
+                ValeurSource =
+                    try Text.From([cdspp_ritmlist])
+                    otherwise null
             in
                 if ValeurSource = null then
                     {}
@@ -31,7 +48,7 @@ let
     ),
 
     // ============================================================
-    // 2. Une ligne par équipement
+    // 3. Une ligne par équipement
     // ============================================================
     DevelopperListeEquipements = Table.ExpandListColumn(
         AjoutListeEquipements,
@@ -39,12 +56,11 @@ let
     ),
 
     // ============================================================
-    // 3. Extraction du TypeEquipement
+    // 4. Extraction du type d'équipement
     //
     // Workstation,RITM001 -> Workstation
     //
     // RITM001 -> null
-    // car l'ancien format ne contient pas le type
     // ============================================================
     AjoutTypeEquipement = Table.AddColumn(
         DevelopperListeEquipements,
@@ -74,13 +90,10 @@ let
     ),
 
     // ============================================================
-    // 4. Extraction du RITM
+    // 5. Extraction du RITM
     //
-    // Format récent :
     // Workstation,RITM001 -> RITM001
-    //
-    // Format ancien :
-    // RITM001 -> RITM001
+    // RITM001             -> RITM001
     // ============================================================
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
@@ -115,10 +128,10 @@ let
     ),
 
     // ============================================================
-    // 5. Type utilisé dans les graphiques
+    // 6. Type utilisé dans les graphiques
     //
-    // Les anciennes données dont le type n'était pas renseigné
-    // apparaissent sous "Non renseigné"
+    // Les anciens équipements sans type deviennent :
+    // "Non renseigné"
     // ============================================================
     AjoutTypeEquipementAffiche = Table.AddColumn(
         AjoutRITM,
@@ -141,14 +154,15 @@ let
     ),
 
     // ============================================================
-    // 6. Suppression de la colonne technique intermédiaire
+    // 7. Suppression des colonnes techniques devenues inutiles
     // ============================================================
-    SuppressionListeEquipements = Table.RemoveColumns(
+    SuppressionColonnesTechniques = Table.RemoveColumns(
         AjoutTypeEquipementAffiche,
         {
-            "ListeEquipements"
+            "ListeEquipements",
+            "cdspp_ritmlist"
         }
     )
 
 in
-    SuppressionListeEquipements
+    SuppressionColonnesTechniques
