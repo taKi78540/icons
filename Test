@@ -5,11 +5,11 @@ let
         Source,
         "ListeEquipements",
         each
-            if [cdspp_ritmList] = null or Text.Trim(Text.From([cdspp_ritmList])) = "" then
+            if [cdspp_ritmlist] = null or Text.Trim(Text.From([cdspp_ritmlist])) = "" then
                 {}
             else
                 List.Split(
-                    Text.Split(Text.From([cdspp_ritmList]), ";"),
+                    Text.Split(Text.From([cdspp_ritmlist]), ";"),
                     2
                 )
     ),
@@ -36,6 +36,12 @@ let
     SuppressionListeEquipements = Table.RemoveColumns(
         AjoutRITM,
         {"ListeEquipements"}
+    ),
+
+    FiltrerEquipementsValides = Table.SelectRows(
+        SuppressionListeEquipements,
+        each [TypeEquipement] <> null
+            and Text.Trim([TypeEquipement]) <> ""
     )
 in
-    SuppressionListeEquipements
+    FiltrerEquipementsValides
