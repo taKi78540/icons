@@ -1,3 +1,22 @@
+Param_Vue_Restitutions =
+{
+    (
+        "Per day",
+        NAMEOF(EquipementsRestitues[Jour]),
+        0
+    ),
+    (
+        "Per hour",
+        NAMEOF(EquipementsRestitues[Heure]),
+        1
+    ),
+    (
+        "Per category",
+        NAMEOF(EquipementsRestitues[TypeEquipementAffiche]),
+        2
+    )
+}
+
 # Power BI – Rapport de restitution de matériel
 
 ## Objectif
