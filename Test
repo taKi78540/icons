@@ -1,25 +1,3 @@
-Restitutions =
-CALCULATE(
-    DISTINCTCOUNT(EquipementsRestitues[ID_VISITE]),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(EquipementsRestitues[TypeEquipement])
-            && TRIM(EquipementsRestitues[TypeEquipement]) <> ""
-            && LOWER(TRIM(EquipementsRestitues[TypeEquipement])) <> "null"
-    )
-)
-
-Equipements restitues =
-CALCULATE(
-    COUNTROWS(EquipementsRestitues),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(EquipementsRestitues[TypeEquipement])
-            && TRIM(EquipementsRestitues[TypeEquipement]) <> ""
-            && LOWER(TRIM(EquipementsRestitues[TypeEquipement])) <> "null"
-    )
-)
-
 # Power BI – Rapport de restitution de matériel
 
 ## Objectif
@@ -36,7 +14,7 @@ Créer dans Power BI une table dédiée aux équipements restitués afin d’ali
 
 ---
 
-## 1. Structure de la donnée source
+# 1. Structure de la donnée source
 
 La requête source est :
 
@@ -77,7 +55,7 @@ Exemple attendu après transformation :
 
 ---
 
-## 2. Création de la requête `EquipementsRestitues`
+# 2. Création de la requête `EquipementsRestitues`
 
 Dans Power Query :
 
@@ -109,9 +87,9 @@ Accueil > Éditeur avancé
 
 ---
 
-## 3. Code Power Query M
+# 3. Code Power Query M
 
-Version actuellement retenue : **sans filtre initial**, afin d’éviter les temps de traitement trop longs pendant la phase de construction.
+Version actuellement retenue : sans filtre initial sur `cdspp_ritmlist`, car le filtre était trop long pendant la phase de construction.
 
 ```powerquery
 let
@@ -119,13 +97,18 @@ let
     Source = #"lecomptoir allvisits_181124",
 
     // Création d'une liste d'équipements.
-    // Si cdspp_ritmlist est vide ou null, on crée une liste vide.
-    // Sinon, on découpe la chaîne sur le point-virgule.
+    //
+    // Si cdspp_ritmlist est vide ou null,
+    // on crée une liste vide.
+    //
+    // Sinon, on découpe sur le point-virgule.
     //
     // Exemple :
+    //
     // Workstation,RITM001;Display Device,RITM002
     //
     // devient :
+    //
     // Workstation,RITM001
     // Display Device,RITM002
     AjoutListeEquipements = Table.AddColumn(
@@ -143,20 +126,25 @@ let
                 )
     ),
 
-    // Chaque élément de la liste devient une ligne distincte.
+    // Chaque élément de la liste devient une ligne.
     //
-    // Une visite contenant 3 équipements génère donc 3 lignes.
+    // Une visite avec 3 équipements
+    // génère donc 3 lignes.
     DevelopperListeEquipements = Table.ExpandListColumn(
         AjoutListeEquipements,
         "ListeEquipements"
     ),
 
     // Extraction du type d'équipement.
-    // On récupère la partie située avant la virgule.
+    //
+    // On récupère le texte avant la virgule.
     //
     // Exemple :
+    //
     // Workstation,RITM001
+    //
     // devient :
+    //
     // Workstation
     AjoutTypeEquipement = Table.AddColumn(
         DevelopperListeEquipements,
@@ -175,11 +163,15 @@ let
     ),
 
     // Extraction du RITM.
-    // On récupère la partie située après la virgule.
+    //
+    // On récupère le texte après la virgule.
     //
     // Exemple :
+    //
     // Workstation,RITM001
+    //
     // devient :
+    //
     // RITM001
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
@@ -197,7 +189,7 @@ let
         type text
     ),
 
-    // Suppression de la colonne intermédiaire devenue inutile.
+    // Suppression de la colonne intermédiaire.
     SuppressionListeEquipements = Table.RemoveColumns(
         AjoutRITM,
         {
@@ -211,200 +203,156 @@ in
 
 ---
 
-## 4. Variante avec filtre des lignes nulles
+# 4. Règle importante de comptage
 
-Cette version pourra être utilisée plus tard pour la production.
-
-Attention : sur une grosse volumétrie, ce filtre peut être lent si Power Query doit recalculer toute la requête source avant de l’appliquer.
-
-```powerquery
-let
-    Source = #"lecomptoir allvisits_181124",
-
-    // Suppression immédiate des lignes sans restitution
-    FiltrerRITMNonVides = Table.SelectRows(
-        Source,
-        each
-            [cdspp_ritmlist] <> null
-            and Text.Trim(
-                Text.From([cdspp_ritmlist])
-            ) <> ""
-    ),
-
-    AjoutListeEquipements = Table.AddColumn(
-        FiltrerRITMNonVides,
-        "ListeEquipements",
-        each
-            Text.Split(
-                Text.From([cdspp_ritmlist]),
-                ";"
-            )
-    ),
-
-    DevelopperListeEquipements = Table.ExpandListColumn(
-        AjoutListeEquipements,
-        "ListeEquipements"
-    ),
-
-    AjoutTypeEquipement = Table.AddColumn(
-        DevelopperListeEquipements,
-        "TypeEquipement",
-        each
-            try
-                Text.Trim(
-                    Text.BeforeDelimiter(
-                        Text.From([ListeEquipements]),
-                        ","
-                    )
-                )
-            otherwise
-                null,
-        type text
-    ),
-
-    AjoutRITM = Table.AddColumn(
-        AjoutTypeEquipement,
-        "RITM",
-        each
-            try
-                Text.Trim(
-                    Text.AfterDelimiter(
-                        Text.From([ListeEquipements]),
-                        ","
-                    )
-                )
-            otherwise
-                null,
-        type text
-    ),
-
-    SuppressionListeEquipements = Table.RemoveColumns(
-        AjoutRITM,
-        {
-            "ListeEquipements"
-        }
-    )
-
-in
-    SuppressionListeEquipements
-```
-
----
-
-## 5. Remarque performances
-
-Le filtre Power Query n’impacte généralement pas directement l’utilisateur qui consulte le rapport.
-
-Il impacte surtout :
+La table `EquipementsRestitues` peut encore contenir des lignes où `TypeEquipement` est :
 
 ```text
-Rafraîchissement des données
+null
 ```
 
-Par exemple :
-
-- actualisation dans Power BI Desktop
-- actualisation planifiée dans Power BI Service
-- actualisation manuelle
-- recalcul de la requête Power Query
-
-Une fois le modèle chargé, l’utilisateur final travaille essentiellement sur les données importées dans le modèle Power BI.
-
-Si les performances deviennent problématiques, optimiser dans cet ordre :
-
-1. filtrer les restitutions le plus tôt possible
-2. limiter les colonnes conservées dans `EquipementsRestitues`
-3. vérifier le query folding
-4. si possible, filtrer directement côté source
-5. éviter de transporter toutes les colonnes de la grosse table source dans la table équipements
-
----
-
-## 6. Colonnes de la table `EquipementsRestitues`
-
-La table doit notamment contenir :
+ou :
 
 ```text
-TypeEquipement
-RITM
+""
 ```
 
-ainsi que les colonnes de contexte héritées de la table source, par exemple :
+ou éventuellement :
 
 ```text
-ID de visite
-Date
-Comptoir
-Pays
-Technicien
-...
+"null"
 ```
 
-Le principe est :
+Il ne faut pas compter ces lignes dans les indicateurs.
 
-```text
-1 ligne = 1 équipement restitué
-```
-
----
-
-## 7. Mesures DAX
-
-### 7.1 Nombre d’équipements restitués
-
-Version simple :
+La règle DAX standard à utiliser est :
 
 ```DAX
-Equipements restitues =
+NOT ISBLANK(EquipementsRestitues[TypeEquipement])
+    && TRIM(EquipementsRestitues[TypeEquipement]) <> ""
+    && LOWER(TRIM(EquipementsRestitues[TypeEquipement])) <> "null"
+```
+
+Cette règle doit être reprise dans toutes les mesures qui comptent réellement les équipements ou les restitutions.
+
+---
+
+# 5. Mesure de contrôle
+
+Avant de construire les KPI, créer cette mesure :
+
+```DAX
+Lignes EquipementsRestitues =
 COUNTROWS(
     EquipementsRestitues
 )
 ```
 
-Attention : si la table conserve les lignes sans équipement, utiliser plutôt la version suivante.
+Cette mesure compte toutes les lignes de la table.
+
+Elle sert uniquement à vérifier la volumétrie.
+
+---
+
+# 6. Nombre d'équipements réellement restitués
+
+Cette mesure ne compte que les lignes où `TypeEquipement` contient une vraie valeur.
 
 ```DAX
 Equipements restitues =
 CALCULATE(
-    COUNTROWS(EquipementsRestitues),
-    NOT ISBLANK(
-        EquipementsRestitues[TypeEquipement]
+    COUNTROWS(
+        EquipementsRestitues
+    ),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
     )
-)
-```
-
----
-
-### 7.2 Nombre de restitutions
-
-Il faut compter les visites distinctes.
-
-Remplacer `[VisitId]` par le vrai nom de la colonne qui identifie une visite de manière unique.
-
-```DAX
-Restitutions =
-DISTINCTCOUNT(
-    EquipementsRestitues[VisitId]
 )
 ```
 
 Exemple :
 
 ```text
-Une visite contenant :
-- 1 PC
-- 2 écrans
-- 1 casque
+Table EquipementsRestitues = 823 366 lignes
 
-donne :
+Mais seulement 12 450 lignes
+contiennent réellement un équipement
 
-Restitutions = 1
-Equipements restitues = 4
+Alors :
+
+Equipements restitues = 12 450
 ```
 
 ---
 
-### 7.3 Moyenne d’équipements par restitution
+# 7. Nombre de restitutions
+
+Une restitution correspond à une visite distincte ayant au moins un équipement réellement restitué.
+
+Il faut donc :
+
+1. filtrer les lignes valides
+2. compter les ID de visite distincts
+
+Remplacer :
+
+```text
+ID_VISITE
+```
+
+par le vrai nom de la colonne identifiant une visite de manière unique.
+
+```DAX
+Restitutions =
+CALCULATE(
+    DISTINCTCOUNT(
+        EquipementsRestitues[ID_VISITE]
+    ),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
+    )
+)
+```
+
+Exemple :
+
+```text
+Visite 1001
+- Workstation
+- Display Device
+- Headset
+
+Résultat :
+
+Restitutions = 1
+Equipements restitues = 3
+```
+
+---
+
+# 8. Moyenne d'équipements par restitution
 
 ```DAX
 Moyenne par restitution =
@@ -418,33 +366,111 @@ Exemple :
 
 ```text
 100 restitutions
-225 équipements restitués
+225 équipements
 
 Moyenne = 2,25
 ```
 
 ---
 
-### 7.4 Top type d’équipement
+# 9. Nombre d'équipements par type
+
+Cette mesure sera utilisée dans les graphiques.
+
+```DAX
+Nb equipements =
+CALCULATE(
+    COUNTROWS(
+        EquipementsRestitues
+    ),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
+    )
+)
+```
+
+Cette mesure peut être utilisée dans :
+
+```text
+Histogramme empilé
+Treemap
+Top types
+KPI
+Infobulles
+```
+
+---
+
+# 10. Pourcentage d'équipements par type
+
+```DAX
+% Equipements par type =
+DIVIDE(
+    [Nb equipements],
+    CALCULATE(
+        [Nb equipements],
+        ALL(
+            EquipementsRestitues[TypeEquipement]
+        )
+    )
+)
+```
+
+Formater la mesure en :
+
+```text
+Pourcentage
+```
+
+---
+
+# 11. Top type d'équipement
 
 ```DAX
 Top type =
+VAR TableTypes =
+    FILTER(
+        VALUES(
+            EquipementsRestitues[TypeEquipement]
+        ),
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
+    )
+
 VAR TopTable =
     TOPN(
         1,
-        SUMMARIZE(
-            EquipementsRestitues,
-            EquipementsRestitues[TypeEquipement],
+        ADDCOLUMNS(
+            TableTypes,
             "Nb",
                 CALCULATE(
-                    COUNTROWS(
-                        EquipementsRestitues
-                    )
+                    [Nb equipements]
                 )
         ),
         [Nb],
         DESC
     )
+
 RETURN
     MAXX(
         TopTable,
@@ -454,26 +480,42 @@ RETURN
 
 ---
 
-### 7.5 Nombre du Top type
+# 12. Volume du Top type
 
 ```DAX
 Top type volume =
+VAR TableTypes =
+    FILTER(
+        VALUES(
+            EquipementsRestitues[TypeEquipement]
+        ),
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
+    )
+
 VAR TopTable =
     TOPN(
         1,
-        SUMMARIZE(
-            EquipementsRestitues,
-            EquipementsRestitues[TypeEquipement],
+        ADDCOLUMNS(
+            TableTypes,
             "Nb",
                 CALCULATE(
-                    COUNTROWS(
-                        EquipementsRestitues
-                    )
+                    [Nb equipements]
                 )
         ),
         [Nb],
         DESC
     )
+
 RETURN
     MAXX(
         TopTable,
@@ -483,7 +525,7 @@ RETURN
 
 ---
 
-### 7.6 Pourcentage du Top type
+# 13. Pourcentage du Top type
 
 ```DAX
 Top type % =
@@ -502,63 +544,78 @@ Pourcentage
 Exemple :
 
 ```text
-Laptop
+Workstation
+
 34 %
 ```
 
 ---
 
-## 8. Mesure nombre d’équipements par type
+# 14. Nombre de RITM valides
+
+Mesure de contrôle optionnelle.
 
 ```DAX
-Nb equipements =
+RITM non vides =
 CALCULATE(
     COUNTROWS(
         EquipementsRestitues
     ),
-    NOT ISBLANK(
-        EquipementsRestitues[TypeEquipement]
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
+            EquipementsRestitues[RITM]
+        )
+            && TRIM(
+                EquipementsRestitues[RITM]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[RITM]
+                )
+            ) <> "null"
     )
 )
 ```
 
-Cette mesure pourra être utilisée dans :
-
-```text
-Treemap
-Histogramme
-Top type
-Graphique empilé
-```
-
 ---
 
-## 9. Pourcentage par type d’équipement
+# 15. Mesure de contrôle TypeEquipement
 
 ```DAX
-% Equipements par type =
-DIVIDE(
-    [Nb equipements],
-    CALCULATE(
-        [Nb equipements],
-        ALL(
+Types non vides =
+CALCULATE(
+    COUNTROWS(
+        EquipementsRestitues
+    ),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
             EquipementsRestitues[TypeEquipement]
         )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
     )
 )
 ```
 
-Format :
+Cette mesure doit normalement donner le même résultat que :
 
 ```text
-Pourcentage
+[Equipements restitues]
 ```
 
 ---
 
-## 10. Visuels Power BI
+# 16. KPI Power BI
 
-### KPI 1 – Restitutions
+## KPI 1 – Restitutions
 
 Visuel :
 
@@ -580,7 +637,7 @@ Restitutions
 
 ---
 
-### KPI 2 – Équipements restitués
+## KPI 2 – Équipements restitués
 
 Visuel :
 
@@ -602,7 +659,7 @@ Titre :
 
 ---
 
-### KPI 3 – Moyenne / restitution
+## KPI 3 – Moyenne / restitution
 
 Visuel :
 
@@ -616,7 +673,7 @@ Valeur :
 [Moyenne par restitution]
 ```
 
-Format conseillé :
+Format :
 
 ```text
 2 décimales
@@ -630,13 +687,7 @@ Moyenne / restitution
 
 ---
 
-### KPI 4 – Top type
-
-Visuel :
-
-```text
-Carte
-```
+## KPI 4 – Top type
 
 Valeur principale :
 
@@ -644,23 +695,23 @@ Valeur principale :
 [Top type]
 ```
 
-Afficher également :
+Pourcentage :
 
 ```text
 [Top type %]
 ```
 
-Exemple rendu :
+Exemple :
 
 ```text
-Laptop
+Workstation
 
 34 % des équipements
 ```
 
 ---
 
-## 11. Graphique principal
+# 17. Graphique principal
 
 Titre :
 
@@ -674,7 +725,7 @@ Visuel :
 Histogramme empilé
 ```
 
-Champs :
+Configuration :
 
 ```text
 Axe X :
@@ -687,7 +738,7 @@ Légende :
 TypeEquipement
 ```
 
-Exemple de catégories :
+Exemple de types :
 
 ```text
 Workstation
@@ -699,7 +750,7 @@ Headset
 
 ---
 
-## 12. Treemap
+# 18. Treemap
 
 Titre :
 
@@ -713,13 +764,7 @@ Sous-titre :
 % du volume d'équipements restitués
 ```
 
-Visuel :
-
-```text
-Treemap
-```
-
-Champs :
+Configuration :
 
 ```text
 Groupe :
@@ -738,7 +783,7 @@ Infobulles :
 
 ---
 
-## 13. Top types d’équipement restitués
+# 19. Top types d'équipement restitués
 
 Visuel :
 
@@ -752,21 +797,20 @@ Titre :
 Top types d'équipement restitués
 ```
 
+Configuration :
+
+```text
 Axe Y :
-
-```text
 TypeEquipement
-```
 
-Valeur :
-
-```text
+Valeurs :
 [Nb equipements]
 ```
 
-Infobulle :
+Infobulles :
 
 ```text
+[Nb equipements]
 [% Equipements par type]
 ```
 
@@ -779,7 +823,7 @@ Décroissant
 
 ---
 
-## 14. Filtres / segments
+# 20. Filtres / segments
 
 Prévoir les segments suivants :
 
@@ -793,7 +837,7 @@ TypeEquipement
 
 ---
 
-## 15. Maquette cible
+# 21. Maquette cible
 
 ```text
 ---------------------------------------------------------
@@ -821,9 +865,11 @@ Top types d'équipement restitués | À retenir
 
 ---
 
-## 16. Types d’équipement
+# 22. Types d'équipement
 
-Pour le moment, conserver les libellés techniques tels quels :
+Pour le moment, conserver les libellés tels quels.
+
+Exemples :
 
 ```text
 Workstation
@@ -833,9 +879,9 @@ Headset
 ...
 ```
 
-Ne pas les renommer pour l’instant.
+Ne pas les renommer pour l'instant.
 
-Une normalisation pourra être effectuée plus tard, par exemple :
+Une normalisation pourra être faite plus tard, par exemple :
 
 ```text
 Workstation -> PC
@@ -845,30 +891,9 @@ Headset -> Casque
 
 ---
 
-## 17. Point restant à définir
+# 23. Principe métier important
 
-Il faut identifier le nom exact de la colonne correspondant à :
-
-```text
-ID unique de la visite
-```
-
-Elle sera utilisée dans la mesure :
-
-```DAX
-Restitutions =
-DISTINCTCOUNT(
-    EquipementsRestitues[ID_VISITE]
-)
-```
-
-Remplacer `ID_VISITE` par le vrai nom de colonne.
-
----
-
-## 18. Principe métier important
-
-Il faut bien distinguer :
+Il faut distinguer :
 
 ```text
 Restitution
@@ -883,31 +908,140 @@ et :
 Exemple :
 
 ```text
-1 visite de restitution
-avec
-1 Workstation
-2 Display Device
-1 Headset
+Une visite contient :
+
+Workstation,RITM001
+Display Device,RITM002
+Headset,RITM003
 ```
 
-donne :
+Après transformation :
+
+```text
+3 lignes dans EquipementsRestitues
+```
+
+Mais les KPI donnent :
 
 ```text
 Restitutions = 1
 
-Équipements restitués = 4
+Equipements restitues = 3
 
-Moyenne / restitution = 4
+Moyenne par restitution = 3
 ```
 
-C’est ce principe qui justifie la création de la table :
+---
+
+# 24. Point restant à définir
+
+Il faut identifier le nom exact de la colonne correspondant à :
 
 ```text
-EquipementsRestitues
+ID unique de la visite
 ```
 
-avec :
+Cette colonne doit remplacer :
 
 ```text
-1 ligne = 1 équipement
+ID_VISITE
+```
+
+dans cette mesure :
+
+```DAX
+Restitutions =
+CALCULATE(
+    DISTINCTCOUNT(
+        EquipementsRestitues[ID_VISITE]
+    ),
+    FILTER(
+        EquipementsRestitues,
+        NOT ISBLANK(
+            EquipementsRestitues[TypeEquipement]
+        )
+            && TRIM(
+                EquipementsRestitues[TypeEquipement]
+            ) <> ""
+            && LOWER(
+                TRIM(
+                    EquipementsRestitues[TypeEquipement]
+                )
+            ) <> "null"
+    )
+)
+```
+
+---
+
+# 25. Règle générale à respecter dans les nouvelles mesures
+
+Dès qu'une mesure doit compter de vrais équipements restitués, appliquer le filtre :
+
+```DAX
+FILTER(
+    EquipementsRestitues,
+    NOT ISBLANK(
+        EquipementsRestitues[TypeEquipement]
+    )
+        && TRIM(
+            EquipementsRestitues[TypeEquipement]
+        ) <> ""
+        && LOWER(
+            TRIM(
+                EquipementsRestitues[TypeEquipement]
+            )
+        ) <> "null"
+)
+```
+
+Cette règle évite de compter :
+
+```text
+BLANK()
+chaîne vide
+espaces
+texte "null"
+```
+
+---
+
+# 26. Résumé des mesures à créer
+
+```text
+Lignes EquipementsRestitues
+Equipements restitues
+Restitutions
+Moyenne par restitution
+Nb equipements
+% Equipements par type
+Top type
+Top type volume
+Top type %
+RITM non vides
+Types non vides
+```
+
+---
+
+# 27. Ordre recommandé de construction
+
+```text
+1. Vérifier EquipementsRestitues
+2. Vérifier TypeEquipement
+3. Vérifier RITM
+4. Créer Equipements restitues
+5. Créer Restitutions
+6. Créer Moyenne par restitution
+7. Créer Nb equipements
+8. Créer % Equipements par type
+9. Créer Top type
+10. Créer Top type volume
+11. Créer Top type %
+12. Construire les KPI
+13. Construire le graphique mensuel
+14. Construire le Treemap
+15. Construire le Top types
+16. Ajouter les filtres
+17. Optimiser Power Query avant mise en production
 ```
