@@ -1,13 +1,8 @@
 let
     Source = #"lecomptoir allvisits_181124",
 
-    ColonnesUtiles = Table.SelectColumns(
-        Source,
-        {"cdspp_ritmlist"}
-    ),
-
     FiltrerRITMNonVides = Table.SelectRows(
-        ColonnesUtiles,
+        Source,
         each [cdspp_ritmlist] <> null
             and Text.Trim(Text.From([cdspp_ritmlist])) <> ""
     ),
@@ -15,9 +10,9 @@ let
     AjoutListeEquipements = Table.AddColumn(
         FiltrerRITMNonVides,
         "ListeEquipements",
-        each List.Split(
-            Text.Split(Text.From([cdspp_ritmlist]), ";"),
-            2
+        each Text.Split(
+            Text.From([cdspp_ritmlist]),
+            ";"
         )
     ),
 
@@ -29,14 +24,28 @@ let
     AjoutTypeEquipement = Table.AddColumn(
         DevelopperListeEquipements,
         "TypeEquipement",
-        each try Text.Trim(Text.From([ListeEquipements]{0})) otherwise null,
+        each
+            try Text.Trim(
+                Text.BeforeDelimiter(
+                    Text.From([ListeEquipements]),
+                    ","
+                )
+            )
+            otherwise null,
         type text
     ),
 
     AjoutRITM = Table.AddColumn(
         AjoutTypeEquipement,
         "RITM",
-        each try Text.Trim(Text.From([ListeEquipements]{1})) otherwise null,
+        each
+            try Text.Trim(
+                Text.AfterDelimiter(
+                    Text.From([ListeEquipements]),
+                    ","
+                )
+            )
+            otherwise null,
         type text
     ),
 
