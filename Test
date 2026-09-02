@@ -1,1222 +1,350 @@
-Param_Vue_Restitutions =
+User Story – Publish Returned Equipment Data to the SharePoint Return List
+
+Title
+
+Publish returned equipment data to the SharePoint Return list with one JSON payload per visit
+
+User Story
+
+As a Product Owner / reporting owner for Le Comptoir,
+I want the application to publish returned equipment information into a dedicated SharePoint Return list,
+so that Power Automate can parse the JSON payload, create one Dataverse row per returned equipment item, and make the data reliably available for Power BI reporting.
+
+⸻
+
+Context
+
+Today, returned equipment information is stored directly in the visit data in a compact format, mainly through a list of RITMs and equipment types.
+
+This approach is becoming limiting because we now want to retrieve much more information for each returned equipment item, for example:
+
+* RITM
+* Asset Tag
+* Equipment type
+* Model
+* Serial number
+* Owner
+* Depositor
+* HAM information
+* Return request information
+* etc.
+
+To avoid making the Visit object too heavy and to simplify downstream processing, a dedicated SharePoint Return list will be used as a staging layer.
+
+⸻
+
+Expected Functional Behaviour
+
+General Principle
+
+For each visit containing at least one returned equipment item:
+
+1 visit
+=
+1 row in the SharePoint Return list
+
+The SharePoint row must contain:
+
+VisitId
++
+JSON payload containing all returned equipment items for the visit
+
+Example:
+
+Visit ABC123
+├── Workstation
+├── Display Device
+└── Accessory
+
+must create:
+
+1 SharePoint Return item
+
+with a JSON payload containing the 3 returned equipment items.
+
+⸻
+
+SharePoint Publication
+
+The application must publish the data to:
+
+SharePoint List: Return
+
+The publication must be performed through:
+
+Microsoft Graph API
+
+using:
+
+JSON batching
+
+to reduce network round trips and avoid unnecessary API calls.
+
+Batching Rule
+
+Visits to be published should be grouped into Graph batches.
+
+Maximum: 20 sub-requests per Graph batch
+
+Each sub-request represents:
+
+1 visit containing returned equipment
+=
+1 SharePoint Return item creation/update
+
+Example:
+
+Graph Batch
+Request 1  → Visit ABC001
+Request 2  → Visit ABC002
+Request 3  → Visit ABC003
+...
+Request 20 → Visit ABC020
+
+A visit containing several equipment items must still generate only one SharePoint item / one Graph sub-request.
+
+⸻
+
+Expected SharePoint Structure
+
+The Return list must at least contain:
+
+Field	Description
+VisitId	Unique Le Comptoir visit identifier
+PayloadJson	JSON payload containing all returned equipment items for the visit
+
+Additional technical fields may be added for downstream processing, for example:
+
+ProcessingStatus
+ProcessedAt
+RetryCount
+ErrorMessage
+SourceVersion
+
+These technical fields do not necessarily need to be populated by the application.
+
+⸻
+
+JSON Payload
+
+The JSON payload must contain the collection of returned equipment items linked to the visit.
+
+General expected structure:
+
 {
-    (
-        "Per day",
-        NAMEOF(EquipementsRestitues[Jour]),
-        0
-    ),
-    (
-        "Per hour",
-        NAMEOF(EquipementsRestitues[Heure]),
-        1
-    ),
-    (
-        "Per category",
-        NAMEOF(EquipementsRestitues[TypeEquipementAffiche]),
-        2
-    )
+  "visitId": "<VisitId>",
+  "items": [
+    {
+      "...": "..."
+    },
+    {
+      "...": "..."
+    }
+  ]
 }
 
-# Power BI – Rapport de restitution de matériel
+Expected Properties
 
-## Objectif
+To be completed with the JSON export of the Return Equipment collection provided by the application.
 
-Créer un rapport Power BI dédié aux restitutions de matériel avec :
+Paste the reference JSON below:
 
-- KPI `Restitutions`
-- KPI `Équipements restitués`
-- KPI `Moyenne / restitution`
-- KPI `Top type`
-- Graphique mensuel empilé par type d’équipement
-- Treemap `Poids de chaque type`
-- Graphique horizontal `Top types d’équipement restitués`
+{
+  "items": [
+    {
+      "FIELDS_TO_BE_COMPLETED": "..."
+    }
+  ]
+}
 
----
+The JSON attached to this User Story will be the reference for the properties that must be published.
 
-# 1. Source Power Query
+⸻
 
-Requête source :
+Downstream Processing
 
-```powerquery
-#"lecomptoir allvisits_181124"
-```
+The application is not responsible for normalising the returned equipment into separate Dataverse rows.
 
-Colonne contenant les restitutions :
+The application is only responsible for:
 
-```powerquery
-[cdspp_ritmlist]
-```
+Collecting
+↓
+Structuring
+↓
+Publishing the JSON payload
 
----
+The transformation will be handled by Power Automate:
 
-# 2. Formats présents dans `cdspp_ritmlist`
+SharePoint Return
+        ↓
+Power Automate
+        ↓
+Parse JSON
+        ↓
+Apply to each items[]
+        ↓
+Dataverse ReturnedEquipment
 
-## Format récent
+In Dataverse:
 
-```text
-TypeEquipement,RITM;TypeEquipement,RITM
-```
+1 returned equipment item
+=
+1 row
 
-Exemple :
+Example:
 
-```text
-Workstation,RITM7583878;Accessory,RITM7583876
-```
+SharePoint
+Visit ABC123
+Payload containing 3 equipment items
 
-Règles :
+becomes:
 
-- `,` sépare le type d’équipement du RITM
-- `;` sépare plusieurs équipements
+Dataverse ReturnedEquipment
+Row 1 → Equipment item 1
+Row 2 → Equipment item 2
+Row 3 → Equipment item 3
 
----
+⸻
 
-## Ancien format
+Acceptance Criteria
 
-Certaines anciennes lignes n’ont pas de type d’équipement.
+AC1 – One SharePoint row per visit
 
-Exemple :
+Given a visit contains one or more returned equipment items
+When the application publishes the return data
+Then only one row must be created in the SharePoint Return list for that visit.
 
-```text
-RITM7583426;RITM7583427;RITM7583431
-```
+⸻
 
-Dans ce cas :
+AC2 – No Return item when no equipment is returned
 
-- le RITM est valide
-- le type est inconnu
-- l’équipement doit quand même être compté
-- le type affiché dans les graphiques sera `Non renseigné`
+Given a visit contains no returned equipment item
+When the visit is processed
+Then no row must be created in the SharePoint Return list.
 
----
+⸻
 
-# 3. Règle métier principale
+AC3 – All equipment items included in the JSON
 
-La règle de validité est :
+Given a visit contains multiple returned equipment items
+When the JSON payload is generated
+Then every item from the Return Equipment collection must be included in the items array.
 
-```text
-Un équipement restitué valide = un RITM renseigné
-```
+⸻
 
-Le type d’équipement n’est pas obligatoire.
+AC4 – VisitId must be included
 
-Il ne faut donc jamais utiliser `TypeEquipement` comme critère principal pour compter un équipement.
+Each SharePoint Return item must contain:
 
----
+VisitId
 
-# 4. Création de la requête `EquipementsRestitues`
+so that all returned equipment items can later be linked back to the original visit.
 
-Dans Power Query :
+⸻
 
-1. clic droit sur :
+AC5 – JSON structure must match the agreed reference
 
-```text
-lecomptoir allvisits_181124
-```
+All properties defined in the reference JSON added to this User Story must be published.
 
-2. choisir :
+Property names must be:
 
-```text
-Référence
-```
-
-3. renommer la requête :
-
-```text
-EquipementsRestitues
-```
-
-4. aller dans :
-
-```text
-Accueil > Éditeur avancé
-```
-
-5. remplacer le contenu par le code suivant.
-
----
-
-# 5. Code Power Query M
-
-Version retenue :
-
-- pas de filtre Power Query sur les lignes nulles
-- conservation des lignes nulles pour éviter les temps de traitement trop longs
-- filtrage logique effectué ensuite en DAX via le champ `RITM`
-
-```powerquery
-let
-    Source = #"lecomptoir allvisits_181124",
-
-    // ============================================================
-    // 1. On ne conserve que les colonnes nécessaires au rapport
-    // ============================================================
-    ColonnesUtiles = Table.SelectColumns(
-        Source,
-        {
-            "_id",
-            "createdAt_local",
-            "cdspp_ritmlist"
-        },
-        MissingField.Ignore
-    ),
-
-    // ============================================================
-    // 2. Création d'une liste d'équipements
-    //
-    // Format récent :
-    // Workstation,RITM001;Accessory,RITM002
-    //
-    // Format ancien :
-    // RITM001;RITM002
-    //
-    // Le point-virgule sépare les équipements
-    // ============================================================
-    AjoutListeEquipements = Table.AddColumn(
-        ColonnesUtiles,
-        "ListeEquipements",
-        each
-            let
-                ValeurSource =
-                    try Text.From([cdspp_ritmlist])
-                    otherwise null
-            in
-                if ValeurSource = null then
-                    {}
-                else if Text.Trim(ValeurSource) = "" then
-                    {}
-                else
-                    Text.Split(
-                        ValeurSource,
-                        ";"
-                    )
-    ),
-
-    // ============================================================
-    // 3. Une ligne par équipement
-    // ============================================================
-    DevelopperListeEquipements = Table.ExpandListColumn(
-        AjoutListeEquipements,
-        "ListeEquipements"
-    ),
-
-    // ============================================================
-    // 4. Extraction du type d'équipement
-    //
-    // Workstation,RITM001 -> Workstation
-    //
-    // RITM001 -> null
-    // ============================================================
-    AjoutTypeEquipement = Table.AddColumn(
-        DevelopperListeEquipements,
-        "TypeEquipement",
-        each
-            let
-                Valeur =
-                    try Text.Trim(
-                        Text.From([ListeEquipements])
-                    )
-                    otherwise null
-            in
-                if Valeur = null then
-                    null
-                else if Valeur = "" then
-                    null
-                else if Text.Contains(Valeur, ",") then
-                    Text.Trim(
-                        Text.BeforeDelimiter(
-                            Valeur,
-                            ","
-                        )
-                    )
-                else
-                    null,
-        type text
-    ),
-
-    // ============================================================
-    // 5. Extraction du RITM
-    //
-    // Format récent :
-    // Workstation,RITM001 -> RITM001
-    //
-    // Format ancien :
-    // RITM001 -> RITM001
-    // ============================================================
-    AjoutRITM = Table.AddColumn(
-        AjoutTypeEquipement,
-        "RITM",
-        each
-            let
-                Valeur =
-                    try Text.Trim(
-                        Text.From([ListeEquipements])
-                    )
-                    otherwise null
-            in
-                if Valeur = null then
-                    null
-                else if Valeur = "" then
-                    null
-                else if Text.Contains(Valeur, ",") then
-                    Text.Trim(
-                        Text.AfterDelimiter(
-                            Valeur,
-                            ","
-                        )
-                    )
-                else if Text.StartsWith(
-                    Text.Upper(Valeur),
-                    "RITM"
-                ) then
-                    Valeur
-                else
-                    null,
-        type text
-    ),
-
-    // ============================================================
-    // 6. Type utilisé dans les graphiques
-    //
-    // RITM null + Type null
-    // -> null
-    //
-    // RITM renseigné + Type null
-    // -> "Non renseigné"
-    //
-    // RITM renseigné + Type renseigné
-    // -> Type réel
-    // ============================================================
-    AjoutTypeEquipementAffiche = Table.AddColumn(
-        AjoutRITM,
-        "TypeEquipementAffiche",
-        each
-            let
-                Type =
-                    try Text.Trim(
-                        Text.From([TypeEquipement])
-                    )
-                    otherwise null,
-
-                Ritm =
-                    try Text.Trim(
-                        Text.From([RITM])
-                    )
-                    otherwise null
-            in
-                if Ritm = null or Ritm = "" then
-                    null
-                else if Type = null or Type = "" then
-                    "Non renseigné"
-                else
-                    Type,
-        type text
-    ),
-
-    // ============================================================
-    // 7. Suppression des colonnes techniques
-    // ============================================================
-    SuppressionColonnesTechniques = Table.RemoveColumns(
-        AjoutTypeEquipementAffiche,
-        {
-            "ListeEquipements",
-            "cdspp_ritmlist"
-        }
-    )
-
-in
-    SuppressionColonnesTechniques
-```
-
----
-
-# 6. Résultat attendu
-
-## Cas récent
-
-Source :
-
-```text
-Workstation,RITM7583878;Accessory,RITM7583876
-```
-
-Résultat :
-
-| _id | createdAt_local | TypeEquipement | RITM | TypeEquipementAffiche |
-|---|---|---|---|---|
-| xxx | 01/08/2026 | Workstation | RITM7583878 | Workstation |
-| xxx | 01/08/2026 | Accessory | RITM7583876 | Accessory |
-
----
-
-## Cas ancien
-
-Source :
-
-```text
-RITM7583426;RITM7583427
-```
-
-Résultat :
-
-| _id | createdAt_local | TypeEquipement | RITM | TypeEquipementAffiche |
-|---|---|---|---|---|
-| xxx | 01/08/2026 | null | RITM7583426 | Non renseigné |
-| xxx | 01/08/2026 | null | RITM7583427 | Non renseigné |
-
----
-
-## Cas sans restitution
-
-Résultat :
-
-| TypeEquipement | RITM | TypeEquipementAffiche |
-|---|---|---|
-| null | null | null |
-
-Ces lignes restent présentes dans la table, mais elles ne seront pas comptées grâce aux mesures DAX.
-
----
-
-# 7. Règle DAX standard pour un équipement valide
-
-Toutes les mesures qui comptent de vrais équipements doivent utiliser :
-
-```DAX
-NOT ISBLANK(
-    EquipementsRestitues[RITM]
-)
-    && TRIM(
-        EquipementsRestitues[RITM]
-    ) <> ""
-    && LOWER(
-        TRIM(
-            EquipementsRestitues[RITM]
-        )
-    ) <> "null"
-```
-
----
-
-# 8. Mesure de contrôle – Nombre total de lignes
-
-```DAX
-Lignes EquipementsRestitues =
-COUNTROWS(
-    EquipementsRestitues
-)
-```
-
-Cette mesure compte toutes les lignes, y compris les lignes sans restitution.
-
----
-
-# 9. KPI – Équipements restitués
-
-```DAX
-Equipements restitues =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
----
-
-# 10. KPI – Restitutions
-
-Une restitution correspond à une visite distincte avec au moins un RITM valide.
-
-L’identifiant unique de la visite est :
-
-```text
-_id
-```
-
-Mesure :
-
-```DAX
-Restitutions =
-CALCULATE(
-    DISTINCTCOUNT(
-        EquipementsRestitues[_id]
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
-Exemple :
-
-```text
-Une visite contient :
-
-Workstation,RITM001
-Display Device,RITM002
-Headset,RITM003
-
-Restitutions = 1
-Equipements restitues = 3
-```
-
----
-
-# 11. KPI – Moyenne / restitution
-
-```DAX
-Moyenne par restitution =
-DIVIDE(
-    [Equipements restitues],
-    [Restitutions]
-)
-```
-
-Format :
-
-```text
-2 décimales
-```
-
----
-
-# 12. Nombre d’équipements pour les graphiques
-
-```DAX
-Nb equipements =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
----
-
-# 13. Pourcentage par type d’équipement
-
-```DAX
-% Equipements par type =
-DIVIDE(
-    [Nb equipements],
-    CALCULATE(
-        [Nb equipements],
-        ALL(
-            EquipementsRestitues[TypeEquipementAffiche]
-        )
-    )
-)
-```
-
-Format :
-
-```text
-Pourcentage
-```
-
----
-
-# 14. Top type d’équipement
-
-Le Top type doit exclure :
-
-```text
-Non renseigné
-```
-
-Mesure :
-
-```DAX
-Top type =
-VAR TableTypes =
-    FILTER(
-        VALUES(
-            EquipementsRestitues[TypeEquipementAffiche]
-        ),
-        NOT ISBLANK(
-            EquipementsRestitues[TypeEquipementAffiche]
-        )
-            && EquipementsRestitues[TypeEquipementAffiche]
-                <> "Non renseigné"
-    )
-
-VAR TopTable =
-    TOPN(
-        1,
-        ADDCOLUMNS(
-            TableTypes,
-            "Nb",
-                CALCULATE(
-                    [Nb equipements]
-                )
-        ),
-        [Nb],
-        DESC
-    )
-
-RETURN
-    MAXX(
-        TopTable,
-        EquipementsRestitues[TypeEquipementAffiche]
-    )
-```
-
----
-
-# 15. Volume du Top type
-
-```DAX
-Top type volume =
-VAR TableTypes =
-    FILTER(
-        VALUES(
-            EquipementsRestitues[TypeEquipementAffiche]
-        ),
-        NOT ISBLANK(
-            EquipementsRestitues[TypeEquipementAffiche]
-        )
-            && EquipementsRestitues[TypeEquipementAffiche]
-                <> "Non renseigné"
-    )
-
-VAR TopTable =
-    TOPN(
-        1,
-        ADDCOLUMNS(
-            TableTypes,
-            "Nb",
-                CALCULATE(
-                    [Nb equipements]
-                )
-        ),
-        [Nb],
-        DESC
-    )
-
-RETURN
-    MAXX(
-        TopTable,
-        [Nb]
-    )
-```
-
----
-
-# 16. Pourcentage du Top type
-
-```DAX
-Top type % =
-DIVIDE(
-    [Top type volume],
-    [Equipements restitues]
-)
-```
-
-Format :
-
-```text
-Pourcentage
-```
-
----
-
-# 17. Mesure de contrôle – RITM non vides
-
-```DAX
-RITM non vides =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && LOWER(
-                TRIM(
-                    EquipementsRestitues[RITM]
-                )
-            ) <> "null"
-    )
-)
-```
-
-Cette mesure doit normalement être égale à :
-
-```text
-[Equipements restitues]
-```
-
----
-
-# 18. Mesure qualité – Types renseignés
-
-```DAX
-Types renseignes =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && NOT ISBLANK(
-                EquipementsRestitues[TypeEquipement]
-            )
-            && TRIM(
-                EquipementsRestitues[TypeEquipement]
-            ) <> ""
-    )
-)
-```
-
----
-
-# 19. Mesure qualité – Types non renseignés
-
-```DAX
-Types non renseignes =
-CALCULATE(
-    COUNTROWS(
-        EquipementsRestitues
-    ),
-    FILTER(
-        EquipementsRestitues,
-        NOT ISBLANK(
-            EquipementsRestitues[RITM]
-        )
-            && TRIM(
-                EquipementsRestitues[RITM]
-            ) <> ""
-            && (
-                ISBLANK(
-                    EquipementsRestitues[TypeEquipement]
-                )
-                ||
-                TRIM(
-                    EquipementsRestitues[TypeEquipement]
-                ) = ""
-            )
-    )
-)
-```
-
----
-
-# 20. Pourcentage des types non renseignés
-
-```DAX
-% Types non renseignes =
-DIVIDE(
-    [Types non renseignes],
-    [Equipements restitues]
-)
-```
-
-Format :
-
-```text
-Pourcentage
-```
-
----
-
-# 21. KPI Power BI
-
-## KPI 1 – Restitutions
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Restitutions]
-```
-
-Titre :
-
-```text
-Restitutions
-```
-
----
-
-## KPI 2 – Équipements restitués
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Equipements restitues]
-```
-
-Titre :
-
-```text
-Équipements restitués
-```
-
----
-
-## KPI 3 – Moyenne / restitution
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur :
-
-```text
-[Moyenne par restitution]
-```
-
-Titre :
-
-```text
-Moyenne / restitution
-```
-
----
-
-## KPI 4 – Top type
-
-Visuel :
-
-```text
-Carte
-```
-
-Valeur principale :
-
-```text
-[Top type]
-```
-
-Valeur secondaire :
-
-```text
-[Top type %]
-```
-
-Exemple :
-
-```text
-Workstation
-
-34 % des équipements
-```
-
----
-
-# 22. Graphique principal – Évolution mensuelle
-
-Titre :
-
-```text
-Évolution mensuelle des équipements restitués par type
-```
-
-Visuel :
-
-```text
-Histogramme empilé
-```
-
-Configuration :
-
-```text
-Axe X :
-createdAt_local
-```
-
-Utiliser la hiérarchie de date :
-
-```text
-Année
-Mois
-```
-
-Valeur :
-
-```text
-[Nb equipements]
-```
-
-Légende :
-
-```text
-TypeEquipementAffiche
-```
-
-Exemples de catégories :
-
-```text
-Workstation
-Mobile
-Display Device
-Headset
-Accessory
-Non renseigné
-```
-
----
-
-# 23. Treemap – Poids de chaque type
-
-Titre :
-
-```text
-Poids de chaque type
-```
-
-Sous-titre :
-
-```text
-% du volume d'équipements restitués
-```
-
-Visuel :
-
-```text
-Treemap
-```
-
-Configuration :
-
-```text
-Groupe :
-TypeEquipementAffiche
-```
-
-Valeur :
-
-```text
-[Nb equipements]
-```
-
-Infobulles :
-
-```text
-[Nb equipements]
-[% Equipements par type]
-```
-
----
-
-# 24. Top types d’équipement restitués
-
-Visuel :
-
-```text
-Histogramme horizontal
-```
-
-Titre :
-
-```text
-Top types d'équipement restitués
-```
-
-Axe Y :
-
-```text
-TypeEquipementAffiche
-```
-
-Valeur :
-
-```text
-[Nb equipements]
-```
-
-Infobulles :
-
-```text
-[Nb equipements]
-[% Equipements par type]
-```
-
-Tri :
-
-```text
-[Nb equipements]
-Décroissant
-```
-
-Option possible :
-
-```text
-Exclure "Non renseigné"
-```
-
-si on veut uniquement afficher les types connus.
-
----
-
-# 25. Filtres / segments
-
-Prévoir :
-
-```text
-Année
-Mois
-TypeEquipementAffiche
-```
-
-Si d’autres colonnes sont ajoutées à la requête `EquipementsRestitues`, on pourra également ajouter :
-
-```text
-Pays
-Le Comptoir
-Site
-Technicien
-```
-
----
-
-# 26. Maquette cible
-
-```text
----------------------------------------------------------
-Le Comptoir – Analyse des restitutions matérielles
-Vue mensuelle
----------------------------------------------------------
-
-Année | Mois | Pays | Le Comptoir | Type équipement
-
----------------------------------------------------------
-Restitutions
-Équipements restitués
-Moyenne / restitution
-Top type
----------------------------------------------------------
-
-Évolution mensuelle des équipements restitués par type
-                                 | Poids de chaque type
-                                 | Treemap
----------------------------------------------------------
-
-Top types d'équipement restitués | À retenir
----------------------------------------------------------
-```
-
----
-
-# 27. Règles métier finales
-
-## Cas 1
-
-```text
-Workstation,RITM001
-```
-
-Résultat :
-
-```text
-TypeEquipement = Workstation
-RITM = RITM001
-TypeEquipementAffiche = Workstation
-```
-
----
-
-## Cas 2
-
-```text
-RITM002
-```
-
-Résultat :
-
-```text
-TypeEquipement = null
-RITM = RITM002
-TypeEquipementAffiche = Non renseigné
-```
-
-Cet équipement est compté.
-
----
-
-## Cas 3
-
-```text
-null
-```
-
-Résultat :
-
-```text
-TypeEquipement = null
-RITM = null
-TypeEquipementAffiche = null
-```
-
-Cette ligne n’est pas comptée dans les mesures.
-
----
-
-# 28. Principe de comptage
-
-Exemple :
-
-```text
-Une visite possède :
-
-Workstation,RITM001
-Display Device,RITM002
-RITM003
-```
-
-Résultat :
-
-```text
-Restitutions = 1
-
-Equipements restitues = 3
-
-Moyenne par restitution = 3
-```
-
-Pour la répartition par type :
-
-```text
-Workstation = 1
-Display Device = 1
-Non renseigné = 1
-```
-
----
-
-# 29. Mesures finales à créer
-
-```text
-Lignes EquipementsRestitues
-Equipements restitues
-Restitutions
-Moyenne par restitution
-Nb equipements
-% Equipements par type
-Top type
-Top type volume
-Top type %
-RITM non vides
-Types renseignes
-Types non renseignes
-% Types non renseignes
-```
-
----
-
-# 30. Ordre recommandé de construction dans Power BI
-
-```text
-1. Charger la requête EquipementsRestitues
-2. Vérifier _id
-3. Vérifier createdAt_local
-4. Vérifier RITM
-5. Vérifier TypeEquipement
-6. Vérifier TypeEquipementAffiche
-7. Créer Equipements restitues
-8. Créer Restitutions
-9. Créer Moyenne par restitution
-10. Créer Nb equipements
-11. Créer % Equipements par type
-12. Créer Top type
-13. Créer Top type volume
-14. Créer Top type %
-15. Créer les mesures qualité
-16. Ajouter les cartes KPI
-17. Ajouter l’histogramme mensuel empilé
-18. Ajouter le Treemap
-19. Ajouter le Top types
-20. Ajouter les filtres
-```
-
----
-
-# 31. Point performance
-
-Pour le moment :
-
-```text
-Ne pas filtrer les lignes nulles dans Power Query
-```
-
-car cette étape est trop longue sur la volumétrie actuelle.
-
-Les lignes sans restitution sont conservées mais ne sont pas comptées grâce au filtre DAX basé sur :
-
-```text
-RITM
-```
-
-L’impact principal est sur :
-
-```text
-Taille du modèle
-Temps de rafraîchissement
-```
-
-L’utilisateur final du rapport est généralement moins impacté une fois le modèle chargé.
-
-Une optimisation pourra être faite plus tard côté source ou via query folding.
+Stable
+Consistent
+Independent from UI labels
+
+⸻
+
+AC6 – Graph API batching
+
+SharePoint publications must support Microsoft Graph JSON batching.
+
+A batch must not exceed:
+
+20 sub-requests
+
+⸻
+
+AC7 – Each Graph sub-response must be checked individually
+
+The application must validate the result of every individual sub-request.
+
+A successful overall batch response must not be interpreted as meaning every sub-request succeeded.
+
+⸻
+
+AC8 – Throttling handling
+
+In case of:
+
+429
+
+or:
+
+503
+
+the application must respect:
+
+Retry-After
+
+and retry only the failed publication(s).
+
+⸻
+
+AC9 – No data loss
+
+A visit must not be considered successfully published until its SharePoint Return item has been successfully created or updated.
+
+⸻
+
+AC10 – No duplicate Return rows
+
+A retry must not generate multiple SharePoint Return rows for the same visit.
+
+The logical idempotency key is:
+
+VisitId
+
+⸻
+
+Out of Scope
+
+This User Story does not cover:
+
+Power Automate JSON parsing
+Creation of Dataverse ReturnedEquipment rows
+Power BI reporting
+Historical data migration
+
+These items can be handled through dedicated User Stories / technical tasks.
+
+⸻
+
+Expected Result
+
+Application
+   ↓
+Return Equipment collection
+   ↓
+Generate one JSON payload per visit
+   ↓
+Graph API batching
+   ↓
+SharePoint Return
+   ↓
+1 row = 1 visit
+   ↓
+JSON payload = N returned equipment items
+
+Then downstream:
+
+Power Automate
+   ↓
+Parse JSON
+   ↓
+Dataverse ReturnedEquipment
+   ↓
+1 row = 1 returned equipment item
+
+Functional Summary
+
+When a visit contains returned equipment, the application must publish a single row into the SharePoint Return list. This row contains the VisitId and a JSON payload describing all returned equipment items for that visit. Publications must support Microsoft Graph batching with up to 20 sub-requests per batch. The application must not split equipment items into separate SharePoint rows; this responsibility is delegated to Power Automate, which will parse the JSON and populate the ReturnedEquipment Dataverse table with one row per returned equipment item.
