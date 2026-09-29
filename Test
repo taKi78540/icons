@@ -1,5 +1,11 @@
-For your information, please find attached the four slides presenting the main RSE / Sustainable IT initiatives led by Telecom & Workspace.
+baseOffset =
+    try Number.From([Liste des comptoirs.UTC_number])
+    otherwise 0,
 
-These slides will be presented by Marc Camus to Top Management during the Green Company for Employees committee.
+dstAdd =
+    if (try Number.From([Liste des comptoirs.DST_delta]) otherwise 0) = 1
+        and isDst
+    then 1
+    else 0,
 
-They cover our key initiatives around device lifecycle management, data-driven decision making, digital sobriety, and inclusive purchasing.
+offsetReal = baseOffset + dstAdd
