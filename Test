@@ -1,11 +1,36 @@
-baseOffset =
-    try Number.From([Liste des comptoirs.UTC_number])
-    otherwise 0,
+Le raisonnement était le suivant :
 
-dstAdd =
-    if (try Number.From([Liste des comptoirs.DST_delta]) otherwise 0) = 1
-        and isDst
-    then 1
-    else 0,
+600 TB supprimés × 0,65 Wh par TB et par heure × facteur de réplication × PUE × 8 760 h/an
 
-offsetReal = baseOffset + dstAdd
+Avec les hypothèses utilisées sur la slide :
+
+* stockage HDD : 0,65 Wh/TB·h ;
+* réplication : ×3 ;
+* PUE du datacenter : environ 1,2 ;
+* 8 760 heures par an.
+
+Ça donne :
+
+600 × 0,65 × 3 × 1,2 × 8 760 ≈ 12 300 000 Wh/an
+
+soit environ :
+
+12,3 MWh/an.
+
+Le coefficient de 0,65 Wh/TB·h vient de la méthodologie Cloud Carbon Footprint, qui estime l’énergie de stockage à partir de la puissance moyenne des disques et applique ensuite la réplication et le PUE du cloud provider.  Microsoft publie par ailleurs un PUE global autour de 1,17 pour FY25, ce qui rend une hypothèse autour de 1,2 cohérente comme ordre de grandeur. 
+
+Ensuite, pour convertir les 12 MWh/an en CO₂e, j’avais utilisé un facteur carbone indicatif d’environ 0,2 kg CO₂e/kWh :
+
+12 300 kWh × 0,2 kg CO₂e/kWh ≈ 2 460 kg CO₂e/an
+
+donc environ :
+
+2,5 tonnes de CO₂e évitées par an, arrondies sur la slide à ≈ 2–3 t CO₂e/an.
+
+Le point le plus important pour ton discours est donc :
+
+600 TB supprimés ≈ 12 MWh/an d’énergie de stockage évitée, soit de l’ordre de 2 à 3 tCO₂e/an avec les hypothèses retenues.
+
+Mais je garderais bien le petit *indicative estimate*, car la vraie valeur dépend notamment de la technologie de stockage, du niveau réel de réplication, du datacenter Microsoft concerné et de son mix électrique. Cloud Carbon Footprint précise d’ailleurs que ce type de calcul est une estimation basée sur des coefficients publics, pas un substitut aux données réelles du fournisseur cloud. 
+
+Et il y a un détail intéressant : Microsoft utilise aujourd’hui dans certains calculs Azure une hypothèse de 10 kWh/TB/an pour le stockage on-prem, avant prise en compte du PUE, ce qui montre que notre ordre de grandeur n’est pas aberrant, même si la méthodologie est différente
