@@ -1,10 +1,389 @@
-#"Filtre incrémentiel" =
-    Table.SelectRows(
-        #"Type modifié",
-        each [createdAt] >= RangeStart
-            and [createdAt] < RangeEnd
-    )
+Voici les 3 User Stories initiales de l’EPIC « Automatic Management of Existing Return Requests », au format Jira, avec les évolutions que nous avions intégrées : identification du propriétaire HAM ou manuel, endpoints ServiceNow, qualification des RITM et réutilisation des variables de création.
 
+Je distingue volontairement ces trois US des nouvelles évolutions UX sur les Remaining items, que nous sommes en train de concevoir.
 
-in
-    #"Filtre incrémentiel"
+EPIC — Automatic Management of Existing Return Requests
+
+Objectif : permettre à Le Comptoir d’identifier automatiquement les demandes de restitution ServiceNow existantes, de les réutiliser lorsqu’un équipement est restitué, et d’informer le technicien du traitement effectué.
+
+US1 — Retrieve and classify existing return requests
+
+User Story
+
+As a Le Comptoir application,
+I want to retrieve and classify existing ServiceNow return requests for an identified equipment owner,
+So that existing requests can be reused when processing returned hardware instead of systematically creating new ones.
+
+1. Trigger and owner identification
+
+The search must be initiated when an equipment owner is identified for the first time during the return process.
+
+Case A — Equipment identified in HAM
+
+* The technician scans or searches for an equipment.
+* The technician selects the correct equipment among the search results.
+* The application retrieves the equipment owner from HAM.
+* The search is performed using the HAM equipment owner’s identity, which may differ from the visitor’s identity.
+
+Case B — Equipment added manually
+
+The technician selects the owner in the manual equipment form:
+
+* Visitor: use the visitor’s identity.
+* Another person: use the identity selected by the technician.
+* Unknown: do not execute the existing requests search.
+
+The search must only run when a valid owner identity is available.
+
+For a return session involving multiple owners, the requests must be associated with their respective owners. An owner already queried during the session should not require an identical new search.
+
+2. ServiceNow API
+
+Service: PRD-LECOMPTOIR-SERVICENOW-CATALOG
+
+Method: GET /catalog/tasks
+
+The request must retrieve material-related RITMs and their associated SCTASK information for the identified owner.
+
+Query criteria
+
+* request.requested_for = ${sys_id_user}
+* States: 1, 2, -5
+* Catalog items:
+    * Windows Workstation
+    * MAC Workstation
+    * Mobile devices
+    * Mobile Phone
+    * Leavers
+
+The query must combine the owner, state and catalog-item conditions correctly.
+
+Required fields
+
+parent
+number
+variables.request_type
+cat_item
+variables.Type_of_Request
+variables.type_of_request
+variables.var_it_returned
+variables.var_it_type
+variables.var_tablet_no_phone
+variables.var_phone_returned
+variables.var_tablet_returned
+
+The response must also make the SCTASK identifier and task state available for subsequent processing.
+
+3. Classify returned RITMs
+
+For each RITM returned by ServiceNow, identify whether it qualifies as a PC, Mac or Mobile return request.
+
+PC return
+
+A RITM is classified as PC when one of these conditions matches:
+
+1. variables.request_type = "Computer removal" AND cat_item = "Windows Workstation"
+2. variables.var_it_returned = "Yes" AND variables.var_it_type = "Laptop bundle"
+3. variables.var_it_returned = "Yes" AND variables.var_it_type = "Fixe bundle"
+
+Mac return
+
+1. variables.request_type = "Computer removal" AND cat_item = "MAC Workstation"
+2. variables.var_it_returned = "Yes" AND variables.var_it_type = "Mac bundle"
+
+Mobile return
+
+1. variables.Type_of_Request = "Equipment return" AND cat_item = "Mobile devices"
+2. variables.Type_of_Request = "Mobile removal" AND cat_item = "Mobile Phone"
+3. variables.var_it_returned = "Yes" AND variables.var_phone_returned = "Yes"
+
+Each RITM must be evaluated against the relevant conditions.
+
+If none of the qualifying conditions matches, the RITM must be excluded from the eligible return requests.
+
+4. Store eligible requests
+
+For each eligible RITM, keep the following information available in the current return session:
+
+* Equipment owner
+* RITM number and identifier
+* Associated SCTASK number and identifier
+* RITM / task state
+* Return category: PC, Mac or Mobile
+* Original catalog item
+* Relevant ServiceNow variables
+
+The resulting information must be reusable by US2 without executing a new search for every equipment.
+
+Acceptance criteria
+
+* AC1: Selecting a HAM equipment with a known owner triggers the search for that owner.
+* AC2: Manual equipment addition triggers the search when the owner is Visitor or Another person.
+* AC3: No search is executed when the manually declared owner is Unknown.
+* AC4: The owner used for the search can differ from the visitor.
+* AC5: Only requests matching the retrieval and classification conditions are retained.
+* AC6: Each eligible RITM is classified as PC, Mac or Mobile.
+* AC7: RITM and SCTASK identifiers, states and catalog-item information remain available for US2.
+* AC8: Multiple eligible requests of the same category are preserved.
+* AC9: Requests belonging to different owners are not mixed.
+* AC10: No duplicate retrieval is required for an owner already processed during the same session.
+
+US2 — Reuse or create return requests and update SCTASK
+
+User Story
+
+As a Le Comptoir application,
+I want to reuse an existing return request when an eligible RITM exists for the equipment owner and return category,
+So that the return can be processed without unnecessarily creating a duplicate ServiceNow request.
+
+1. Identify the corresponding request
+
+For each equipment returned through Le Comptoir:
+
+1. Identify the equipment owner.
+2. Identify its return category: PC, Mac or Mobile.
+3. Check the eligible return requests retrieved in US1 for this owner.
+4. Determine whether a corresponding request is available.
+
+Case A — Matching request exists
+
+* Reuse the existing RITM.
+* Identify its associated SCTASK.
+* Update the existing task.
+* Do not create a new RITM.
+
+Case B — No matching request exists
+
+* Execute the existing return request creation process.
+* Create the RITM and associated task using the current catalog offer and mappings.
+
+Case C — Multiple requests of the same category
+
+If multiple eligible RITMs exist for the same owner and category:
+
+* The application may select any one of the eligible requests.
+* Only one RITM is consumed for the corresponding equipment.
+* Other eligible RITMs remain available for subsequent returned equipment.
+
+A RITM must not be reused twice for two distinct return operations within the same session.
+
+2. ServiceNow API — Update an existing task
+
+Service: PRD-LECOMPTOIR-SERVICENOW-CATALOG
+
+Method: PUT /catalog/tasks
+
+The application must update the existing SCTASK associated with the selected RITM.
+
+3. Common SCTASK fields
+
+The update must populate the required operational fields:
+
+{
+  "u_request_item": "${RITM}",
+  "u_number": "${SCTASK}",
+  "u_state": "3",
+  "u_assignment_group": "${sys_id_comptoir_assignmentgroup}",
+  "u_assigned_to": "${sys_id_agent}"
+}
+
+The delivery appointment date must also be populated when required by the relevant catalog-item mapping:
+
+{
+  "u_delivery_appointment_date": "${DATE}"
+}
+
+4. Catalog-specific mapping
+
+The existing SCTASK must be updated according to its original ServiceNow catalog offer.
+
+Supported offers
+
+1. Windows Workstation
+2. MAC Workstation
+3. Mobile devices — France
+4. Mobile Phone — International
+5. Leavers
+
+Windows Workstation / MAC Workstation / Mobile devices (FR)
+
+When the returned equipment is identified in HAM:
+
+{
+  "u_returned_asset_reference": "${sys_id_HAM_asset}"
+}
+
+When the returned equipment is not identified in HAM:
+
+{
+  "u_cannot_find_returned_asset": true,
+  "u_cannot_find_returned_asset_reason": 1,
+  "u_returned_asset_text": "${asset_tag - serial_number}"
+}
+
+Mobile Phone — International
+
+Use the corresponding catalog-specific fields:
+
+{
+  "u_asset_tag": "${asset_tag}",
+  "u_hardware_model": "${model}"
+}
+
+Leavers
+
+Apply the existing Leavers mapping, including the applicable variables:
+
+* u_assets_reference
+* u_cannot_retrieve
+* u_var_pc_number
+* u_additional_information
+
+The values must reflect the returned assets and whether they were identified in HAM, according to the Leavers offer rules.
+
+5. Reuse all variables from the creation flow
+
+Important requirement
+
+The PUT operation must not be limited to the fields specifically listed above.
+
+The API has been enhanced to expose the same relevant variables as the existing return request creation functionality.
+
+Therefore:
+
+* Reuse the current variable mapping of the corresponding catalog offer.
+* Populate all applicable variables normally provided when creating a return request.
+* Include the link to the generated return report file / PV.
+* Preserve the existing reporting, return tracking and supporting information.
+* Apply the specific update rules detailed in this US in addition to the common creation variables.
+
+Expected result: updating an existing request must provide the same functional level of information as creating a new return request.
+
+6. Equipment added manually
+
+When the returned equipment was added manually and an owner was identified:
+
+* Reuse an eligible existing RITM if one was retrieved in US1.
+* Apply the mapping for equipment not found in HAM.
+* Populate the manually entered equipment identification information.
+
+If the owner is Unknown, no owner-based request reuse is performed.
+
+7. Existing request versus new request
+
+The application must keep track of the processing origin for each returned equipment:
+
+* Existing request: an existing RITM/SCTASK was reused and updated.
+* New request: a new return request was created.
+
+This information must be available for US3.
+
+Acceptance criteria
+
+* AC1: An eligible existing RITM for the same owner and category is reused.
+* AC2: No new RITM is created when an eligible existing RITM can be reused.
+* AC3: The correct SCTASK is updated via PUT /catalog/tasks.
+* AC4: The original catalog offer determines which specific variables must be populated.
+* AC5: The application supports the five catalog offers listed above.
+* AC6: HAM-identified equipment uses its HAM asset reference.
+* AC7: Manually added equipment uses the appropriate non-HAM variables.
+* AC8: Multiple requests of the same category can be processed independently.
+* AC9: If no eligible request exists, the current creation process is executed.
+* AC10: All applicable variables from the current creation mapping, including the return report file link, are populated during updates.
+* AC11: The application records whether the request was reused or newly created.
+* AC12: The operation result, including the RITM number and task status, remains available for the final confirmation screen.
+
+US3 — Display return request processing results
+
+User Story
+
+As a Le Comptoir technician,
+I want to see whether each returned equipment was processed using an existing ServiceNow request or a newly created request,
+So that I can understand and verify the result of the return process.
+
+1. Scope
+
+Enhance the existing final confirmation screen of the Return Hardware Process.
+
+The existing application structure must be preserved:
+
+* Le Comptoir header and stepper
+* Sign & Confirm screen
+* Successful completion confirmation
+* Print the PV action
+* Return request details
+
+The purpose is to enrich the existing confirmation information rather than redesign the workflow.
+
+2. Information to display
+
+For every returned equipment processed by the application, show:
+
+Returned item
+
+* Equipment model/name
+* Equipment identification information (serial number or asset tag, when available)
+
+Return request
+
+* RITM number
+* Clickable link opening the corresponding ServiceNow request
+
+Origin
+
+* Existing request: an existing RITM was reused
+* New request: a new RITM was created
+
+Task status
+
+* The status returned by ServiceNow for the corresponding task
+
+3. Example display
+
+Returned item	RITM	Origin	Task status
+HP EliteBook 830 G6	RITM5927682	Existing request	Closed
+Apple MacBook Air M2	RITM5927683	New request	Closed
+iPhone 13	RITM5927684	Existing request	Closed
+
+RITM numbers must be displayed as clickable links.
+
+The values shown must correspond to actual ServiceNow processing results.
+
+4. Processing behavior
+
+* Display the existing RITM number when US2 reused a request.
+* Display the newly generated RITM number when US2 created a new request.
+* Retrieve the task status from the ServiceNow processing response.
+* Display the correct processing origin for each returned equipment.
+* Preserve the existing PV generation and printing functionality.
+
+Acceptance criteria
+
+* AC1: The final confirmation screen displays all successfully processed returned items.
+* AC2: Each returned item displays its corresponding RITM number.
+* AC3: RITM numbers are clickable and link to the corresponding ServiceNow request.
+* AC4: Each item clearly identifies whether its request was existing or newly created.
+* AC5: The displayed task status corresponds to the ServiceNow result.
+* AC6: Multiple returned equipment items are presented independently.
+* AC7: The existing Print the PV functionality remains available.
+* AC8: No additional technician action is required to determine the processing origin.
+
+Périmètre à conserver en tête
+
+Ces trois US forment le socle initial :
+
+US1 — Identification et qualification
+
+Retrouver les RITM existantes et les classer par propriétaire et catégorie.
+
+US2 — Traitement ServiceNow
+
+Mettre à jour une tâche existante ou créer une nouvelle demande.
+
+US3 — Confirmation
+
+Afficher au technicien le résultat du traitement, l’origine et le statut de chaque demande.
+
+Important : il s’agit d’une restitution reconstituée à partir de notre cadrage, et non d’un copier-coller garanti mot pour mot des anciennes US. En particulier, les correspondances exactes des variables ServiceNow devront être vérifiées contre tes exemples d’API.
+
+La nouvelle expérience que nous concevons — Remaining items, Processed items, offboarding, multi-propriétaires, actions Return / Not returned — pourrait faire l’objet d’US supplémentaires, sans mélanger les évolutions UX avec ce premier socle backend.
