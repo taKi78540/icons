@@ -1,65 +1,12 @@
-Allez, on y va ! On va modifier le code de cdspp_lecomptoirvisits dans ta version de test, pour filtrer directement sur createdon, avant les autres transformations.
+let
+    Source = cdspp_lecomptoirvisits,
 
-L’objectif : que Dataverse ne nous renvoie que les enregistrements nécessaires, au lieu de transférer plusieurs gigaoctets.
+    #"Filtre dates final" =
+        Table.SelectRows(
+            Source,
+            each [createdon] >= DateTime.AddZone(RangeStart, 0)
+                and [createdon] < DateTime.AddZone(RangeEnd, 0)
+        ),
 
-Étape 1 — Déplacer le filtre
-
-Dans Power Query, ouvre Éditeur avancé sur cdspp_lecomptoirvisits.
-
-1. Repère cette ligne au début :
-
-cdspp_lecomptoirvisitses = entities{[EntitySetName="cdspp_lecomptoirvisitses"]}[Data],
-
-Juste après, ajoute :
-
-#"Filtre incrémentiel" =
-    Table.SelectRows(
-        cdspp_lecomptoirvisitses,
-        each [createdon] >= DateTime.AddZone(RangeStart, 0)
-            and [createdon] < DateTime.AddZone(RangeEnd, 0)
-    ),
-
-2. Sur la ligne suivante, qui commence par :
-
-#"Colonnes renommées" = Table.RenameColumns(
-
-Remplace uniquement la référence :
-
-cdspp_lecomptoirvisitses
-
-par :
-
-#"Filtre incrémentiel"
-
-Tu ne modifies rien d’autre dans les renommages.
-
-3. À la fin du code, supprime l’ancien bloc #"Filtre incrémentiel" qui filtrait sur createdAt, puisque nous l’avons déplacé au début.
-
-Retire également la virgule finale de l’étape #"Type modifié" et termine ton code par :
-
-in
-    #"Type modifié"
-
-Étape 2 — Vérification
-
-Ton enchaînement doit maintenant être :
-
-Source Dataverse
-
-Filtre incrémentiel sur createdon
-
-Juste après Navigation
-
-Colonnes renommées
-
-Type modifié
-
-Le 0 de DateTime.AddZone signifie que nous comparons les dates en UTC, sans décalage horaire.
-
-Cette organisation favorise le query folding, mais nous devrons vérifier qu’il fonctionne réellement avec ton connecteur Dataverse.
-
-Pour l’instant, ne clique pas encore sur « Fermer et appliquer ».
-
-Clique sur Terminé si Power Query n’indique aucune erreur de syntaxe, puis envoie-moi une capture des Étapes appliquées.
-
-Nous vérifierons le résultat avant de relancer un chargement potentiellement volumineux.
+    #"Personnalisée ajoutée" =
+        Table.AddColumn(#"Filtre dates final",
