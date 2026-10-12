@@ -1,2 +1,10 @@
-
-cdspp_type eq 'RETURN_HARDWARE' and cdspp_status eq 'CLOSED' and cdspp_createdat ge '2026-08-15T00:00:00Z' and cdspp_processingtime eq null and cdspp_closedat ne null and cdspp_waitingtime ne null
+sub(
+    div(
+        sub(
+            ticks(item()?['cdspp_closedat']),
+            ticks(item()?['cdspp_createdat'])
+        ),
+        10000
+    ),
+    int(item()?['cdspp_waitingtime'])
+)
