@@ -1,10 +1,6 @@
-sub(
-    div(
-        sub(
-            ticks(item()?['cdspp_closedat']),
-            ticks(item()?['cdspp_createdat'])
-        ),
-        10000
-    ),
-    int(item()?['cdspp_waitingtime'])
+and(
+    greater(int(outputs('Message_2')), 0),
+    empty(item()?['cdspp_processingtime'])
 )
+
+
