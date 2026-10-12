@@ -1,12 +1,6 @@
-let
-    Source = cdspp_lecomptoirvisits,
-
-    #"Filtre dates final" =
+    #"Filtre dates équipements" =
         Table.SelectRows(
             Source,
             each [createdon] >= DateTime.AddZone(RangeStart, 0)
                 and [createdon] < DateTime.AddZone(RangeEnd, 0)
         ),
-
-    #"Personnalisée ajoutée" =
-        Table.AddColumn(#"Filtre dates final",
