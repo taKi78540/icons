@@ -1,6 +1,2 @@
-    #"Filtre dates équipements" =
-        Table.SelectRows(
-            Source,
-            each [createdon] >= DateTime.AddZone(RangeStart, 0)
-                and [createdon] < DateTime.AddZone(RangeEnd, 0)
-        ),
+
+cdspp_type eq 'RETURN_HARDWARE' and cdspp_status eq 'CLOSED' and cdspp_createdat ge '2026-08-15T00:00:00Z' and cdspp_processingtime eq null and cdspp_closedat ne null and cdspp_waitingtime ne null
