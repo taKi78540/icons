@@ -1,27 +1,34 @@
 
-AVG Old Return Last 300 =
-VAR Dernieres300 =
-    CALCULATETABLE(
-        TOPN(
-            300,
-            FILTER(
-                'lecomptoir allvisits_181124',
-                'lecomptoir allvisits_181124'[Processus restitution] = "Old process"
-                    && 'lecomptoir allvisits_181124'[processingTime] > 0
-            ),
-            'lecomptoir allvisits_181124'[createdAt], DESC,
-            'lecomptoir allvisits_181124'[_id], DESC
-        ),
-        REMOVEFILTERS('TableDate'),
-        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt]),
-        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt_local]),
-        REMOVEFILTERS('lecomptoir allvisits_181124'[Processus restitution])
+Time Saved Return (hours) =
+VAR GainTotalMinutes =
+    SUMX(
+        VALUES('lecomptoir allvisits_181124'[comptoirId]),
+
+        VAR TempsMoyenAncien =
+            CALCULATE([AVG Old Return Last 300])
+
+        VAR NbNouvellesRestitutions =
+            CALCULATE(
+                COUNTROWS('lecomptoir allvisits_181124'),
+                'lecomptoir allvisits_181124'[Processus restitution] = "New process",
+                'lecomptoir allvisits_181124'[processingTime] > 0
+            )
+
+        VAR TempsReelNouveau =
+            CALCULATE(
+                SUM('lecomptoir allvisits_181124'[processingTime]),
+                'lecomptoir allvisits_181124'[Processus restitution] = "New process",
+                'lecomptoir allvisits_181124'[processingTime] > 0
+            ) / 60000
+
+        RETURN
+            IF(
+                NbNouvellesRestitutions > 0
+                    && NOT ISBLANK(TempsMoyenAncien),
+                (TempsMoyenAncien * NbNouvellesRestitutions)
+                    - TempsReelNouveau
+            )
     )
+
 RETURN
-    DIVIDE(
-        AVERAGEX(
-            Dernieres300,
-            'lecomptoir allvisits_181124'[processingTime]
-        ),
-        60000
-    )
+    DIVIDE(GainTotalMinutes, 60)
