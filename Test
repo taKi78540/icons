@@ -1,6 +1,29 @@
-and(
-    greater(int(outputs('Message_2')), 0),
-    empty(item()?['cdspp_processingtime'])
-)
 
-
+AVG Old Return Last 300 =
+VAR Dernieres300 =
+    CALCULATETABLE(
+        TOPN(
+            300,
+            FILTER(
+                'lecomptoir allvisits_181124',
+                'lecomptoir allvisits_181124'[type] = "HARDWARE"
+                    && NOT ISBLANK('lecomptoir allvisits_181124'[incident.number])
+                    && 'lecomptoir allvisits_181124'[incident.number] <> ""
+                    && 'lecomptoir allvisits_181124'[processingTime] > 0
+            ),
+            'lecomptoir allvisits_181124'[createdAt], DESC,
+            'lecomptoir allvisits_181124'[_id], DESC
+        ),
+        REMOVEFILTERS(
+            'lecomptoir allvisits_181124'[createdAt],
+            'lecomptoir allvisits_181124'[createdAt_local]
+        )
+    )
+RETURN
+    DIVIDE(
+        AVERAGEX(
+            Dernieres300,
+            'lecomptoir allvisits_181124'[processingTime]
+        ),
+        60000
+    )
