@@ -1,50 +1,27 @@
-Ah parfait ! 👍 Tes captures sont intéressantes parce qu’on va pouvoir réutiliser une partie de ce que tu avais déjà construit, plutôt que de repartir de zéro.
 
-Je vois notamment deux éléments :
-
-* AvgProcTime_ReturnHardware : ta mesure existante qui calcule le temps moyen de traitement des visites RETURN_HARDWARE.
-* Processus restitution : ta colonne calculée qui distingue New process et Old process grâce à la présence d’un numéro d’incident.
-
-1. On peut réutiliser ta mesure existante
-
-Actuellement, ta mesure AvgProcTime_ReturnHardware filtre seulement sur le type RETURN_HARDWARE.
-
-Pour être certain de calculer uniquement la moyenne du nouveau parcours, je te propose cette mesure :
-
-AVG New Return =
-CALCULATE(
-    AVERAGE(
-        'lecomptoir allvisits_181124'[processingTime (minA)]
-    ),
-    'lecomptoir allvisits_181124'[Processus restitution] = "New process"
-)
-
-Elle respectera les filtres de dates, pays et comptoir sélectionnés.
-
-2. On calcule le nombre de nouvelles restitutions
-
-Crée également cette mesure :
-
-NB New Return =
-CALCULATE(
-    COUNTROWS('lecomptoir allvisits_181124'),
-    'lecomptoir allvisits_181124'[Processus restitution] = "New process",
-    'lecomptoir allvisits_181124'[processingTime] > 0
-)
-
-Elle ne compte que les restitutions dont le temps de traitement est renseigné et positif, pour que notre calcul des économies ne soit pas surestimé.
-
-3. Un point à vérifier avant la moyenne de l’ancien parcours
-
-En regardant ta deuxième capture, je remarque que ta colonne Processus restitution commence par :
-
-IF(
-    'lecomptoir allvisits_181124'[type] = "RETURN_HARDWARE",
-
-Cela signifie que la distinction Old/New n’est actuellement effectuée que pour les visites RETURN_HARDWARE.
-
-Or, tu m’avais indiqué que l’ancien parcours avait le type HARDWARE.
-
-Peux-tu vérifier une ancienne restitution, avec un numéro d’incident renseigné, et me dire si la colonne Processus restitution affiche bien Old process, ou si elle est vide ?
-
-C’est important avant de construire la moyenne des 300 dernières anciennes visites. Ensuite, on s’occupera des filtres de dates pour obtenir notre mesure finale de temps économisé, y compris lorsque tu sélectionnes toute la France ou un seul comptoir.
+AVG Old Return Last 300 =
+VAR Dernieres300 =
+    CALCULATETABLE(
+        TOPN(
+            300,
+            FILTER(
+                'lecomptoir allvisits_181124',
+                'lecomptoir allvisits_181124'[Processus restitution] = "Old process"
+                    && 'lecomptoir allvisits_181124'[processingTime] > 0
+            ),
+            'lecomptoir allvisits_181124'[createdAt], DESC,
+            'lecomptoir allvisits_181124'[_id], DESC
+        ),
+        REMOVEFILTERS('TableDate'),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt]),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt_local]),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[Processus restitution])
+    )
+RETURN
+    DIVIDE(
+        AVERAGEX(
+            Dernieres300,
+            'lecomptoir allvisits_181124'[processingTime]
+        ),
+        60000
+    )
