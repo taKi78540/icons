@@ -1,34 +1,20 @@
 
-Time Saved Return (hours) =
-VAR GainTotalMinutes =
-    SUMX(
-        VALUES('lecomptoir allvisits_181124'[comptoirId]),
-
-        VAR TempsMoyenAncien =
-            CALCULATE([AVG Old Return Last 300])
-
-        VAR NbNouvellesRestitutions =
-            CALCULATE(
-                COUNTROWS('lecomptoir allvisits_181124'),
-                'lecomptoir allvisits_181124'[Processus restitution] = "New process",
-                'lecomptoir allvisits_181124'[processingTime] > 0
-            )
-
-        VAR TempsReelNouveau =
-            CALCULATE(
-                SUM('lecomptoir allvisits_181124'[processingTime]),
-                'lecomptoir allvisits_181124'[Processus restitution] = "New process",
-                'lecomptoir allvisits_181124'[processingTime] > 0
-            ) / 60000
-
-        RETURN
-            IF(
-                NbNouvellesRestitutions > 0
-                    && NOT ISBLANK(TempsMoyenAncien),
-                (TempsMoyenAncien * NbNouvellesRestitutions)
-                    - TempsReelNouveau
-            )
-    )
+Time Saved Return (Display) =
+VAR TotalHours = [Time Saved Return (hours)]
+VAR TotalMinutes = ROUND(ABS(TotalHours) * 60, 0)
+VAR Hours = QUOTIENT(TotalMinutes, 60)
+VAR Minutes = MOD(TotalMinutes, 60)
+VAR SignValue = IF(TotalHours < 0, "-", "")
 
 RETURN
-    DIVIDE(GainTotalMinutes, 60)
+IF(
+    ISBLANK(TotalHours),
+    BLANK(),
+    SignValue &
+    IF(
+        Hours = 0,
+        FORMAT(Minutes, "0") & " min",
+        FORMAT(Hours, "0") & " h " &
+        FORMAT(Minutes, "0") & " min"
+    )
+)
