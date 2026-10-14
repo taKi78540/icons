@@ -1,20 +1,27 @@
 
-Time Saved Return (Display) =
-VAR TotalHours = [Time Saved Return (hours)]
-VAR TotalMinutes = ROUND(ABS(TotalHours) * 60, 0)
-VAR Hours = QUOTIENT(TotalMinutes, 60)
-VAR Minutes = MOD(TotalMinutes, 60)
-VAR SignValue = IF(TotalHours < 0, "-", "")
-
-RETURN
-IF(
-    ISBLANK(TotalHours),
-    BLANK(),
-    SignValue &
-    IF(
-        Hours = 0,
-        FORMAT(Minutes, "0") & " min",
-        FORMAT(Hours, "0") & " h " &
-        FORMAT(Minutes, "0") & " min"
+MEDIAN Old Return Last 300 =
+VAR Dernieres300 =
+    CALCULATETABLE(
+        TOPN(
+            300,
+            FILTER(
+                'lecomptoir allvisits_181124',
+                'lecomptoir allvisits_181124'[Processus restitution] = "Old process"
+                    && 'lecomptoir allvisits_181124'[processingTime] > 0
+            ),
+            'lecomptoir allvisits_181124'[createdAt], DESC,
+            'lecomptoir allvisits_181124'[_id], DESC
+        ),
+        REMOVEFILTERS('TableDate'),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt]),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt_local]),
+        REMOVEFILTERS('lecomptoir allvisits_181124'[Processus restitution])
     )
-)
+RETURN
+    DIVIDE(
+        MEDIANX(
+            Dernieres300,
+            'lecomptoir allvisits_181124'[processingTime]
+        ),
+        60000
+    )
