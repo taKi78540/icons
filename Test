@@ -1,38 +1,27 @@
 
-AVG Old Return Last 300 P95 =
+NB Old Return Last 300 =
 VAR Historique =
     CALCULATETABLE(
         'lecomptoir allvisits_181124',
         REMOVEFILTERS('TableDate'),
-        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt]),
-        REMOVEFILTERS('lecomptoir allvisits_181124'[createdAt_local]),
-        'lecomptoir allvisits_181124'[Processus restitution] = "Old process",
-        'lecomptoir allvisits_181124'[processingTime] > 0
+        REMOVEFILTERS(
+            'lecomptoir allvisits_181124'[createdAt],
+            'lecomptoir allvisits_181124'[createdAt_local],
+            'lecomptoir allvisits_181124'[Processus restitution]
+        )
     )
 
 VAR Dernieres300 =
     TOPN(
         300,
-        Historique,
+        FILTER(
+            Historique,
+            'lecomptoir allvisits_181124'[Processus restitution] = "Old process"
+                && 'lecomptoir allvisits_181124'[processingTime] > 0
+        ),
         'lecomptoir allvisits_181124'[createdAt], DESC,
         'lecomptoir allvisits_181124'[_id], DESC
     )
 
-VAR Seuil95 =
-    PERCENTILEX.INC(
-        Dernieres300,
-        'lecomptoir allvisits_181124'[processingTime],
-        0.95
-    )
-
 RETURN
-    DIVIDE(
-        AVERAGEX(
-            FILTER(
-                Dernieres300,
-                'lecomptoir allvisits_181124'[processingTime] <= Seuil95
-            ),
-            'lecomptoir allvisits_181124'[processingTime]
-        ),
-        60000
-    )
+    COUNTROWS(Dernieres300)
