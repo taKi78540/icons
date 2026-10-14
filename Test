@@ -1,55 +1,9 @@
-Bonjour à tous,
+Je voulais également clarifier mon intention initiale : il n’a jamais été question de mettre en évidence une surcapacité des équipes ni de justifier une quelconque réduction des effectifs.
 
-Comme convenu, j’ai approfondi l’analyse des temps de traitement de l’ancien parcours de restitution, à la suite de nos échanges et des interrogations suscitées par les premiers chiffres présentés.
+Au contraire, nous constatons déjà que les équipes sont fortement sollicitées, voire en sous-capacité sur certaines plages horaires, notamment lors des pics d’affluence.
 
-L’analyse confirme que la moyenne initialement utilisée ne donnait pas une représentation suffisamment fidèle de la durée habituelle des restitutions.
+Mon objectif était avant tout de valoriser l’amélioration du parcours de restitution et ses bénéfices sur l’expérience utilisateur.
 
-Pourquoi cet écart ?
+La réduction des temps de traitement constatés doit justement contribuer à fluidifier les passages au Comptoir, mieux absorber les pics d’activité et soulager les équipes, sans remettre en cause leur charge de travail actuelle.
 
-Pour rappel, le temps de traitement enregistré est calculé à partir de la durée entre la création et la clôture d’une visite, déduction faite du temps d’attente.
-
-Cette méthode présente une limite : lorsqu’une visite reste ouverte après la fin réelle de l’intervention, la durée enregistrée est artificiellement allongée.
-
-Même si ces situations ne concernent qu’une minorité des visites, elles peuvent avoir un impact important sur la moyenne globale.
-
-Une analyse statistique plus représentative
-
-Pour mieux comprendre ces écarts, j’ai repris les 300 dernières restitutions de l’ancien parcours, en comparant plusieurs indicateurs :
-
-* La moyenne classique, sensible aux durées exceptionnellement longues.
-* La médiane, qui représente la durée centrale : 50 % des visites ont une durée inférieure ou égale à cette valeur.
-* La moyenne corrigée, calculée en excluant les 5 % de visites présentant les durées les plus élevées, afin de limiter leur influence.
-
-Les résultats obtenus
-
-Indicateur	Valmy 1	Global
-Moyenne initiale	12,70 min	10,40 min
-Moyenne corrigée (hors 5 % les plus longues)	8,97 min	6,52 min
-Médiane	6,78 min	3,71 min
-Visites supérieures à 30 min	8,67 %	6,67 %
-
-Analyse réalisée sur les 300 dernières visites historiques du périmètre considéré.
-
-Ce que nous pouvons en conclure
-
-Ces résultats montrent que les durées habituellement observées étaient sensiblement inférieures à ce que la moyenne initiale pouvait laisser penser.
-
-Prenons l’exemple de Valmy 1 :
-
-* La moyenne initiale était de 12,7 minutes.
-* En limitant l’influence des visites les plus longues, elle descend à environ 9 minutes.
-* La médiane est de 6,8 minutes, ce qui signifie que la moitié des visites étaient traitées en moins de 6,8 minutes selon les durées enregistrées.
-
-L’analyse globale présente un phénomène similaire, avec une médiane de seulement 3,7 minutes, contre 10,4 minutes pour la moyenne initiale.
-
-Cela confirme que les durées exceptionnellement longues influencent fortement les résultats. Elles ne sont pas nécessairement erronées, mais ne doivent pas être considérées comme représentatives d’une restitution habituelle.
-
-Pour la suite
-
-Je propose donc de ne plus utiliser la moyenne classique seule comme indicateur de référence.
-
-Nous privilégierons une lecture combinant médiane, moyenne corrigée et répartition des durées, pour disposer d’une vision plus équilibrée et transparente des temps de traitement.
-
-Cette approche permettra de présenter les performances des parcours de restitution de manière plus objective, sans assimiler automatiquement les durées enregistrées à du temps d’intervention effectif.
-
-L’objectif est avant tout de partager des indicateurs fiables et représentatifs des pratiques sur le terrain.
+Au-delà de cet aspect, la fiabilisation et la sécurisation des restitutions restent des bénéfices majeurs de cette évolution.
