@@ -1,5 +1,5 @@
 
-NB Old Return Last 300 =
+Old Return Over 30min (%) =
 VAR Historique =
     CALCULATETABLE(
         'lecomptoir allvisits_181124',
@@ -8,20 +8,26 @@ VAR Historique =
             'lecomptoir allvisits_181124'[createdAt],
             'lecomptoir allvisits_181124'[createdAt_local],
             'lecomptoir allvisits_181124'[Processus restitution]
-        )
+        ),
+        'lecomptoir allvisits_181124'[Processus restitution] = "Old process",
+        'lecomptoir allvisits_181124'[processingTime] > 0
     )
 
 VAR Dernieres300 =
     TOPN(
         300,
-        FILTER(
-            Historique,
-            'lecomptoir allvisits_181124'[Processus restitution] = "Old process"
-                && 'lecomptoir allvisits_181124'[processingTime] > 0
-        ),
+        Historique,
         'lecomptoir allvisits_181124'[createdAt], DESC,
         'lecomptoir allvisits_181124'[_id], DESC
     )
 
+VAR VisitesLongues =
+    COUNTROWS(
+        FILTER(
+            Dernieres300,
+            'lecomptoir allvisits_181124'[processingTime] > 1800000
+        )
+    )
+
 RETURN
-    COUNTROWS(Dernieres300)
+    DIVIDE(VisitesLongues, COUNTROWS(Dernieres300))
