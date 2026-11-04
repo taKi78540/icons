@@ -1,3 +1,4 @@
 
 test
 cdspp_surveyfeedback ne null and cdspp_surveyfeedback ne '' and cdspp_ai_send_status eq null
+cr563_Source eq '
