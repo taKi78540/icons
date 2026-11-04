@@ -1,1 +1,1 @@
-not(empty(items('Appliquer_à_chacun')?['new_themesjson']))
+body('Analyser_JSON_Themes')?['themesPositifs']
