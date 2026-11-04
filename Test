@@ -2,3 +2,4 @@
 test
 cdspp_surveyfeedback ne null and cdspp_surveyfeedback ne '' and cdspp_ai_send_status eq null
 cr563_Source eq '
+length(body('Repertorier_les_lignes_d_un_environnement_selectionne')?['value'])
