@@ -1,5 +1,41 @@
-
-test
-cdspp_surveyfeedback ne null and cdspp_surveyfeedback ne '' and cdspp_ai_send_status eq null
-cr563_Source eq '
-length(body('Repertorier_les_lignes_d_un_environnement_selectionne')?['value'])
+{
+  "type": "object",
+  "properties": {
+    "themesPositifs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "sousThemes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["nom", "sousThemes"]
+      }
+    },
+    "themesNegatifs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "sousThemes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["nom", "sousThemes"]
+      }
+    }
+  }
+}
