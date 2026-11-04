@@ -1,1 +1,1 @@
-items('Appliquer_à_chacun_2')?['sousThemes']
+first(body('Lister_les_lignes')?['value'])?['cdspp_themesprocessingstatus']
