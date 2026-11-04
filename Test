@@ -1,12 +1,3 @@
 
-Volume Type =
-VAR Statut =
-    UPPER(
-        TRIM('lecomptoir allvisits_181124'[status])
-    )
-RETURN
-    IF(
-        Statut IN {"CANCELLED", "CANCELED"},
-        "CANCELLED",
-        'lecomptoir allvisits_181124'[type]
-    )
+test
+cdspp_surveyfeedback ne null and cdspp_surveyfeedback ne '' and cdspp_ai_send_status eq null
