@@ -1,1 +1,5 @@
-first(body('Lister_les_lignes')?['value'])?['cdspp_themesprocessingstatus']
+concat(
+  'cdspp_visitid eq ''',
+  items('Appliquer_à_chacun')?['new_incidentuniqueidentifier'],
+  ''''
+)
