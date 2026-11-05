@@ -1,6 +1,6 @@
 
-Nombre Analyses IA =
+Visites avec thème négatif =
 CALCULATE(
-    DISTINCTCOUNT('cdspp_AI_Analysis'[cdspp_visitid]),
-    'cdspp_AI_Analysis'[cdspp_themesprocessingstatus] = "Completed"
+    DISTINCTCOUNT('cdspp_AI_Themes'[cdspp_visitid]),
+    'cdspp_AI_Themes'[cdspp_polarity] = "Négatif"
 )
