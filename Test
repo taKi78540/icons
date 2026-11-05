@@ -1,6 +1,6 @@
 
-Visites avec thème négatif =
+Visites avec thème positif =
 CALCULATE(
     DISTINCTCOUNT('cdspp_AI_Themes'[cdspp_visitid]),
-    'cdspp_AI_Themes'[cdspp_polarity] = "Négatif"
+    'cdspp_AI_Themes'[cdspp_polarity] = "Positif"
 )
