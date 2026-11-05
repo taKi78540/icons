@@ -1,5 +1,13 @@
-concat(
-  'cdspp_visitid eq ''',
-  items('Appliquer_à_chacun')?['new_incidentuniqueidentifier'],
-  ''''
-)
+
+let
+    Source = Cds.Entities("https://org04200ad0.crm4.dynamics.com", [ReorderColumns = null, UseFormattedValue = null]),
+    #"Navigation 1" = Source{[Group = "entities"]}[Data],
+    #"Navigation 2" = #"Navigation 1"{[EntitySetName = "cdspp_ai_analysises"]}[Data],
+    #"Filtre incrémentiel" =
+        Table.SelectRows(
+            #"Navigation 2",
+            each [createdon] >= DateTime.AddZone(RangeStart, 0)
+                and [createdon] < DateTime.AddZone(RangeEnd, 0)
+        )
+in
+    #"Filtre incrémentiel"
