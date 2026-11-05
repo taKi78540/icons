@@ -1,11 +1,6 @@
 
-Sentiment Groupe =
-SWITCH(
-    'cdspp_AI_Analysis'[cdspp_sentiment],
-    "Positif", "Positif",
-    "Neutre", "Neutre",
-    "Mitigé", "Neutre",
-    "Frustré", "Négatif",
-    "Furieux", "Négatif",
-    "Non classé"
+Nombre Analyses IA =
+CALCULATE(
+    DISTINCTCOUNT('cdspp_AI_Analysis'[cdspp_visitid]),
+    'cdspp_AI_Analysis'[cdspp_themesprocessingstatus] = "Completed"
 )
