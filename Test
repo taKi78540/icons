@@ -1,243 +1,597 @@
-J’ai repris tes 8 nouvelles captures, en les recoupant avec les précédentes. Elles confirment mon diagnostic, mais elles révèlent aussi plusieurs sujets que ma première proposition ne distinguait pas suffisamment.
+J’ai maintenant repris l’ensemble de tes captures des thèmes positifs et négatifs. Et je suis arrivé à une conclusion assez importante : on peut faire correspondre une grande partie du positif et du négatif, et je pense même qu’on devrait le faire.
 
-Je ferais donc évoluer ma proposition initiale de 10 thèmes / 45 sous-thèmes. Elle était un peu trop restrictive sur certains aspects.
+En revanche, je ne construirais pas deux nomenclatures différentes en essayant de trouver systématiquement un contraire à chaque sous-thème.
 
-Ce que les nouvelles captures m’ont permis d’identifier
+Je ferais quelque chose de plus simple et surtout de plus solide pour Power BI : une nomenclature commune, avec le sentiment positif ou négatif qui indique dans quel sens le sujet est évoqué.
 
-Sujet repéré	Ce que je modifierais
-Restitution et traçabilité du matériel	Créer un sous-thème spécifique, distinct de la livraison
-Perte et vol de matériel	Prévoir une catégorie dédiée
-Perte de données et migration	Les distinguer des simples dysfonctionnements logiciels
-Qualité de la préparation du matériel	Distinguer la préparation insuffisante d’une panne
-Gestion des badges et smartcards	Séparer les badges physiques des identifiants informatiques
-Problèmes de réseau et VPN	Les distinguer des dysfonctionnements applicatifs
-Vérifications insuffisantes et clôtures prématurées	Les distinguer des incidents simplement non résolus
-Formation et compétences des intervenants	Conserver une classification identifiable
-Défaillances de coordination entre services	Les différencier des difficultés de prise en charge
-Impact sur l’activité et télétravail impossible	Suivre cet impact séparément de la cause technique
+1. Ce que révèlent tes données positives
 
-Il y a aussi un élément important : certaines lignes que Copilot appelle des « sous-thèmes » ne sont en réalité ni des catégories, ni même nécessairement des motifs de mécontentement.
+Le problème est encore plus marqué que pour le négatif.
 
-Par exemple, « Remplacement complet du matériel », « Prise de rendez-vous » ou « Visite sans rendez-vous » décrivent des événements. Ils ne deviennent des motifs de mécontentement que si le commentaire explique en quoi ils posent problème.
+Constat dans ta matrice Power BI
 
-Ma nomenclature révisée : 11 thèmes et 54 sous-thèmes
+1 571
 
-Je te propose cette structure. Les sous-thèmes sont volontairement assez larges pour être réutilisés, mais suffisamment précis pour identifier un problème opérationnel sur lequel agir.
+visites dans « Qualité du service »
 
-Référentiel proposé — consulte les 11 thèmes
+Cela représente environ 92 % des 1 708 visites positives affichées.
 
-Tout replier
+Quelques sous-thèmes visibles dans cette immense catégorie :
 
-Accueil et accessibilité du service
+Satisfaction globale
 
-4
+474
 
-• Qualité de l’accueil
+Efficacité
 
-• Accès physique et signalétique
+228
 
-• Disponibilité des interlocuteurs
+Rapidité
 
-• Horaires et créneaux de service
+136
 
-Attente au comptoir
+Qualité de l’accueil
 
-3
+90
 
-• Temps d’attente excessif
+Professionnalisme
 
-• Affluence et file d’attente
+87
 
-• Gestion de l’ordre de passage et des priorités
+Remerciement
 
-Délais de traitement
+78
 
-4
+Réactivité
 
-• Diagnostic ou intervention tardifs
+73
 
-• Durée de résolution excessive
+Chiffres issus de tes captures. Les valeurs des sous-thèmes ne sont pas nécessairement additives, car une visite peut relever de plusieurs catégories.
 
-• Retard d’approvisionnement ou de livraison
+Ces exemples montrent que Copilot mélange trois choses très différentes : les qualités précises du service (rapidité, accueil, compétences), les résultats obtenus (résolution réussie, matériel fonctionnel) et les appréciations générales (« Excellent service », « Merci », « Très satisfait »).
 
-• Engagement de délai non respecté
+Il faut absolument les distinguer, sinon tu ne sauras pas réellement ce que les utilisateurs apprécient, malgré le volume important de commentaires positifs.
 
-Prise en charge et accompagnement
+2. La solution que je retiens : des sous-thèmes communs et neutres
 
-5
+Par exemple :
 
-• Absence ou refus de prise en charge
+Thème commun	Sous-thème commun	Interprétation positive / négative
+Attente au comptoir	Temps d’attente	Court / Excessif
+Délais et réactivité	Rapidité de la prise en charge	Rapide / Trop lente
+Résolution et interventions	Résultat de la résolution	Résolu / Non résolu
+Résolution et interventions	Durabilité de la solution	Durable / Problème réapparu
+Accueil et relation humaine	Qualité relationnelle de l’accueil	Chaleureux / Désagréable
+Prise en charge	Expertise et professionnalisme	Compétent / Compétences insuffisantes
+Communication et suivi	Clarté des explications	Claires / Insuffisantes
+Matériel et restitution	Fonctionnement du matériel	Fonctionnel / Défectueux
+Matériel et restitution	Disponibilité du matériel	Disponible / Indisponible
 
-• Assistance insuffisante
+Cette approche a un énorme avantage : tu pourras comparer directement un même sous-thème dans themesPositifs et themesNegatifs, sans devoir maintenir une correspondance compliquée entre des dizaines de libellés contraires.
 
-• Manque de compétences ou d’expertise
+En revanche, il restera quelques dimensions sans équivalent naturel : perte ou vol de matériel, par exemple, ou simple remerciement. On ne doit surtout pas inventer artificiellement un contraire pour ces situations.
 
-• Réorientations entre services
+3. Ma proposition définitive pour Copilot Studio
 
-• Passages ou interventions répétés
+Je retiendrais 12 thèmes communs, dont un réservé à l’appréciation globale, et 61 sous-thèmes de référence.
 
-Résolution et qualité des interventions
+Ce chiffre n’est pas une obligation : il représente un premier référentiel qui couvre les principaux sujets visibles dans tes captures. Il faudra le valider sur les commentaires réels.
 
-5
+Le changement par rapport à notre premier prompt est important : les sous-thèmes deviennent des axes d’analyse neutres. C’est le sentiment du commentaire qui indique si l’utilisateur apprécie ou critique cet aspect.
 
-• Problème non résolu
+Cela permet de conserver les tableaux themesPositifs et themesNegatifs existants sans ajouter de champ de comparaison.
 
-• Résolution partielle ou temporaire
+Voici la version complète que je transmettrais à ton administrateur. Elle remplace uniquement l’ancienne section de classification des thèmes et sous-thèmes, et non le prompt global.
 
-• Problème récurrent ou réapparu
+CLASSIFICATION THÉMATIQUE UNIFIÉE — COMMENTAIRES POSITIFS ET NÉGATIFS
 
-• Intervention inefficace ou aggravante
+1. OBJECTIF
 
-• Vérification ou clôture inadéquate
+Cette section encadre l’identification et la classification des thèmes et sous-thèmes issus des commentaires des utilisateurs du service Le Comptoir Campus.
 
-Communication et suivi
+Elle s’applique aux motifs de satisfaction comme aux motifs de mécontentement.
 
-5
+L’objectif est de produire une nomenclature stable, cohérente et comparable dans Power BI, sans perdre la richesse de l’analyse individuelle.
 
-• Information absente ou erronée
+Principe fondamental : les thèmes et sous-thèmes décrivent les dimensions du service évaluées. Le sentiment positif ou négatif indique la manière dont ces dimensions sont perçues.
 
-• Absence de suivi ou de recontact
+Les mêmes libellés de thèmes et de sous-thèmes doivent donc être utilisés pour les analyses positives et négatives, lorsqu’ils sont pertinents.
 
-• Délais mal communiqués
+Un sous-thème représente une catégorie statistique réutilisable, jamais une reformulation individuelle du commentaire.
 
-• Explications insuffisantes
+Cette section complète les autres instructions du prompt global. Elle ne remplace ni l’analyse du sentiment, ni les justifications, ni les autres informations déjà produites.
 
-• Notifications ou confirmations manquantes
+2. MÉTHODE DE CLASSIFICATION
 
-Matériel, accessoires et restitution
+Pour chaque commentaire :
 
-9
+1. Comprendre les propos exprimés, sans se limiter à la présence de mots-clés.
+2. Identifier les éléments réellement appréciés, critiqués ou jugés insatisfaisants.
+3. Distinguer les faits, les motifs d’évaluation, les conséquences et les simples circonstances.
+4. Identifier la polarité de chaque aspect selon les règles de sentiment du prompt global.
+5. Associer chaque aspect au thème et au sous-thème existants les plus pertinents.
+6. Conserver les détails particuliers dans les champs de justification existants.
+7. Ne jamais créer de nouveaux libellés statistiques pour représenter les formulations individuelles.
 
-• Matériel défectueux
+Un commentaire peut contenir des aspects positifs et négatifs simultanément.
 
-• Indisponibilité ou rupture de stock
+La classification d’un aspect doit respecter son sentiment propre, même lorsque le sentiment général du commentaire est différent.
 
-• Accessoires manquants ou inadaptés
+La polarité n’est pas déduite du nom du sous-thème, mais de ce que l’utilisateur exprime réellement.
 
-• Matériel de remplacement inadapté
+3. NOMENCLATURE OFFICIELLE COMMUNE
 
-• État, propreté ou vétusté
+Les libellés ci-dessous sont autorisés dans les classifications positives et négatives.
 
-• Préparation ou contrôle insuffisant
+Ils doivent être reproduits strictement à l’identique.
 
-• Livraison ou mise à disposition défaillante
+THÈME 1 — Accueil et accessibilité du service
 
-• Restitution et traçabilité défaillantes
+Concerne la qualité relationnelle de l’accueil, la facilité d’accès au service et les conditions d’accueil.
 
-• Perte ou vol de matériel
+Sous-thèmes :
 
-Logiciels, postes et données
+* Qualité relationnelle de l’accueil
+* Accessibilité physique et signalétique
+* Disponibilité du personnel d’accueil
+* Horaires et modalités d’accès
+* Confort et environnement d’accueil
 
-6
+Exemples : accueil chaleureux ou désagréable, personnel souriant ou peu accueillant, service facile ou difficile à trouver, horaires adaptés ou contraignants.
 
-• Dysfonctionnement applicatif
+THÈME 2 — Attente et gestion des flux
 
-• Installation, restauration ou mise à jour
+Concerne l’attente des visiteurs avant ou pendant leur accueil au comptoir.
 
-• Configuration ou performance du poste
+Sous-thèmes :
 
-• Migration, sauvegarde ou perte de données
+* Temps d’attente
+* Affluence et file d’attente
+* Organisation des passages et priorités
 
-• Synchronisation ou transfert de données
+Exemples : attente courte ou excessive, file fluide ou saturée, ordre de passage bien ou mal organisé.
 
-• Impression et périphériques
+THÈME 3 — Délais et réactivité
 
-Réseau et connectivité
+Concerne la rapidité des différents traitements et le respect des délais.
 
-3
+Sous-thèmes :
 
-• Connexion Internet, Wi-Fi ou réseau local
+* Réactivité de la prise en charge
+* Délai de diagnostic et d’intervention
+* Délai de résolution
+* Délai d’approvisionnement et de livraison
+* Respect des délais annoncés
 
-• VPN et accès distant
+Exemples : intervention rapide ou tardive, résolution immédiate ou prolongée, livraison rapide ou retardée, ponctualité ou non-respect des engagements.
 
-• Configuration réseau
+Distinguer le temps passé dans la file d’attente du délai nécessaire au traitement de la demande.
 
-Comptes, habilitations et badges
+THÈME 4 — Prise en charge et accompagnement
 
-5
+Concerne la qualité de l’assistance apportée et l’accompagnement de l’utilisateur tout au long de son parcours.
 
-• Identifiants, mots de passe et comptes bloqués
+Sous-thèmes :
 
-• Droits et habilitations insuffisants
+* Qualité et efficacité de l’assistance
+* Écoute et compréhension du besoin
+* Expertise et professionnalisme
+* Accompagnement et pédagogie
+* Orientation et continuité du parcours
+* Passages et interventions répétés
+* Proactivité et recherche de solutions
 
-• Authentification forte et smartcards
+Exemples : assistance efficace ou insuffisante, bonne écoute ou incompréhension du besoin, personnel compétent ou expertise insuffisante, accompagnement pédagogique ou inadapté.
 
-• Badges physiques
+La simple mention d’un technicien ou d’une intervention ne constitue pas une appréciation positive.
 
-• Attribution ou modification des accès
+THÈME 5 — Résolution et qualité des interventions
 
-Organisation et procédures
+Concerne les résultats obtenus et la qualité technique des solutions apportées.
 
-5
+Sous-thèmes :
 
-• Procédures complexes ou inadaptées
+* Résultat de la résolution
+* Complétude de la résolution
+* Durabilité de la solution
+* Qualité technique de l’intervention
+* Vérification et clôture de la demande
 
-• Coordination et escalade entre équipes
+Exemples :
 
-• Ressources ou effectifs insuffisants
+* Problème résolu / problème non résolu.
+* Résolution complète / résolution partielle.
+* Solution durable / problème réapparu après intervention.
+* Intervention réussie / intervention inefficace ou aggravante.
+* Vérification satisfaisante / clôture prématurée ou contrôle insuffisant.
 
-• Gestion de l’historique et continuité du dossier
+Ne jamais considérer une simple intervention comme une résolution effective sans élément permettant de le confirmer.
 
-• Formation, consignes et méthodes de travail
+THÈME 6 — Communication et suivi
 
-11 thèmes 54 sous-thèmes
+Concerne la transmission des informations, la clarté des échanges et la qualité du suivi.
 
-Vérification des regroupements les plus délicats
+Sous-thèmes :
 
-J’ai notamment vérifié ces cas dans tes captures, car ils pourraient être mal classés même avec une nomenclature prédéfinie.
+* Exactitude et disponibilité des informations
+* Clarté des explications
+* Information sur l’avancement et recontact
+* Fiabilité des délais communiqués
+* Notifications et confirmations
 
-Sous-thèmes actuels visibles	Nouvelle classification
-Temps d’attente long, excessif, 20 minutes, 40 minutes, trop long	Attente → Temps d’attente excessif
-File d’attente longue, affluence, file décourageante	Attente → Affluence et file d’attente
-Incident non résolu, problème non résolu, absence de résolution	Résolution → Problème non résolu
-Problème réapparu, persistant après remplacement, résolution non durable	Résolution → Problème récurrent ou réapparu, si le problème est revenu après intervention
-Incident clôturé prématurément, vérification incomplète	Résolution → Vérification ou clôture inadéquate
-Accessoire manquant, chargeur non remis, écouteurs non fournis	Matériel → Accessoires manquants ou inadaptés
-Écran fortement marqué, matériel usagé, traces de stickers	Matériel → État, propreté ou vétusté
-Accusé de réception absent lors d’une restitution	Matériel → Restitution et traçabilité défaillantes
-Portable perdu, vol de matériel	Matériel → Perte ou vol de matériel
-Compte verrouillé, problème de mot de passe	Comptes → Identifiants, mots de passe et comptes bloqués
-Smartcard impossible à créer, double authentification	Comptes → Authentification forte et smartcards
-VPN non fonctionnel	Réseau → VPN et accès distant
-Droits VPN insuffisants	Comptes → Droits et habilitations insuffisants
-Manque d’expertise Mac, manque de compétences sur Teams	Prise en charge → Manque de compétences ou d’expertise
-Formation insuffisante, absence de mode opératoire	Organisation → Formation, consignes et méthodes de travail
+Exemples : explications claires ou confuses, utilisateur bien informé ou laissé sans nouvelles, délais correctement annoncés ou informations erronées.
 
-Attention toutefois : une expression comme « problème persistant » ne suffit pas à prouver qu’un incident est récurrent. Copilot devra distinguer un problème jamais résolu d’un problème résolu puis réapparu.
+THÈME 7 — Matériel, accessoires et restitution
 
-Un élément supplémentaire que je recommande : l’impact utilisateur
+Concerne les équipements, les accessoires, les matériels de remplacement et le parcours de restitution.
 
-Dans les captures, on voit « Télétravail impossible », « Perte de temps », « Impossibilité de travailler » ou encore « Déplacement sur deux jours ».
+Sous-thèmes :
 
-Je ne les utiliserais pas systématiquement comme des sous-thèmes de mécontentement, parce qu’il s’agit souvent des conséquences du problème, plutôt que de sa cause.
+* Fiabilité et fonctionnement du matériel
+* Disponibilité et stocks
+* Complétude et compatibilité des accessoires
+* Adéquation du matériel de remplacement
+* État, propreté et vétusté
+* Préparation et contrôles avant remise
+* Livraison et mise à disposition
+* Restitution et traçabilité
+* Perte ou vol de matériel
 
-Je prévoirais plutôt un indicateur complémentaire d’impact :
+Exemples : matériel fonctionnel ou défectueux, équipement disponible ou en rupture, accessoires complets ou manquants, remplacement adapté ou inadapté, restitution simple ou difficile.
 
-Impact	Exemple
-Perte de temps	Plusieurs passages au comptoir
-Activité interrompue	Impossible de travailler
-Télétravail perturbé	Connexion distante indisponible
-Déplacement supplémentaire	Nécessité de revenir
-Données perdues ou menacées	Données supprimées ou risque de perte
+La perte ou le vol de matériel ne nécessite pas de contrepartie positive artificielle.
 
-Tu pourrais ainsi croiser dans Power BI les problèmes les plus fréquents avec ceux qui perturbent le plus l’activité. Il faudrait bien sûr distinguer un impact réellement subi d’un simple risque évoqué.
+THÈME 8 — Logiciels, postes et données
 
-Comment s’assurer que tout est réellement couvert ?
+Concerne les applications, les environnements informatiques et les opérations portant sur les données.
 
-Je retiendrais trois exigences pour la prochaine version du prompt :
+Sous-thèmes :
 
-1. Une nomenclature fermée. Copilot choisit parmi les 54 sous-thèmes, sans en inventer.
+* Fonctionnement des applications
+* Installation, restauration et mise à jour
+* Configuration et performance du poste
+* Migration, sauvegarde et récupération de données
+* Synchronisation et transfert de données
+* Impression et périphériques
 
-2. Une justification détaillée conservée. Par exemple, il classe « Temps d’attente excessif », mais conserve dans le détail que l’utilisateur a attendu 45 minutes.
+Exemples : application fonctionnelle ou défaillante, installation réussie ou impossible, migration réussie ou problématique, données récupérées ou perdues.
 
-3. Une possibilité de signaler les cas non couverts. Si une remarque ne correspond à aucune catégorie, Copilot doit le signaler pour révision, plutôt que choisir une catégorie inadaptée ou inventer un libellé.
+THÈME 9 — Réseau et connectivité
 
-Mon bilan
+Concerne la disponibilité et le fonctionnement des connexions réseau.
 
-Avec ces nouvelles captures, je préfère donc 11 thèmes / 54 sous-thèmes à ma première proposition. C’est un compromis qui permet de consolider les statistiques sans effacer des problèmes opérationnels réellement différents.
+Sous-thèmes :
 
-Les grandes familles de problèmes visibles dans tes captures sont maintenant représentées. En revanche, certaines lignes sont coupées en bordure des photos : je ne peux donc pas certifier avoir vérifié individuellement 100 % des libellés existants.
+* Connexion Internet, Wi-Fi et réseau local
+* VPN et accès distant
+* Configuration réseau
 
-Pour une vérification exhaustive avant de modifier le prompt, l’idéal serait d’exporter depuis Dataverse ou Power BI les colonnes cdspp_theme et cdspp_sous_theme, sans données personnelles. Je pourrais alors établir une correspondance de chaque ancien sous-thème vers sa nouvelle catégorie, et identifier précisément ceux qui restent à traiter.
+Exemples : connexion rétablie ou indisponible, VPN fonctionnel ou inaccessible, configuration réseau correcte ou défaillante.
 
-C’est cette correspondance que je validerais avant de relancer l’analyse de l’historique, afin de ne perdre aucune information pertinente.
+THÈME 10 — Comptes, habilitations et badges
+
+Concerne la gestion des identités, des droits et des moyens d’authentification.
+
+Sous-thèmes :
+
+* Comptes et mots de passe
+* Droits et habilitations
+* Authentification forte et smartcards
+* Badges physiques
+* Attribution et modification des accès
+
+Exemples : accès rétabli ou bloqué, droits correctement attribués ou insuffisants, smartcard activée ou inutilisable, badge fonctionnel ou défectueux.
+
+THÈME 11 — Organisation et procédures
+
+Concerne l’organisation du service et la qualité de ses processus.
+
+Sous-thèmes :
+
+* Simplicité et pertinence des procédures
+* Coordination et escalade entre équipes
+* Planification et ressources
+* Suivi de dossier et continuité de traitement
+* Formation, consignes et méthodes de travail
+
+Exemples : démarche simple ou complexe, coordination fluide ou défaillante, continuité du dossier assurée ou insuffisante, procédures maîtrisées ou inadaptées.
+
+THÈME 12 — Appréciation globale
+
+Ce thème est réservé aux commentaires qui expriment une appréciation générale sans fournir suffisamment d’informations pour identifier un aspect opérationnel précis.
+
+Sous-thèmes :
+
+* Satisfaction ou insatisfaction globale non détaillée
+* Remerciement sans motif précis
+* Recommandation et intention de revenir
+
+Les deux derniers sous-thèmes sont réservés aux manifestations positives explicites.
+
+Exemples :
+
+« Excellent service » → Appréciation globale / Satisfaction ou insatisfaction globale non détaillée, côté positif.
+
+« Service décevant » → Même sous-thème, côté négatif.
+
+« Merci à toute l’équipe » → Remerciement sans motif précis, côté positif.
+
+« Je recommande vivement ce service » → Recommandation et intention de revenir, côté positif.
+
+Règle essentielle : ne pas attribuer artificiellement des qualités opérationnelles précises à une appréciation générale.
+
+Un simple « Excellent service » ne prouve pas que l’attente était courte, que l’équipe était techniquement compétente ou que le problème a été résolu.
+
+Lorsqu’un commentaire contient une appréciation générale accompagnée de motifs précis, privilégier la classification des motifs précis. Ne pas ajouter systématiquement une catégorie d’appréciation globale redondante.
+
+4. RÈGLES DE REGROUPEMENT SÉMANTIQUE
+
+Les formulations différentes désignant une même dimension doivent être regroupées sous le même sous-thème.
+
+Exemples :
+
+Temps d’attente
+
+* Absence d’attente.
+* Attente de cinq minutes.
+* Attente rapide.
+* Temps d’attente excessif.
+* Attente de 45 minutes.
+* Attente interminable.
+
+Ces formulations correspondent toutes à :
+
+Attente et gestion des flux → Temps d’attente.
+
+Le sentiment et la justification permettent de distinguer les situations positives et négatives.
+
+Accueil
+
+* Accueil chaleureux.
+* Accueil souriant.
+* Personnel sympathique.
+* Amabilité du personnel.
+* Personnel désagréable.
+* Manque de courtoisie.
+
+Ces formulations correspondent à :
+
+Accueil et accessibilité du service → Qualité relationnelle de l’accueil.
+
+Résolution
+
+* Problème résolu.
+* Incident réglé.
+* Solution obtenue.
+* Problème non résolu.
+* Absence de résolution.
+
+Ces formulations correspondent à :
+
+Résolution et qualité des interventions → Résultat de la résolution.
+
+Expertise
+
+* Technicien compétent.
+* Expertise technique.
+* Professionnalisme.
+* Manque de compétence.
+* Expertise insuffisante.
+
+Ces formulations correspondent à :
+
+Prise en charge et accompagnement → Expertise et professionnalisme.
+
+Toujours choisir la catégorie selon le sens réel et le contexte du commentaire.
+
+5. DISTINCTION ENTRE MOTIF ET JUSTIFICATION
+
+Un sous-thème doit permettre le regroupement statistique de situations comparables.
+
+La justification doit conserver les détails de chaque situation.
+
+Exemple :
+
+« L’intervenant a été très patient et a pris vingt minutes pour m’expliquer la procédure. »
+
+Classification positive :
+
+Prise en charge et accompagnement → Accompagnement et pédagogie.
+
+La justification conserve la patience de l’intervenant, le temps consacré et la qualité des explications.
+
+Ne pas créer de nouveaux sous-thèmes comme « Patience de l’intervenant » ou « Explication pendant vingt minutes » si ces informations sont déjà couvertes par la nomenclature.
+
+6. CLASSIFICATION DES COMMENTAIRES MIXTES
+
+Un même commentaire peut comporter des aspects positifs et négatifs.
+
+Exemple :
+
+« L’équipe était très sympathique, mais j’ai attendu 45 minutes et mon problème n’est toujours pas résolu. »
+
+Classifications positives :
+
+* Accueil et accessibilité du service → Qualité relationnelle de l’accueil.
+
+Classifications négatives :
+
+* Attente et gestion des flux → Temps d’attente.
+* Résolution et qualité des interventions → Résultat de la résolution.
+
+Ne pas imposer à tous les aspects le sentiment global du commentaire.
+
+Ne pas classer positivement une action simplement parce qu’elle a eu lieu : un changement de PC, une ouverture de ticket ou une prise de rendez-vous ne constituent pas automatiquement une réussite.
+
+7. LIMITATION DES CLASSIFICATIONS MULTIPLES
+
+Identifier les aspects réellement distincts.
+
+Ne pas attribuer plusieurs sous-thèmes pour reformuler une seule appréciation.
+
+Exemple :
+
+« L’équipe a été très efficace. »
+
+Ne pas attribuer automatiquement :
+
+* Qualité et efficacité de l’assistance.
+* Expertise et professionnalisme.
+* Résultat de la résolution.
+* Qualité technique de l’intervention.
+* Délai de résolution.
+
+Choisir uniquement le sous-thème étayé par le contexte.
+
+Si l’appréciation reste trop vague pour déterminer l’aspect concerné, utiliser l’appréciation globale.
+
+Un commentaire comporte généralement un à trois motifs distincts. Il peut en comporter davantage uniquement si plusieurs aspects indépendants sont explicitement décrits.
+
+Chaque combinaison thème/sous-thème ne peut apparaître qu’une seule fois par commentaire et par polarité.
+
+Un même sous-thème peut exceptionnellement apparaître dans les aspects positifs et négatifs d’un commentaire lorsque des appréciations réellement opposées sont exprimées sur des situations distinctes.
+
+8. GESTION CONTRÔLÉE DES SUJETS NON COUVERTS
+
+La nomenclature officielle doit couvrir la très grande majorité des commentaires.
+
+Aucun nouveau thème ou sous-thème ne doit être créé librement.
+
+Exception 1 — Thème existant, aucun sous-thème pertinent
+
+Conserver le thème existant et utiliser uniquement le sous-thème exceptionnel :
+
+Autre motif (à examiner)
+
+Ce libellé est autorisé sous les 11 thèmes opérationnels, uniquement lorsque tous leurs sous-thèmes ont été examinés et qu’aucun ne convient.
+
+Conserver dans la justification la description du problème et, si pertinent, une proposition d’évolution du référentiel.
+
+Exception 2 — Aucun thème pertinent
+
+Utiliser exclusivement :
+
+Thème : Autres motifs (à examiner)
+
+Sous-thème : Hors référentiel (à examiner)
+
+Ce classement doit rester exceptionnel.
+
+Conditions impératives
+
+* Ne jamais utiliser une exception pour un synonyme.
+* Ne pas utiliser une exception pour une différence de durée, de matériel, de logiciel, de personne ou de lieu.
+* Ne pas utiliser une exception pour un compliment ou un mécontentement général sans précision : le thème « Appréciation globale » existe pour cela.
+* Ne pas inventer un libellé exceptionnel différent de ceux autorisés.
+* Ne pas créer de catégorie à partir d’un simple événement.
+* Ne pas utiliser les exceptions pour contourner une hésitation de classification.
+* Ne pas forcer une classification lorsque le commentaire ne contient aucun motif pertinent.
+
+Le recours aux exceptions doit rester marginal.
+
+Les éventuelles nouvelles catégories proposées ne sont jamais intégrées automatiquement au référentiel.
+
+9. COHÉRENCE POSITIF / NÉGATIF
+
+Les mêmes libellés doivent être utilisés pour les deux polarités.
+
+Cela signifie notamment que :
+
+* Un temps d’attente court et un temps d’attente excessif relèvent de « Temps d’attente ».
+* Une résolution réussie et une absence de résolution relèvent de « Résultat de la résolution ».
+* Une assistance efficace et une assistance insuffisante relèvent de « Qualité et efficacité de l’assistance ».
+* Des explications claires et des explications confuses relèvent de « Clarté des explications ».
+* Un matériel fonctionnel et un matériel défectueux relèvent de « Fiabilité et fonctionnement du matériel ».
+
+Ne jamais créer deux catégories différentes uniquement pour exprimer des sentiments opposés.
+
+Inversement, ne pas inventer un aspect positif ou négatif lorsqu’aucun élément du commentaire ne le justifie.
+
+10. COMPATIBILITÉ AVEC LE PROMPT GLOBAL
+
+Cette section modifie uniquement la logique de classification des thèmes et sous-thèmes positifs et négatifs.
+
+Conserver strictement les propriétés et la structure JSON actuellement utilisées.
+
+En particulier, conserver les structures existantes themesPositifs, themesNegatifs, nom et sousThemes ainsi que les autres champs déjà requis.
+
+Ne pas ajouter de nouvelles propriétés obligatoires.
+
+Ne pas modifier le traitement du sentiment, des justifications ou des autres informations.
+
+Conserver les couples thème/sous-thème dans les structures correspondant à leur polarité.
+
+Les catégories contenant « à examiner » doivent rester facilement identifiables dans Power BI grâce à leurs libellés normalisés.
+
+11. AUTOCONTRÔLE
+
+Avant de retourner l’analyse :
+
+1. Vérifier que chaque thème et sous-thème appartient au référentiel officiel ou correspond exactement à une exception autorisée.
+2. Vérifier la cohérence de la polarité de chaque aspect.
+3. Vérifier que les commentaires synonymes sont regroupés.
+4. Supprimer les classifications redondantes.
+5. Vérifier que les appréciations générales ne sont pas transformées en qualités opérationnelles inventées.
+6. Conserver les détails du commentaire dans les justifications.
+7. Vérifier que les exceptions sont réellement nécessaires.
+8. Respecter strictement la structure JSON existante.
+
+Objectif final : permettre une comparaison fiable des points forts et des points faibles du service dans Power BI, en conservant des classifications stables, précises et statistiquement pertinentes.
+
+4. Ce que ça changera dans Power BI
+
+Tu pourras avoir un tableau de comparaison par axe, avec exactement les mêmes libellés.
+
+Comparaison des sentiments
+
+Illustration fictive
+
+Nombre de visites par axe thématique
+
+Qualité relationnelle de l’accueil
+
+Positif 86 %
+
+Négatif 14 %
+
+Temps d’attente
+
+Positif 22 %
+
+Négatif 78 %
+
+Résultat de la résolution
+
+Positif 71 %
+
+Négatif 29 %
+
+Clarté des explications
+
+Positif 82 %
+
+Négatif 18 %
+
+Fonctionnement du matériel
+
+Positif 59 %
+
+Négatif 41 %
+
+Positif
+
+Négatif
+
+Les pourcentages sont inventés uniquement pour montrer le futur rendu, et non calculés à partir de tes captures.
+
+Il faudra simplement faire attention au dénominateur de ces comparaisons : tes volumes de commentaires positifs et négatifs sont différents. On pourra afficher les nombres de visites distinctes et leur répartition, puis choisir les taux les plus pertinents pour comparer les périodes.
+
+5. Deux précautions avant de le déployer
+
+Premièrement, je remplacerais l’ancienne section négative par cette nouvelle section unifiée. Il ne faut pas laisser coexister les anciens sous-thèmes « Temps d’attente excessif » et les nouveaux « Temps d’attente » dans les instructions, au risque de produire des classifications incohérentes.
+
+Deuxièmement, il faudra retraiter les anciennes analyses après validation, puisque les noms des catégories vont changer. Sinon, Power BI mélangera les deux nomenclatures.
+
+Pour moi, c’est cette version qui répond le mieux à ton objectif : un seul référentiel à maintenir, des catégories réellement comparables lorsque cela a du sens, et une analyse positive aussi détaillée et rigoureuse que l’analyse négative.
+
+Surtout, on ne transforme plus les compliments en centaines de variantes de « Très bon service ». On distingue enfin ce qui est apprécié : l’accueil, l’écoute, l’efficacité, la rapidité, la résolution et la qualité technique.
