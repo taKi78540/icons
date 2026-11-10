@@ -1,597 +1,556 @@
-J’ai maintenant repris l’ensemble de tes captures des thèmes positifs et négatifs. Et je suis arrivé à une conclusion assez importante : on peut faire correspondre une grande partie du positif et du négatif, et je pense même qu’on devrait le faire.
+D’accord ! On passe donc sur une nomenclature 100 % en anglais, aussi bien pour les thèmes que pour les sous-thèmes, et pour les catégories exceptionnelles.
 
-En revanche, je ne construirais pas deux nomenclatures différentes en essayant de trouver systématiquement un contraire à chaque sous-thème.
+Je conserve la logique que nous avons définie : 12 thèmes communs, 61 sous-thèmes, une classification positive/négative comparable et des exceptions strictement encadrées.
 
-Je ferais quelque chose de plus simple et surtout de plus solide pour Power BI : une nomenclature commune, avec le sentiment positif ou négatif qui indique dans quel sens le sujet est évoqué.
+Voici le prompt complet corrigé, prêt à intégrer dans Copilot Studio à la place de l’ancienne section de classification.
 
-1. Ce que révèlent tes données positives
+UNIFIED THEMATIC CLASSIFICATION — POSITIVE AND NEGATIVE FEEDBACK
 
-Le problème est encore plus marqué que pour le négatif.
+1. OBJECTIVE
 
-Constat dans ta matrice Power BI
+This section defines the rules for identifying and classifying themes and sub-themes extracted from user feedback about the Le Comptoir Campus IT support service.
 
-1 571
+It applies to both positive and negative feedback.
 
-visites dans « Qualité du service »
+The objective is to produce a stable, consistent, meaningful and statistically comparable classification system for Power BI, while preserving the richness of individual comments.
 
-Cela représente environ 92 % des 1 708 visites positives affichées.
+Fundamental principle: Themes and sub-themes describe the aspects of the service being evaluated. Sentiment determines whether each aspect is perceived positively or negatively.
 
-Quelques sous-thèmes visibles dans cette immense catégorie :
+The same themes and sub-themes must be used for both positive and negative feedback whenever applicable.
 
-Satisfaction globale
+A sub-theme must represent a reusable analytical category, never an individual reformulation of a user’s comment.
 
-474
+This section supplements the existing global prompt. It must not replace or interfere with sentiment analysis, justifications, or any other existing requirements.
 
-Efficacité
+MANDATORY LANGUAGE RULE: All themes and sub-themes must be returned in English, using exactly the official labels defined below. Never translate, paraphrase, rename or dynamically generate category labels.
 
-228
+2. CLASSIFICATION PROCESS
 
-Rapidité
+For each comment:
 
-136
+1. Understand the actual meaning of the feedback rather than relying solely on keywords.
+2. Identify the specific aspects of the service that are appreciated or criticized.
+3. Distinguish actual evaluation criteria from factual events, symptoms, consequences and contextual details.
+4. Determine the sentiment associated with each identified aspect.
+5. Assign each aspect to the most appropriate existing theme and sub-theme.
+6. Preserve individual circumstances and specific details in the existing justification fields.
+7. Never create a new category merely because the user’s wording differs from previous comments.
 
-Qualité de l’accueil
+A comment may contain both positive and negative aspects.
 
-90
+Each aspect must be classified according to its own sentiment, independently of the overall sentiment of the comment.
 
-Professionnalisme
+Do not interpret a purely factual statement as positive or negative unless the wording or context supports that interpretation.
 
-87
+3. OFFICIAL SHARED TAXONOMY
 
-Remerciement
+The following 12 themes and 61 sub-themes constitute the official classification reference.
 
-78
+All labels must be reproduced exactly as written.
 
-Réactivité
+THEME 1 — Reception and Service Accessibility
 
-73
+Scope: Interpersonal reception quality, accessibility of the service and reception conditions.
 
-Chiffres issus de tes captures. Les valeurs des sous-thèmes ne sont pas nécessairement additives, car une visite peut relever de plusieurs catégories.
+Authorized sub-themes:
 
-Ces exemples montrent que Copilot mélange trois choses très différentes : les qualités précises du service (rapidité, accueil, compétences), les résultats obtenus (résolution réussie, matériel fonctionnel) et les appréciations générales (« Excellent service », « Merci », « Très satisfait »).
+* Reception Quality
+* Physical Accessibility and Signage
+* Reception Staff Availability
+* Opening Hours and Access Arrangements
+* Reception Environment and Comfort
 
-Il faut absolument les distinguer, sinon tu ne sauras pas réellement ce que les utilisateurs apprécient, malgré le volume important de commentaires positifs.
+Examples: Friendly or unfriendly reception, welcoming staff, accessibility issues, convenient opening hours, comfortable or inadequate facilities.
 
-2. La solution que je retiens : des sous-thèmes communs et neutres
+THEME 2 — Waiting Time and Queue Management
 
-Par exemple :
+Scope: Waiting experienced by users before or during reception at the service desk.
 
-Thème commun	Sous-thème commun	Interprétation positive / négative
-Attente au comptoir	Temps d’attente	Court / Excessif
-Délais et réactivité	Rapidité de la prise en charge	Rapide / Trop lente
-Résolution et interventions	Résultat de la résolution	Résolu / Non résolu
-Résolution et interventions	Durabilité de la solution	Durable / Problème réapparu
-Accueil et relation humaine	Qualité relationnelle de l’accueil	Chaleureux / Désagréable
-Prise en charge	Expertise et professionnalisme	Compétent / Compétences insuffisantes
-Communication et suivi	Clarté des explications	Claires / Insuffisantes
-Matériel et restitution	Fonctionnement du matériel	Fonctionnel / Défectueux
-Matériel et restitution	Disponibilité du matériel	Disponible / Indisponible
+Authorized sub-themes:
 
-Cette approche a un énorme avantage : tu pourras comparer directement un même sous-thème dans themesPositifs et themesNegatifs, sans devoir maintenir une correspondance compliquée entre des dizaines de libellés contraires.
+* Waiting Time
+* Queue Length and Crowding
+* Queue Organization and Prioritization
 
-En revanche, il restera quelques dimensions sans équivalent naturel : perte ou vol de matériel, par exemple, ou simple remerciement. On ne doit surtout pas inventer artificiellement un contraire pour ces situations.
+Examples: Short or excessive waiting times, efficient or overcrowded queues, appropriate or inappropriate prioritization.
 
-3. Ma proposition définitive pour Copilot Studio
+Waiting time at the service desk must be distinguished from overall processing and resolution delays.
 
-Je retiendrais 12 thèmes communs, dont un réservé à l’appréciation globale, et 61 sous-thèmes de référence.
+THEME 3 — Processing Time and Responsiveness
 
-Ce chiffre n’est pas une obligation : il représente un premier référentiel qui couvre les principaux sujets visibles dans tes captures. Il faudra le valider sur les commentaires réels.
+Scope: Responsiveness, processing speed and compliance with expected or announced deadlines.
 
-Le changement par rapport à notre premier prompt est important : les sous-thèmes deviennent des axes d’analyse neutres. C’est le sentiment du commentaire qui indique si l’utilisateur apprécie ou critique cet aspect.
+Authorized sub-themes:
 
-Cela permet de conserver les tableaux themesPositifs et themesNegatifs existants sans ajouter de champ de comparaison.
+* Initial Response Time
+* Diagnosis and Intervention Time
+* Resolution Time
+* Procurement and Delivery Time
+* Adherence to Announced Deadlines
 
-Voici la version complète que je transmettrais à ton administrateur. Elle remplace uniquement l’ancienne section de classification des thèmes et sous-thèmes, et non le prompt global.
+Examples: Immediate or delayed assistance, rapid or slow diagnosis, short or prolonged resolution, timely or late equipment delivery.
 
-CLASSIFICATION THÉMATIQUE UNIFIÉE — COMMENTAIRES POSITIFS ET NÉGATIFS
+THEME 4 — User Support and Assistance
 
-1. OBJECTIF
+Scope: Quality of assistance, understanding of user needs, professional expertise and support throughout the service journey.
 
-Cette section encadre l’identification et la classification des thèmes et sous-thèmes issus des commentaires des utilisateurs du service Le Comptoir Campus.
+Authorized sub-themes:
 
-Elle s’applique aux motifs de satisfaction comme aux motifs de mécontentement.
+* Assistance Quality and Effectiveness
+* Listening and Needs Understanding
+* Expertise and Professionalism
+* User Guidance and Education
+* Service Orientation and Continuity
+* Repeated Visits and Interventions
+* Proactivity and Solution Finding
 
-L’objectif est de produire une nomenclature stable, cohérente et comparable dans Power BI, sans perdre la richesse de l’analyse individuelle.
+Examples: Effective or insufficient support, attentive listening or misunderstanding, competent or inadequately trained staff, appropriate guidance, proactive assistance.
 
-Principe fondamental : les thèmes et sous-thèmes décrivent les dimensions du service évaluées. Le sentiment positif ou négatif indique la manière dont ces dimensions sont perçues.
+The mere occurrence of an intervention does not automatically constitute positive feedback.
 
-Les mêmes libellés de thèmes et de sous-thèmes doivent donc être utilisés pour les analyses positives et négatives, lorsqu’ils sont pertinents.
+THEME 5 — Issue Resolution and Intervention Quality
 
-Un sous-thème représente une catégorie statistique réutilisable, jamais une reformulation individuelle du commentaire.
+Scope: Effectiveness, completeness and sustainability of problem resolution.
 
-Cette section complète les autres instructions du prompt global. Elle ne remplace ni l’analyse du sentiment, ni les justifications, ni les autres informations déjà produites.
+Authorized sub-themes:
 
-2. MÉTHODE DE CLASSIFICATION
+* Resolution Outcome
+* Resolution Completeness
+* Solution Sustainability
+* Technical Intervention Quality
+* Verification and Case Closure
 
-Pour chaque commentaire :
+Examples:
 
-1. Comprendre les propos exprimés, sans se limiter à la présence de mots-clés.
-2. Identifier les éléments réellement appréciés, critiqués ou jugés insatisfaisants.
-3. Distinguer les faits, les motifs d’évaluation, les conséquences et les simples circonstances.
-4. Identifier la polarité de chaque aspect selon les règles de sentiment du prompt global.
-5. Associer chaque aspect au thème et au sous-thème existants les plus pertinents.
-6. Conserver les détails particuliers dans les champs de justification existants.
-7. Ne jamais créer de nouveaux libellés statistiques pour représenter les formulations individuelles.
+* Problem resolved / problem unresolved.
+* Complete resolution / partial resolution.
+* Sustainable solution / recurring problem.
+* Successful intervention / ineffective intervention.
+* Proper verification / premature closure.
 
-Un commentaire peut contenir des aspects positifs et négatifs simultanément.
+Never assume that an issue was resolved simply because an intervention occurred.
 
-La classification d’un aspect doit respecter son sentiment propre, même lorsque le sentiment général du commentaire est différent.
+Distinguish an issue that was never resolved from one that reappeared after a successful resolution.
 
-La polarité n’est pas déduite du nom du sous-thème, mais de ce que l’utilisateur exprime réellement.
+THEME 6 — Communication and Follow-up
 
-3. NOMENCLATURE OFFICIELLE COMMUNE
+Scope: Quality, clarity, accuracy and continuity of information provided to users.
 
-Les libellés ci-dessous sont autorisés dans les classifications positives et négatives.
+Authorized sub-themes:
 
-Ils doivent être reproduits strictement à l’identique.
+* Information Accuracy and Availability
+* Explanation Clarity
+* Progress Updates and Follow-up
+* Communication of Expected Timelines
+* Notifications and Confirmations
 
-THÈME 1 — Accueil et accessibilité du service
+Examples: Clear or confusing explanations, accurate or incorrect information, proactive updates or lack of follow-up, reliable or misleading timelines.
 
-Concerne la qualité relationnelle de l’accueil, la facilité d’accès au service et les conditions d’accueil.
+THEME 7 — Equipment, Accessories and Returns
 
-Sous-thèmes :
+Scope: IT equipment, peripherals, replacement devices, equipment preparation, delivery and return processes.
 
-* Qualité relationnelle de l’accueil
-* Accessibilité physique et signalétique
-* Disponibilité du personnel d’accueil
-* Horaires et modalités d’accès
-* Confort et environnement d’accueil
+Authorized sub-themes:
 
-Exemples : accueil chaleureux ou désagréable, personnel souriant ou peu accueillant, service facile ou difficile à trouver, horaires adaptés ou contraignants.
+* Equipment Reliability and Functionality
+* Equipment Availability and Stock
+* Accessory Completeness and Compatibility
+* Replacement Equipment Suitability
+* Equipment Condition and Cleanliness
+* Equipment Preparation and Testing
+* Equipment Delivery and Provisioning
+* Equipment Return and Traceability
+* Equipment Loss or Theft
 
-THÈME 2 — Attente et gestion des flux
+Examples: Functional or defective equipment, available or unavailable devices, complete or missing accessories, suitable or unsuitable replacements, smooth or problematic returns.
 
-Concerne l’attente des visiteurs avant ou pendant leur accueil au comptoir.
+Do not artificially create positive counterparts for exclusively negative events such as theft.
 
-Sous-thèmes :
+THEME 8 — Software, Workstations and Data
 
-* Temps d’attente
-* Affluence et file d’attente
-* Organisation des passages et priorités
+Scope: Applications, workstation environments, configurations, installations, migrations and data management.
 
-Exemples : attente courte ou excessive, file fluide ou saturée, ordre de passage bien ou mal organisé.
+Authorized sub-themes:
 
-THÈME 3 — Délais et réactivité
+* Application Functionality
+* Software Installation, Restoration and Updates
+* Workstation Configuration and Performance
+* Data Migration, Backup and Recovery
+* Data Synchronization and Transfer
+* Printing and Peripherals
 
-Concerne la rapidité des différents traitements et le respect des délais.
+Examples: Working or malfunctioning applications, successful or failed installations, correct or incorrect configurations, successful migrations, restored or lost data.
 
-Sous-thèmes :
+THEME 9 — Network and Connectivity
 
-* Réactivité de la prise en charge
-* Délai de diagnostic et d’intervention
-* Délai de résolution
-* Délai d’approvisionnement et de livraison
-* Respect des délais annoncés
+Scope: Network availability, connectivity and remote access infrastructure.
 
-Exemples : intervention rapide ou tardive, résolution immédiate ou prolongée, livraison rapide ou retardée, ponctualité ou non-respect des engagements.
+Authorized sub-themes:
 
-Distinguer le temps passé dans la file d’attente du délai nécessaire au traitement de la demande.
+* Internet, Wi-Fi and Local Network Connectivity
+* VPN and Remote Access
+* Network Configuration
 
-THÈME 4 — Prise en charge et accompagnement
+Examples: Stable or unavailable network connections, functional or inaccessible VPN, successful or problematic network configuration.
 
-Concerne la qualité de l’assistance apportée et l’accompagnement de l’utilisateur tout au long de son parcours.
+THEME 10 — Accounts, Permissions and Badges
 
-Sous-thèmes :
+Scope: User identities, accounts, access permissions, authentication mechanisms and physical badges.
 
-* Qualité et efficacité de l’assistance
-* Écoute et compréhension du besoin
-* Expertise et professionnalisme
-* Accompagnement et pédagogie
-* Orientation et continuité du parcours
-* Passages et interventions répétés
-* Proactivité et recherche de solutions
+Authorized sub-themes:
 
-Exemples : assistance efficace ou insuffisante, bonne écoute ou incompréhension du besoin, personnel compétent ou expertise insuffisante, accompagnement pédagogique ou inadapté.
+* User Accounts and Passwords
+* Access Rights and Permissions
+* Multi-Factor Authentication and Smartcards
+* Physical Access Badges
+* Access Provisioning and Changes
 
-La simple mention d’un technicien ou d’une intervention ne constitue pas une appréciation positive.
+Examples: Restored or blocked access, appropriate or insufficient permissions, working or non-functional smartcards, functional or defective badges.
 
-THÈME 5 — Résolution et qualité des interventions
+Distinguish physical badges from IT authentication smartcards.
 
-Concerne les résultats obtenus et la qualité technique des solutions apportées.
+THEME 11 — Organization and Procedures
 
-Sous-thèmes :
+Scope: Internal service organization, operational processes, coordination and working methods.
 
-* Résultat de la résolution
-* Complétude de la résolution
-* Durabilité de la solution
-* Qualité technique de l’intervention
-* Vérification et clôture de la demande
+Authorized sub-themes:
 
-Exemples :
+* Procedure Simplicity and Suitability
+* Team Coordination and Escalation
+* Resource Planning and Staffing
+* Case History and Service Continuity
+* Training, Instructions and Working Methods
 
-* Problème résolu / problème non résolu.
-* Résolution complète / résolution partielle.
-* Solution durable / problème réapparu après intervention.
-* Intervention réussie / intervention inefficace ou aggravante.
-* Vérification satisfaisante / clôture prématurée ou contrôle insuffisant.
+Examples: Simple or cumbersome procedures, smooth or ineffective coordination, appropriate or insufficient resources, consistent or fragmented case management.
 
-Ne jamais considérer une simple intervention comme une résolution effective sans élément permettant de le confirmer.
+THEME 12 — Overall Appreciation
 
-THÈME 6 — Communication et suivi
+Scope: General feedback expressing satisfaction, dissatisfaction, appreciation or recommendation without enough specific evidence to identify a precise operational aspect.
 
-Concerne la transmission des informations, la clarté des échanges et la qualité du suivi.
+Authorized sub-themes:
 
-Sous-thèmes :
+* General Satisfaction or Dissatisfaction
+* General Appreciation and Thanks
+* Service Recommendation and Return Intention
 
-* Exactitude et disponibilité des informations
-* Clarté des explications
-* Information sur l’avancement et recontact
-* Fiabilité des délais communiqués
-* Notifications et confirmations
+The last two sub-themes are reserved for explicitly positive feedback.
 
-Exemples : explications claires ou confuses, utilisateur bien informé ou laissé sans nouvelles, délais correctement annoncés ou informations erronées.
+Examples:
 
-THÈME 7 — Matériel, accessoires et restitution
+“Excellent service.”
 
-Concerne les équipements, les accessoires, les matériels de remplacement et le parcours de restitution.
+Theme: Overall Appreciation
 
-Sous-thèmes :
+Sub-theme: General Satisfaction or Dissatisfaction
 
-* Fiabilité et fonctionnement du matériel
-* Disponibilité et stocks
-* Complétude et compatibilité des accessoires
-* Adéquation du matériel de remplacement
-* État, propreté et vétusté
-* Préparation et contrôles avant remise
-* Livraison et mise à disposition
-* Restitution et traçabilité
-* Perte ou vol de matériel
+Sentiment: Positive
 
-Exemples : matériel fonctionnel ou défectueux, équipement disponible ou en rupture, accessoires complets ou manquants, remplacement adapté ou inadapté, restitution simple ou difficile.
+“Disappointing service.”
 
-La perte ou le vol de matériel ne nécessite pas de contrepartie positive artificielle.
+Theme: Overall Appreciation
 
-THÈME 8 — Logiciels, postes et données
+Sub-theme: General Satisfaction or Dissatisfaction
 
-Concerne les applications, les environnements informatiques et les opérations portant sur les données.
+Sentiment: Negative
 
-Sous-thèmes :
+“Thank you to the whole team.”
 
-* Fonctionnement des applications
-* Installation, restauration et mise à jour
-* Configuration et performance du poste
-* Migration, sauvegarde et récupération de données
-* Synchronisation et transfert de données
-* Impression et périphériques
+Theme: Overall Appreciation
 
-Exemples : application fonctionnelle ou défaillante, installation réussie ou impossible, migration réussie ou problématique, données récupérées ou perdues.
+Sub-theme: General Appreciation and Thanks
 
-THÈME 9 — Réseau et connectivité
+Sentiment: Positive
 
-Concerne la disponibilité et le fonctionnement des connexions réseau.
+“I would definitely recommend this service.”
 
-Sous-thèmes :
+Theme: Overall Appreciation
 
-* Connexion Internet, Wi-Fi et réseau local
-* VPN et accès distant
-* Configuration réseau
+Sub-theme: Service Recommendation and Return Intention
 
-Exemples : connexion rétablie ou indisponible, VPN fonctionnel ou inaccessible, configuration réseau correcte ou défaillante.
+Sentiment: Positive
 
-THÈME 10 — Comptes, habilitations et badges
+CRITICAL RULE: Never infer specific operational strengths or weaknesses from generic feedback alone.
 
-Concerne la gestion des identités, des droits et des moyens d’authentification.
+“Excellent service” does not prove that waiting time was short, technical staff were competent or the issue was successfully resolved.
 
-Sous-thèmes :
+When specific reasons for satisfaction or dissatisfaction are provided, prioritize the corresponding operational categories.
 
-* Comptes et mots de passe
-* Droits et habilitations
-* Authentification forte et smartcards
-* Badges physiques
-* Attribution et modification des accès
+Do not automatically add a redundant Overall Appreciation category.
 
-Exemples : accès rétabli ou bloqué, droits correctement attribués ou insuffisants, smartcard activée ou inutilisable, badge fonctionnel ou défectueux.
+4. SEMANTIC CONSOLIDATION
 
-THÈME 11 — Organisation et procédures
+Different expressions referring to the same service dimension must be grouped under the same existing sub-theme.
 
-Concerne l’organisation du service et la qualité de ses processus.
+Never generate a separate category for each wording variation.
 
-Sous-thèmes :
+Example A — Waiting Time
 
-* Simplicité et pertinence des procédures
-* Coordination et escalade entre équipes
-* Planification et ressources
-* Suivi de dossier et continuité de traitement
-* Formation, consignes et méthodes de travail
+The following expressions belong to:
 
-Exemples : démarche simple ou complexe, coordination fluide ou défaillante, continuité du dossier assurée ou insuffisante, procédures maîtrisées ou inadaptées.
+Theme: Waiting Time and Queue Management
 
-THÈME 12 — Appréciation globale
+Sub-theme: Waiting Time
 
-Ce thème est réservé aux commentaires qui expriment une appréciation générale sans fournir suffisamment d’informations pour identifier un aspect opérationnel précis.
+Expressions:
 
-Sous-thèmes :
+* No waiting time.
+* Five-minute wait.
+* Very short waiting time.
+* Excessive waiting time.
+* Forty-five-minute wait.
+* Unbearably long waiting time.
 
-* Satisfaction ou insatisfaction globale non détaillée
-* Remerciement sans motif précis
-* Recommandation et intention de revenir
+The sentiment and justification must preserve the distinction between positive and negative experiences.
 
-Les deux derniers sous-thèmes sont réservés aux manifestations positives explicites.
+A duration alone does not determine sentiment.
 
-Exemples :
+Example B — Reception Quality
 
-« Excellent service » → Appréciation globale / Satisfaction ou insatisfaction globale non détaillée, côté positif.
+The following expressions belong to:
 
-« Service décevant » → Même sous-thème, côté négatif.
+Theme: Reception and Service Accessibility
 
-« Merci à toute l’équipe » → Remerciement sans motif précis, côté positif.
+Sub-theme: Reception Quality
 
-« Je recommande vivement ce service » → Recommandation et intention de revenir, côté positif.
+Expressions:
 
-Règle essentielle : ne pas attribuer artificiellement des qualités opérationnelles précises à une appréciation générale.
+* Warm welcome.
+* Friendly staff.
+* Smiling personnel.
+* Pleasant reception.
+* Unfriendly staff.
+* Lack of courtesy.
 
-Un simple « Excellent service » ne prouve pas que l’attente était courte, que l’équipe était techniquement compétente ou que le problème a été résolu.
+Example C — Issue Resolution
 
-Lorsqu’un commentaire contient une appréciation générale accompagnée de motifs précis, privilégier la classification des motifs précis. Ne pas ajouter systématiquement une catégorie d’appréciation globale redondante.
+The following expressions belong to:
 
-4. RÈGLES DE REGROUPEMENT SÉMANTIQUE
+Theme: Issue Resolution and Intervention Quality
 
-Les formulations différentes désignant une même dimension doivent être regroupées sous le même sous-thème.
+Sub-theme: Resolution Outcome
 
-Exemples :
+Expressions:
 
-Temps d’attente
+* Issue resolved.
+* Problem successfully fixed.
+* Solution provided.
+* Problem unresolved.
+* Issue not fixed.
+* No solution obtained.
 
-* Absence d’attente.
-* Attente de cinq minutes.
-* Attente rapide.
-* Temps d’attente excessif.
-* Attente de 45 minutes.
-* Attente interminable.
+Example D — Technical Expertise
 
-Ces formulations correspondent toutes à :
+The following expressions belong to:
 
-Attente et gestion des flux → Temps d’attente.
+Theme: User Support and Assistance
 
-Le sentiment et la justification permettent de distinguer les situations positives et négatives.
+Sub-theme: Expertise and Professionalism
 
-Accueil
+Expressions:
 
-* Accueil chaleureux.
-* Accueil souriant.
-* Personnel sympathique.
-* Amabilité du personnel.
-* Personnel désagréable.
-* Manque de courtoisie.
+* Competent technician.
+* Strong technical expertise.
+* Professional support.
+* Lack of technical competence.
+* Insufficient expertise.
 
-Ces formulations correspondent à :
+Always choose categories based on semantic meaning, not literal vocabulary.
 
-Accueil et accessibilité du service → Qualité relationnelle de l’accueil.
+5. DISTINGUISHING CATEGORIES FROM JUSTIFICATIONS
 
-Résolution
+Themes and sub-themes must remain standardized.
 
-* Problème résolu.
-* Incident réglé.
-* Solution obtenue.
-* Problème non résolu.
-* Absence de résolution.
+Specific details must be preserved in the existing justification fields.
 
-Ces formulations correspondent à :
+Example:
 
-Résolution et qualité des interventions → Résultat de la résolution.
+“The technician was very patient and spent twenty minutes explaining the procedure.”
 
-Expertise
+Positive classification:
 
-* Technicien compétent.
-* Expertise technique.
-* Professionnalisme.
-* Manque de compétence.
-* Expertise insuffisante.
+Theme: User Support and Assistance
 
-Ces formulations correspondent à :
+Sub-theme: User Guidance and Education
 
-Prise en charge et accompagnement → Expertise et professionnalisme.
+The justification should retain the technician’s patience, the time spent and the clarity of the guidance.
 
-Toujours choisir la catégorie selon le sens réel et le contexte du commentaire.
+Do not create new sub-themes such as “Technician Patience” or “Twenty-Minute Explanation”.
 
-5. DISTINCTION ENTRE MOTIF ET JUSTIFICATION
+6. MIXED FEEDBACK
 
-Un sous-thème doit permettre le regroupement statistique de situations comparables.
+A single comment may contain positive and negative aspects.
 
-La justification doit conserver les détails de chaque situation.
+Example:
 
-Exemple :
+“The team was very friendly, but I waited 45 minutes and my issue is still unresolved.”
 
-« L’intervenant a été très patient et a pris vingt minutes pour m’expliquer la procédure. »
+Positive classification:
 
-Classification positive :
+* Reception and Service Accessibility → Reception Quality
 
-Prise en charge et accompagnement → Accompagnement et pédagogie.
+Negative classifications:
 
-La justification conserve la patience de l’intervenant, le temps consacré et la qualité des explications.
+* Waiting Time and Queue Management → Waiting Time
+* Issue Resolution and Intervention Quality → Resolution Outcome
 
-Ne pas créer de nouveaux sous-thèmes comme « Patience de l’intervenant » ou « Explication pendant vingt minutes » si ces informations sont déjà couvertes par la nomenclature.
+Do not apply the overall sentiment of the comment to every identified aspect.
 
-6. CLASSIFICATION DES COMMENTAIRES MIXTES
+Do not classify routine activities as positive achievements unless the user explicitly expresses appreciation or a successful outcome.
 
-Un même commentaire peut comporter des aspects positifs et négatifs.
+Examples of activities that are not automatically positive:
 
-Exemple :
+* Equipment replacement.
+* Ticket creation.
+* Appointment scheduling.
+* Technical intervention.
+* Equipment delivery.
 
-« L’équipe était très sympathique, mais j’ai attendu 45 minutes et mon problème n’est toujours pas résolu. »
+7. AVOIDING OVER-CLASSIFICATION
 
-Classifications positives :
+Identify only genuinely distinct aspects of the feedback.
 
-* Accueil et accessibilité du service → Qualité relationnelle de l’accueil.
+Do not assign multiple sub-themes merely to reformulate a single appreciation or complaint.
 
-Classifications négatives :
+Example:
 
-* Attente et gestion des flux → Temps d’attente.
-* Résolution et qualité des interventions → Résultat de la résolution.
+“The team was very efficient.”
 
-Ne pas imposer à tous les aspects le sentiment global du commentaire.
+Do not automatically assign all of the following:
 
-Ne pas classer positivement une action simplement parce qu’elle a eu lieu : un changement de PC, une ouverture de ticket ou une prise de rendez-vous ne constituent pas automatiquement une réussite.
+* Assistance Quality and Effectiveness.
+* Expertise and Professionalism.
+* Resolution Outcome.
+* Technical Intervention Quality.
+* Resolution Time.
 
-7. LIMITATION DES CLASSIFICATIONS MULTIPLES
+Choose only the sub-theme genuinely supported by the comment and its context.
 
-Identifier les aspects réellement distincts.
+If the appreciation is too vague to identify a specific operational aspect, use Overall Appreciation.
 
-Ne pas attribuer plusieurs sous-thèmes pour reformuler une seule appréciation.
+A comment should generally contain one to three distinct thematic classifications, but more may be assigned when the comment explicitly describes additional independent aspects.
 
-Exemple :
+Each theme/sub-theme combination must appear only once per comment and per sentiment.
 
-« L’équipe a été très efficace. »
+The same sub-theme may appear under both positive and negative feedback only when the comment genuinely evaluates different situations in opposite ways.
 
-Ne pas attribuer automatiquement :
+8. CONTROLLED HANDLING OF UNCLASSIFIED TOPICS
 
-* Qualité et efficacité de l’assistance.
-* Expertise et professionnalisme.
-* Résultat de la résolution.
-* Qualité technique de l’intervention.
-* Délai de résolution.
+The official taxonomy must cover the vast majority of user feedback.
 
-Choisir uniquement le sous-thème étayé par le contexte.
+The AI must never freely create new themes or sub-themes.
 
-Si l’appréciation reste trop vague pour déterminer l’aspect concerné, utiliser l’appréciation globale.
+Exception A — Existing Theme, No Suitable Sub-theme
 
-Un commentaire comporte généralement un à trois motifs distincts. Il peut en comporter davantage uniquement si plusieurs aspects indépendants sont explicitement décrits.
+When an existing theme is appropriate but no authorized sub-theme adequately describes the issue, use the following reserved sub-theme:
 
-Chaque combinaison thème/sous-thème ne peut apparaître qu’une seule fois par commentaire et par polarité.
+Other Reason (Review Required)
 
-Un même sous-thème peut exceptionnellement apparaître dans les aspects positifs et négatifs d’un commentaire lorsque des appréciations réellement opposées sont exprimées sur des situations distinctes.
+This exceptional sub-theme is authorized under each of the 11 operational themes.
 
-8. GESTION CONTRÔLÉE DES SUJETS NON COUVERTS
+Use it only after carefully examining all existing sub-themes.
 
-La nomenclature officielle doit couvrir la très grande majorité des commentaires.
+Preserve the issue description in the existing justification field.
 
-Aucun nouveau thème ou sous-thème ne doit être créé librement.
+When relevant, suggest a potential taxonomy improvement within the existing justification, without changing the official category label.
 
-Exception 1 — Thème existant, aucun sous-thème pertinent
+Exception B — No Suitable Theme
 
-Conserver le thème existant et utiliser uniquement le sous-thème exceptionnel :
+When no official theme adequately covers the feedback, use:
 
-Autre motif (à examiner)
+Theme: Other Topics (Review Required)
 
-Ce libellé est autorisé sous les 11 thèmes opérationnels, uniquement lorsque tous leurs sous-thèmes ont été examinés et qu’aucun ne convient.
+Sub-theme: Out of Taxonomy (Review Required)
 
-Conserver dans la justification la description du problème et, si pertinent, une proposition d’évolution du référentiel.
+This classification must remain exceptional.
 
-Exception 2 — Aucun thème pertinent
+Mandatory Exception Rules
 
-Utiliser exclusivement :
+* Never use an exception for synonyms.
+* Never create an exception simply because a duration, device, application, location or person differs.
+* Never use an exception for generic satisfaction or dissatisfaction when Overall Appreciation applies.
+* Never create alternative exception labels.
+* Never use an exception to avoid making a classification decision.
+* Never invent a new theme or sub-theme directly from an individual comment.
+* Do not force classification when the comment contains no identifiable positive or negative evaluation.
 
-Thème : Autres motifs (à examiner)
+Exception categories must remain marginal and should only identify genuine gaps in the official taxonomy.
 
-Sous-thème : Hors référentiel (à examiner)
+Any suggested category must be reviewed before being added to the official taxonomy.
 
-Ce classement doit rester exceptionnel.
+9. POSITIVE AND NEGATIVE CONSISTENCY
 
-Conditions impératives
+The same theme and sub-theme labels must be used for both positive and negative feedback.
 
-* Ne jamais utiliser une exception pour un synonyme.
-* Ne pas utiliser une exception pour une différence de durée, de matériel, de logiciel, de personne ou de lieu.
-* Ne pas utiliser une exception pour un compliment ou un mécontentement général sans précision : le thème « Appréciation globale » existe pour cela.
-* Ne pas inventer un libellé exceptionnel différent de ceux autorisés.
-* Ne pas créer de catégorie à partir d’un simple événement.
-* Ne pas utiliser les exceptions pour contourner une hésitation de classification.
-* Ne pas forcer une classification lorsque le commentaire ne contient aucun motif pertinent.
+Examples:
 
-Le recours aux exceptions doit rester marginal.
+* Short waiting time and excessive waiting time → Waiting Time.
+* Successful resolution and unresolved issue → Resolution Outcome.
+* Effective assistance and insufficient assistance → Assistance Quality and Effectiveness.
+* Clear explanations and confusing explanations → Explanation Clarity.
+* Functional equipment and defective equipment → Equipment Reliability and Functionality.
+* Fast intervention and delayed intervention → Diagnosis and Intervention Time.
+* Friendly reception and unfriendly reception → Reception Quality.
+* Well-managed procedures and cumbersome procedures → Procedure Simplicity and Suitability.
 
-Les éventuelles nouvelles catégories proposées ne sont jamais intégrées automatiquement au référentiel.
+Never create separate categories solely to express opposite sentiments.
 
-9. COHÉRENCE POSITIF / NÉGATIF
+Likewise, never invent a positive or negative counterpart when the feedback does not support one.
 
-Les mêmes libellés doivent être utilisés pour les deux polarités.
+10. STATISTICAL CONSISTENCY
 
-Cela signifie notamment que :
+The classification must ensure that:
 
-* Un temps d’attente court et un temps d’attente excessif relèvent de « Temps d’attente ».
-* Une résolution réussie et une absence de résolution relèvent de « Résultat de la résolution ».
-* Une assistance efficace et une assistance insuffisante relèvent de « Qualité et efficacité de l’assistance ».
-* Des explications claires et des explications confuses relèvent de « Clarté des explications ».
-* Un matériel fonctionnel et un matériel défectueux relèvent de « Fiabilité et fonctionnement du matériel ».
+1. Comments describing the same service aspect are assigned the same category.
+2. Differences in wording do not produce new statistical categories.
+3. Categories remain stable over time.
+4. Rare but meaningful issues remain identifiable.
+5. Consequences are not systematically treated as additional independent themes.
+6. Category selection is based on semantic meaning, not frequency.
+7. Positive and negative results can be compared using the same thematic dimensions.
+8. Broad generic feedback does not distort the measurement of specific operational strengths or weaknesses.
 
-Ne jamais créer deux catégories différentes uniquement pour exprimer des sentiments opposés.
+The classification must remain suitable for comparisons across periods, locations, services and user populations in Power BI.
 
-Inversement, ne pas inventer un aspect positif ou négatif lorsqu’aucun élément du commentaire ne le justifie.
+11. PRESERVING EXISTING OUTPUT STRUCTURE
 
-10. COMPATIBILITÉ AVEC LE PROMPT GLOBAL
+This section modifies only the thematic classification logic.
 
-Cette section modifie uniquement la logique de classification des thèmes et sous-thèmes positifs et négatifs.
+Strictly preserve the existing JSON output structure and property names.
 
-Conserver strictement les propriétés et la structure JSON actuellement utilisées.
+In particular, preserve the existing structures:
 
-En particulier, conserver les structures existantes themesPositifs, themesNegatifs, nom et sousThemes ainsi que les autres champs déjà requis.
+* themesPositifs
+* themesNegatifs
+* nom
+* sousThemes
 
-Ne pas ajouter de nouvelles propriétés obligatoires.
+Preserve all existing sentiment fields, justifications, analysis fields and other required information.
 
-Ne pas modifier le traitement du sentiment, des justifications ou des autres informations.
+Do not introduce mandatory new JSON properties.
 
-Conserver les couples thème/sous-thème dans les structures correspondant à leur polarité.
+Return all theme and sub-theme values in English, using exactly the labels defined in this taxonomy.
 
-Les catégories contenant « à examiner » doivent rester facilement identifiables dans Power BI grâce à leurs libellés normalisés.
+Store positive and negative classifications in their corresponding existing structures.
 
-11. AUTOCONTRÔLE
+Exceptional categories must contain the exact marker “Review Required”, allowing them to be easily identified and filtered in Power BI.
 
-Avant de retourner l’analyse :
+12. FINAL QUALITY CONTROL
 
-1. Vérifier que chaque thème et sous-thème appartient au référentiel officiel ou correspond exactement à une exception autorisée.
-2. Vérifier la cohérence de la polarité de chaque aspect.
-3. Vérifier que les commentaires synonymes sont regroupés.
-4. Supprimer les classifications redondantes.
-5. Vérifier que les appréciations générales ne sont pas transformées en qualités opérationnelles inventées.
-6. Conserver les détails du commentaire dans les justifications.
-7. Vérifier que les exceptions sont réellement nécessaires.
-8. Respecter strictement la structure JSON existante.
+Before returning the analysis, verify that:
 
-Objectif final : permettre une comparaison fiable des points forts et des points faibles du service dans Power BI, en conservant des classifications stables, précises et statistiquement pertinentes.
+1. Every theme belongs to the official taxonomy or matches the authorized exception label.
+2. Every sub-theme belongs to its selected theme or is an authorized exception.
+3. Every category label is written in English exactly as defined.
+4. Each aspect is assigned the correct positive or negative sentiment.
+5. Synonymous expressions are consolidated.
+6. Redundant classifications have been eliminated.
+7. Generic feedback has not been converted into unsupported operational conclusions.
+8. Individual details are preserved in the existing justifications.
+9. Exceptional categories are used only when absolutely necessary.
+10. The existing JSON structure remains fully compatible with the global prompt and downstream processing.
 
-4. Ce que ça changera dans Power BI
+FINAL PRIORITY: Produce stable, accurate, semantically meaningful and statistically comparable classifications for positive and negative feedback, while preserving the precision of individual user comments and preventing uncontrolled category proliferation.
 
-Tu pourras avoir un tableau de comparaison par axe, avec exactement les mêmes libellés.
+Point important pour ton administrateur : comme nous changeons les libellés des thèmes et sous-thèmes, il faudra également retraiter les analyses déjà enregistrées dans Dataverse pour éviter de mélanger les anciennes catégories françaises avec les nouvelles catégories anglaises dans Power BI.
 
-Comparaison des sentiments
-
-Illustration fictive
-
-Nombre de visites par axe thématique
-
-Qualité relationnelle de l’accueil
-
-Positif 86 %
-
-Négatif 14 %
-
-Temps d’attente
-
-Positif 22 %
-
-Négatif 78 %
-
-Résultat de la résolution
-
-Positif 71 %
-
-Négatif 29 %
-
-Clarté des explications
-
-Positif 82 %
-
-Négatif 18 %
-
-Fonctionnement du matériel
-
-Positif 59 %
-
-Négatif 41 %
-
-Positif
-
-Négatif
-
-Les pourcentages sont inventés uniquement pour montrer le futur rendu, et non calculés à partir de tes captures.
-
-Il faudra simplement faire attention au dénominateur de ces comparaisons : tes volumes de commentaires positifs et négatifs sont différents. On pourra afficher les nombres de visites distinctes et leur répartition, puis choisir les taux les plus pertinents pour comparer les périodes.
-
-5. Deux précautions avant de le déployer
-
-Premièrement, je remplacerais l’ancienne section négative par cette nouvelle section unifiée. Il ne faut pas laisser coexister les anciens sous-thèmes « Temps d’attente excessif » et les nouveaux « Temps d’attente » dans les instructions, au risque de produire des classifications incohérentes.
-
-Deuxièmement, il faudra retraiter les anciennes analyses après validation, puisque les noms des catégories vont changer. Sinon, Power BI mélangera les deux nomenclatures.
-
-Pour moi, c’est cette version qui répond le mieux à ton objectif : un seul référentiel à maintenir, des catégories réellement comparables lorsque cela a du sens, et une analyse positive aussi détaillée et rigoureuse que l’analyse négative.
-
-Surtout, on ne transforme plus les compliments en centaines de variantes de « Très bon service ». On distingue enfin ce qui est apprécié : l’accueil, l’écoute, l’efficacité, la rapidité, la résolution et la qualité technique.
+Les noms des propriétés JSON, eux, restent inchangés pour préserver le fonctionnement de tes flux Power Automate.
