@@ -1,6 +1,243 @@
+J’ai repris tes 8 nouvelles captures, en les recoupant avec les précédentes. Elles confirment mon diagnostic, mais elles révèlent aussi plusieurs sujets que ma première proposition ne distinguait pas suffisamment.
 
-Visites avec thème positif =
-CALCULATE(
-    DISTINCTCOUNT('cdspp_AI_Themes'[cdspp_visitid]),
-    'cdspp_AI_Themes'[cdspp_polarity] = "Positif"
-)
+Je ferais donc évoluer ma proposition initiale de 10 thèmes / 45 sous-thèmes. Elle était un peu trop restrictive sur certains aspects.
+
+Ce que les nouvelles captures m’ont permis d’identifier
+
+Sujet repéré	Ce que je modifierais
+Restitution et traçabilité du matériel	Créer un sous-thème spécifique, distinct de la livraison
+Perte et vol de matériel	Prévoir une catégorie dédiée
+Perte de données et migration	Les distinguer des simples dysfonctionnements logiciels
+Qualité de la préparation du matériel	Distinguer la préparation insuffisante d’une panne
+Gestion des badges et smartcards	Séparer les badges physiques des identifiants informatiques
+Problèmes de réseau et VPN	Les distinguer des dysfonctionnements applicatifs
+Vérifications insuffisantes et clôtures prématurées	Les distinguer des incidents simplement non résolus
+Formation et compétences des intervenants	Conserver une classification identifiable
+Défaillances de coordination entre services	Les différencier des difficultés de prise en charge
+Impact sur l’activité et télétravail impossible	Suivre cet impact séparément de la cause technique
+
+Il y a aussi un élément important : certaines lignes que Copilot appelle des « sous-thèmes » ne sont en réalité ni des catégories, ni même nécessairement des motifs de mécontentement.
+
+Par exemple, « Remplacement complet du matériel », « Prise de rendez-vous » ou « Visite sans rendez-vous » décrivent des événements. Ils ne deviennent des motifs de mécontentement que si le commentaire explique en quoi ils posent problème.
+
+Ma nomenclature révisée : 11 thèmes et 54 sous-thèmes
+
+Je te propose cette structure. Les sous-thèmes sont volontairement assez larges pour être réutilisés, mais suffisamment précis pour identifier un problème opérationnel sur lequel agir.
+
+Référentiel proposé — consulte les 11 thèmes
+
+Tout replier
+
+Accueil et accessibilité du service
+
+4
+
+• Qualité de l’accueil
+
+• Accès physique et signalétique
+
+• Disponibilité des interlocuteurs
+
+• Horaires et créneaux de service
+
+Attente au comptoir
+
+3
+
+• Temps d’attente excessif
+
+• Affluence et file d’attente
+
+• Gestion de l’ordre de passage et des priorités
+
+Délais de traitement
+
+4
+
+• Diagnostic ou intervention tardifs
+
+• Durée de résolution excessive
+
+• Retard d’approvisionnement ou de livraison
+
+• Engagement de délai non respecté
+
+Prise en charge et accompagnement
+
+5
+
+• Absence ou refus de prise en charge
+
+• Assistance insuffisante
+
+• Manque de compétences ou d’expertise
+
+• Réorientations entre services
+
+• Passages ou interventions répétés
+
+Résolution et qualité des interventions
+
+5
+
+• Problème non résolu
+
+• Résolution partielle ou temporaire
+
+• Problème récurrent ou réapparu
+
+• Intervention inefficace ou aggravante
+
+• Vérification ou clôture inadéquate
+
+Communication et suivi
+
+5
+
+• Information absente ou erronée
+
+• Absence de suivi ou de recontact
+
+• Délais mal communiqués
+
+• Explications insuffisantes
+
+• Notifications ou confirmations manquantes
+
+Matériel, accessoires et restitution
+
+9
+
+• Matériel défectueux
+
+• Indisponibilité ou rupture de stock
+
+• Accessoires manquants ou inadaptés
+
+• Matériel de remplacement inadapté
+
+• État, propreté ou vétusté
+
+• Préparation ou contrôle insuffisant
+
+• Livraison ou mise à disposition défaillante
+
+• Restitution et traçabilité défaillantes
+
+• Perte ou vol de matériel
+
+Logiciels, postes et données
+
+6
+
+• Dysfonctionnement applicatif
+
+• Installation, restauration ou mise à jour
+
+• Configuration ou performance du poste
+
+• Migration, sauvegarde ou perte de données
+
+• Synchronisation ou transfert de données
+
+• Impression et périphériques
+
+Réseau et connectivité
+
+3
+
+• Connexion Internet, Wi-Fi ou réseau local
+
+• VPN et accès distant
+
+• Configuration réseau
+
+Comptes, habilitations et badges
+
+5
+
+• Identifiants, mots de passe et comptes bloqués
+
+• Droits et habilitations insuffisants
+
+• Authentification forte et smartcards
+
+• Badges physiques
+
+• Attribution ou modification des accès
+
+Organisation et procédures
+
+5
+
+• Procédures complexes ou inadaptées
+
+• Coordination et escalade entre équipes
+
+• Ressources ou effectifs insuffisants
+
+• Gestion de l’historique et continuité du dossier
+
+• Formation, consignes et méthodes de travail
+
+11 thèmes 54 sous-thèmes
+
+Vérification des regroupements les plus délicats
+
+J’ai notamment vérifié ces cas dans tes captures, car ils pourraient être mal classés même avec une nomenclature prédéfinie.
+
+Sous-thèmes actuels visibles	Nouvelle classification
+Temps d’attente long, excessif, 20 minutes, 40 minutes, trop long	Attente → Temps d’attente excessif
+File d’attente longue, affluence, file décourageante	Attente → Affluence et file d’attente
+Incident non résolu, problème non résolu, absence de résolution	Résolution → Problème non résolu
+Problème réapparu, persistant après remplacement, résolution non durable	Résolution → Problème récurrent ou réapparu, si le problème est revenu après intervention
+Incident clôturé prématurément, vérification incomplète	Résolution → Vérification ou clôture inadéquate
+Accessoire manquant, chargeur non remis, écouteurs non fournis	Matériel → Accessoires manquants ou inadaptés
+Écran fortement marqué, matériel usagé, traces de stickers	Matériel → État, propreté ou vétusté
+Accusé de réception absent lors d’une restitution	Matériel → Restitution et traçabilité défaillantes
+Portable perdu, vol de matériel	Matériel → Perte ou vol de matériel
+Compte verrouillé, problème de mot de passe	Comptes → Identifiants, mots de passe et comptes bloqués
+Smartcard impossible à créer, double authentification	Comptes → Authentification forte et smartcards
+VPN non fonctionnel	Réseau → VPN et accès distant
+Droits VPN insuffisants	Comptes → Droits et habilitations insuffisants
+Manque d’expertise Mac, manque de compétences sur Teams	Prise en charge → Manque de compétences ou d’expertise
+Formation insuffisante, absence de mode opératoire	Organisation → Formation, consignes et méthodes de travail
+
+Attention toutefois : une expression comme « problème persistant » ne suffit pas à prouver qu’un incident est récurrent. Copilot devra distinguer un problème jamais résolu d’un problème résolu puis réapparu.
+
+Un élément supplémentaire que je recommande : l’impact utilisateur
+
+Dans les captures, on voit « Télétravail impossible », « Perte de temps », « Impossibilité de travailler » ou encore « Déplacement sur deux jours ».
+
+Je ne les utiliserais pas systématiquement comme des sous-thèmes de mécontentement, parce qu’il s’agit souvent des conséquences du problème, plutôt que de sa cause.
+
+Je prévoirais plutôt un indicateur complémentaire d’impact :
+
+Impact	Exemple
+Perte de temps	Plusieurs passages au comptoir
+Activité interrompue	Impossible de travailler
+Télétravail perturbé	Connexion distante indisponible
+Déplacement supplémentaire	Nécessité de revenir
+Données perdues ou menacées	Données supprimées ou risque de perte
+
+Tu pourrais ainsi croiser dans Power BI les problèmes les plus fréquents avec ceux qui perturbent le plus l’activité. Il faudrait bien sûr distinguer un impact réellement subi d’un simple risque évoqué.
+
+Comment s’assurer que tout est réellement couvert ?
+
+Je retiendrais trois exigences pour la prochaine version du prompt :
+
+1. Une nomenclature fermée. Copilot choisit parmi les 54 sous-thèmes, sans en inventer.
+
+2. Une justification détaillée conservée. Par exemple, il classe « Temps d’attente excessif », mais conserve dans le détail que l’utilisateur a attendu 45 minutes.
+
+3. Une possibilité de signaler les cas non couverts. Si une remarque ne correspond à aucune catégorie, Copilot doit le signaler pour révision, plutôt que choisir une catégorie inadaptée ou inventer un libellé.
+
+Mon bilan
+
+Avec ces nouvelles captures, je préfère donc 11 thèmes / 54 sous-thèmes à ma première proposition. C’est un compromis qui permet de consolider les statistiques sans effacer des problèmes opérationnels réellement différents.
+
+Les grandes familles de problèmes visibles dans tes captures sont maintenant représentées. En revanche, certaines lignes sont coupées en bordure des photos : je ne peux donc pas certifier avoir vérifié individuellement 100 % des libellés existants.
+
+Pour une vérification exhaustive avant de modifier le prompt, l’idéal serait d’exporter depuis Dataverse ou Power BI les colonnes cdspp_theme et cdspp_sous_theme, sans données personnelles. Je pourrais alors établir une correspondance de chaque ancien sous-thème vers sa nouvelle catégorie, et identifier précisément ceux qui restent à traiter.
+
+C’est cette correspondance que je validerais avant de relancer l’analyse de l’historique, afin de ne perdre aucune information pertinente.
