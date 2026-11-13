@@ -1,10 +1,1 @@
-add(
-  int(
-    if(
-      empty(items('Appliquer_a_chacun_5')?['new_waitingtime']),
-      0,
-      items('Appliquer_a_chacun_5')?['new_waitingtime']
-    )
-  ),
-  1
-)
+_createdby_value ne e78015a2-cffc-ed11-8f6e-0022489fdeb0
