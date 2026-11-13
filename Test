@@ -1,12 +1,9 @@
 add(
   int(
-    coalesce(
-      if(
-        empty(items('Appliquer_a_chacun')?['new_waitingtime']),
-        null,
-        items('Appliquer_a_chacun')?['new_waitingtime']
-      ),
-      0
+    if(
+      empty(items('Appliquer_a_chacun_5')?['new_waitingtime']),
+      0,
+      items('Appliquer_a_chacun_5')?['new_waitingtime']
     )
   ),
   1
