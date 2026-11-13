@@ -1,1 +1,14 @@
-_createdby_value ne e78015a2-cffc-ed11-8f6e-0022489fdeb0
+Hi Vinoth,
+
+Currently, return requests are not linked to a specific device, but only to an expected equipment category.
+
+For mobile phones, there is no distinction between Samsung, Android, Apple, etc. All of them belong to the same “Mobile Phone” category.
+
+In your example, if a visitor returns two mobile phones:
+
+* The first phone will be associated with the existing open return request.
+* For the second phone, the application will automatically create an additional equipment return request.
+
+This ensures that both returned devices are properly recorded and allows AM/HM to be updated accordingly.
+
+So, there is no need to identify or match a specific device with the existing RITM.
