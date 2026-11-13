@@ -1,1 +1,5 @@
-cdspp_themesprocessingstatus eq 'Pending' and cdspp_visitid ne null and cdspp_visitid ne ''
+concat(
+  'cdspp_visitid eq ''',
+  items('Appliquer_a_chacun')?['cdspp_visitid'],
+  ''' and cdspp_themesprocessingstatus eq ''Completed'''
+)
