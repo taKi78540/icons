@@ -1,5 +1,1 @@
-concat(
-  'cdspp_visitid eq ''',
-  items('Appliquer_a_chacun')?['cdspp_visitid'],
-  ''' and cdspp_themesprocessingstatus eq ''Completed'''
-)
+greater(length(body('Lister_les_lignes_2')?['value']), 0)
