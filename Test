@@ -1,1 +1,36 @@
-greater(length(body('Lister_les_lignes_2')?['value']), 0)
+Visites avec commentaire valide =
+COUNTROWS(
+    FILTER(
+        'Visite',
+        LEN(TRIM(COALESCE('Visite'[Commentaire], ""))) > 0
+    )
+)
+
+
+
+
+Visites envoyées =
+CALCULATE(
+    COUNTROWS('Visite'),
+    'Visite'[cdspp_ai_send_status] = "Sent"
+)
+
+
+
+Analyses terminées =
+CALCULATE(
+    COUNTROWS('AI_analysis'),
+    'AI_analysis'[Status] = "Completed"
+)
+
+
+
+Visites non envoyées =
+COUNTROWS(
+    FILTER(
+        'Visite',
+        LEN(TRIM(COALESCE('Visite'[Commentaire], ""))) > 0
+        &&
+        'Visite'[cdspp_ai_send_status] <> "Sent"
+    )
+)
