@@ -1,1 +1,8 @@
-cdspp_analyzedat ge 2026-06-01T00:00:00Z and cdspp_analyzedat lt 2026-07-01T00:00:00Z
+_cdspp_visite_value eq GUID_VISITE and cdspp_analyzedat ge 2026-07-01T00:00:00Z
+
+
+empty(body('Rechercher_analyses_recentes')?['value'])
+
+
+
+_nomlogiquedulookup_value eq GUID_ANALYSE
